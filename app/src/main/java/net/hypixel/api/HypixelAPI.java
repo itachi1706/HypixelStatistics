@@ -27,7 +27,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @SuppressWarnings("unused")
 public class HypixelAPI {
-    private static final String BASE_URL = "https://api.hypixel.net/";
+    public static final String API_BASE_URL = "https://api.hypixel.net/";
     private static HypixelAPI instance;
     private final Gson gson;
     private final ReentrantReadWriteLock lock;
@@ -86,9 +86,10 @@ public class HypixelAPI {
      * @return The KeyReply from the API
      * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public KeyReply getKeyInfoSync() throws HypixelAPIException {
         return getKeyInfoSync(apiKey);
-    }
+    }*/
 
     /**
      * Call this method to get information about this API's key
@@ -111,13 +112,14 @@ public class HypixelAPI {
      * @return The KeyReply from the API
      * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public KeyReply getKeyInfoSync(UUID apiKey) throws HypixelAPIException {
         lock.readLock().lock();
         try {
             SyncCallback<KeyReply> callback = new SyncCallback<>(KeyReply.class);
             if (doKeyCheck(callback)) {
                 try {
-                    get(BASE_URL + "key?key=" + apiKey.toString(), callback).await();
+                    get(API_BASE_URL + "key?key=" + apiKey.toString(), callback).await();
                 } catch (InterruptedException e) {
                     throw new HypixelAPIException(e);
                 }
@@ -130,7 +132,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get information about the provided API key
@@ -143,7 +145,7 @@ public class HypixelAPI {
         lock.readLock().lock();
         try {
             if (doKeyCheck(callback)) {
-                get(BASE_URL + "key?key=" + apiKey.toString(), callback);
+                get(API_BASE_URL + "key?key=" + apiKey.toString(), callback);
             }
         } finally {
             lock.readLock().unlock();
@@ -162,6 +164,7 @@ public class HypixelAPI {
      * @return The FindGuildReply from the API
      * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public FindGuildReply findGuildSync(String name, String player) throws HypixelAPIException {
         lock.readLock().lock();
         try {
@@ -176,7 +179,7 @@ public class HypixelAPI {
                     throw new HypixelAPIException("Neither name nor player was provided!");
                 }
                 try {
-                    get(BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback).await();
+                    get(API_BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback).await();
                 } catch (InterruptedException e) {
                     throw new HypixelAPIException(e);
                 }
@@ -189,7 +192,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to find a guild's ID
@@ -212,7 +215,7 @@ public class HypixelAPI {
                     callback.callback(new HypixelAPIException("Neither name nor player was provided!"), null);
                     return;
                 }
-                get(BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback);
+                get(API_BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback);
             }
         } finally {
             lock.readLock().unlock();
@@ -230,6 +233,7 @@ public class HypixelAPI {
      * @return The GuildReply from the API
      * @throws HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public GuildReply getGuildSync(String id) throws HypixelAPIException {
         lock.readLock().lock();
         try {
@@ -239,7 +243,7 @@ public class HypixelAPI {
                     callback.callback(new HypixelAPIException("Guild id wasn't provided!"), null);
                 } else {
                     try {
-                        get(BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback).await();
+                        get(API_BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback).await();
                     } catch (InterruptedException e) {
                         throw new HypixelAPIException(e);
                     }
@@ -253,7 +257,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get a guild's object
@@ -269,7 +273,7 @@ public class HypixelAPI {
                 if (id == null) {
                     callback.callback(new HypixelAPIException("Guild id wasn't provided!"), null);
                 } else {
-                    get(BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback);
+                    get(API_BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback);
                 }
             }
         } finally {
@@ -288,6 +292,7 @@ public class HypixelAPI {
      * @return The FriendsReply from the API
      * @throws HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public FriendsReply getFriendsSync(String player) throws HypixelAPIException {
         lock.readLock().lock();
         try {
@@ -297,7 +302,7 @@ public class HypixelAPI {
                     callback.callback(new HypixelAPIException("No player was provided!"), null);
                 } else {
                     try {
-                        get(BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
+                        get(API_BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
                     } catch (InterruptedException e) {
                         throw new HypixelAPIException(e);
                     }
@@ -311,7 +316,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get a player's friends
@@ -327,7 +332,7 @@ public class HypixelAPI {
                 if (player == null) {
                     callback.callback(new HypixelAPIException("No player was provided!"), null);
                 } else {
-                    get(BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
+                    get(API_BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
                 }
             }
         } finally {
@@ -345,6 +350,7 @@ public class HypixelAPI {
      * @param player The player to get the session of
      * @return The SessionReply from the API
      */
+    /*
     public SessionReply getSessionSync(String player) {
         lock.readLock().lock();
         try {
@@ -354,7 +360,7 @@ public class HypixelAPI {
                     throw new HypixelAPIException("No player was provided!");
                 } else {
                     try {
-                        get(BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
+                        get(API_BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
                     } catch (InterruptedException e) {
                         throw new HypixelAPIException(e);
                     }
@@ -368,7 +374,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get a player's session
@@ -384,7 +390,7 @@ public class HypixelAPI {
                 if (player == null) {
                     callback.callback(new HypixelAPIException("No player was provided!"), null);
                 } else {
-                    get(BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
+                    get(API_BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
                 }
             }
         } finally {
@@ -404,6 +410,7 @@ public class HypixelAPI {
      * @return The PlayerReply from the API
      * @throws HypixelAPIException A wrapper for any exceptions that occur.
      */
+    /*
     public PlayerReply getPlayerSync(String player, UUID uuid) throws HypixelAPIException {
         lock.readLock().lock();
         try {
@@ -418,7 +425,7 @@ public class HypixelAPI {
                     throw new HypixelAPIException("Neither player nor uuid was provided!");
                 }
                 try {
-                    get(BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback).await();
+                    get(API_BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback).await();
                 } catch (InterruptedException e) {
                     throw new HypixelAPIException(e);
                 }
@@ -431,7 +438,7 @@ public class HypixelAPI {
         } finally {
             lock.readLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get a player's object
@@ -454,7 +461,7 @@ public class HypixelAPI {
                     callback.callback(new HypixelAPIException("Neither player nor uuid was provided!"), null);
                     return;
                 }
-                get(BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback);
+                get(API_BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback);
             }
         } finally {
             lock.readLock().unlock();
@@ -511,7 +518,9 @@ public class HypixelAPI {
      * @param callback The callback to execute
      */
     private ResponseFuture get(String url, Callback<?> callback) {
-        return httpClient.get().setURL(url).execute(buildResponseHandler(callback));
+        //return httpClient.get().setURL(url).execute(buildResponseHandler(callback));
+        return null;
+
     }
 
     private class SyncCallback<T> extends Callback<T> {

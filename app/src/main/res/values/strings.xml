@@ -4,5 +4,8 @@
     <string name="app_name">Hypixel Statistics</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="hypixel_api_key">0b57fcc2-2f5e-4d2f-b3ba-bce989561a2b</string>
+    <string name="btnkeycheck">Check Key!</string>
+    <string name="edit_key">Unused</string>
 
 </resources>
