@@ -44,7 +44,6 @@ public class MinecraftColorCodes {
     public static String parseHypixelRanks(PlayerReply name){
         if (name.getPlayer().has("rank")){
             switch (name.getPlayer().get("rank").getAsString()){
-                case "NORMAL": return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "ADMIN": return specialAdminTitle(name);
                 case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
@@ -53,10 +52,11 @@ public class MinecraftColorCodes {
         }
         if (name.getPlayer().has("packageRank")){
             switch (name.getPlayer().get("packageRank").getAsString()){
+                case "NONE": return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "VIP": return parseColors("§a[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "VIP_PLUS": return parseColors("§a[VIP§r§6+§r§a] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP": return parseColors("§b[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP_PLUS": return parseColors("§b[VIP§r§c+§r§b] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MVP": return parseColors("§b[MVP] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MVP_PLUS": return parseColors("§b[MVP§r§c+§r§b] " + name.getPlayer().get("displayname").getAsString() + "§r");
             }
         } else {
             //Normal
