@@ -108,7 +108,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     /*
     rank, displayname, uuid, packageRank, disguise, eulaCoins, gadget, karma, firstLogin, lastLogin, timePlaying, networkExp,
     networkLevel, mostRecentlyThanked, mostRecentlyTipped, thanksSent, tipsSent, channel, chat, tournamentTokens,
-    vanityTokens, mostRecentGameType
+    vanityTokens, mostRecentGameType, seeRequest, tipsReceived, thanksReceived
      */
     private String parseGeneral(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
@@ -146,6 +146,10 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("No of Thanks sent: " + reply.getPlayer().get("thanksSent").getAsString() + "<br />");
         if (reply.getPlayer().has("tipsSent"))
             tmp.append("No of Tips sent Tipped: " + reply.getPlayer().get("tipsSent").getAsString() + "<br />");
+        if (reply.getPlayer().has("thanksReceived"))
+            tmp.append("No of Thanks received: " + reply.getPlayer().get("thanksReceived").getAsString() + "<br />");
+        if (reply.getPlayer().has("tipsReceived"))
+            tmp.append("No of Tips sent received: " + reply.getPlayer().get("tipsReceived").getAsString() + "<br />");
         if (reply.getPlayer().has("channel"))
             tmp.append("Current Chat Channel: " + reply.getPlayer().get("channel").getAsString() + "<br />");
         else
@@ -164,6 +168,58 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Vanity Tokens: 0 <br />");
         if (reply.getPlayer().has("mostRecentGameType"))
             tmp.append("Last Game Played: " + reply.getPlayer().get("mostRecentGameType").getAsString() + "<br />");
+        if (reply.getPlayer().has("seeRequests"))
+            tmp.append("Friend Requests: " + reply.getPlayer().get("seeRequests").getAsString() + "<br />");
+        else
+            tmp.append("Friend Requests: true <br />");
+        return tmp.toString();
+    }
+
+    /* Donor Only Information
+        fly, petActive, pp, testpass wardrobe, auto_spawn_pet, legacyGolem
+     */
+    private String parseDonor(PlayerReply reply){
+        StringBuilder tmp = new StringBuilder();
+        if (reply.getPlayer().has("fly"))
+            tmp.append("Fly Mode: " + reply.getPlayer().get("fly").getAsString() + "<br />");
+        if (reply.getPlayer().has("petActive"))
+            tmp.append("Active Pet: " + reply.getPlayer().get("petActive").getAsString() + "<br />");
+        else
+            tmp.append("Active Pet: false <br />");
+        if (reply.getPlayer().has("pp"))
+            tmp.append("Particle Pack: " + reply.getPlayer().get("pp").getAsString() + "<br />");
+        if (reply.getPlayer().has("testpass"))
+            tmp.append("Test Server Access: " + reply.getPlayer().get("testpass").getAsString() + "<br />");
+        if (reply.getPlayer().has("wardrobe"))
+            tmp.append("Wardrobe (helmet,chestpiece,leggings,boots): " + reply.getPlayer().get("wardrobe").getAsString() + "<br />");
+        if (reply.getPlayer().has("auto_spawn_pet"))
+            tmp.append("Auto-Spawn Pet: " + reply.getPlayer().get("auto_spawn_pet").getAsString() + "<br />");
+        if (reply.getPlayer().has("legacyGolem"))
+            tmp.append("Golem Supporter: " + reply.getPlayer().get("legacyGolem").getAsString() + "<br />");
+        return tmp.toString();
+    }
+
+    /* Staff/YT Only Information
+        vanished, stoggle, silence, chatTunnel
+     */
+    private String parsePriviledged(PlayerReply reply){
+        StringBuilder tmp = new StringBuilder();
+        if (reply.getPlayer().has("vanished"))
+            tmp.append("Vanished: " + reply.getPlayer().get("vanished").getAsString() + "<br />");
+        if (reply.getPlayer().has("stoggle")) {
+            if (reply.getPlayer().get("stoggle").getAsBoolean())
+                tmp.append("Staff Chat: enabled <br />");
+            else
+                tmp.append("Staff Chat: disabled <br />");
+        }
+        if (reply.getPlayer().has("silence"))
+            tmp.append("Chat Silenced: " + reply.getPlayer().get("silence").getAsString() + "<br />");
+        if (reply.getPlayer().has("chatTunnel")) {
+            if (reply.getPlayer().get("chatTunnel").isJsonNull())
+                tmp.append("Tunneled Into: None <br />");
+            else
+                tmp.append("Tunned Into: " + reply.getPlayer().get("chatTunnel").getAsString() + "<br />");
+        }
         return tmp.toString();
     }
 }
