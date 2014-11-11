@@ -198,7 +198,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         else
             tmp.append("Friend Requests: true <br />");
         if (reply.getPlayer().has("achievementsOneTime"))
-            tmp.append("Number of One-Time Achievements Completed: " + reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + "<br />");
+            tmp.append("No of 1-time Achievements Done: " + reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + "<br />");
         return tmp.toString();
     }
 
