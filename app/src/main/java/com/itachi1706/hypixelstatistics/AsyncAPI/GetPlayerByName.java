@@ -220,7 +220,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     }
 
     /* Staff/YT Only Information
-        vanished, stoggle, silence, chatTunnel, nick
+        vanished, stoggle, silence, chatTunnel, nick, prefix
      */
     private String parsePriviledged(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
@@ -242,6 +242,8 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         }
         if (reply.getPlayer().has("nick"))
             tmp.append("Nicked As: " + reply.getPlayer().get("nick").getAsString() + "<br />");
+        if (reply.getPlayer().has("prefix"))
+            tmp.append("Rank Prefix: " + reply.getPlayer().get("prefix").getAsString() + "<br />");
         return tmp.toString();
     }
 }
