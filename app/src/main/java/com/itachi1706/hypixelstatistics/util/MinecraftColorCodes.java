@@ -44,23 +44,23 @@ public class MinecraftColorCodes {
     public static String parseHypixelRanks(PlayerReply name){
         if (name.getPlayer().has("rank")){
             switch (name.getPlayer().get("rank").getAsString()){
-                case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "ADMIN": return parseColors("§c[ADMIN] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayName").getAsString() + "§r");
+                case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "ADMIN": return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
             }
         }
         if (name.getPlayer().has("packageRank")){
             switch (name.getPlayer().get("packageRank").getAsString()){
-                case "NORMAL": return name.getPlayer().get("displayName").getAsString();
-                case "VIP": return parseColors("§a[VIP] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "VIP_PLUS": return parseColors("§a[VIP§r§6+§r§a] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "MVP": return parseColors("§b[VIP] " + name.getPlayer().get("displayName").getAsString() + "§r");
-                case "MVP_PLUS": return parseColors("§b[VIP§r§c+§r§b] " + name.getPlayer().get("displayName").getAsString() + "§r");
+                case "NORMAL": return name.getPlayer().get("displayname").getAsString();
+                case "VIP": return parseColors("§a[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "VIP_PLUS": return parseColors("§a[VIP§r§6+§r§a] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MVP": return parseColors("§b[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MVP_PLUS": return parseColors("§b[VIP§r§c+§r§b] " + name.getPlayer().get("displayname").getAsString() + "§r");
             }
         } else {
             //Normal
-            return name.getPlayer().get("displayName").getAsString();
+            return name.getPlayer().get("displayname").getAsString();
         }
         return "Error parsing String";
     }

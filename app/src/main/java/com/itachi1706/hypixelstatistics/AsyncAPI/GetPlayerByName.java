@@ -96,7 +96,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name (" + reply.getCause() + ")");
             } else {
                 //Succeeded
-                result.setText(Html.fromHtml("Statistics for " + MinecraftColorCodes.parseHypixelRanks(reply)));
+                result.setText(Html.fromHtml("Success! Statistics for <br /> " + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
                 //Parse
                 StringBuilder builder = new StringBuilder();
