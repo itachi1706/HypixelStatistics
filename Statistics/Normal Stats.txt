@@ -1,0 +1,74 @@
+{
+	"player": {
+		"_id": "52ca65dc84aebf5f92639098",
+		"achievements": {
+			"blitz_kills": 0,
+			"blitz_wins": 0,
+			"vampirez_kill_vampires": 0,
+			"vampirez_kill_survivors": 0,
+			"vampirez_survivor_wins": 0,
+			"walls_kills": 0,
+			"walls_wins": 0,
+			"paintball_kills": 0,
+			"paintball_wins": 0,
+			"tntgames_bow_spleef_wins": 0,
+			"tntgames_tnt_run_wins": 0,
+			"tntgames_wizards_wins": 0,
+			"general_coins": 4,
+			"vampirez_coins": 4
+		},
+		"achievementsOneTime": ["general_first_join",
+		"general_first_friend",
+		"general_first_chat",
+		"general_first_game",
+		"blitz_first_game",
+		"paintball_unlock_killstreaks",
+		"vampirez_purchase_food",
+		"vampirez_vampire_shop",
+		"general_first_party"],
+		"displayname": "Vulmest",
+		"firstLogin": 1388996060410,
+		"friendRequests": [],
+		"karma": 100,
+		"knownAliases": ["Vulmest"],
+		"lastLogin": 1415253133869,
+		"mostRecentGameType": "MCGO",
+		"networkExp": 4,
+		"playername": "vulmest",
+		"stats": {
+			"HungerGames": {
+				"deaths": 2
+			},
+			"MCGO": {
+				"coins": 40,
+				"cop_kills": 7,
+				"criminal_kills": 7,
+				"deaths": 13,
+				"headshot_kills": 12,
+				"kills": 14,
+				"killsNew": 14,
+				"killsNew_11_2014": 14,
+				"killsNew_2_11_2014": 14,
+				"kills_11_2014": 14,
+				"kills_2_11_2014": 14,
+				"round_wins": 4,
+				"shots_fired": 466
+			},
+			"Paintball": {
+				"shots_fired": 41,
+				"deaths": 2
+			},
+			"TNTGames": {
+				"coins": 6
+			},
+			"VampireZ": {
+				"coins": 4,
+				"vampire_deaths": 1,
+				"human_deaths": 1
+			}
+		},
+		"timePlaying": 58,
+		"uuid": "34275df1186848eca12a9a1a0fe7bcd8"
+	},
+	"success": true
+}
