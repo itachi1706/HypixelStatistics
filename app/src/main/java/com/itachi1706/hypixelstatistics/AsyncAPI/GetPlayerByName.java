@@ -79,7 +79,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             Gson gson = new Gson();
             PlayerInfoActivity.lastGsonObtained = json;
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
-            //debug.setText(reply.toString());
+            debug.setText(reply.toString());
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 result.setText(reply.getCause());
