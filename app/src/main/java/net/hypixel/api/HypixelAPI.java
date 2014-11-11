@@ -2,9 +2,6 @@ package net.hypixel.api;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
-import com.mastfrog.netty.http.client.HttpClient;
-import com.mastfrog.netty.http.client.ResponseFuture;
-import com.mastfrog.netty.http.client.ResponseHandler;
 
 import net.hypixel.api.reply.FindGuildReply;
 import net.hypixel.api.reply.FriendsReply;
@@ -22,7 +19,8 @@ import java.util.UUID;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Created by AgentK on 10/11/2014, 5:47 PM
+ * Created by AgentK on 10/11/2014, 5:47 PM,
+ * Modified by Kenneth on 11/11/2014, 8:16 AM
  * for Hypixel Statistics in package net.hypixel.api
  */
 @SuppressWarnings("unused")
@@ -31,12 +29,12 @@ public class HypixelAPI {
     private static HypixelAPI instance;
     private final Gson gson;
     private final ReentrantReadWriteLock lock;
-    private final HttpClient httpClient;
+    //private final HttpClient httpClient;
     private UUID apiKey;
     private HypixelAPI() {
         gson = new Gson();
         lock = new ReentrantReadWriteLock();
-        httpClient = new HttpClient();
+        //httpClient = new HttpClient();
     }
 
     /**
@@ -57,7 +55,7 @@ public class HypixelAPI {
      * the application will never exit.
      */
     public void finish() {
-        httpClient.shutdown();
+        //httpClient.shutdown();
         instance = null;
     }
 
@@ -78,21 +76,6 @@ public class HypixelAPI {
 
     /**
      * Call this method to get information about this API's key
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getKeyInfo(net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @return The KeyReply from the API
-     * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public KeyReply getKeyInfoSync() throws HypixelAPIException {
-        return getKeyInfoSync(apiKey);
-    }*/
-
-    /**
-     * Call this method to get information about this API's key
      * This method is asynchronous and is preferred over it's synchronous counterpart.
      *
      * @param callback The callback to execute when finished
@@ -101,38 +84,6 @@ public class HypixelAPI {
         getKeyInfo(apiKey, callback);
     }
 
-    /**
-     * Call this method to get information about the provided API key
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getKeyInfo(java.util.UUID, net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @param apiKey The key to get information about
-     * @return The KeyReply from the API
-     * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public KeyReply getKeyInfoSync(UUID apiKey) throws HypixelAPIException {
-        lock.readLock().lock();
-        try {
-            SyncCallback<KeyReply> callback = new SyncCallback<>(KeyReply.class);
-            if (doKeyCheck(callback)) {
-                try {
-                    get(API_BASE_URL + "key?key=" + apiKey.toString(), callback).await();
-                } catch (InterruptedException e) {
-                    throw new HypixelAPIException(e);
-                }
-            }
-            if(callback.failCause!=null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
 
     /**
      * Call this method to get information about the provided API key
@@ -152,47 +103,6 @@ public class HypixelAPI {
         }
     }
 
-    /**
-     * Call this method to find a guild's ID
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #findGuild(String, String, net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @param name The name of the guild, optional
-     * @param player A player in the guild, optional
-     * @return The FindGuildReply from the API
-     * @throws net.hypixel.api.util.HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public FindGuildReply findGuildSync(String name, String player) throws HypixelAPIException {
-        lock.readLock().lock();
-        try {
-            SyncCallback<FindGuildReply> callback = new SyncCallback<>(FindGuildReply.class);
-            if (doKeyCheck(callback)) {
-                String args;
-                if (name != null) {
-                    args = "byName=" + StringEscapeUtils.escapeHtml4(name);
-                } else if (player != null) {
-                    args = "byPlayer=" + StringEscapeUtils.escapeHtml4(player);
-                } else {
-                    throw new HypixelAPIException("Neither name nor player was provided!");
-                }
-                try {
-                    get(API_BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback).await();
-                } catch (InterruptedException e) {
-                    throw new HypixelAPIException(e);
-                }
-            }
-            if(callback.failCause!=null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
 
     /**
      * Call this method to find a guild's ID
@@ -224,43 +134,6 @@ public class HypixelAPI {
 
     /**
      * Call this method to get a guild's object
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getGuild(String, net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @param id The ID of the guild
-     * @return The GuildReply from the API
-     * @throws HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public GuildReply getGuildSync(String id) throws HypixelAPIException {
-        lock.readLock().lock();
-        try {
-            SyncCallback<GuildReply> callback = new SyncCallback<>(GuildReply.class);
-            if (doKeyCheck(callback)) {
-                if (id == null) {
-                    callback.callback(new HypixelAPIException("Guild id wasn't provided!"), null);
-                } else {
-                    try {
-                        get(API_BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback).await();
-                    } catch (InterruptedException e) {
-                        throw new HypixelAPIException(e);
-                    }
-                }
-            }
-            if(callback.failCause!=null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
-
-    /**
-     * Call this method to get a guild's object
      * This method is asynchronous and is preferred over it's synchronous counterpart.
      *
      * @param id       The ID of the guild
@@ -280,43 +153,6 @@ public class HypixelAPI {
             lock.readLock().unlock();
         }
     }
-
-    /**
-     * Call this method to get a player's friends
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getFriends(String, net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @param player The player to find friends of
-     * @return The FriendsReply from the API
-     * @throws HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public FriendsReply getFriendsSync(String player) throws HypixelAPIException {
-        lock.readLock().lock();
-        try {
-            SyncCallback<FriendsReply> callback = new SyncCallback<>(FriendsReply.class);
-            if (doKeyCheck(callback)) {
-                if (player == null) {
-                    callback.callback(new HypixelAPIException("No player was provided!"), null);
-                } else {
-                    try {
-                        get(API_BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
-                    } catch (InterruptedException e) {
-                        throw new HypixelAPIException(e);
-                    }
-                }
-            }
-            if(callback.failCause!=null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
 
     /**
      * Call this method to get a player's friends
@@ -342,42 +178,6 @@ public class HypixelAPI {
 
     /**
      * Call this method to get a player's session
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getSession(String, net.hypixel.api.util.Callback)
-     *
-     * @param player The player to get the session of
-     * @return The SessionReply from the API
-     */
-    /*
-    public SessionReply getSessionSync(String player) {
-        lock.readLock().lock();
-        try {
-            SyncCallback<SessionReply> callback = new SyncCallback<>(SessionReply.class);
-            if (doKeyCheck(callback)) {
-                if (player == null) {
-                    throw new HypixelAPIException("No player was provided!");
-                } else {
-                    try {
-                        get(API_BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback).await();
-                    } catch (InterruptedException e) {
-                        throw new HypixelAPIException(e);
-                    }
-                }
-            }
-            if (callback.failCause != null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
-
-    /**
-     * Call this method to get a player's session
      * This method is asynchronous and is preferred over it's synchronous counterpart.
      *
      * @param player   The player to get the session of
@@ -397,48 +197,6 @@ public class HypixelAPI {
             lock.readLock().unlock();
         }
     }
-
-    /**
-     * Call this method to get a player's object
-     * This method is synchronous and will block the thread until the request is completed and returned.
-     * It is preferred to use the asynchronous counterpart to this method.
-     *
-     * @see #getPlayer(String, java.util.UUID, net.hypixel.api.util.Callback) The asynchronous version of this method
-     *
-     * @param player The name of the player, optional
-     * @param uuid The uuid of the player, optional
-     * @return The PlayerReply from the API
-     * @throws HypixelAPIException A wrapper for any exceptions that occur.
-     */
-    /*
-    public PlayerReply getPlayerSync(String player, UUID uuid) throws HypixelAPIException {
-        lock.readLock().lock();
-        try {
-            SyncCallback<PlayerReply> callback = new SyncCallback<>(PlayerReply.class);
-            if (doKeyCheck(callback)) {
-                String args;
-                if (player != null) {
-                    args = "name=" + StringEscapeUtils.escapeHtml4(player);
-                } else if (uuid != null) {
-                    args = "uuid=" + APIUtil.stripDashes(uuid);
-                } else {
-                    throw new HypixelAPIException("Neither player nor uuid was provided!");
-                }
-                try {
-                    get(API_BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback).await();
-                } catch (InterruptedException e) {
-                    throw new HypixelAPIException(e);
-                }
-            }
-            if(callback.failCause!=null) {
-                throw new HypixelAPIException(callback.failCause);
-            } else {
-                return callback.result;
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }*/
 
     /**
      * Call this method to get a player's object
@@ -489,7 +247,7 @@ public class HypixelAPI {
      * @param callback The callback to execute
      * @param <T> The class of the callback
      * @return The ResponseHandler that wraps the callback
-     */
+     *//*
     private <T> ResponseHandler<String> buildResponseHandler(final Callback<T> callback) {
         return new ResponseHandler<String>(String.class) {
             @Override
@@ -509,7 +267,7 @@ public class HypixelAPI {
                 callback.callback(err, null);
             }
         };
-    }
+    }*/
 
     /**
      * Internal method
@@ -517,10 +275,8 @@ public class HypixelAPI {
      * @param url The URL to send the request to
      * @param callback The callback to execute
      */
-    private ResponseFuture get(String url, Callback<?> callback) {
+    private void get(String url, Callback<?> callback) {
         //return httpClient.get().setURL(url).execute(buildResponseHandler(callback));
-        return null;
-
     }
 
     private class SyncCallback<T> extends Callback<T> {

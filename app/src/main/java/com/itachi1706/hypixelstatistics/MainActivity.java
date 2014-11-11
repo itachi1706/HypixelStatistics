@@ -1,62 +1,22 @@
 package com.itachi1706.hypixelstatistics;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfo;
-
-import net.hypixel.api.HypixelAPI;
-import net.hypixel.api.reply.KeyReply;
-import net.hypixel.api.util.Callback;
-
-import java.util.UUID;
+import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    EditText editKey;
-    TextView result;
-    Button btnCheck;
+    ListView mainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnCheck = (Button) findViewById(R.id.btnCheck);
-        result = (TextView) findViewById(R.id.tvResults);
-        editKey = (EditText) findViewById(R.id.etKey);
-        btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String key = getResources().getString(R.string.hypixel_api_key);
-                UUID uid = UUID.fromString(key);
-
-                new GetKeyInfo(result, getApplicationContext()).execute(uid);
-
-                //From Hypixel API
-                /*
-                HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
-                HypixelAPI.getInstance().getKeyInfo(new Callback<KeyReply>(KeyReply.class) {
-                    @Override
-                    public void callback(Throwable failCause, KeyReply result) {
-                        if(failCause!=null) {
-                            failCause.printStackTrace();
-                        } else {
-                            MainActivity.this.result.setText(result.toString());
-                        }
-                        HypixelAPI.getInstance().finish();
-                    }
-                });*/
-            }
-        });
+        mainMenu = (ListView) findViewById(R.id.lvMainMenu);
     }
 
 

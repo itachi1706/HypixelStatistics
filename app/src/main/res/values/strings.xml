@@ -7,5 +7,6 @@
     <string name="hypixel_api_key">0b57fcc2-2f5e-4d2f-b3ba-bce989561a2b</string>
     <string name="btnkeycheck">Check Key!</string>
     <string name="edit_key">Unused</string>
+    <string name="title_activity_key_info">KeyInfoActivity</string>
 
 </resources>

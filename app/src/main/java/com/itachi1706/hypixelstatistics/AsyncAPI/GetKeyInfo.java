@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -11,21 +10,14 @@ import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.KeyReply;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpServerConnection;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.DefaultHttpServerConnection;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -55,19 +47,15 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
             InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
-            String line = null;
+            String line;
             while((line = reader.readLine()) != null)
             {
                 str.append(line);
             }
             in.close();
             tmp = str.toString();
-        } catch (ClientProtocolException e) {
-            //e.printStackTrace();
-            except = e;
         } catch (IOException e) {
-            //e.printStackTrace();
-            except = e;
+            e.printStackTrace();
         }
         return tmp;
 
