@@ -72,9 +72,10 @@ public class MinecraftColorCodes {
      */
     public static String specialAdminTitle(PlayerReply name){
         switch (name.getPlayer().get("playername").getAsString()){
-            case "hypixel": return parseColors("§4[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
-            case "rezzus": return parseColors("§4[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
-            case "slothpixel": return parseColors("§3[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "hypixel": return parseColors("§c[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "rezzus": return parseColors("§c[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "slothpixel": return parseColors("§c[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "noxyd": return parseColors("§c[RETIRED] " + name.getPlayer().get("displayname").getAsString() + "§r");
             default: return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
         }
     }
@@ -86,7 +87,7 @@ public class MinecraftColorCodes {
      */
     public static String specialModTitle(PlayerReply name){
         switch (name.getPlayer().get("playername").getAsString()){
-            case "matt": return parseColors("§2[McProHosting] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "matt": return parseColors("§c[§r§aMc§r§fProHosting§r§c] " + name.getPlayer().get("displayname").getAsString() + "§r");
             default: return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
         }
     }
