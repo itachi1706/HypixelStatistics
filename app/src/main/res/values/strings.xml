@@ -5,8 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hypixel_api_key">0b57fcc2-2f5e-4d2f-b3ba-bce989561a2b</string>
-    <string name="btnkeycheck">Check Key!</string>
-    <string name="edit_key">Unused</string>
+    <string name="key_btnkeycheck">Check Key!</string>
     <string name="title_activity_key_info">KeyInfoActivity</string>
     <string name="keyinfo_api_label">API Key:</string>
     <string name="keyinfo_owner_label">Owner:</string>
