@@ -8,5 +8,9 @@
     <string name="btnkeycheck">Check Key!</string>
     <string name="edit_key">Unused</string>
     <string name="title_activity_key_info">KeyInfoActivity</string>
+    <string name="keyinfo_api_label">API Key:</string>
+    <string name="keyinfo_owner_label">Owner:</string>
+    <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
+    <string name="keyinfo_fields">-</string>
 
 </resources>

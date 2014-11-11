@@ -1,15 +1,20 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu;
+    String[] mainMenuItems = {"View API Key Info"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +22,25 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         mainMenu = (ListView) findViewById(R.id.lvMainMenu);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
+        mainMenu.setAdapter(adapter);
+
+        mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected = (String) mainMenu.getItemAtPosition(position);
+                checkMainMenuSelection(selected);
+            }});
     }
 
+    private void checkMainMenuSelection(String selection){
+        switch (selection){
+            case "View API Key Info":
+                Intent intent = new Intent(MainActivity.this, KeyInfoActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

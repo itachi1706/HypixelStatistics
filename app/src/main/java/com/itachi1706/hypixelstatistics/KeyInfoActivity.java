@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class KeyInfoActivity extends ActionBarActivity {
 
-    TextView result;
+    TextView resultV, debugV, ownerV, keyV, queryV;
     Button btnCheck;
 
 
@@ -25,14 +25,18 @@ public class KeyInfoActivity extends ActionBarActivity {
         setContentView(R.layout.activity_key_info);
 
         btnCheck = (Button) findViewById(R.id.btnCheck);
-        result = (TextView) findViewById(R.id.tvResults);
+        debugV = (TextView) findViewById(R.id.KeytvDebug);
+        ownerV = (TextView) findViewById(R.id.KeytvOwner);
+        keyV = (TextView) findViewById(R.id.KeytvAPI);
+        queryV = (TextView) findViewById(R.id.KeytvQuery);
+        resultV = (TextView) findViewById(R.id.lblResults);
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String key = getResources().getString(R.string.hypixel_api_key);
                 UUID uid = UUID.fromString(key);
 
-                new GetKeyInfo(result, getApplicationContext()).execute(uid);
+                new GetKeyInfo(keyV, ownerV, queryV, resultV, debugV, getApplicationContext()).execute(uid);
 
                 //From Hypixel API
                 /*

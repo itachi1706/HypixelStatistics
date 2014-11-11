@@ -1,10 +1,13 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.itachi1706.hypixelstatistics.R;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.KeyReply;
@@ -26,12 +29,16 @@ import java.util.UUID;
  */
 public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
 
-    TextView resultView;
+    TextView debug,key,owner,query,result;
     Context mContext;
     Exception except = null;
 
-    public GetKeyInfo(TextView keyInfoView, Context context){
-        resultView = keyInfoView;
+    public GetKeyInfo(TextView keyView, TextView ownerView, TextView queryView, TextView resultView, TextView debugView, Context context){
+        debug = debugView;
+        key = keyView;
+        owner = ownerView;
+        query = queryView;
+        result = resultView;
         mContext = context;
     }
 
@@ -63,24 +70,38 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            resultView.setText(except.getMessage());
+            debug.setText(except.getMessage());
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
+            debug.setText(reply.toString());
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
-                resultView.setText(reply.getCause() +
-                        "\n\nDue to the limitation of the public Hypixel API, requests are throttled at 60 queries per minute." +
-                "\nHence please wait a while before trying again!");
+                result.setText(reply.getCause());
+                resetTextFields();
+                Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                result.setTextColor(Color.RED);
             } else if (!reply.isSuccess()){
                 //Not Successful
-                resultView.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
+                result.setText(reply.getCause());
+                result.setTextColor(Color.RED);
+                resetTextFields();
+                debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
             } else {
                 //Succeeded
-                resultView.setText("Owner: " + reply.getRecord().getOwner() + "\nQueries last 60 seconds: " +
-                        reply.getRecord().getQueriesInPastMin() + "\nKey: " + reply.getRecord().getKey() + "\nThrottled: " +
-                        reply.isThrottle() + "\nSuccess: " + reply.isSuccess() + "\nCause: " + reply.getCause());
+                result.setText("Success!");
+                result.setTextColor(Color.GREEN);
+                owner.setText(reply.getRecord().getOwner());
+                query.setText(reply.getRecord().getQueriesInPastMin() + "");
+                key.setText(reply.getRecord().getKey().toString());
             }
         }
+    }
+
+    private void resetTextFields(){
+        owner.setText(mContext.getResources().getString(R.string.keyinfo_fields));
+        query.setText(mContext.getResources().getString(R.string.keyinfo_fields));
+        key.setText(mContext.getResources().getString(R.string.keyinfo_fields));
+
     }
 }
