@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.ProgressDialog;
 import android.media.AudioTrack;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ public class PlayerInfoActivity extends ActionBarActivity {
     TextView debug, result, generalDetails;
     Button checkPlayer;
     public static String lastGsonObtained = "";
+    ImageView pHead;
+    ProgressDialog checkProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
         result = (TextView) findViewById(R.id.player_lblResult);
         checkPlayer = (Button) findViewById(R.id.PlayerBtnChk);
         playerName.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        pHead = (ImageView) findViewById(R.id.playerIvPlayerHead);
         debug.setMovementMethod(new ScrollingMovementMethod());
         generalDetails = (TextView) findViewById(R.id.player_tvGeneral);
         generalDetails.setMovementMethod(new ScrollingMovementMethod());
@@ -46,7 +51,13 @@ public class PlayerInfoActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_SHORT).show();
                 } else {
                     String name = playerName.getText().toString();
-                    new GetPlayerByName(result, debug, generalDetails, getApplicationContext()).execute(name);
+                    checkProgress = new ProgressDialog(PlayerInfoActivity.this);
+                    checkProgress.setCancelable(false);
+                    checkProgress.setIndeterminate(true);
+                    checkProgress.setTitle("Querying Server...");
+                    checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
+                    checkProgress.show();
+                    new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, getApplicationContext()).execute(name);
                 }
             }
         });

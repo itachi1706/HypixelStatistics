@@ -46,8 +46,9 @@
         android:layout_below="@+id/PlayeretName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/PlayerBtnChk"
-        android:layout_alignEnd="@+id/PlayerBtnChk" />
+        android:layout_toStartOf="@+id/PlayerBtnChk"
+        android:layout_alignRight="@+id/playerIvPlayerHead"
+        android:layout_alignEnd="@+id/playerIvPlayerHead" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,4 +61,14 @@
         android:layout_above="@+id/player_tvDebug"
         android:layout_alignRight="@+id/player_tvDebug"
         android:layout_alignEnd="@+id/player_tvDebug" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerIvPlayerHead"
+        android:layout_alignTop="@+id/player_lblResult"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:maxWidth="500px"
+        android:maxHeight="500px" />
 </RelativeLayout>

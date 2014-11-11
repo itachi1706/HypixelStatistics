@@ -1,13 +1,18 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -24,8 +29,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by Kenneth on 10/11/2014, 10:12 PM
@@ -36,18 +43,24 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     TextView debug,result, details;
     Context mContext;
     Exception except = null;
+    Drawable playerHead = null;
+    ImageView ivHead;
+    ProgressDialog progress;
 
-    public GetPlayerByName(TextView resultView, TextView debugView, TextView general, Context context){
+    public GetPlayerByName(TextView resultView, TextView debugView, TextView general, ImageView head, ProgressDialog prog, Context context){
         debug = debugView;
         result = resultView;
         mContext = context;
         details = general;
+        ivHead = head;
+        progress = prog;
     }
 
     @Override
     protected String doInBackground(String... playerName) {
         String url = HypixelAPI.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + playerName[0];
         String tmp = "";
+        //Get Statistics
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet(url);
@@ -63,22 +76,27 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             }
             in.close();
             tmp = str.toString();
+
+
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             except = e;
         }
+
         return tmp;
 
     }
 
     protected void onPostExecute(String json) {
         if (except != null){
+            progress.dismiss();
             debug.setText(except.getMessage());
         } else {
             Gson gson = new Gson();
             PlayerInfoActivity.lastGsonObtained = json;
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             debug.setText(reply.toString());
+            ivHead.setImageDrawable(null);
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 result.setText(reply.getCause());
@@ -86,19 +104,24 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 result.setTextColor(Color.RED);
             } else if (!reply.isSuccess()){
                 //Not Successful
+                progress.dismiss();
                 result.setText(reply.getCause());
                 result.setTextColor(Color.RED);
                 debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 details.setText("");
             } else if (reply.getPlayer() == null) {
+                progress.dismiss();
                 result.setText("Invalid Player");
                 result.setTextColor(Color.RED);
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name (" + reply.getCause() + ")");
                 details.setText("");
             } else {
                 //Succeeded
+                progress.setMessage("Getting Player Head for " + reply.getPlayer().get("displayname").getAsString() + "...");
+                new GetPlayerHead(progress, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
                 result.setText(Html.fromHtml("Success! Statistics for <br /> " + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
+                //ivHead.setImageDrawable(playerHead);
                 //Parse
                 StringBuilder builder = new StringBuilder();
                 builder.append("<b><u>General Statistics</u></b><br />");
@@ -120,7 +143,14 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     }
                 }
 
-                //TODO Add (if present) stats parse, ongoing achievements parse, parkour parse, quest parse
+                if (reply.getPlayer().has("achievements")){
+                    builder.append("<br /><br /><b><u>Achievements</u></b><br />");
+                    builder.append(parseOngoingAchievements(reply));
+                }
+
+                //TODO Add (if present) stats parse, parkour parse, quest parse
+
+                //TODO Final formatting parse
                 details.setText(Html.fromHtml(builder.toString()));
             }
         }
@@ -155,7 +185,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (reply.getPlayer().has("lastLogin"))
         tmp.append("Last Login: ").append(new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))).append("<br />");
         //TODO Parse Time Played
-        tmp.append("Time Played: Soon™ <br />" );
+        tmp.append("Time Played: ").append(MinecraftColorCodes.parseColors("§cComing Soon™§r")).append(" <br />");
         if (reply.getPlayer().has("networkExp"))
             tmp.append("Network XP: ").append(reply.getPlayer().get("networkExp").getAsString()).append("<br />");
         if (reply.getPlayer().has("networkLevel"))
@@ -178,10 +208,13 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Current Chat Channel: ").append(reply.getPlayer().get("channel").getAsString()).append("<br />");
         else
             tmp.append("Current Chat Channel: ALL <br />");
-        if (reply.getPlayer().has("chat"))
-            tmp.append("Chat Enabled: ").append(reply.getPlayer().get("chat")).append("<br />");
-        else
-            tmp.append("Chat Enabled: true <br />");
+        if (reply.getPlayer().has("chat")) {
+            if (reply.getPlayer().get("chat").getAsBoolean())
+                tmp.append("Chat Enabled: Disabled <br />");
+            else
+                tmp.append("Chat Enabled: Disabled <br />");
+        } else
+            tmp.append("Chat Enabled: Enabled <br />");
         if (reply.getPlayer().has("tournamentTokens"))
             tmp.append("Tournament Tokens: ").append(reply.getPlayer().get("tournamentTokens").getAsString()).append("<br />");
         else
@@ -192,10 +225,13 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Vanity Tokens: 0 <br />");
         if (reply.getPlayer().has("mostRecentGameType"))
             tmp.append("Last Game Played: ").append(reply.getPlayer().get("mostRecentGameType").getAsString()).append("<br />");
-        if (reply.getPlayer().has("seeRequests"))
-            tmp.append("Friend Requests: ").append(reply.getPlayer().get("seeRequests").getAsString()).append("<br />");
-        else
-            tmp.append("Friend Requests: true <br />");
+        if (reply.getPlayer().has("seeRequests")) {
+            if (reply.getPlayer().get("seeRequests").getAsBoolean())
+                tmp.append("Friend Requests: Enabled <br />");
+            else
+                tmp.append("Friend Requests: Disabled <br />");
+        } else
+            tmp.append("Friend Requests: Enabled <br />");
         if (reply.getPlayer().has("achievementsOneTime"))
             tmp.append("No of 1-time Achievements Done: ").append(reply.getPlayer().getAsJsonArray("achievementsOneTime").size()).append("<br />");
         return tmp.toString();
@@ -269,8 +305,12 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
      * @return result
      */
     private String parseOngoingAchievements(PlayerReply reply){
-        //TODO Parse all the ongoing achievements statistics
-        return null;
+        StringBuilder tmp = new StringBuilder();
+        JsonObject achievements = reply.getPlayer().getAsJsonObject("achievements");
+        for (Map.Entry<String, JsonElement> entry : achievements.entrySet()){
+            tmp.append(entry.getKey()).append(": ").append(entry.getValue()).append("<br />");
+        }
+        return tmp.toString();
     }
 
     /**
