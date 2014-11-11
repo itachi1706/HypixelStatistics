@@ -92,14 +92,31 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 result.setTextColor(Color.RED);
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name (" + reply.getCause() + ")");
             } else {
-                    //Succeeded
-                    result.setText("Success!");
-                    result.setTextColor(Color.GREEN);
-                    //Parse
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("<b>General Statistics</b><br />");
-                    builder.append(parseGeneral(reply));
-                    details.setText(Html.fromHtml(builder.toString()));
+                //Succeeded
+                result.setText("Success!");
+                result.setTextColor(Color.GREEN);
+                //Parse
+                StringBuilder builder = new StringBuilder();
+                builder.append("<b>General Statistics</b><br />");
+                builder.append(parseGeneral(reply));
+
+                if (reply.getPlayer().has("packageRank")) {
+                    builder.append("<br /><br /><b>Donator Information</b><br />");
+                    builder.append(parseDonor(reply));
+                }
+
+                if (reply.getPlayer().has("rank")){
+                    if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")){
+                        if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")){
+                            builder.append("<br /><br /><b>YouTuber Information</b><br />");
+                        } else {
+                            builder.append("<br /><br /><b>Staff Information</b><br />");
+                        }
+                        builder.append(parsePriviledged(reply));
+                    }
+                }
+
+                details.setText(Html.fromHtml(builder.toString()));
             }
         }
     }
@@ -191,7 +208,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (reply.getPlayer().has("testpass"))
             tmp.append("Test Server Access: " + reply.getPlayer().get("testpass").getAsString() + "<br />");
         if (reply.getPlayer().has("wardrobe"))
-            tmp.append("Wardrobe (helmet,chestpiece,leggings,boots): " + reply.getPlayer().get("wardrobe").getAsString() + "<br />");
+            tmp.append("Wardrobe (H,C,L,B): " + reply.getPlayer().get("wardrobe").getAsString() + "<br />");
         if (reply.getPlayer().has("auto_spawn_pet"))
             tmp.append("Auto-Spawn Pet: " + reply.getPlayer().get("auto_spawn_pet").getAsString() + "<br />");
         if (reply.getPlayer().has("legacyGolem"))
@@ -200,7 +217,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     }
 
     /* Staff/YT Only Information
-        vanished, stoggle, silence, chatTunnel
+        vanished, stoggle, silence, chatTunnel, nick
      */
     private String parsePriviledged(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
@@ -208,9 +225,9 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Vanished: " + reply.getPlayer().get("vanished").getAsString() + "<br />");
         if (reply.getPlayer().has("stoggle")) {
             if (reply.getPlayer().get("stoggle").getAsBoolean())
-                tmp.append("Staff Chat: enabled <br />");
+                tmp.append("Staff Chat: Enabled <br />");
             else
-                tmp.append("Staff Chat: disabled <br />");
+                tmp.append("Staff Chat: Disabled <br />");
         }
         if (reply.getPlayer().has("silence"))
             tmp.append("Chat Silenced: " + reply.getPlayer().get("silence").getAsString() + "<br />");
@@ -220,6 +237,8 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             else
                 tmp.append("Tunned Into: " + reply.getPlayer().get("chatTunnel").getAsString() + "<br />");
         }
+        if (reply.getPlayer().has("nick"))
+            tmp.append("Nicked As: " + reply.getPlayer().get("nick").getAsString() + "<br />");
         return tmp.toString();
     }
 }
