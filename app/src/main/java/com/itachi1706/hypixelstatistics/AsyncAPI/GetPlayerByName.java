@@ -121,6 +121,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     }
                 }
 
+                //TODO Add (if present) stats parse, ongoing achievements parse, parkour parse, quest parse
                 details.setText(Html.fromHtml(builder.toString()));
             }
         }
@@ -130,7 +131,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     /*
     rank, displayname, uuid, packageRank, disguise, eulaCoins, gadget, karma, firstLogin, lastLogin, timePlaying, networkExp,
     networkLevel, mostRecentlyThanked, mostRecentlyTipped, thanksSent, tipsSent, channel, chat, tournamentTokens,
-    vanityTokens, mostRecentGameType, seeRequest, tipsReceived, thanksReceived
+    vanityTokens, mostRecentGameType, seeRequest, tipsReceived, thanksReceived, achievementsOneTime
      */
     private String parseGeneral(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
@@ -196,6 +197,8 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Friend Requests: " + reply.getPlayer().get("seeRequests").getAsString() + "<br />");
         else
             tmp.append("Friend Requests: true <br />");
+        if (reply.getPlayer().has("achievementsOneTime"))
+            tmp.append("Number of One-Time Achievements Completed: " + reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + "<br />");
         return tmp.toString();
     }
 
@@ -249,5 +252,46 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (reply.getPlayer().has("prefix"))
             tmp.append("Rank Prefix: " + reply.getPlayer().get("prefix").getAsString() + "<br />");
         return tmp.toString();
+    }
+
+    /**
+     * Parse statistics (Split based on GameType)
+     * @param reply PlayerReply object
+     * @return result
+     */
+    private String parseStats(PlayerReply reply){
+        //TODO Parse the Statistics based on the gameType
+        return null;
+    }
+
+    /**
+     * Parse Ongoing Achievements
+     * @param reply PlayerReply object
+     * @return result
+     */
+    private String parseOngoingAchievements(PlayerReply reply){
+        //TODO Parse all the ongoing achievements statistics
+        return null;
+    }
+
+    /**
+     * Parse Lobby Parkour Staistics
+     * @param reply PlayerReply object
+     * @return result
+     */
+    private String parseParkourCounts(PlayerReply reply){
+        //TODO Parse the number of times a parkour is completed
+        return null;
+    }
+
+    /**
+     * Parse the Quests statistics
+     * @param reply PlayerReply object
+     * @return Statistics string
+     */
+    private String parseQuests(PlayerReply reply){
+        //TODO Do the string for parsing the number of time a quest is completed/active
+        //TODO If a quest is active, show when its started
+        return null;
     }
 }
