@@ -11,5 +11,8 @@
     <string name="keyinfo_owner_label">Owner:</string>
     <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
     <string name="keyinfo_fields">-</string>
+    <string name="title_activity_player_info">PlayerInfoActivity</string>
+    <string name="player_btnchk">Search!</string>
+    <string name="player_etHint">Player Name</string>
 
 </resources>

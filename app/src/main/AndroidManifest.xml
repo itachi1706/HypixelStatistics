@@ -22,6 +22,10 @@
             android:name="com.itachi1706.hypixelstatistics.KeyInfoActivity"
             android:label="@string/title_activity_key_info" >
         </activity>
+        <activity
+            android:name="com.itachi1706.hypixelstatistics.PlayerInfoActivity"
+            android:label="@string/title_activity_player_info" >
+        </activity>
     </application>
 
 </manifest>

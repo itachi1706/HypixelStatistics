@@ -14,7 +14,7 @@ import android.widget.ListView;
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu;
-    String[] mainMenuItems = {"View API Key Info"};
+    String[] mainMenuItems = {"View API Key Info", "View Player"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,12 @@ public class MainActivity extends ActionBarActivity {
     private void checkMainMenuSelection(String selection){
         switch (selection){
             case "View API Key Info":
-                Intent intent = new Intent(MainActivity.this, KeyInfoActivity.class);
-                startActivity(intent);
+                Intent intentAPI = new Intent(MainActivity.this, KeyInfoActivity.class);
+                startActivity(intentAPI);
+                break;
+            case "View Player":
+                Intent intentPlayer = new Intent(MainActivity.this, PlayerInfoActivity.class);
+                startActivity(intentPlayer);
                 break;
         }
     }
