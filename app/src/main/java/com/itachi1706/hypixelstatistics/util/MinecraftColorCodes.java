@@ -47,7 +47,7 @@ public class MinecraftColorCodes {
                 case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "ADMIN": return specialAdminTitle(name);
                 case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "MODERATOR": return specialModTitle(name);
             }
         }
         if (name.getPlayer().has("packageRank")){
@@ -76,6 +76,18 @@ public class MinecraftColorCodes {
             case "rezzus": return parseColors("§4[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
             case "slothpixel": return parseColors("§3[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
             default: return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
+        }
+    }
+
+    /**
+     * Special Mod Prefixes
+     * @param name Mod PlayerReply object
+     * @return  Parsed Rank/Name
+     */
+    public static String specialModTitle(PlayerReply name){
+        switch (name.getPlayer().get("playername").getAsString()){
+            case "matt": return parseColors("§2[McProHosting] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            default: return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
         }
     }
 }
