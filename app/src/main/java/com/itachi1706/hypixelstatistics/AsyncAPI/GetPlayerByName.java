@@ -14,6 +14,7 @@ import com.itachi1706.hypixelstatistics.R;
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -62,8 +63,9 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             }
             in.close();
             tmp = str.toString();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
+            except = e;
         }
         return tmp;
 
