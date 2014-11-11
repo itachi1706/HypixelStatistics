@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
@@ -95,24 +96,24 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name (" + reply.getCause() + ")");
             } else {
                 //Succeeded
-                result.setText("Success!");
+                result.setText(Html.fromHtml("Statistics for " + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
                 //Parse
                 StringBuilder builder = new StringBuilder();
-                builder.append("<b>General Statistics</b><br />");
+                builder.append("<b><u>General Statistics</u></b><br />");
                 builder.append(parseGeneral(reply));
 
                 if (reply.getPlayer().has("packageRank")) {
-                    builder.append("<br /><br /><b>Donator Information</b><br />");
+                    builder.append("<br /><br /><b><u>Donator Information</u></b><br />");
                     builder.append(parseDonor(reply));
                 }
 
                 if (reply.getPlayer().has("rank")){
                     if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")){
                         if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")){
-                            builder.append("<br /><br /><b>YouTuber Information</b><br />");
+                            builder.append("<br /><br /><b><u>YouTuber Information</u></b><br />");
                         } else {
-                            builder.append("<br /><br /><b>Staff Information</b><br />");
+                            builder.append("<br /><br /><b><u>Staff Information</u></b><br />");
                         }
                         builder.append(parsePriviledged(reply));
                     }
