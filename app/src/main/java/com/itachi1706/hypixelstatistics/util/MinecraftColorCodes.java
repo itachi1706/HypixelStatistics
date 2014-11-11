@@ -44,7 +44,7 @@ public class MinecraftColorCodes {
     public static String parseHypixelRanks(PlayerReply name){
         if (name.getPlayer().has("rank")){
             switch (name.getPlayer().get("rank").getAsString()){
-                case "NORMAL": return name.getPlayer().get("displayname").getAsString();
+                case "NORMAL": return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "ADMIN": return specialAdminTitle(name);
                 case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
@@ -60,7 +60,7 @@ public class MinecraftColorCodes {
             }
         } else {
             //Normal
-            return name.getPlayer().get("displayname").getAsString();
+            return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
         }
         return "Error parsing String";
     }
