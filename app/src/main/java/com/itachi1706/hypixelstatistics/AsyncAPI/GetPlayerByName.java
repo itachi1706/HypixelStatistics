@@ -15,7 +15,6 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -136,69 +135,69 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     private String parseGeneral(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
         if (reply.getPlayer().has("rank"))
-            tmp.append("Rank: " + reply.getPlayer().get("rank").getAsString() + "<br />");
+            tmp.append("Rank: ").append(reply.getPlayer().get("rank").getAsString()).append("<br />");
         else
             tmp.append("Rank: NORMAL<br />");
-        tmp.append("Name: " + reply.getPlayer().get("displayname").getAsString() + "<br />");
-        tmp.append("UUID: " + reply.getPlayer().get("uuid").getAsString() + "<br />");
+        tmp.append("Name: ").append(reply.getPlayer().get("displayname").getAsString()).append("<br />");
+        tmp.append("UUID: ").append(reply.getPlayer().get("uuid").getAsString()).append("<br />");
         if (reply.getPlayer().has("packageRank"))
-            tmp.append("Donor Rank: " + reply.getPlayer().get("packageRank").getAsString() + "<br />");
+            tmp.append("Donor Rank: ").append(reply.getPlayer().get("packageRank").getAsString()).append("<br />");
         if (reply.getPlayer().has("disguise"))
-            tmp.append("Disguise: " + reply.getPlayer().get("disguise").getAsString() + "<br />");
+            tmp.append("Disguise: ").append(reply.getPlayer().get("disguise").getAsString()).append("<br />");
         if (reply.getPlayer().has("eulaCoins"))
             tmp.append("Veteran Donor: true <br />");
         if (reply.getPlayer().has("gadget"))
-            tmp.append("Lobby Gadget: " + reply.getPlayer().get("gadget").getAsString() + "<br />");
+            tmp.append("Lobby Gadget: ").append(reply.getPlayer().get("gadget").getAsString()).append("<br />");
         if (reply.getPlayer().has("karma"))
-            tmp.append("Karma: " + reply.getPlayer().get("karma").getAsString() + "<br />");
+            tmp.append("Karma: ").append(reply.getPlayer().get("karma").getAsString()).append("<br />");
         if (reply.getPlayer().has("firstLogin"))
-        tmp.append("First Login: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong())) + "<br />");
+        tmp.append("First Login: ").append(new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))).append("<br />");
         if (reply.getPlayer().has("lastLogin"))
-        tmp.append("Last Login: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong())) + "<br />");
+        tmp.append("Last Login: ").append(new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))).append("<br />");
         //TODO Parse Time Played
         tmp.append("Time Played: Soon™ <br />" );
         if (reply.getPlayer().has("networkExp"))
-            tmp.append("Network XP: " + reply.getPlayer().get("networkExp").getAsString() + "<br />");
+            tmp.append("Network XP: ").append(reply.getPlayer().get("networkExp").getAsString()).append("<br />");
         if (reply.getPlayer().has("networkLevel"))
-            tmp.append("Network Level: " + reply.getPlayer().get("networkLevel").getAsString() + "<br />");
+            tmp.append("Network Level: ").append(reply.getPlayer().get("networkLevel").getAsString()).append("<br />");
         else
             tmp.append("Network Level: 1<br />");
         if (reply.getPlayer().has("mostRecentlyThanked"))
-            tmp.append("Last Thanked: " + reply.getPlayer().get("mostRecentlyThanked").getAsString() + "<br />");
+            tmp.append("Last Thanked: ").append(reply.getPlayer().get("mostRecentlyThanked").getAsString()).append("<br />");
         if (reply.getPlayer().has("mostRecentlyTipped"))
-            tmp.append("Last Tipped: " + reply.getPlayer().get("mostRecentlyTipped").getAsString() + "<br />");
+            tmp.append("Last Tipped: ").append(reply.getPlayer().get("mostRecentlyTipped").getAsString()).append("<br />");
         if (reply.getPlayer().has("thanksSent"))
-            tmp.append("No of Thanks sent: " + reply.getPlayer().get("thanksSent").getAsString() + "<br />");
+            tmp.append("No of Thanks sent: ").append(reply.getPlayer().get("thanksSent").getAsString()).append("<br />");
         if (reply.getPlayer().has("tipsSent"))
-            tmp.append("No of Tips sent Tipped: " + reply.getPlayer().get("tipsSent").getAsString() + "<br />");
+            tmp.append("No of Tips sent: ").append(reply.getPlayer().get("tipsSent").getAsString()).append("<br />");
         if (reply.getPlayer().has("thanksReceived"))
-            tmp.append("No of Thanks received: " + reply.getPlayer().get("thanksReceived").getAsString() + "<br />");
+            tmp.append("No of Thanks received: ").append(reply.getPlayer().get("thanksReceived").getAsString()).append("<br />");
         if (reply.getPlayer().has("tipsReceived"))
-            tmp.append("No of Tips sent received: " + reply.getPlayer().get("tipsReceived").getAsString() + "<br />");
+            tmp.append("No of Tips sent received: ").append(reply.getPlayer().get("tipsReceived").getAsString()).append("<br />");
         if (reply.getPlayer().has("channel"))
-            tmp.append("Current Chat Channel: " + reply.getPlayer().get("channel").getAsString() + "<br />");
+            tmp.append("Current Chat Channel: ").append(reply.getPlayer().get("channel").getAsString()).append("<br />");
         else
             tmp.append("Current Chat Channel: ALL <br />");
         if (reply.getPlayer().has("chat"))
-            tmp.append("Chat Enabled: " + reply.getPlayer().get("chat") + "<br />");
+            tmp.append("Chat Enabled: ").append(reply.getPlayer().get("chat")).append("<br />");
         else
             tmp.append("Chat Enabled: true <br />");
         if (reply.getPlayer().has("tournamentTokens"))
-            tmp.append("Tournament Tokens: " + reply.getPlayer().get("tournamentTokens").getAsString() + "<br />");
+            tmp.append("Tournament Tokens: ").append(reply.getPlayer().get("tournamentTokens").getAsString()).append("<br />");
         else
             tmp.append("Tournament Tokens: 0 <br />");
         if (reply.getPlayer().has("vanityTokens"))
-            tmp.append("Vanity Tokens: " + reply.getPlayer().get("vanityTokens").getAsString() + "<br />");
+            tmp.append("Vanity Tokens: ").append(reply.getPlayer().get("vanityTokens").getAsString()).append("<br />");
         else
             tmp.append("Vanity Tokens: 0 <br />");
         if (reply.getPlayer().has("mostRecentGameType"))
-            tmp.append("Last Game Played: " + reply.getPlayer().get("mostRecentGameType").getAsString() + "<br />");
+            tmp.append("Last Game Played: ").append(reply.getPlayer().get("mostRecentGameType").getAsString()).append("<br />");
         if (reply.getPlayer().has("seeRequests"))
-            tmp.append("Friend Requests: " + reply.getPlayer().get("seeRequests").getAsString() + "<br />");
+            tmp.append("Friend Requests: ").append(reply.getPlayer().get("seeRequests").getAsString()).append("<br />");
         else
             tmp.append("Friend Requests: true <br />");
         if (reply.getPlayer().has("achievementsOneTime"))
-            tmp.append("No of 1-time Achievements Done: " + reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + "<br />");
+            tmp.append("No of 1-time Achievements Done: ").append(reply.getPlayer().getAsJsonArray("achievementsOneTime").size()).append("<br />");
         return tmp.toString();
     }
 
@@ -208,21 +207,21 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     private String parseDonor(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
         if (reply.getPlayer().has("fly"))
-            tmp.append("Fly Mode: " + reply.getPlayer().get("fly").getAsString() + "<br />");
+            tmp.append("Fly Mode: ").append(reply.getPlayer().get("fly").getAsString()).append("<br />");
         if (reply.getPlayer().has("petActive"))
-            tmp.append("Active Pet: " + reply.getPlayer().get("petActive").getAsString() + "<br />");
+            tmp.append("Active Pet: ").append(reply.getPlayer().get("petActive").getAsString()).append("<br />");
         else
             tmp.append("Active Pet: false <br />");
         if (reply.getPlayer().has("pp"))
-            tmp.append("Particle Pack: " + reply.getPlayer().get("pp").getAsString() + "<br />");
+            tmp.append("Particle Pack: ").append(reply.getPlayer().get("pp").getAsString()).append("<br />");
         if (reply.getPlayer().has("testpass"))
-            tmp.append("Test Server Access: " + reply.getPlayer().get("testpass").getAsString() + "<br />");
+            tmp.append("Test Server Access: ").append(reply.getPlayer().get("testpass").getAsString()).append("<br />");
         if (reply.getPlayer().has("wardrobe"))
-            tmp.append("Wardrobe (H,C,L,B): " + reply.getPlayer().get("wardrobe").getAsString() + "<br />");
+            tmp.append("Wardrobe (H,C,L,B): ").append(reply.getPlayer().get("wardrobe").getAsString()).append("<br />");
         if (reply.getPlayer().has("auto_spawn_pet"))
-            tmp.append("Auto-Spawn Pet: " + reply.getPlayer().get("auto_spawn_pet").getAsString() + "<br />");
+            tmp.append("Auto-Spawn Pet: ").append(reply.getPlayer().get("auto_spawn_pet").getAsString()).append("<br />");
         if (reply.getPlayer().has("legacyGolem"))
-            tmp.append("Golem Supporter: " + reply.getPlayer().get("legacyGolem").getAsString() + "<br />");
+            tmp.append("Golem Supporter: ").append(reply.getPlayer().get("legacyGolem").getAsString()).append("<br />");
         return tmp.toString();
     }
 
@@ -232,7 +231,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     private String parsePriviledged(PlayerReply reply){
         StringBuilder tmp = new StringBuilder();
         if (reply.getPlayer().has("vanished"))
-            tmp.append("Vanished: " + reply.getPlayer().get("vanished").getAsString() + "<br />");
+            tmp.append("Vanished: ").append(reply.getPlayer().get("vanished").getAsString()).append("<br />");
         if (reply.getPlayer().has("stoggle")) {
             if (reply.getPlayer().get("stoggle").getAsBoolean())
                 tmp.append("Staff Chat: Enabled <br />");
@@ -240,17 +239,17 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 tmp.append("Staff Chat: Disabled <br />");
         }
         if (reply.getPlayer().has("silence"))
-            tmp.append("Chat Silenced: " + reply.getPlayer().get("silence").getAsString() + "<br />");
+            tmp.append("Chat Silenced: ").append(reply.getPlayer().get("silence").getAsString()).append("<br />");
         if (reply.getPlayer().has("chatTunnel")) {
             if (reply.getPlayer().get("chatTunnel").isJsonNull())
                 tmp.append("Tunneled Into: None <br />");
             else
-                tmp.append("Tunneled Into: " + reply.getPlayer().get("chatTunnel").getAsString() + "<br />");
+                tmp.append("Tunneled Into: ").append(reply.getPlayer().get("chatTunnel").getAsString()).append("<br />");
         }
         if (reply.getPlayer().has("nick"))
-            tmp.append("Nicked As: " + reply.getPlayer().get("nick").getAsString() + "<br />");
+            tmp.append("Nicked As: ").append(reply.getPlayer().get("nick").getAsString()).append("<br />");
         if (reply.getPlayer().has("prefix"))
-            tmp.append("Rank Prefix: " + reply.getPlayer().get("prefix").getAsString() + "<br />");
+            tmp.append("Rank Prefix: ").append(reply.getPlayer().get("prefix").getAsString()).append("<br />");
         return tmp.toString();
     }
 
