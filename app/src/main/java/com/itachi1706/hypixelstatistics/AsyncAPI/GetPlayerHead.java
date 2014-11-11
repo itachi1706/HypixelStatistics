@@ -9,11 +9,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.net.ssl.SSLProtocolException;
 
 /**
  * Created by Kenneth on 11/11/2014, 9:19 PM
@@ -40,6 +37,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             //Get Player Head
             URL url = new URL(headUrl);
             URLConnection conn = url.openConnection();
+            conn.setConnectTimeout(15000);
             conn.setReadTimeout(5000);
             InputStream is = (InputStream) conn.getContent();
             d = Drawable.createFromStream(is, "src name");
