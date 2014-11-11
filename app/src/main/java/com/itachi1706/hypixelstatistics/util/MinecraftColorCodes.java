@@ -45,7 +45,7 @@ public class MinecraftColorCodes {
         if (name.getPlayer().has("rank")){
             switch (name.getPlayer().get("rank").getAsString()){
                 case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "ADMIN": return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "ADMIN": return specialAdminTitle(name);
                 case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
             }
@@ -63,5 +63,19 @@ public class MinecraftColorCodes {
             return name.getPlayer().get("displayname").getAsString();
         }
         return "Error parsing String";
+    }
+
+    /**
+     * Special Admin Prefixes
+     * @param name Admin PlayerReply object
+     * @return  Parsed Rank/Name
+     */
+    public static String specialAdminTitle(PlayerReply name){
+        switch (name.getPlayer().get("playername").getAsString()){
+            case "hypixel": return parseColors("§4[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "rezzus": return parseColors("§4[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            case "slothpixel": return parseColors("§3[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            default: return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
+        }
     }
 }
