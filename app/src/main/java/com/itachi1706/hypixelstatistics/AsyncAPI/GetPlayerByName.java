@@ -242,7 +242,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             if (reply.getPlayer().get("chatTunnel").isJsonNull())
                 tmp.append("Tunneled Into: None <br />");
             else
-                tmp.append("Tunned Into: " + reply.getPlayer().get("chatTunnel").getAsString() + "<br />");
+                tmp.append("Tunneled Into: " + reply.getPlayer().get("chatTunnel").getAsString() + "<br />");
         }
         if (reply.getPlayer().has("nick"))
             tmp.append("Nicked As: " + reply.getPlayer().get("nick").getAsString() + "<br />");
