@@ -150,7 +150,9 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             tmp.append("Lobby Gadget: " + reply.getPlayer().get("gadget").getAsString() + "<br />");
         if (reply.getPlayer().has("karma"))
             tmp.append("Karma: " + reply.getPlayer().get("karma").getAsString() + "<br />");
+        if (reply.getPlayer().has("firstLogin"))
         tmp.append("First Login: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong())) + "<br />");
+        if (reply.getPlayer().has("lastLogin"))
         tmp.append("Last Login: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong())) + "<br />");
         //TODO Parse Time Played
         tmp.append("Time Played: Soon™ <br />" );
