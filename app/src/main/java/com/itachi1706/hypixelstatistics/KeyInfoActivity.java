@@ -1,6 +1,9 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +33,15 @@ public class KeyInfoActivity extends ActionBarActivity {
         keyV = (TextView) findViewById(R.id.KeytvAPI);
         queryV = (TextView) findViewById(R.id.KeytvQuery);
         resultV = (TextView) findViewById(R.id.lblResults);
+
+        //Check if we should hide the debug window
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!(myPref.getBoolean("debugMode", true))){
+            debugV.setVisibility(View.INVISIBLE);
+        } else {
+            debugV.setVisibility(View.VISIBLE);
+        }
+
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +85,7 @@ public class KeyInfoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(KeyInfoActivity.this, GeneralPrefActivity.class));
             return true;
         }
 

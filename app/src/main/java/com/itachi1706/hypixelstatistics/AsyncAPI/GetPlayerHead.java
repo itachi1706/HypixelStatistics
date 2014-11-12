@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,12 +20,12 @@ import java.net.URLConnection;
  */
 public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
 
-    ProgressDialog progress;
+    ProgressBar progress;
     ImageView imageViewhead;
     Context mContext;
     Exception except = null;
 
-    public GetPlayerHead(ProgressDialog prog, ImageView head, Context context){
+    public GetPlayerHead(ProgressBar prog, ImageView head, Context context){
         progress = prog;
         imageViewhead = head;
         mContext = context;
@@ -49,12 +51,17 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
     }
 
     protected void onPostExecute(Drawable draw) {
-        progress.dismiss();
+        progress.setVisibility(View.GONE);
         if (except != null){
+            if (except.getCause() == null){
+                Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (except.getCause().toString().contains("SSLProtocolException"))
                 Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             imageViewhead.setImageDrawable(draw);
         }

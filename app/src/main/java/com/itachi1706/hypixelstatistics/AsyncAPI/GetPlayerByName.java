@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,14 +48,16 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
     Drawable playerHead = null;
     ImageView ivHead;
     ProgressDialog progress;
+    ProgressBar pro;
 
-    public GetPlayerByName(TextView resultView, TextView debugView, TextView general, ImageView head, ProgressDialog prog, Context context){
+    public GetPlayerByName(TextView resultView, TextView debugView, TextView general, ImageView head, ProgressDialog prog, ProgressBar header, Context context){
         debug = debugView;
         result = resultView;
         mContext = context;
         details = general;
         ivHead = head;
         progress = prog;
+        pro = header;
     }
 
     @Override
@@ -117,8 +121,10 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 details.setText("");
             } else {
                 //Succeeded
-                progress.setMessage("Getting Player Head for " + reply.getPlayer().get("displayname").getAsString() + "...");
-                new GetPlayerHead(progress, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
+                //progress.setMessage("Getting Player Head for " + reply.getPlayer().get("displayname").getAsString() + "...");
+                progress.dismiss();
+                pro.setVisibility(View.VISIBLE);
+                new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
                 result.setText(Html.fromHtml("Success! Statistics for <br /> " + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
                 //ivHead.setImageDrawable(playerHead);

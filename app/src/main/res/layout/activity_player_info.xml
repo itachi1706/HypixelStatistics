@@ -71,4 +71,15 @@
         android:layout_alignParentEnd="true"
         android:maxWidth="500px"
         android:maxHeight="500px" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PlayerpbHead"
+        android:layout_below="@+id/PlayeretName"
+        android:layout_alignRight="@+id/playerIvPlayerHead"
+        android:layout_alignEnd="@+id/playerIvPlayerHead"
+        android:focusableInTouchMode="false"
+        android:indeterminate="true"
+        android:visibility="gone" />
 </RelativeLayout>

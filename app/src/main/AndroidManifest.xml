@@ -26,6 +26,10 @@
             android:name="com.itachi1706.hypixelstatistics.PlayerInfoActivity"
             android:label="@string/title_activity_player_info" >
         </activity>
+        <activity
+            android:name="com.itachi1706.hypixelstatistics.GeneralPrefActivity"
+            android:label="@string/title_activity_general_pref" >
+        </activity>
     </application>
 
 </manifest>

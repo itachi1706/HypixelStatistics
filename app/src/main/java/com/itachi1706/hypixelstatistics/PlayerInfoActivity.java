@@ -1,7 +1,10 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioTrack;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
     public static String lastGsonObtained = "";
     ImageView pHead;
     ProgressDialog checkProgress;
+    ProgressBar headBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,15 @@ public class PlayerInfoActivity extends ActionBarActivity {
         debug.setMovementMethod(new ScrollingMovementMethod());
         generalDetails = (TextView) findViewById(R.id.player_tvGeneral);
         generalDetails.setMovementMethod(new ScrollingMovementMethod());
+        headBar = (ProgressBar) findViewById(R.id.PlayerpbHead);
+
+        //Check if we should hide the debug window
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!(myPref.getBoolean("debugMode", true))){
+            debug.setVisibility(View.INVISIBLE);
+        } else {
+            debug.setVisibility(View.VISIBLE);
+        }
 
         checkPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +71,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
                     checkProgress.setTitle("Querying Server...");
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
-                    new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, getApplicationContext()).execute(name);
+                    new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(name);
                 }
             }
         });
@@ -80,6 +94,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(PlayerInfoActivity.this, GeneralPrefActivity.class));
             return true;
         }
 
