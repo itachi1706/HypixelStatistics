@@ -3,6 +3,7 @@ package net.hypixel.api;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 
+import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.reply.FindGuildReply;
 import net.hypixel.api.reply.FriendsReply;
 import net.hypixel.api.reply.GuildReply;
@@ -20,7 +21,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by AgentK on 10/11/2014, 5:47 PM,
- * Modified by Kenneth on 11/11/2014, 8:16 AM
+ * Modified by Kenneth on 12/11/2014, 11:59 AM
  * for Hypixel Statistics in package net.hypixel.api
  */
 @SuppressWarnings("unused")
@@ -148,6 +149,23 @@ public class HypixelAPI {
                 } else {
                     get(API_BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback);
                 }
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    /**
+     * Call this method to get the active boosters
+     * This method is asynchronous and is preferred over it's synchronous counterpart.
+     *
+     * @param callback The callback to execute when finished
+     */
+    public void getBoosters(Callback<BoostersReply> callback) {
+        lock.readLock().lock();
+        try {
+            if (doKeyCheck(callback)) {
+                get(API_BASE_URL + "boosters?key=" + apiKey.toString(), callback);
             }
         } finally {
             lock.readLock().unlock();
