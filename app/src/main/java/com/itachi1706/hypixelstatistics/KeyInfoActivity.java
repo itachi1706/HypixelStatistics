@@ -68,6 +68,17 @@ public class KeyInfoActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        //Check if we should hide the debug window
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!(myPref.getBoolean("debugMode", true))){
+            debugV.setVisibility(View.INVISIBLE);
+        } else {
+            debugV.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
