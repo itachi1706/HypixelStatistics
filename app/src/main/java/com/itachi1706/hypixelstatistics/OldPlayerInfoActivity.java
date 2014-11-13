@@ -14,20 +14,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByName;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByNameTextView;
 
 
-public class PlayerInfoActivity extends ActionBarActivity {
+public class OldPlayerInfoActivity extends ActionBarActivity {
 
     EditText playerName;
-    TextView debug, result;
-    ListView generalDetails;
+    TextView debug, result, generalDetails;
     Button checkPlayer;
     public static String lastGsonObtained = "";
     ImageView pHead;
@@ -37,17 +34,18 @@ public class PlayerInfoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player_info);
+        setContentView(R.layout.activity_player_info_old);
 
-        playerName = (EditText) findViewById(R.id.PlayersetName);
-        debug = (TextView) findViewById(R.id.players_tvDebug);
-        result = (TextView) findViewById(R.id.players_lblResult);
-        checkPlayer = (Button) findViewById(R.id.PlayersBtnChk);
+        playerName = (EditText) findViewById(R.id.PlayeretName);
+        debug = (TextView) findViewById(R.id.player_tvDebug);
+        result = (TextView) findViewById(R.id.player_lblResult);
+        checkPlayer = (Button) findViewById(R.id.PlayerBtnChk);
         playerName.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        pHead = (ImageView) findViewById(R.id.playersIvPlayerHead);
+        pHead = (ImageView) findViewById(R.id.playerIvPlayerHead);
         debug.setMovementMethod(new ScrollingMovementMethod());
-        generalDetails = (ListView) findViewById(R.id.players_lvGeneral);
-        headBar = (ProgressBar) findViewById(R.id.PlayerspbHead);
+        generalDetails = (TextView) findViewById(R.id.player_tvGeneral);
+        generalDetails.setMovementMethod(new ScrollingMovementMethod());
+        headBar = (ProgressBar) findViewById(R.id.PlayerpbHead);
 
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -64,13 +62,13 @@ public class PlayerInfoActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_SHORT).show();
                 } else {
                     String name = playerName.getText().toString();
-                    checkProgress = new ProgressDialog(PlayerInfoActivity.this);
+                    checkProgress = new ProgressDialog(OldPlayerInfoActivity.this);
                     checkProgress.setCancelable(false);
                     checkProgress.setIndeterminate(true);
                     checkProgress.setTitle("Querying Server...");
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
-                    new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(name);
+                    new GetPlayerByNameTextView(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(name);
                 }
             }
         });
@@ -106,7 +104,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(PlayerInfoActivity.this, GeneralPrefActivity.class));
+            startActivity(new Intent(OldPlayerInfoActivity.this, GeneralPrefActivity.class));
             return true;
         }
 
