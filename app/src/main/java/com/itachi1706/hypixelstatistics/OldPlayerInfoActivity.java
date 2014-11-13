@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,13 +9,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +110,21 @@ public class OldPlayerInfoActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(OldPlayerInfoActivity.this, GeneralPrefActivity.class));
             return true;
+        } else if (id == R.id.view_debug) {
+            TextView jsonDebug = new TextView(OldPlayerInfoActivity.this);
+            jsonDebug.setText(debug.getText());
+            jsonDebug.setGravity(Gravity.CENTER);
+            LinearLayout dialogLayout = new LinearLayout(OldPlayerInfoActivity.this);
+
+            dialogLayout.addView(jsonDebug);
+            dialogLayout.setOrientation(LinearLayout.VERTICAL);
+            AlertDialog.Builder debugAlert = new AlertDialog.Builder(OldPlayerInfoActivity.this);
+            ScrollView scrollPane = new ScrollView(this);
+            scrollPane.addView(dialogLayout);
+            debugAlert.setView(scrollPane);
+            debugAlert.setTitle("JSON Information");
+            debugAlert.setPositiveButton(android.R.string.ok, null);
+            debugAlert.show();
         }
 
         return super.onOptionsItemSelected(item);
