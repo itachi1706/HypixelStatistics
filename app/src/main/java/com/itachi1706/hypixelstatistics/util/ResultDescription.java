@@ -9,7 +9,7 @@ import android.content.Intent;
 public class ResultDescription {
 
     private String _title, _result;
-    private boolean _hasDescription;
+    private boolean _hasDescription, _subTitle;
 
     public ResultDescription(String title, String result){
         this._title = title;
@@ -21,6 +21,13 @@ public class ResultDescription {
         this._title = title;
         this._result = result;
         this._hasDescription = description;
+    }
+
+    public ResultDescription(String title, String result, boolean description, boolean subTitle){
+        this._title = title;
+        this._result = result;
+        this._hasDescription = description;
+        this._subTitle = subTitle;
     }
 
     public String get_title() {
@@ -45,5 +52,13 @@ public class ResultDescription {
 
     public void set_hasDescription(boolean _hasDescription) {
         this._hasDescription = _hasDescription;
+    }
+
+    public boolean is_subTitle() {
+        return _subTitle;
+    }
+
+    public void set_subTitle(boolean _subTitle) {
+        this._subTitle = _subTitle;
     }
 }
