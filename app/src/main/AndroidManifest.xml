@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name="com.itachi1706.hypixelstatistics.OldPlayerInfoActivity"
-            android:label="@string/title_activity_player_info" >
+            android:label="@string/title_activity_player_info_old" >
         </activity>
         <activity
             android:name="com.itachi1706.hypixelstatistics.GeneralPrefActivity"
