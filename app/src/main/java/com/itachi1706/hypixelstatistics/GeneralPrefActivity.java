@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -71,6 +72,15 @@ public class GeneralPrefActivity extends ActionBarActivity {
 
             Preference prefs = findPreference("view_sdk_version");
             prefs.setSummary(android.os.Build.VERSION.RELEASE);
+
+            prefs = findPreference("view_api_info");
+            prefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(getActivity(), KeyInfoActivity.class));
+                    return true;
+                }
+            });
 
         }
     }
