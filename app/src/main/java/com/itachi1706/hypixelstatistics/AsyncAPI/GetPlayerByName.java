@@ -140,12 +140,14 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 parseGeneral(reply);
 
                 if (reply.getPlayer().has("packageRank")) {
+                    resultArray.add(new ResultDescription(" ", " "));
                     resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false));
                     parseDonor(reply);
                 }
 
                 if (reply.getPlayer().has("rank")){
                     if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")){
+                        resultArray.add(new ResultDescription(" ", " "));
                         if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")){
                             resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false));
                         } else {
@@ -155,19 +157,28 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     }
                 }
 
-                parseStats(reply);
-
                 if (reply.getPlayer().has("achievements")){
+                    resultArray.add(new ResultDescription(" ", " "));
                     resultArray.add(new ResultDescription("<b>Achievements</b>", null, false));
                     parseOngoingAchievements(reply);
                 }
 
-                //TODO Add (if present) stats parse, quest parse
+                if (reply.getPlayer().has("quests")){
+                    resultArray.add(new ResultDescription(" ", " "));
+                    resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false));
+                    parseQuests(reply);
+                }
                 if (reply.getPlayer().has("parkourCompletions")) {
+                    resultArray.add(new ResultDescription(" ", " "));
                     resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false));
                     parseParkourCounts(reply);
                 }
-                parseQuests(reply);
+
+                if (reply.getPlayer().has("stats")){
+                    resultArray.add(new ResultDescription(" ", " "));
+                    resultArray.add(new ResultDescription("<b>Game Statistics</b>", null, false));
+                    parseStats(reply);
+                }
 
                 for (ResultDescription e : resultArray) {
                     String r = e.get_result();
@@ -319,7 +330,36 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
      */
     private void parseStats(PlayerReply reply){
         //TODO Parse the Statistics based on the gameType
-        if (reply.isThrottle()){resultArray.add(new ResultDescription("hi", "hi"));}
+        JsonObject mainStats = reply.getPlayer().getAsJsonObject("stats");
+        boolean first = true;
+        for (Map.Entry<String, JsonElement> entry : mainStats.entrySet()){
+            if (first){
+                first = false;
+            } else {
+                resultArray.add(new ResultDescription(" ", null, false, true));
+            }
+            //Based on stat go parse it
+            JsonObject statistic = entry.getValue().getAsJsonObject();
+            switch (entry.getKey().toLowerCase()){
+                case "arena": break;
+                case "arcade": break;
+                case "hungergames": break;
+                case "mcgo": break;
+                case "paintball": break;
+                case "quake": break;
+                case "spleef": parseSpleef(statistic);
+                    break;
+                case "tntgames": break;
+                case "vampirez": parseVampZ(statistic);
+                    break;
+                case "walls": parseWalls(statistic);
+                    break;
+                case "walls3": parseWalls3(statistic);
+                    break;
+                default: resultArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                    break;
+            }
+        }
     }
 
     /**
@@ -338,10 +378,15 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
      * @param reply PlayerReply object
      */
     private void parseParkourCounts(PlayerReply reply){
-        if (reply.isThrottle()){resultArray.add(new ResultDescription("hi", "hi"));}
         JsonObject parkourMain = reply.getPlayer().getAsJsonObject("parkourCompletions");
+        boolean first = true;
         for (Map.Entry<String, JsonElement> entry : parkourMain.entrySet()){
             //Get the location
+            if (first){
+                first = false;
+            } else {
+                resultArray.add(new ResultDescription(" ", null, false, true));
+            }
             resultArray.add(new ResultDescription("<b>" + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + "</b>", null, false, true));
             resultArray.add(new ResultDescription("Amount of Times Completed", entry.getValue().getAsJsonArray().size() + ""));
             //Get the count of times its completed
@@ -363,8 +408,158 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
      * @param reply PlayerReply object
      */
     private void parseQuests(PlayerReply reply){
-        //TODO Do the string for parsing the number of time a quest is completed/active
-        //TODO If a quest is active, show when its started
-        if (reply.isThrottle()){resultArray.add(new ResultDescription("hi", "hi"));}
+        JsonObject questMain = reply.getPlayer().getAsJsonObject("quests");
+        boolean first = true;
+        for (Map.Entry<String, JsonElement> entry : questMain.entrySet()){
+            //Get each quest name
+            if (first){
+                first = false;
+            } else {
+                resultArray.add(new ResultDescription(" ", null, false, true));
+            }
+            resultArray.add(new ResultDescription("<b>" + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + "</b>", null, false, true));
+            if(entry.getValue().getAsJsonObject().has("active")){
+                resultArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§aActive§r")));
+                //Get Start Time
+                long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
+                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
+                resultArray.add(new ResultDescription("Date Started", timeStamp));
+                //TODO Eventually add a way to view objectives in an alert dialog
+            } else {
+                resultArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
+            }
+            //Get number of completion times
+            if (entry.getValue().getAsJsonObject().has("completions")){
+                int numberOfTimes = entry.getValue().getAsJsonObject().get("completions").getAsJsonArray().size();
+                resultArray.add(new ResultDescription("No of Times Completed", numberOfTimes + ""));
+            } else {
+                resultArray.add(new ResultDescription("No of Times Completed", "0"));
+            }
+        }
     }
+
+    //STATISTICS PARSING
+
+    /**
+     * Walls Game
+     * @param obj Statistics
+     */
+    private void parseWalls(JsonObject obj){
+        resultArray.add(new ResultDescription("<b>Walls</b>", null, false, true));
+        if (obj.has("coins"))
+            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("wins"))
+            resultArray.add(new ResultDescription("Games Won", obj.get("wins").getAsString()));
+        if (obj.has("losses"))
+            resultArray.add(new ResultDescription("Games Lost", obj.get("losses").getAsString()));
+        if (obj.has("deaths"))
+            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+        if (obj.has("kills"))
+            resultArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+        if (obj.has("packages")){
+            StringBuilder packageBuilder = new StringBuilder();
+            JsonArray packages = obj.get("packages").getAsJsonArray();
+            boolean firstPack = true;
+            for (JsonElement e : packages){
+                if (firstPack){
+                    firstPack = false;
+                    packageBuilder.append(e.getAsString());
+                }
+                else {
+                    packageBuilder.append(",").append(e.getAsString());
+                }
+            }
+            resultArray.add(new ResultDescription("Kills", packageBuilder.toString()));
+        }
+    }
+
+    /**
+     * Walls 3 Game
+     * chosen_class, coins, deaths, kills, finalDeaths, finalKills, wins, losses
+     * @param obj Statistics
+     */
+    private void parseWalls3(JsonObject obj){
+        resultArray.add(new ResultDescription("<b>Walls 3</b>", null, false, true));
+        if (obj.has("chosen_class"))
+            resultArray.add(new ResultDescription("Class Selected", obj.get("chosen_class").getAsString()));
+        if (obj.has("coins"))
+            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+
+        //Overall
+        if (obj.has("deaths"))
+            resultArray.add(new ResultDescription("Total Deaths", obj.get("deaths").getAsString()));
+        if (obj.has("kills"))
+            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+        if (obj.has("finalDeaths"))
+            resultArray.add(new ResultDescription("Total Final Deaths", obj.get("finalDeaths").getAsString()));
+        if (obj.has("finalKills"))
+            resultArray.add(new ResultDescription("Total Final Kills", obj.get("finalKills").getAsString()));
+        if (obj.has("wins"))
+            resultArray.add(new ResultDescription("Total Games Won", obj.get("wins").getAsString()));
+        if (obj.has("losses"))
+            resultArray.add(new ResultDescription("Total Games Lost", obj.get("losses").getAsString()));
+
+        //TODO Eventually displays statistics of each class in an AlertDialog
+        resultArray.add(new ResultDescription("Herobrine Statistics", MinecraftColorCodes.parseColors("§cIndividual Classes Statistics will be coming soon§r")));
+        //Herobrine
+        //Skeleton
+        //Zombie
+        //Creeper
+        //Enderman
+        //Spider
+        //Dreadlord
+        //Shaman
+        //Arcanist
+        //Golem
+        //Blaze
+        //Pigman
+
+        //Weekly
+        //TODO Display Weekly Statistics in an AlertDialog
+        resultArray.add(new ResultDescription("Weekly Statistics", MinecraftColorCodes.parseColors("§cWeekly Statistics will be coming soon§r")));
+    }
+
+    private void parseQuake(JsonObject obj){}
+    private void parseHG(JsonObject obj){}
+
+    /**
+     * VampireZ Statistics
+     * coins, human_deaths, human_wins, human_kills, vampire_deaths, vampire_wins, vampire_kills
+     * @param obj Statistics
+     */
+    private void parseVampZ(JsonObject obj){
+        resultArray.add(new ResultDescription("<b>VampireZ</b>", null, false, true));
+        if (obj.has("coins"))
+            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("human_deaths"))
+            resultArray.add(new ResultDescription("Total Deaths (Human)", obj.get("human_deaths").getAsString()));
+        if (obj.has("human_wins"))
+            resultArray.add(new ResultDescription("Total Wins (Human)", obj.get("human_wins").getAsString()));
+        if (obj.has("human_kills"))
+            resultArray.add(new ResultDescription("Total Kills (Human)", obj.get("human_wins").getAsString()));
+        if (obj.has("vampire_deaths"))
+            resultArray.add(new ResultDescription("Total Deaths (Vampire)", obj.get("vampire_deaths").getAsString()));
+        if (obj.has("vampire_wins"))
+            resultArray.add(new ResultDescription("Total Wins (Vampire)", obj.get("vampire_wins").getAsString()));
+        if (obj.has("vampire_kills"))
+            resultArray.add(new ResultDescription("Total Kills (Vampire)", obj.get("vampire_kills").getAsString()));
+    }
+    private void parseArcade(JsonObject obj){}
+    private void parseArena(JsonObject obj){}
+
+    /**
+     * Legacy Spleef Game?
+     * @param obj Statistics
+     */
+    private void parseSpleef(JsonObject obj){
+        resultArray.add(new ResultDescription("<b>Legacy Spleef</b>", null, false, true));
+        if (obj.has("wins"))
+            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+        if (obj.has("deaths"))
+            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+    }
+
+    private void parseTntGames(JsonObject obj){}
+    private void parsePaintball(JsonObject obj){}
+    private void parseMcGo(JsonObject obj){}
 }

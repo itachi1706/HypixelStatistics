@@ -125,6 +125,10 @@ public class PlayerInfoActivity extends ActionBarActivity {
             debugAlert.setTitle("JSON Information");
             debugAlert.setPositiveButton(android.R.string.ok, null);
             debugAlert.show();
+            return true;
+        } else if (id == R.id.view_legacy){
+            startActivity(new Intent(PlayerInfoActivity.this, OldPlayerInfoActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
