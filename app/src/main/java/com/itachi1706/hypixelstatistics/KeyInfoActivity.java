@@ -49,21 +49,6 @@ public class KeyInfoActivity extends ActionBarActivity {
                 UUID uid = UUID.fromString(key);
 
                 new GetKeyInfo(keyV, ownerV, queryV, resultV, debugV, getApplicationContext()).execute(uid);
-
-                //From Hypixel API
-                /*
-                HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
-                HypixelAPI.getInstance().getKeyInfo(new Callback<KeyReply>(KeyReply.class) {
-                    @Override
-                    public void callback(Throwable failCause, KeyReply result) {
-                        if(failCause!=null) {
-                            failCause.printStackTrace();
-                        } else {
-                            MainActivity.this.result.setText(result.toString());
-                        }
-                        HypixelAPI.getInstance().finish();
-                    }
-                });*/
             }
         });
     }
