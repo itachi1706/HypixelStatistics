@@ -366,7 +366,8 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     break;
                 case "walls3": parseWalls3(statistic);
                     break;
-                case "holiday": break;
+                case "holiday": resultArray.remove(resultArray.size() - 1);
+                    break;
                 default: resultArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
