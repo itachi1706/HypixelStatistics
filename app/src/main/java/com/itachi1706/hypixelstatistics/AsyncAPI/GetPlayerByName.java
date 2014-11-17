@@ -678,20 +678,20 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
      */
     private void parseArena(JsonObject obj){
         resultArray.add(new ResultDescription("<b>Arena Brawl</b>", null, false, true));
-        if (obj.has("active_rune"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
-        if (obj.has("chest_opens"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
-        if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
-        if (obj.has("coins_spent"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
-        if (obj.has("keys"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
-        if (obj.has("magical_chest"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("rating"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            resultArray.add(new ResultDescription("Arena Rating", obj.get("rating").getAsString()));
+        if (obj.has("coins"))
+            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("coins_spent"))
+            resultArray.add(new ResultDescription("Total Coins Spent", obj.get("coins_spent").getAsString()));
+        if (obj.has("active_rune"))
+            resultArray.add(new ResultDescription("Active Rune", obj.get("active_rune").getAsString()));
+        if (obj.has("chest_opens"))
+            resultArray.add(new ResultDescription("Total Chest Opened", obj.get("chest_opens").getAsString()));
+        if (obj.has("keys"))
+            resultArray.add(new ResultDescription("Keys", obj.get("keys").getAsString()));
+        if (obj.has("magical_chest"))
+            resultArray.add(new ResultDescription("Total No of times Magical Chest Opened", obj.get("magical_chest").getAsString()));
 
         resultArray.add(new ResultDescription("<i>Equips</i>", null, false, true));
         if (obj.has("offensive"))
