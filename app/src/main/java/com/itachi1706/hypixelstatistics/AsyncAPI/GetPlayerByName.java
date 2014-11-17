@@ -366,6 +366,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     break;
                 case "walls3": parseWalls3(statistic);
                     break;
+                case "holiday": break;
                 default: resultArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
@@ -804,13 +805,11 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (obj.has("wins_bowspleef"))
             resultArray.add(new ResultDescription("Wins", obj.get("wins_bowspleef").getAsString()));
 
-        resultArray.add(new ResultDescription("<i>TNT Tag</i>", null, false, true));
+        resultArray.add(new ResultDescription("<i>TNT Tag/TNT Run</i>", null, false, true));
         if (obj.has("wins_tntag"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins_tntag").getAsString()));
-
-        resultArray.add(new ResultDescription("<i>TNT Run</i>", null, false, true));
+            resultArray.add(new ResultDescription("TNTTag Wins", obj.get("wins_tntag").getAsString()));
         if (obj.has("wins_tntrun"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins_tntrun").getAsString()));
+            resultArray.add(new ResultDescription("TNTRun Wins", obj.get("wins_tntrun").getAsString()));
     }
 
     /**
