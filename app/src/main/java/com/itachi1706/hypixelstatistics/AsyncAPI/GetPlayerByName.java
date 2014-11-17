@@ -785,7 +785,10 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (obj.has("coins"))
             resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("selected_hat"))
-            resultArray.add(new ResultDescription("Selected Hat", obj.get("selected_hat").getAsString()));
+            if (obj.get("selected_hat").isJsonNull())
+                resultArray.add(new ResultDescription("Selected Hat", "null"));
+            else
+                resultArray.add(new ResultDescription("Selected Hat", obj.get("selected_hat").getAsString()));
 
         resultArray.add(new ResultDescription("<i>TNT Wizards</i>", null, false, true));
         if (obj.has("wins_capture"))
