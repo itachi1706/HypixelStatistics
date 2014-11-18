@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -68,6 +69,9 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, GeneralPrefActivity.class));
             return true;
+        } else if (id == R.id.action_refresh_active_boosters){
+            new BoosterGet(this.getApplicationContext(), boosterMenu, true).execute();
+            Toast.makeText(this.getApplicationContext(), "Updating Active Booster List", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

@@ -22,5 +22,6 @@
     <string name="list_title">Title</string>
     <string name="list_result">Result</string>
     <string name="list_active_boost">Active Boosters</string>
+    <string name="action_refresh_active_boosters">Refresh Boosters</string>
 
 </resources>
