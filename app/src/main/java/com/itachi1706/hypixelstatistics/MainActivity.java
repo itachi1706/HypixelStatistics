@@ -13,7 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
+import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -46,6 +50,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void updateActiveBoosters(){
+        ArrayList<BoosterDescription> repop = new ArrayList<>();
+        BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
+        boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
         new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg).execute();
     }

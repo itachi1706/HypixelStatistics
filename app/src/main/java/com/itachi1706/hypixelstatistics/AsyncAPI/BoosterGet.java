@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
