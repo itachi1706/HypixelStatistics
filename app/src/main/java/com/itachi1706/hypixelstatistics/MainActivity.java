@@ -10,10 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+
 
 public class MainActivity extends ActionBarActivity {
 
-    ListView mainMenu;
+    ListView mainMenu, boosterMenu;
     String[] mainMenuItems = {"View Player"};
 
     @Override
@@ -31,6 +34,11 @@ public class MainActivity extends ActionBarActivity {
                 String selected = (String) mainMenu.getItemAtPosition(position);
                 checkMainMenuSelection(selected);
             }});
+
+        boosterMenu = (ListView) findViewById(R.id.lvBoostersActive);
+        if (!MainStaticVars.boosterUpdated) {
+            new BoosterGet(this.getApplicationContext(), boosterMenu, true).execute();
+        }
     }
 
     private void checkMainMenuSelection(String selection){
