@@ -18,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.OldPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.ResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
@@ -68,7 +69,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... playerName) {
-        String url = HypixelAPI.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + playerName[0];
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + playerName[0];
         String tmp = "";
         //Get Statistics
         try {

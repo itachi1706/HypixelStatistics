@@ -50,15 +50,8 @@ public class ResultDescription {
         return _hasDescription;
     }
 
-    public void set_hasDescription(boolean _hasDescription) {
-        this._hasDescription = _hasDescription;
-    }
-
     public boolean is_subTitle() {
         return _subTitle;
     }
 
-    public void set_subTitle(boolean _subTitle) {
-        this._subTitle = _subTitle;
-    }
 }

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.KeyReply;
@@ -44,7 +45,7 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
 
     @Override
     protected String doInBackground(UUID... key) {
-        String url = HypixelAPI.API_BASE_URL + "key?key=" + key[0].toString();
+        String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
         String tmp = "";
         try {
             HttpClient client = new DefaultHttpClient();
