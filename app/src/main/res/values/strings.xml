@@ -23,5 +23,9 @@
     <string name="list_result">Result</string>
     <string name="list_active_boost">Active Boosters</string>
     <string name="action_refresh_active_boosters">Refresh Boosters</string>
+    <string name="lv_booster_placeholder_name">Player Name</string>
+    <string name="lv_booster_placeholder_status">Booster Status</string>
+    <string name="lv_booster_placeholder_time">Time Activated</string>
+    <string name="lv_booster_placeholder_location">Game Location</string>
 
 </resources>
