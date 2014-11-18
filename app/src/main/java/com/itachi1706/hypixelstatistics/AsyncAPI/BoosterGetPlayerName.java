@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,11 +37,13 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
     BoosterDescription playerName;
     ListView list;
     boolean isActive;
+    ProgressBar bar;
 
-    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly){
+    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars){
         mContext = context;
         list = listView;
         isActive = isActiveOnly;
+        bar = bars;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 //Succeeded
                 playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
                 playerName.set_done(true);
-                new BoosterGetPlayerHead(mContext, list, isActive).execute(playerName);
+                new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
         }
     }

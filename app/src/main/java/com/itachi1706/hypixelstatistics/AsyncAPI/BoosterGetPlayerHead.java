@@ -33,11 +33,13 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     BoosterDescription data;
     ListView list;
     boolean isActiveOnly;
+    ProgressBar bar;
 
-    public BoosterGetPlayerHead(Context context, ListView listView, boolean isActive){
+    public BoosterGetPlayerHead(Context context, ListView listView, boolean isActive, ProgressBar bars){
         mContext = context;
         list = listView;
         isActiveOnly = isActive;
+        bar = bars;
     }
 
     @Override
@@ -93,6 +95,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
                     }
                     BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                     list.setAdapter(adapter);
+                    bar.setVisibility(View.GONE);
                 }
             }
         }

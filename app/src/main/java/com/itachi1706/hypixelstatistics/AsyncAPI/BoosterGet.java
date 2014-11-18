@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -39,11 +40,13 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     Exception except = null;
     ListView list;
     boolean isActiveOnly;
+    ProgressBar bar;
 
-    public BoosterGet(Context context, ListView listView, boolean isActive){
+    public BoosterGet(Context context, ListView listView, boolean isActive, ProgressBar bars){
         mContext = context;
         list = listView;
         isActiveOnly = isActive;
+        bar = bars;
     }
 
     @Override
@@ -102,7 +105,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     BoosterDescription desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
                             obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
                             obj.get("purchaser").getAsString());
-                    new BoosterGetPlayerName(mContext, list, isActiveOnly).execute(desc);
+                    new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
                 }
             }
         }

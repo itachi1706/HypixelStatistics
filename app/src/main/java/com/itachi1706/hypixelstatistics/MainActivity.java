@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
@@ -18,6 +19,7 @@ import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;
+    ProgressBar boostProg;
     String[] mainMenuItems = {"View Player"};
 
     @Override
@@ -28,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
         mainMenu = (ListView) findViewById(R.id.lvMainMenu);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
         mainMenu.setAdapter(adapter);
+        boostProg = (ProgressBar) findViewById(R.id.pbABoost);
 
         mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -38,8 +41,13 @@ public class MainActivity extends ActionBarActivity {
 
         boosterMenu = (ListView) findViewById(R.id.lvBoostersActive);
         if (!MainStaticVars.boosterUpdated) {
-            new BoosterGet(this.getApplicationContext(), boosterMenu, true).execute();
+            updateActiveBoosters();
         }
+    }
+
+    private void updateActiveBoosters(){
+        boostProg.setVisibility(View.VISIBLE);
+        new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg).execute();
     }
 
     private void checkMainMenuSelection(String selection){
@@ -70,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(MainActivity.this, GeneralPrefActivity.class));
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
-            new BoosterGet(this.getApplicationContext(), boosterMenu, true).execute();
+            updateActiveBoosters();
             Toast.makeText(this.getApplicationContext(), "Updating Active Booster List", Toast.LENGTH_SHORT).show();
         }
 
