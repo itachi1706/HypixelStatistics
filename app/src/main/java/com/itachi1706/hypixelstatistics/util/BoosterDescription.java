@@ -13,7 +13,7 @@ public class BoosterDescription {
     private int _boostRate, _originalTime, _timeRemaining;
     private long _date;
     private GameType _gameType;
-    private String _purchaser, _mcName;
+    private String _purchaser, _mcName, _mcNameWithRank;
     private boolean _done = false;
     private Drawable mcHead;
 
@@ -79,5 +79,13 @@ public class BoosterDescription {
             return true;
         }
         return false;
+    }
+
+    public String get_mcNameWithRank() {
+        return _mcNameWithRank;
+    }
+
+    public void set_mcNameWithRank(String _mcNameWithRank) {
+        this._mcNameWithRank = _mcNameWithRank;
     }
 }

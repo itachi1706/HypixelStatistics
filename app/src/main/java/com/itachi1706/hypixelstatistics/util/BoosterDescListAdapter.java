@@ -50,7 +50,7 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
 
         if (i.is_done()) {
             if (playerName != null) {
-                playerName.setText(i.get_mcName());
+                playerName.setText(Html.fromHtml(i.get_mcNameWithRank()));
             }
             if (status != null) {
                 //Check if its running
@@ -78,7 +78,9 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
                 head.setImageDrawable(i.getMcHead());
             }
             if (boostVal != null){
-                boostVal.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_boostRate() + "x§r Coins")));
+                int boostTime = i.get_originalTime();
+                String timeDuration = String.format("%d hr", TimeUnit.SECONDS.toHours(boostTime));
+                boostVal.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_boostRate() + "x§r Coins (" + timeDuration + ")")));
             }
         }
 

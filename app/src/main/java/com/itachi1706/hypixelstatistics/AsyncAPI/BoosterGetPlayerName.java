@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -94,6 +95,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
             } else {
                 //Succeeded
                 playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
+                playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
                 playerName.set_done(true);
                 new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
