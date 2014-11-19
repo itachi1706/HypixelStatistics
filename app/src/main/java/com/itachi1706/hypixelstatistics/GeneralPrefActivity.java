@@ -1,12 +1,16 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 
 /**
@@ -63,6 +67,37 @@ public class GeneralPrefActivity extends ActionBarActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     startActivity(new Intent(getActivity(), KeyInfoActivity.class));
+                    return true;
+                }
+            });
+
+            Preference hist = findPreference("view_hist");
+            hist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    String jsonHist = prefs.getString("history", null);
+                    if (jsonHist != null) {
+                        new AlertDialog.Builder(getActivity()).setTitle("History").setMessage(jsonHist).show();
+                        return true;
+                    }
+                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("No History Found").show();
+                    return true;
+                }
+            });
+
+            Preference histClr = findPreference("view_hist_clr");
+            histClr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    prefs.edit().putString("history", null).apply();
+                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("History Cleared!")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).show();
                     return true;
                 }
             });

@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -13,7 +14,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.CharHistory;
+import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.BoostersReply;
 
@@ -103,7 +107,29 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     BoosterDescription desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
                             obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
                             obj.get("purchaser").getAsString());
-                    new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
+                    String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+                    boolean hasHist = false;
+                    if (hist != null) {
+                        HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+                        JsonArray histCheck = check.getHistory();
+                        for (JsonElement el : histCheck) {
+                            JsonObject histCheckName = el.getAsJsonObject();
+                            if (histCheckName.get("playername").getAsString().equals(desc.get_purchaser())) {
+                                desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
+                                desc.set_mcName(histCheckName.get("displayname").getAsString());
+                                desc.set_done(true);
+                                hasHist = true;
+                                Log.d("Player", "Found player " + desc.get_purchaser());
+                                break;
+                            }
+                        }
+                    }
+                    if (!hasHist)
+                        new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
+                    else {
+                        new BoosterGetPlayerHead(mContext, list, isActiveOnly, bar).execute(desc);
+                    }
+
                 }
             }
         }

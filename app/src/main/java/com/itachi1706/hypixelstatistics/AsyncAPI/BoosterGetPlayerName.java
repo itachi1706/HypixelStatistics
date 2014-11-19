@@ -2,13 +2,19 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.CharHistory;
+import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
@@ -94,8 +100,29 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
                 playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
                 playerName.set_done(true);
+                if (!checkHistory(reply)) {
+                    CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
+                }
                 new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
         }
+    }
+
+    private boolean checkHistory(PlayerReply reply){
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+        boolean hasHist = false;
+        if (hist != null) {
+            Gson gson = new Gson();
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            JsonArray histCheck = check.getHistory();
+            for (JsonElement el : histCheck) {
+                JsonObject histCheckName = el.getAsJsonObject();
+                if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 }
