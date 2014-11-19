@@ -3,6 +3,7 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -102,6 +103,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 playerName.set_done(true);
                 if (!checkHistory(reply)) {
                     CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
+                    Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
                 }
                 new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
