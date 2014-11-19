@@ -120,14 +120,25 @@ public class GeneralPrefActivity extends ActionBarActivity {
             histClr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                    prefs.edit().putString("history", null).apply();
-                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("History Cleared!")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("Are you sure you want to clear the history? This cannot be reversed once cleared!")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                                    prefs.edit().putString("history", null).apply();
+                                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("History Cleared!")
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            }).show();
                                 }
-                            }).show();
+                            }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
                     return true;
                 }
             });
