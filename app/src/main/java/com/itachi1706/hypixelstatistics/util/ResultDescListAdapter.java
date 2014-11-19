@@ -1,13 +1,11 @@
 package com.itachi1706.hypixelstatistics.util;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 

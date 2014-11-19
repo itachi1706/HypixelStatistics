@@ -1,6 +1,5 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -61,7 +60,6 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
                 Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
-            return;
         } else {
             imageViewhead.setImageDrawable(draw);
         }

@@ -20,7 +20,6 @@ import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
-import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
 
 import org.apache.http.HttpResponse;
@@ -45,7 +44,6 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
     TextView debug,result, details;
     Context mContext;
     Exception except = null;
-    Drawable playerHead = null;
     ImageView ivHead;
     ProgressDialog progress;
     ProgressBar pro;
@@ -127,7 +125,6 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
                 new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
                 result.setText(Html.fromHtml("Success! Statistics for <br /> " + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
-                //ivHead.setImageDrawable(playerHead);
                 //Parse
                 StringBuilder builder = new StringBuilder();
                 builder.append("<b><u>General Statistics</u></b><br />");

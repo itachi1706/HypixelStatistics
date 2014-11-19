@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
-import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.KeyReply;
 
 import org.apache.http.HttpResponse;

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,7 +12,6 @@ import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
 import java.io.IOException;
 import java.io.InputStream;

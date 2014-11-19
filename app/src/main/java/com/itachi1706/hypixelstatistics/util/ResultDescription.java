@@ -1,7 +1,5 @@
 package com.itachi1706.hypixelstatistics.util;
 
-import android.content.Intent;
-
 /**
  * Created by Kenneth on 13/11/2014, 9:11 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
@@ -32,10 +30,6 @@ public class ResultDescription {
 
     public String get_title() {
         return _title;
-    }
-
-    public void set_title(String _title) {
-        this._title = _title;
     }
 
     public String get_result() {

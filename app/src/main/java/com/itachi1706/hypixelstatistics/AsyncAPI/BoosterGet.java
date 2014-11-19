@@ -1,6 +1,5 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
-import android.app.Notification;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,12 +12,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.BoostersReply;
-import net.hypixel.api.reply.PlayerReply;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -29,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:24 PM

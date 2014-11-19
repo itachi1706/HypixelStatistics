@@ -21,7 +21,6 @@ import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class MainActivity extends ActionBarActivity {

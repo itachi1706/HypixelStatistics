@@ -1,9 +1,7 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -25,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM

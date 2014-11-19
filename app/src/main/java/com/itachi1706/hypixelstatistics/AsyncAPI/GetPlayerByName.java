@@ -23,7 +23,6 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.ResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
-import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
 
 import org.apache.http.HttpResponse;

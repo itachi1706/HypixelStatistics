@@ -75,10 +75,7 @@ public class BoosterDescription {
     }
 
     public boolean checkIfBoosterActive(){
-        if (_timeRemaining != _originalTime){
-            return true;
-        }
-        return false;
+        return _timeRemaining != _originalTime;
     }
 
     public String get_mcNameWithRank() {
