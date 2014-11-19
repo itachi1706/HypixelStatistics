@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -102,34 +103,40 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 JsonArray records = reply.getRecords().getAsJsonArray();
                 MainStaticVars.numOfBoosters = records.size();
                 MainStaticVars.tmpBooster = 0;
-                for (JsonElement e : records){
-                    JsonObject obj = e.getAsJsonObject();
-                    BoosterDescription desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
-                            obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
-                            obj.get("purchaser").getAsString());
-                    String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-                    boolean hasHist = false;
-                    if (hist != null) {
-                        HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-                        JsonArray histCheck = check.getHistory();
-                        for (JsonElement el : histCheck) {
-                            JsonObject histCheckName = el.getAsJsonObject();
-                            if (histCheckName.get("playername").getAsString().equals(desc.get_purchaser())) {
-                                desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
-                                desc.set_mcName(histCheckName.get("displayname").getAsString());
-                                desc.set_done(true);
-                                hasHist = true;
-                                Log.d("Player", "Found player " + desc.get_purchaser());
-                                break;
+                if (records.size() != 0) {
+                    for (JsonElement e : records) {
+                        JsonObject obj = e.getAsJsonObject();
+                        BoosterDescription desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                obj.get("purchaser").getAsString());
+                        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+                        boolean hasHist = false;
+                        if (hist != null) {
+                            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+                            JsonArray histCheck = check.getHistory();
+                            for (JsonElement el : histCheck) {
+                                JsonObject histCheckName = el.getAsJsonObject();
+                                if (histCheckName.get("playername").getAsString().equals(desc.get_purchaser())) {
+                                    desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
+                                    desc.set_mcName(histCheckName.get("displayname").getAsString());
+                                    desc.set_done(true);
+                                    hasHist = true;
+                                    Log.d("Player", "Found player " + desc.get_purchaser());
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if (!hasHist)
-                        new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
-                    else {
-                        new BoosterGetPlayerHead(mContext, list, isActiveOnly, bar).execute(desc);
-                    }
+                        if (!hasHist)
+                            new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
+                        else {
+                            new BoosterGetPlayerHead(mContext, list, isActiveOnly, bar).execute(desc);
+                        }
 
+                    }
+                } else {
+                    String[] tmp = {"No Boosters Activated"};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
+                    list.setAdapter(adapter);
                 }
             }
         }

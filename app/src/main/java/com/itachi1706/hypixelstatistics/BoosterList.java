@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,8 +34,14 @@ public class BoosterList extends ActionBarActivity {
         if (!MainStaticVars.boosterUpdated){
             updateActiveBoosters();
         } else {
-            BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
-            boostList.setAdapter(adapter);
+            if (MainStaticVars.boosterList.size() != 0) {
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                boostList.setAdapter(adapter);
+            } else {
+                String[] tmp = {"No Boosters Activated"};
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
+                boostList.setAdapter(adapter);
+            }
         }
     }
 
