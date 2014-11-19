@@ -45,6 +45,7 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
         TextView status = (TextView) v.findViewById(R.id.tvPlayerStatus);
         TextView location = (TextView) v.findViewById(R.id.tvLocation);
         TextView time = (TextView) v.findViewById(R.id.tvTimeStatus);
+        TextView boostVal = (TextView) v.findViewById(R.id.tvBoosterValue);
         ImageView head = (ImageView) v.findViewById(R.id.ivHead);
 
         if (i.is_done()) {
@@ -75,6 +76,9 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
             }
             if (head != null) {
                 head.setImageDrawable(i.getMcHead());
+            }
+            if (boostVal != null){
+                boostVal.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_boostRate() + "x§r Coins")));
             }
         }
 

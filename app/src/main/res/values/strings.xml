@@ -27,5 +27,6 @@
     <string name="lv_booster_placeholder_status">Booster Status</string>
     <string name="lv_booster_placeholder_time">Time Activated</string>
     <string name="lv_booster_placeholder_location">Game Location</string>
+    <string name="lv_booster_placeholder_boost_value">\?x Coins</string>
 
 </resources>

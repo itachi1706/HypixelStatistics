@@ -45,8 +45,8 @@
         android:layout_below="@+id/tvTimeStatus"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toLeftOf="@+id/tvBoosterValue"
+        android:layout_toStartOf="@+id/tvBoosterValue" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -55,5 +55,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:contentDescription="" />
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/lv_booster_placeholder_boost_value"
+        android:id="@+id/tvBoosterValue"
+        android:layout_below="@+id/tvTimeStatus"
+        android:layout_alignRight="@+id/ivHead"
+        android:layout_alignEnd="@+id/ivHead" />
 </RelativeLayout>
