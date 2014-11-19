@@ -110,7 +110,6 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
 
     private boolean checkHistory(PlayerReply reply){
         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-        boolean hasHist = false;
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
