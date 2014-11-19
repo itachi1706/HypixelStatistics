@@ -63,6 +63,19 @@ public class PlayerInfoActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         playerName.setAdapter(adapter);
 
+        if (this.getIntent().hasExtra("player")){
+            String intentPlayer = this.getIntent().getStringExtra("player");
+            playerName.setText(intentPlayer);
+            checkProgress = new ProgressDialog(PlayerInfoActivity.this);
+            checkProgress.setCancelable(false);
+            checkProgress.setIndeterminate(true);
+            checkProgress.setTitle("Querying Server...");
+            checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
+            checkProgress.show();
+            new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(intentPlayer);
+
+        }
+
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (!(myPref.getBoolean("debugMode", true))){

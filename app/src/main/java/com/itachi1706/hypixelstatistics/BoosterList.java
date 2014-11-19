@@ -1,10 +1,12 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -30,6 +32,16 @@ public class BoosterList extends ActionBarActivity {
 
         boostList = (ListView) findViewById(R.id.BoostlvBooster);
         prog = (ProgressBar) findViewById(R.id.BoostpbProg);
+
+        boostList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BoosterDescription sel = (BoosterDescription) boostList.getItemAtPosition(position);
+                Intent intentE = new Intent(BoosterList.this, PlayerInfoActivity.class);
+                intentE.putExtra("player", sel.get_mcName());
+                startActivity(intentE);
+            }
+        });
 
         if (!MainStaticVars.boosterUpdated){
             updateActiveBoosters();

@@ -51,6 +51,15 @@ public class MainActivity extends ActionBarActivity {
             }});
 
         boosterMenu = (ListView) findViewById(R.id.lvBoostersActive);
+        boosterMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BoosterDescription sel = (BoosterDescription) boosterMenu.getItemAtPosition(position);
+                Intent intentE = new Intent(MainActivity.this, PlayerInfoActivity.class);
+                intentE.putExtra("player", sel.get_mcName());
+                startActivity(intentE);
+            }
+        });
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
         }
