@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"View Player"};
+    String[] mainMenuItems = {"View Player", "View Activated Boosters"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,10 @@ public class MainActivity extends ActionBarActivity {
     private void checkMainMenuSelection(String selection){
         switch (selection){
             case "View Player":
-                Intent intentPlayer = new Intent(MainActivity.this, PlayerInfoActivity.class);
-                startActivity(intentPlayer);
+                startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
+                break;
+            case "View Activated Boosters":
+                startActivity(new Intent(MainActivity.this, BoosterList.class));
                 break;
         }
     }

@@ -28,5 +28,6 @@
     <string name="lv_booster_placeholder_time">Time Activated</string>
     <string name="lv_booster_placeholder_location">Game Location</string>
     <string name="lv_booster_placeholder_boost_value">\?x Coins</string>
+    <string name="title_activity_booster_list">List Server Boosters</string>
 
 </resources>

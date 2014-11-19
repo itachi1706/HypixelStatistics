@@ -82,6 +82,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
                 if (!isActiveOnly) {
                     BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
                     list.setAdapter(adapter);
+                    bar.setVisibility(View.GONE);
                 } else {
                     ArrayList<BoosterDescription> tmp = new ArrayList<>();
                     for (BoosterDescription desc : MainStaticVars.boosterList){
