@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,8 +18,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.OldPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.ResultDescListAdapter;
@@ -139,10 +135,6 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
-                if (!checkHistory(reply)) {
-                    CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
-                    Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
-                }
                 //Parse
                 resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false));
                 parseGeneral(reply);
@@ -206,23 +198,6 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                 details.setAdapter(adapter);
             }
         }
-    }
-
-    private boolean checkHistory(PlayerReply reply){
-        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-        if (hist != null) {
-            Gson gson = new Gson();
-            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return false;
     }
 
     //Parsing General Information
