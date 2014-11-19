@@ -9,10 +9,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,12 +26,21 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByName;
+import com.itachi1706.hypixelstatistics.util.CharHistory;
+import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+
+import java.util.ArrayList;
 
 
 public class PlayerInfoActivity extends ActionBarActivity {
 
-    EditText playerName;
+    AutoCompleteTextView playerName;
     TextView debug, result;
     ListView generalDetails;
     Button checkPlayer;
@@ -41,7 +53,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_info);
 
-        playerName = (EditText) findViewById(R.id.PlayersetName);
+        playerName = (AutoCompleteTextView) findViewById(R.id.PlayersetName);
         debug = (TextView) findViewById(R.id.players_tvDebug);
         result = (TextView) findViewById(R.id.players_lblResult);
         checkPlayer = (Button) findViewById(R.id.PlayersBtnChk);
@@ -50,6 +62,9 @@ public class PlayerInfoActivity extends ActionBarActivity {
         debug.setMovementMethod(new ScrollingMovementMethod());
         generalDetails = (ListView) findViewById(R.id.players_lvGeneral);
         headBar = (ProgressBar) findViewById(R.id.PlayerspbHead);
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getHistory());
+        playerName.setAdapter(adapter);
 
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -78,11 +93,33 @@ public class PlayerInfoActivity extends ActionBarActivity {
         });
     }
 
+    private String[] getHistory(){
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        ArrayList<String> tmp = new ArrayList<>();
+        if (hist != null) {
+            Gson gson = new Gson();
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            JsonArray histCheck = check.getHistory();
+            for (JsonElement el : histCheck) {
+                JsonObject histCheckName = el.getAsJsonObject();
+                tmp.add(histCheckName.get("displayname").getAsString());
+            }
+        }
+
+        String[] results = new String[tmp.size()];
+        for (int i = 0; i < results.length; i++){
+            results[i] = tmp.get(i);
+        }
+        return results;
+    }
+
     @Override
     public void onResume(){
         super.onResume();
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getHistory());
+        playerName.setAdapter(adapter);
         if (!(myPref.getBoolean("debugMode", true))){
             debug.setVisibility(View.INVISIBLE);
         } else {
