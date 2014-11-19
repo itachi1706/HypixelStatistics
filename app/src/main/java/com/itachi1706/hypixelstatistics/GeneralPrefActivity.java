@@ -13,6 +13,12 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.util.HistoryObject;
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
  * handset devices, settings are presented as a single list. On tablets,
@@ -73,6 +79,30 @@ public class GeneralPrefActivity extends ActionBarActivity {
 
             Preference hist = findPreference("view_hist");
             hist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    String jsonHist = prefs.getString("history", null);
+                    if (jsonHist != null) {
+                        StringBuilder builder = new StringBuilder();
+                        Gson gson = new Gson();
+                        HistoryObject obj = gson.fromJson(jsonHist, HistoryObject.class);
+                        JsonArray arr = obj.getHistory();
+                        for (JsonElement e : arr){
+                            JsonObject o = e.getAsJsonObject();
+                            builder.append(o.get("displayname").getAsString());
+                            builder.append(" (").append(o.get("playername").getAsString()).append(")\n");
+                        }
+                        new AlertDialog.Builder(getActivity()).setTitle("History").setMessage(builder.toString()).show();
+                        return true;
+                    }
+                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("No History Found").show();
+                    return true;
+                }
+            });
+
+            Preference dhist = findPreference("view_hist_detailed");
+            dhist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
