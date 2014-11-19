@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,7 +31,6 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByName;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 
@@ -63,7 +60,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
         generalDetails = (ListView) findViewById(R.id.players_lvGeneral);
         headBar = (ProgressBar) findViewById(R.id.PlayerspbHead);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getHistory());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         playerName.setAdapter(adapter);
 
         //Check if we should hide the debug window
@@ -118,7 +115,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
         super.onResume();
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getHistory());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         playerName.setAdapter(adapter);
         if (!(myPref.getBoolean("debugMode", true))){
             debug.setVisibility(View.INVISIBLE);
