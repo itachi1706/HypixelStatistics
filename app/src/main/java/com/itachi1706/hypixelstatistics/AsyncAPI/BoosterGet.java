@@ -98,6 +98,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 //Succeeded
                 MainStaticVars.boosterList.clear();
                 MainStaticVars.boosterUpdated = false;
+                MainStaticVars.inProg = true;
                 JsonArray records = reply.getRecords().getAsJsonArray();
                 MainStaticVars.numOfBoosters = records.size();
                 MainStaticVars.tmpBooster = 0;

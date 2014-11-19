@@ -79,6 +79,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
             MainStaticVars.tmpBooster ++;
             if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters){
                 MainStaticVars.boosterUpdated = true;
+                MainStaticVars.inProg = false;
                 if (!isActiveOnly) {
                     BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
                     list.setAdapter(adapter);

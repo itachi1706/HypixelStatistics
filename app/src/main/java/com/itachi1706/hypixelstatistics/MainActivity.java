@@ -1,8 +1,11 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -30,6 +34,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (this.getIntent().hasExtra("EXIT"))
+            if (getIntent().getBooleanExtra("EXIT", false))
+                finish();
 
         mainMenu = (ListView) findViewById(R.id.lvMainMenu);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
@@ -49,6 +57,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Log.d("Button", "Back button pressed. killing app");
+        MainStaticVars.boosterUpdated = false;
+        finish();
+    }
+
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
@@ -63,6 +79,16 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
                 break;
             case "View Activated Boosters":
+                if (MainStaticVars.inProg){
+                    new AlertDialog.Builder(this).setMessage("The app is still getting a list of boosters. Please wait a while before trying to view boosters")
+                            .setTitle("Notice").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                    break;
+                }
                 startActivity(new Intent(MainActivity.this, BoosterList.class));
                 break;
         }
