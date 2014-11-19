@@ -616,7 +616,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
         if (obj.has("human_wins"))
             resultArray.add(new ResultDescription("Total Wins (Human)", obj.get("human_wins").getAsString()));
         if (obj.has("human_kills"))
-            resultArray.add(new ResultDescription("Total Kills (Human)", obj.get("human_wins").getAsString()));
+            resultArray.add(new ResultDescription("Total Kills (Human)", obj.get("human_kills").getAsString()));
         if (obj.has("vampire_deaths"))
             resultArray.add(new ResultDescription("Total Deaths (Vampire)", obj.get("vampire_deaths").getAsString()));
         if (obj.has("vampire_wins"))
