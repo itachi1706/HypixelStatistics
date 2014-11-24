@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -14,6 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
@@ -31,6 +33,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:24 PM
@@ -121,6 +125,8 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                                     desc.set_mcName(histCheckName.get("displayname").getAsString());
                                     desc.set_done(true);
                                     hasHist = true;
+                                    MainStaticVars.boosterList.add(desc);
+                                    MainStaticVars.tmpBooster ++;
                                     Log.d("Player", "Found player " + desc.get_purchaser());
                                     break;
                                 }
@@ -128,9 +134,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                         }
                         if (!hasHist)
                             new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
-                        else {
-                            new BoosterGetPlayerHead(mContext, list, isActiveOnly, bar).execute(desc);
-                        }
+                        checkIfComplete();
 
                     }
                 } else {
@@ -138,6 +142,34 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
                     list.setAdapter(adapter);
                 }
+            }
+        }
+    }
+
+    private void checkIfComplete(){
+        if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            MainStaticVars.parseRes = true;
+            MainStaticVars.boosterUpdated = true;
+            MainStaticVars.inProg = false;
+            if (!isActiveOnly) {
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                list.setAdapter(adapter);
+                bar.setVisibility(View.GONE);
+            } else {
+                ArrayList<BoosterDescription> tmp = new ArrayList<>();
+                for (BoosterDescription desc : MainStaticVars.boosterList){
+                    tmp.add(desc);
+                }
+                Iterator<BoosterDescription> iter = tmp.iterator();
+                while (iter.hasNext()){
+                    BoosterDescription desc = iter.next();
+                    if (!desc.checkIfBoosterActive())
+                        iter.remove();
+                }
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
+                list.setAdapter(adapter);
+                bar.setVisibility(View.GONE);
+                MainStaticVars.parseRes = false;
             }
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
@@ -30,6 +32,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM
@@ -105,7 +109,10 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                     CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
                     Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
                 }
-                new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
+                MainStaticVars.boosterList.add(playerName);
+                MainStaticVars.tmpBooster ++;
+                checkIfComplete();
+                //new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
         }
     }
@@ -125,5 +132,33 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
             return false;
         }
         return false;
+    }
+
+    private void checkIfComplete(){
+        if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            MainStaticVars.parseRes = true;
+            MainStaticVars.boosterUpdated = true;
+            MainStaticVars.inProg = false;
+            if (!isActive) {
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                list.setAdapter(adapter);
+                bar.setVisibility(View.GONE);
+            } else {
+                ArrayList<BoosterDescription> tmp = new ArrayList<>();
+                for (BoosterDescription desc : MainStaticVars.boosterList){
+                    tmp.add(desc);
+                }
+                Iterator<BoosterDescription> iter = tmp.iterator();
+                while (iter.hasNext()){
+                    BoosterDescription desc = iter.next();
+                    if (!desc.checkIfBoosterActive())
+                        iter.remove();
+                }
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
+                list.setAdapter(adapter);
+                bar.setVisibility(View.GONE);
+                MainStaticVars.parseRes = false;
+            }
+        }
     }
 }

@@ -1,9 +1,14 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -32,18 +37,42 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     ListView list;
     boolean isActiveOnly;
     ProgressBar bar;
+    ImageView image;
 
+    /*
     public BoosterGetPlayerHead(Context context, ListView listView, boolean isActive, ProgressBar bars){
         mContext = context;
         list = listView;
         isActiveOnly = isActive;
         bar = bars;
+    }*/
+
+    public BoosterGetPlayerHead(Context context, ImageView view, ProgressBar progress){
+        mContext = context;
+        image = view;
+        bar = progress;
     }
 
     @Override
     protected Drawable doInBackground(BoosterDescription... playerData) {
         data = playerData[0];
-        String headUrl = "https://minotar.net/avatar/" + data.get_mcName() + "/500.png";
+        int density = 500;
+        Log.d("SCREEN DENSITY", mContext.getResources().getDisplayMetrics().density + "");
+        float i = mContext.getResources().getDisplayMetrics().density;
+        if (i == 0.75f) {   //LDPI
+            density = 20;
+        } else if (i == 1.0f) { //MDPI
+            density = 50;
+        } else if (i == 1.5f) { //HDPI
+            density = 100;
+        } else if (i == 2.0f) { //XHDPI   (720p)
+            density = 150;
+        } else if (i == 3.0f) { //XXHDPI (1080p)
+            density = 500;
+        } else if (i == 4.0f) { //XXXHDPI (Unsupported)
+            density = 500;
+        }
+        String headUrl = "https://minotar.net/avatar/" + data.get_mcName() + "/" + density + ".png";
         Drawable d = null;
         try {
             //Get Player Head
@@ -70,34 +99,11 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
                 Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
-            return;
         } else {
-            data.setMcHead(draw);
-            MainStaticVars.boosterList.add(data);
-            MainStaticVars.tmpBooster ++;
-            if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters){
-                MainStaticVars.boosterUpdated = true;
-                MainStaticVars.inProg = false;
-                if (!isActiveOnly) {
-                    BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
-                    list.setAdapter(adapter);
-                    bar.setVisibility(View.GONE);
-                } else {
-                    ArrayList<BoosterDescription> tmp = new ArrayList<>();
-                    for (BoosterDescription desc : MainStaticVars.boosterList){
-                        tmp.add(desc);
-                    }
-                    Iterator<BoosterDescription> iter = tmp.iterator();
-                    while (iter.hasNext()){
-                        BoosterDescription desc = iter.next();
-                        if (!desc.checkIfBoosterActive())
-                            iter.remove();
-                    }
-                    BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
-                    list.setAdapter(adapter);
-                    bar.setVisibility(View.GONE);
-                }
-            }
+            //data.setMcHead(draw);
+            image.setImageDrawable(draw);
+
+            bar.setVisibility(View.GONE);
         }
     }
 }

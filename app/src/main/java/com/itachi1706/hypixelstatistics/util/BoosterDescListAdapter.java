@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
 
 import java.text.SimpleDateFormat;
@@ -46,6 +48,7 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
         TextView time = (TextView) v.findViewById(R.id.tvTimeStatus);
         TextView boostVal = (TextView) v.findViewById(R.id.tvBoosterValue);
         ImageView head = (ImageView) v.findViewById(R.id.ivHead);
+        ProgressBar prog = (ProgressBar) v.findViewById(R.id.pbPlayerHeadProg);
 
         if (i.is_done()) {
             if (playerName != null) {
@@ -74,7 +77,9 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
                 }
             }
             if (head != null) {
-                head.setImageDrawable(i.getMcHead());
+                prog.setVisibility(View.VISIBLE);
+                new BoosterGetPlayerHead(getContext(), head, prog).execute(i);
+                //head.setImageDrawable(i.getMcHead());
             }
             if (boostVal != null){
                 int boostTime = i.get_originalTime();

@@ -66,4 +66,13 @@
         android:layout_below="@+id/tvTimeStatus"
         android:layout_alignRight="@+id/ivHead"
         android:layout_alignEnd="@+id/ivHead" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbPlayerHeadProg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
