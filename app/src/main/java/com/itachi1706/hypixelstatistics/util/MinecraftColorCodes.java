@@ -4,9 +4,6 @@ import com.google.gson.JsonObject;
 
 import net.hypixel.api.reply.PlayerReply;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by Kenneth on 11/11/2014, 2:11 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
@@ -149,8 +146,8 @@ public class MinecraftColorCodes {
                     return parseColors("§c[SLOTH] " + name.get("displayname").getAsString() + "§r");
                 case "§c[RETIRED]":
                     return parseColors("§c[RETIRED] " + name.get("displayname").getAsString() + "§r");
-                case "§c[§aMc§fProHosting§c]":
-                    return parseColors("§c[§r§aMc§r§fProHosting§r§c] " + name.get("displayname").getAsString() + "§r");
+                case "§c[§aMC§fProHosting§c]":
+                    return parseColors("§c[§r§aMC§r§fProHosting§r§c] " + name.get("displayname").getAsString() + "§r");
                 case "§6[MOJANG]":
                     return parseColors("§6[MOJANG] " + name.get("displayname").getAsString() + "§r");
                 case "§3[BUILD TEAM]":
@@ -177,7 +174,7 @@ public class MinecraftColorCodes {
                 case "§c[OWNER]": return parseColors("§c[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "§c[SLOTH]": return parseColors("§c[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "§c[RETIRED]": return parseColors("§c[RETIRED] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§c[§aMc§fProHosting§c]": return parseColors("§c[§r§aMc§r§fProHosting§r§c] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "§c[§aMC§fProHosting§c]": return parseColors("§c[§r§aMC§r§fProHosting§r§c] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "§6[MOJANG]": return parseColors("§6[MOJANG] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "§3[BUILD TEAM]": return parseColors("§3[BUILD TEAM] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "§3[BUILD TEAM§c+§3]": return parseColors("§3[BUILD TEAM§r§c+§r§3] " + name.getPlayer().get("displayname").getAsString() + "§r");
