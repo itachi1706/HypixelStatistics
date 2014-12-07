@@ -88,8 +88,67 @@ public class BoosterList extends ActionBarActivity {
         } else if (id == R.id.action_refresh_active_boosters){
             updateActiveBoosters();
             Toast.makeText(this.getApplicationContext(), "Updating Booster List", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_get_detailed_boosters){
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String parseStats(){
+        ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
+        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0;
+        for (BoosterDescription desc : check){
+            switch (desc.get_gameType().getId()){
+                case 2: quake++; break;
+                case 3: walls++; break;
+                case 4: pb++; break;
+                case 5: bsg++; break;
+                case 6: tnt++; break;
+                case 7: vz++; break;
+                case 13: mw++; break;
+                case 14: arcade++; break;
+                case 17: arena++; break;
+                case 21: cac++; break;
+                default: unknown++; break;
+            }
+        }
+        //Check if present then parse
+        StringBuilder bu = new StringBuilder();
+        if (quake != 0){
+            bu.append("QuakeCraft: ").append(quake).append("\n");
+        }
+        if (walls != 0){
+            bu.append("Walls: ").append(walls).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        if (pb != 0){
+            bu.append("Paintball: ").append(pb).append("\n");
+        }
+        return bu.toString();
     }
 }

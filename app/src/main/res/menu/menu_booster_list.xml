@@ -6,4 +6,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_refresh_active_boosters" android:title="@string/action_refresh_active_boosters"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_get_detailed_boosters" android:title="@string/action_get_detailed_boosters"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

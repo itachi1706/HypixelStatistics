@@ -71,9 +71,9 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
             if (time != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_date()));
                 if (i.checkIfBoosterActive()) {
-                    time.setText("Activated On: " + timeStamp);
+                    time.setText("Used On: " + timeStamp);
                 } else {
-                    time.setText("Activates On: " + timeStamp);
+                    time.setText("Used On: " + timeStamp);
                 }
             }
             if (head != null) {

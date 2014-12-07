@@ -210,15 +210,18 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
 
     private boolean checkHistory(PlayerReply reply){
         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+        Log.d("HISTORY STRING", hist);
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
             JsonArray histCheck = check.getHistory();
+            Log.d("HISTORY ORIGINAL", histCheck.toString());
             for (JsonElement el : histCheck) {
                 JsonObject histCheckName = el.getAsJsonObject();
                 if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
                     //Remove and let it reupdate
                     histCheck.remove(histCheckName);
+                    Log.d("HISTORY AFTER REMOVAL", histCheck.toString());
                     CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
                     return false;
                 }

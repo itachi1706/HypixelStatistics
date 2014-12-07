@@ -48,7 +48,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     protected Drawable doInBackground(BoosterDescription... playerData) {
         data = playerData[0];
         int density = 500;
-        Log.d("SCREEN DENSITY", mContext.getResources().getDisplayMetrics().density + "");
+        //Log.d("SCREEN DENSITY", mContext.getResources().getDisplayMetrics().density + "");
         float i = mContext.getResources().getDisplayMetrics().density;
         if (i == 0.75f) {   //LDPI
             density = 20;
