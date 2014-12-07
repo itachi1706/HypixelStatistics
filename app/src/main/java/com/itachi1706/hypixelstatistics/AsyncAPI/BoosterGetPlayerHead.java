@@ -26,6 +26,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     Exception except = null;
     BoosterDescription data;
     //ListView list;
+    //boolean isActiveOnly;
     ProgressBar bar;
     ImageView image;
 
