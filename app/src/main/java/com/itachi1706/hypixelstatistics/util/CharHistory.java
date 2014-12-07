@@ -1,6 +1,7 @@
 package com.itachi1706.hypixelstatistics.util;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 
@@ -84,7 +85,9 @@ public class CharHistory {
     }
 
     public static void updateJSONString(SharedPreferences pref, JsonArray array){
-        pref.edit().putString("history", array.toString()).apply();
+        String newJsonStr = "{\"history\":" + array.toString() + "}";
+        pref.edit().putString("history", newJsonStr).apply();
+        Log.d("HISTORY SAVED", pref.getString("history", "null"));
     }
 
     public static boolean checkHistoryExpired(com.google.gson.JsonObject obj){

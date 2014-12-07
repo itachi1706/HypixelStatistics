@@ -12,6 +12,7 @@
     <string name="keyinfo_api_label">API Key:</string>
     <string name="keyinfo_owner_label">Owner:</string>
     <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
+    <string name="keyinfo_total_label">Total Number Of Queries:</string>
     <string name="keyinfo_fields">-</string>
     <string name="title_activity_player_info">View Player Statistics</string>
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>

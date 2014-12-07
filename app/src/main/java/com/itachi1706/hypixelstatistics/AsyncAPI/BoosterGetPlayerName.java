@@ -94,7 +94,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
-                Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
                 Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaser());
                 Log.d("RESOLVE", "Retrying");
                 new BoosterGetPlayerName(mContext, list, isActive, bar).execute(playerName);

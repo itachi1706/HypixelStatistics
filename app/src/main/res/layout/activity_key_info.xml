@@ -100,4 +100,24 @@
         android:id="@+id/KeytvOwner"
         android:layout_below="@+id/KeylblOwner" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/keyinfo_total_label"
+        android:id="@+id/lblTotalQry"
+        android:layout_below="@+id/KeytvOwner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Unimplemented by API (Soon)"
+        android:id="@+id/keyTotalQry"
+        android:layout_below="@+id/lblTotalQry"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
