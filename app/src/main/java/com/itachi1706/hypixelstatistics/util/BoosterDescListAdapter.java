@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.util;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,15 +71,18 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
             }
             if (time != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_date()));
-                if (i.checkIfBoosterActive()) {
-                    time.setText("Used On: " + timeStamp);
-                } else {
-                    time.setText("Used On: " + timeStamp);
-                }
+                time.setText("Used On: " + timeStamp);
             }
             if (head != null) {
                 prog.setVisibility(View.VISIBLE);
-                new BoosterGetPlayerHead(getContext(), head, prog).execute(i);
+                //Check if head exists
+                if (HeadHistory.checkIfHeadExists(getContext(), i.get_mcName())) {
+                    head.setImageDrawable(HeadHistory.getHead(getContext(), i.get_mcName()));
+                    prog.setVisibility(View.GONE);
+                    Log.d("HEAD RETRIEVAL", "Retrieved " + i.get_mcName() + "'s Head from device");
+                } else {
+                    new BoosterGetPlayerHead(getContext(), head, prog).execute(i);
+                }
                 //head.setImageDrawable(i.getMcHead());
             }
             if (boostVal != null){

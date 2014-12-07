@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.HeadHistory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,6 +98,11 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
             //data.setMcHead(draw);
             image.setImageDrawable(draw);
 
+            //Save it into the device
+            if (!HeadHistory.saveHead(mContext, draw, data.get_mcName())){
+                Log.d("ERROR", "An error occured saving " + data.get_mcName() + "'s head onto device!");
+                //Toast.makeText(mContext, "An error occured saving " + data.get_mcName() + "'s head onto device!", Toast.LENGTH_SHORT).show();
+            }
             bar.setVisibility(View.GONE);
         }
     }

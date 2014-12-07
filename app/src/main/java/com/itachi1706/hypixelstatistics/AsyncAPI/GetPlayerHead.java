@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.util.HeadHistory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -23,6 +25,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
     ImageView imageViewhead;
     Context mContext;
     Exception except = null;
+    String playerNamer;
 
     public GetPlayerHead(ProgressBar prog, ImageView head, Context context){
         progress = prog;
@@ -33,6 +36,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
     @Override
     protected Drawable doInBackground(String... playerName) {
         String headUrl = "https://minotar.net/avatar/" + playerName[0] + "/500.png";
+        playerNamer = playerName[0];
         Drawable d = null;
         try {
             //Get Player Head
@@ -62,6 +66,16 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
         } else {
             imageViewhead.setImageDrawable(draw);
+
+            //Check if image is already on device
+            if (HeadHistory.checkIfHeadExists(mContext, playerNamer)){
+                //Update image (Delete and Reinsert)
+                if (!HeadHistory.updateHead(mContext, playerNamer)){
+                    Toast.makeText(mContext, "An error occured updating of heads. Skipping...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            HeadHistory.saveHead(mContext, draw, playerNamer);
         }
     }
 }
