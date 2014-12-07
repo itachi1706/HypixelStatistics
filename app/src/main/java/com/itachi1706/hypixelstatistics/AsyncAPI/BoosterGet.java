@@ -141,6 +141,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     String[] tmp = {"No Boosters Activated"};
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
                     list.setAdapter(adapter);
+                    bar.setVisibility(View.GONE);
                 }
             }
         }
