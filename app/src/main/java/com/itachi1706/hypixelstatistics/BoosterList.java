@@ -49,6 +49,7 @@ public class BoosterList extends ActionBarActivity {
             if (MainStaticVars.boosterList.size() != 0) {
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
                 boostList.setAdapter(adapter);
+                this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
             } else {
                 String[] tmp = {"No Boosters Activated"};
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
@@ -82,6 +83,7 @@ public class BoosterList extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(BoosterList.this, GeneralPrefActivity.class));
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
             updateActiveBoosters();

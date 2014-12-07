@@ -55,7 +55,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        android:scaleType="fitXY"
+        android:src="@drawable/draw_default_head" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,11 +70,12 @@
         android:layout_alignEnd="@+id/ivHead" />
 
     <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pbPlayerHeadProg"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/ivHead"
+        android:layout_toLeftOf="@+id/ivHead"
+        android:layout_toStartOf="@+id/ivHead" />
 
 </RelativeLayout>
