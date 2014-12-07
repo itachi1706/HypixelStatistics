@@ -2,6 +2,8 @@ package com.itachi1706.hypixelstatistics.util;
 
 import android.content.SharedPreferences;
 
+import com.google.gson.JsonArray;
+
 import net.hypixel.api.reply.PlayerReply;
 
 import org.json.JSONArray;
@@ -14,18 +16,18 @@ import org.json.JSONObject;
  */
 public class CharHistory {
 
-    public static void addHistory(PlayerReply result, SharedPreferences pref){
+    public static void addHistory(PlayerReply result, SharedPreferences pref) {
         String playerName = result.getPlayer().get("playername").getAsString();
         String playerMcName = result.getPlayer().get("displayname").getAsString();
         String prefix;
-        if (result.getPlayer().has("prefix")){
+        if (result.getPlayer().has("prefix")) {
             prefix = result.getPlayer().get("prefix").getAsString();
         } else {
             prefix = null;
         }
         String rank;
         if (result.getPlayer().has("rank"))
-             rank = result.getPlayer().get("rank").getAsString();
+            rank = result.getPlayer().get("rank").getAsString();
         else
             rank = null;
         String Packagerank;
@@ -38,6 +40,7 @@ public class CharHistory {
             newPackageRank = result.getPlayer().get("newPackageRank").getAsString();
         else
             newPackageRank = null;
+        long date = System.currentTimeMillis();
 
         JSONArray array = getExistingJSONString(pref);
         JSONObject obj = new JSONObject();
@@ -57,27 +60,44 @@ public class CharHistory {
             }
             obj.put("displayname", playerMcName);
             obj.put("playername", playerName);
+            obj.put("dateObtained", date);
             array.put(obj);
-            main.put("history",array);
-            pref.edit().putString("history",main.toString()).apply();
+            main.put("history", array);
+            pref.edit().putString("history", main.toString()).apply();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private static JSONArray getExistingJSONString(SharedPreferences pref){
+    private static JSONArray getExistingJSONString(SharedPreferences pref) {
         String json = pref.getString("history", null);
-        if (json == null){
+        if (json == null) {
             return new JSONArray();
         }
         try {
             JSONObject obj = new JSONObject(json);
-            JSONArray arr = obj.getJSONArray("history");
-            return arr;
+            return obj.getJSONArray("history");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return new JSONArray();
+    }
+
+    public static void updateJSONString(SharedPreferences pref, JsonArray array){
+        pref.edit().putString("history", array.toString()).apply();
+    }
+
+    public static boolean checkHistoryExpired(com.google.gson.JsonObject obj){
+        // 10 Days in millis 864000000
+        final long expiryDay = 864000000;
+        if (!obj.has("dateObtained")){
+            //Prev Gen Hist, reobtain
+            return true;
+        }
+        long dateObt = obj.get("dateObtained").getAsLong();
+        long currentDate = System.currentTimeMillis();
+        //Check if Pass 10 days
+        return currentDate - dateObt > expiryDay;
     }
 
     public static String getListOfHistory(SharedPreferences pref){

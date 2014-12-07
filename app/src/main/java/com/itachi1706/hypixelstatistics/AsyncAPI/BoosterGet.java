@@ -121,14 +121,22 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                             for (JsonElement el : histCheck) {
                                 JsonObject histCheckName = el.getAsJsonObject();
                                 if (histCheckName.get("playername").getAsString().equals(desc.get_purchaser())) {
-                                    desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
-                                    desc.set_mcName(histCheckName.get("displayname").getAsString());
-                                    desc.set_done(true);
-                                    hasHist = true;
-                                    MainStaticVars.boosterList.add(desc);
-                                    MainStaticVars.tmpBooster ++;
-                                    Log.d("Player", "Found player " + desc.get_purchaser());
-                                    break;
+                                    //Check if history expired
+                                    if (CharHistory.checkHistoryExpired(histCheckName)){
+                                        //Expired, reobtain
+                                        histCheck.remove(histCheckName);
+                                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                                        break;
+                                    } else {
+                                        desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
+                                        desc.set_mcName(histCheckName.get("displayname").getAsString());
+                                        desc.set_done(true);
+                                        hasHist = true;
+                                        MainStaticVars.boosterList.add(desc);
+                                        MainStaticVars.tmpBooster++;
+                                        Log.d("Player", "Found player " + desc.get_purchaser());
+                                        break;
+                                    }
                                 }
                             }
                         }

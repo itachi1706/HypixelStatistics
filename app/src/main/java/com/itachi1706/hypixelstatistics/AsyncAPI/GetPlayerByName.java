@@ -217,7 +217,10 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             for (JsonElement el : histCheck) {
                 JsonObject histCheckName = el.getAsJsonObject();
                 if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
-                    return true;
+                    //Remove and let it reupdate
+                    histCheck.remove(histCheckName);
+                    CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                    return false;
                 }
             }
             return false;
