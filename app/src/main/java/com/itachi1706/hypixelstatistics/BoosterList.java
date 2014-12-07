@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -90,6 +91,10 @@ public class BoosterList extends ActionBarActivity {
             Toast.makeText(this.getApplicationContext(), "Updating Booster List", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
+            new AlertDialog.Builder(this)
+                    .setTitle("Detailed Booster Info").setMessage(parseStats())
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
             return true;
         }
 
@@ -116,6 +121,7 @@ public class BoosterList extends ActionBarActivity {
         }
         //Check if present then parse
         StringBuilder bu = new StringBuilder();
+        bu.append("Active Boosters per game").append("\n\n");
         if (quake != 0){
             bu.append("QuakeCraft: ").append(quake).append("\n");
         }
@@ -125,29 +131,30 @@ public class BoosterList extends ActionBarActivity {
         if (pb != 0){
             bu.append("Paintball: ").append(pb).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (bsg != 0){
+            bu.append("Blitz Survival Games: ").append(bsg).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (tnt != 0){
+            bu.append("TNTGames: ").append(tnt).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (vz != 0){
+            bu.append("VampireZ: ").append(vz).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (mw != 0){
+            bu.append("MegaWalls: ").append(mw).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (arcade != 0){
+            bu.append("Arcade: ").append(arcade).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (arena != 0){
+            bu.append("Arena: ").append(arena).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (cac != 0){
+            bu.append("Cops and Crims: ").append(cac).append("\n");
         }
-        if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+        if (unknown != 0){
+            bu.append("Unknown Game: ").append(unknown).append("\n");
+            bu.append("(Please Contact Dev of this)");
         }
         return bu.toString();
     }
