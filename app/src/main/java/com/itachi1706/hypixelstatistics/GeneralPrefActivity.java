@@ -1,23 +1,13 @@
 package com.itachi1706.hypixelstatistics;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -77,72 +67,14 @@ public class GeneralPrefActivity extends ActionBarActivity {
                 }
             });
 
-            Preference hist = findPreference("view_hist");
-            hist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            Preference histAct = findPreference("view_hist_activity");
+            histAct.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                    String jsonHist = prefs.getString("history", null);
-                    if (jsonHist != null) {
-                        StringBuilder builder = new StringBuilder();
-                        Gson gson = new Gson();
-                        HistoryObject obj = gson.fromJson(jsonHist, HistoryObject.class);
-                        JsonArray arr = obj.getHistory();
-                        for (JsonElement e : arr){
-                            JsonObject o = e.getAsJsonObject();
-                            builder.append(o.get("displayname").getAsString());
-                            builder.append(" (").append(o.get("playername").getAsString()).append(")\n");
-                        }
-                        new AlertDialog.Builder(getActivity()).setTitle("History").setMessage(builder.toString()).show();
-                        return true;
-                    }
-                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("No History Found").show();
+                    startActivity(new Intent(getActivity(), HistPrefActivity.class));
                     return true;
                 }
             });
-
-            Preference dhist = findPreference("view_hist_detailed");
-            dhist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                    String jsonHist = prefs.getString("history", null);
-                    if (jsonHist != null) {
-                        new AlertDialog.Builder(getActivity()).setTitle("History").setMessage(jsonHist).show();
-                        return true;
-                    }
-                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("No History Found").show();
-                    return true;
-                }
-            });
-
-            Preference histClr = findPreference("view_hist_clr");
-            histClr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("Are you sure you want to clear the history? This cannot be reversed once cleared!")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                                    prefs.edit().putString("history", null).apply();
-                                    new AlertDialog.Builder(getActivity()).setTitle("History").setMessage("History Cleared!")
-                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                }
-                                            }).show();
-                                }
-                            }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
-                    return true;
-                }
-            });
-
         }
     }
 }

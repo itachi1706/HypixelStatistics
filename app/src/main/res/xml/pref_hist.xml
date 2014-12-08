@@ -1,0 +1,8 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Character History" android:key="cat_gen">
+        <Preference android:title="History" android:key="view_hist" android:summary="View History of Characters Queried"/>
+        <Preference android:title="History (Detailed)" android:key="view_hist_detailed" android:summary="View Detailed JSON String for Character History"/>
+        <Preference android:title="Clear History" android:key="view_hist_clr" android:summary="Clear History"/>
+    </PreferenceCategory>
+</PreferenceScreen>

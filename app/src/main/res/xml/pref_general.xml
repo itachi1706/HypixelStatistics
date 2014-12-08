@@ -8,9 +8,7 @@
             android:defaultValue="true" />
         <Preference android:title="API Key" android:key="api_key" android:summary="@string/hypixel_api_key"/>
         <Preference android:title="View API Key Info" android:key="view_api_info" android:summary="View information regarding the API Key"/>
-        <Preference android:title="History" android:key="view_hist" android:summary="View History of Characters Queried"/>
-        <Preference android:title="History (Detailed)" android:key="view_hist_detailed" android:summary="View Detailed JSON String for Character History"/>
-        <Preference android:title="Clear History" android:key="view_hist_clr" android:summary="Clear History"/>
+        <Preference android:title="History" android:key="view_hist_activity" android:summary="View History stored onto your Device"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="App Info" android:key="info_category">
