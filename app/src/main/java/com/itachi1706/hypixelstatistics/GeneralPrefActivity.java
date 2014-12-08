@@ -158,10 +158,10 @@ public class GeneralPrefActivity extends ActionBarActivity {
             MainStaticVars.updateAPIKey(mCon);
             if (keyString.equals("Default Key")) {
                 apikeyinfo.setEnabled(false);
-                apikey.setTitle("API Key (Click to enter personal key)");
+                apikey.setTitle("API Key (Click to enter new key)");
             } else {
                 apikeyinfo.setEnabled(true);
-                apikey.setTitle("API Key (Click to change personal key)");
+                apikey.setTitle("API Key (Click to change key)");
             }
         }
 
