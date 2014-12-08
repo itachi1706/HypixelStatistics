@@ -46,9 +46,11 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
         } else if (i == 2.0f) { //XHDPI   (720p)
             density = 150;
         } else if (i == 3.0f) { //XXHDPI (1080p)
-            density = 500;
+            density = 300;
+            //density = 500;
         } else if (i == 4.0f) { //XXXHDPI (Unsupported)
-            density = 500;
+            density = 300;
+            //density = 500;
         }
         playerNamer = playerName[0];
         //String headUrl = "https://minotar.net/avatar/" + playerNamer + "/" + density + ".png";
