@@ -51,7 +51,8 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             density = 500;
         }
         playerNamer = playerName[0];
-        String headUrl = "https://minotar.net/avatar/" + playerNamer + "/" + density + ".png";
+        //String headUrl = "https://minotar.net/avatar/" + playerNamer + "/" + density + ".png";
+        String headUrl = "http://cravatar.eu/avatar/" + playerNamer + "/" + density + ".png";
 
         Drawable d = null;
         try {
