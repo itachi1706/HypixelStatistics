@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerification;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.UUID;
 
@@ -148,6 +149,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
         public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo){
             String keyString = sp.getString("api-key", "Default Key");
             apikey.setSummary(keyString);
+            MainStaticVars.updateAPIKey(getActivity().getApplicationContext());
             if (keyString.equals("Default Key"))
                 apikeyinfo.setEnabled(false);
             else {

@@ -63,6 +63,8 @@ public class MainActivity extends ActionBarActivity {
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
         }
+
+        MainStaticVars.updateAPIKey(getApplicationContext());
     }
 
     @Override

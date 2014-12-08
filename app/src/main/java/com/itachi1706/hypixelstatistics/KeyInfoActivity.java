@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfo;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class KeyInfoActivity extends ActionBarActivity {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = getResources().getString(R.string.hypixel_api_key);
+                String key = MainStaticVars.apikey;
                 UUID uid = UUID.fromString(key);
 
                 new GetKeyInfo(keyV, ownerV, queryV, resultV, debugV, getApplicationContext()).execute(uid);

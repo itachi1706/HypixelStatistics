@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.OldPlayerInfoActivity;
-import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
@@ -60,7 +58,7 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... playerName) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + playerName[0];
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&name=" + playerName[0];
         String tmp = "";
         //Get Statistics
         try {

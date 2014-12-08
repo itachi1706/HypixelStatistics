@@ -72,7 +72,7 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... playerName) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + playerName[0];
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&name=" + playerName[0];
         String tmp = "";
         //Get Statistics
         try {

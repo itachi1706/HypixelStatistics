@@ -57,7 +57,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        String url = MainStaticVars.API_BASE_URL + "boosters?key=" + mContext.getResources().getString(R.string.hypixel_api_key);
+        String url = MainStaticVars.API_BASE_URL + "boosters?key=" + MainStaticVars.apikey;
         String tmp = "";
         //Get Statistics
         try {
