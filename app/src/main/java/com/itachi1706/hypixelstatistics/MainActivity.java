@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"View Player", "View Activated Boosters"};
+    String[] mainMenuItems = {"View Player", "View Activated Boosters", "View Player (Test)"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +123,9 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 }
                 startActivity(new Intent(MainActivity.this, BoosterList.class));
+                break;
+            case "View Player (Test)":
+                startActivity(new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class));
                 break;
         }
     }
