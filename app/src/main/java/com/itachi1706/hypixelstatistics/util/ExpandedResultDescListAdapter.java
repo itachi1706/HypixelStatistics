@@ -132,7 +132,7 @@ public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
         ResultDescription group = getGroup(groupPosition);
         CheckedTextView header = (CheckedTextView) convertView.findViewById(R.id.tvExpGrpTitle);
 
-        header.setText(group.get_title());
+        header.setText(Html.fromHtml(group.get_title()));
         header.setChecked(isExpanded);
 
         return convertView;

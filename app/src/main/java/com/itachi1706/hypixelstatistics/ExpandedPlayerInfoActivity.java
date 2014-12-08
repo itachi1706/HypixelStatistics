@@ -53,7 +53,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player_info);
+        setContentView(R.layout.activity_expanded_player_info);
 
         playerName = (AutoCompleteTextView) findViewById(R.id.PlayersetName);
         debug = (TextView) findViewById(R.id.players_tvDebug);

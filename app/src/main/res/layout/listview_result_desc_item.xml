@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="2dip">
+    android:padding="2dip"
+    android:background="?android:selectableItemBackground">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,4 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/list_result"
         android:id="@+id/tvExpResult" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:drawable/divider_horizontal_dark" />
 </LinearLayout>

@@ -179,29 +179,44 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 }
 
                 if (reply.getPlayer().has("stats")){
-                    resultArray.add(new ResultDescription("<b>Game Statistics</b>", null, false, false, parseStats(reply), null));
-                    //parseStats(reply);
+                    //resultArray.add(new ResultDescription("<b>Game Statistics</b>", null, false, false, parseStats(reply), null));
+                    parseStats(reply);
                 }
 
                 for (ResultDescription e : resultArray) {
-                    String r = e.get_result();
                     if (e.get_result() != null) {
-                        if (e.get_result().equalsIgnoreCase("true") || e.get_result().equalsIgnoreCase("enabled")) {
-                            e.set_result(MinecraftColorCodes.parseColors("§a" + r + "§r"));
-                        }
-                        if (e.get_result().equalsIgnoreCase("false") || e.get_result().equalsIgnoreCase("disabled")) {
-                            e.set_result(MinecraftColorCodes.parseColors("§c" + r + "§r"));
-                        }
-                        if((e.get_result().equalsIgnoreCase("null") || e.get_result() == null) && e.is_hasDescription()){
-                            e.set_result(MinecraftColorCodes.parseColors("§c" + "NONE" + "§r"));
-                        }
+                        ResultDescription exe = parseColorsInResults(e);
+                        e.set_result(exe.get_result());
                     }
+
                 }
 
                 ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(this.mContext, resultArray);
                 details.setAdapter(adapter);
             }
         }
+    }
+
+    private ResultDescription parseColorsInResults(ResultDescription e){
+        String r = e.get_result();
+        if (e.get_result().equalsIgnoreCase("true") || e.get_result().equalsIgnoreCase("enabled")) {
+            e.set_result(MinecraftColorCodes.parseColors("§a" + r + "§r"));
+        }
+        if (e.get_result().equalsIgnoreCase("false") || e.get_result().equalsIgnoreCase("disabled")) {
+            e.set_result(MinecraftColorCodes.parseColors("§c" + r + "§r"));
+        }
+        if((e.get_result().equalsIgnoreCase("null") || e.get_result() == null) && e.is_hasDescription()){
+            e.set_result(MinecraftColorCodes.parseColors("§c" + "NONE" + "§r"));
+        }
+        if (e.get_childItems() != null){
+            for (ResultDescription ex : resultArray){
+                if (ex.get_result() != null){
+                    ResultDescription exe = parseColorsInResults(ex);
+                    ex.set_result(exe.get_result());
+                }
+            }
+        }
+        return e;
     }
 
     private boolean checkHistory(PlayerReply reply){
@@ -391,31 +406,31 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             //Based on stat go parse it
             JsonObject statistic = entry.getValue().getAsJsonObject();
             switch (entry.getKey().toLowerCase()){
-                case "arena": parseArena(statistic);
+                case "arena": resultArray.add(new ResultDescription("Arena Brawl Statistics", null, false, false, parseArena(statistic), null));
                     break;
-                case "arcade": parseArcade(statistic);
+                case "arcade": resultArray.add(new ResultDescription("The Arcade Games Statistics", null, false, false, parseArcade(statistic), null));
                     break;
-                case "hungergames": parseHG(statistic);
+                case "hungergames": resultArray.add(new ResultDescription("Blitz Survival Games Statistics", null, false, false, parseHG(statistic), null));
                     break;
-                case "mcgo": parseMcGo(statistic);
+                case "mcgo": resultArray.add(new ResultDescription("Cops and Crims Statistics", null, false, false, parseMcGo(statistic), null));
                     break;
-                case "paintball": parsePaintball(statistic);
+                case "paintball": resultArray.add(new ResultDescription("Paintball Statistics", null, false, false, parsePaintball(statistic), null));
                     break;
-                case "quake": parseQuake(statistic);
+                case "quake": resultArray.add(new ResultDescription("Quakecraft Statistics", null, false, false, parseQuake(statistic), null));
                     break;
-                case "spleef": parseSpleef(statistic);
+                case "spleef": resultArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, false, parseSpleef(statistic), null));
                     break;
-                case "tntgames": parseTntGames(statistic);
+                case "tntgames": resultArray.add(new ResultDescription("TNT Games Statistics", null, false, false, parseTntGames(statistic), null));
                     break;
-                case "vampirez": parseVampZ(statistic);
+                case "vampirez": resultArray.add(new ResultDescription("VampireZ Statistics", null, false, false, parseVampZ(statistic), null));
                     break;
-                case "walls": parseWalls(statistic);
+                case "walls": resultArray.add(new ResultDescription("Walls Statistics", null, false, false, parseWalls(statistic), null));
                     break;
-                case "walls3": parseWalls3(statistic);
+                case "walls3": resultArray.add(new ResultDescription("Mega Walls Statistics", null, false, false, parseWalls3(statistic), null));
                     break;
-                case "holiday": descArray.remove(descArray.size() - 1);
+                case "holiday": //descArray.remove(descArray.size() - 1);
                     break;
-                default: descArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                default: resultArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
         }
@@ -519,18 +534,19 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * Walls Game
      * @param obj Statistics
      */
-    private void parseWalls(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Walls</b>", null, false, true));
+    private ArrayList<ResultDescription> parseWalls(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Walls</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Games Won", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Games Won", obj.get("wins").getAsString()));
         if (obj.has("losses"))
-            resultArray.add(new ResultDescription("Games Lost", obj.get("losses").getAsString()));
+            descArray.add(new ResultDescription("Games Lost", obj.get("losses").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
         if (obj.has("packages")){
             StringBuilder packageBuilder = new StringBuilder();
             JsonArray packages = obj.get("packages").getAsJsonArray();
@@ -544,8 +560,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     packageBuilder.append(",").append(e.getAsString());
                 }
             }
-            resultArray.add(new ResultDescription("Packages", packageBuilder.toString()));
+            descArray.add(new ResultDescription("Packages", packageBuilder.toString()));
         }
+        return descArray;
     }
 
     /**
@@ -554,54 +571,56 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * individual/weekly statistics soon
      * @param obj Statistics
      */
-    private void parseWalls3(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Walls 3</b>", null, false, true));
+    private ArrayList<ResultDescription> parseWalls3(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Walls 3</b>", null, false, true));
         if (obj.has("chosen_class"))
-            resultArray.add(new ResultDescription("Class Selected", obj.get("chosen_class").getAsString()));
+            descArray.add(new ResultDescription("Class Selected", obj.get("chosen_class").getAsString()));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
 
         //Overall
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Total Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Total Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("finalDeaths"))
-            resultArray.add(new ResultDescription("Total Final Deaths", obj.get("finalDeaths").getAsString()));
+            descArray.add(new ResultDescription("Total Final Deaths", obj.get("finalDeaths").getAsString()));
         if (obj.has("finalKills"))
-            resultArray.add(new ResultDescription("Total Final Kills", obj.get("finalKills").getAsString()));
+            descArray.add(new ResultDescription("Total Final Kills", obj.get("finalKills").getAsString()));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Total Games Won", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Total Games Won", obj.get("wins").getAsString()));
         if (obj.has("losses"))
-            resultArray.add(new ResultDescription("Total Games Lost", obj.get("losses").getAsString()));
+            descArray.add(new ResultDescription("Total Games Lost", obj.get("losses").getAsString()));
 
         //Herobrine
-        parseIndividualMW(obj, "Herobrine");
+        descArray = parseIndividualMW(obj, "Herobrine", descArray);
         //Skeleton
-        parseIndividualMW(obj, "Skeleton");
+        descArray = parseIndividualMW(obj, "Skeleton", descArray);
         //Zombie
-        parseIndividualMW(obj, "Zombie");
+        descArray = parseIndividualMW(obj, "Zombie", descArray);
         //Creeper
-        parseIndividualMW(obj, "Creeper");
+        descArray = parseIndividualMW(obj, "Creeper", descArray);
         //Enderman
-        parseIndividualMW(obj, "Enderman");
+        descArray = parseIndividualMW(obj, "Enderman", descArray);
         //Spider
-        parseIndividualMW(obj, "Spider");
+        descArray = parseIndividualMW(obj, "Spider", descArray);
         //Dreadlord
-        parseIndividualMW(obj, "Dreadlord");
+        descArray = parseIndividualMW(obj, "Dreadlord", descArray);
         //Shaman
-        parseIndividualMW(obj, "Shaman");
+        descArray = parseIndividualMW(obj, "Shaman", descArray);
         //Arcanist
-        parseIndividualMW(obj, "Arcanist");
+        descArray = parseIndividualMW(obj, "Arcanist", descArray);
         //Golem
-        parseIndividualMW(obj, "Golem");
+        descArray = parseIndividualMW(obj, "Golem", descArray);
         //Blaze
-        parseIndividualMW(obj, "Blaze");
+        descArray = parseIndividualMW(obj, "Blaze", descArray);
         //Pigman
-        parseIndividualMW(obj, "Pigman");
+        descArray = parseIndividualMW(obj, "Pigman", descArray);
+        return descArray;
     }
 
-    private void parseIndividualMW(JsonObject obj, String className){
+    private ArrayList<ResultDescription> parseIndividualMW(JsonObject obj, String className, ArrayList<ResultDescription> descArray){
         ArrayList<ResultDescription> classArray = new ArrayList<>();
         if (obj.has("deaths_" + className))
             classArray.add(new ResultDescription("Deaths (" + className + ")", obj.get("deaths_" + className).getAsString()));
@@ -620,8 +639,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : classArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
+            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
         }
+        return descArray;
     }
 
     /**
@@ -629,18 +649,20 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * displayed: coins, deaths, kills, killstreaks, wins
      * @param obj Statistics
      */
-    private void parseQuake(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>QuakeCraft</b>", null, false, true));
+    private ArrayList<ResultDescription> parseQuake(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>QuakeCraft</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("killstreaks"))
-            resultArray.add(new ResultDescription("Longest Killstreak", obj.get("killstreaks").getAsString()));
+            descArray.add(new ResultDescription("Longest Killstreak", obj.get("killstreaks").getAsString()));
+        return descArray;
     }
 
     /**
@@ -649,24 +671,26 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * soon: class levels
      * @param obj Statistics
      */
-    private void parseHG(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Blitz Survival Games</b>", null, false, true));
+    private ArrayList<ResultDescription> parseHG(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Blitz Survival Games</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("blood"))
-            resultArray.add(new ResultDescription("Blood Enabled", obj.get("blood").getAsString()));
+            descArray.add(new ResultDescription("Blood Enabled", obj.get("blood").getAsString()));
         if (obj.has("aura"))
-            resultArray.add(new ResultDescription("Chosen Aura", obj.get("aura").getAsString()));
+            descArray.add(new ResultDescription("Chosen Aura", obj.get("aura").getAsString()));
         if (obj.has("chosen_taunt"))
-            resultArray.add(new ResultDescription("Chosen Taunt", obj.get("chosen_taunt").getAsString()));
+            descArray.add(new ResultDescription("Chosen Taunt", obj.get("chosen_taunt").getAsString()));
         if (obj.has("chosen_victorydance"))
-            resultArray.add(new ResultDescription("Chosen Victory Dance", obj.get("chosen_victorydance").getAsString()));
+            descArray.add(new ResultDescription("Chosen Victory Dance", obj.get("chosen_victorydance").getAsString()));
+        return descArray;
     }
 
     /**
@@ -674,22 +698,24 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * coins, human_deaths, human_wins, human_kills, vampire_deaths, vampire_wins, vampire_kills
      * @param obj Statistics
      */
-    private void parseVampZ(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>VampireZ</b>", null, false, true));
+    private ArrayList<ResultDescription> parseVampZ(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>VampireZ</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("human_deaths"))
-            resultArray.add(new ResultDescription("Total Deaths (Human)", obj.get("human_deaths").getAsString()));
+            descArray.add(new ResultDescription("Total Deaths (Human)", obj.get("human_deaths").getAsString()));
         if (obj.has("human_wins"))
-            resultArray.add(new ResultDescription("Total Wins (Human)", obj.get("human_wins").getAsString()));
+            descArray.add(new ResultDescription("Total Wins (Human)", obj.get("human_wins").getAsString()));
         if (obj.has("human_kills"))
-            resultArray.add(new ResultDescription("Total Kills (Human)", obj.get("human_kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills (Human)", obj.get("human_kills").getAsString()));
         if (obj.has("vampire_deaths"))
-            resultArray.add(new ResultDescription("Total Deaths (Vampire)", obj.get("vampire_deaths").getAsString()));
+            descArray.add(new ResultDescription("Total Deaths (Vampire)", obj.get("vampire_deaths").getAsString()));
         if (obj.has("vampire_wins"))
-            resultArray.add(new ResultDescription("Total Wins (Vampire)", obj.get("vampire_wins").getAsString()));
+            descArray.add(new ResultDescription("Total Wins (Vampire)", obj.get("vampire_wins").getAsString()));
         if (obj.has("vampire_kills"))
-            resultArray.add(new ResultDescription("Total Kills (Vampire)", obj.get("vampire_kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills (Vampire)", obj.get("vampire_kills").getAsString()));
+        return descArray;
     }
 
     /**
@@ -705,24 +731,25 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * (Dragon Wars) kills_dragonwars2, wins_dragonwars2
      * @param obj Statistics
      */
-    private void parseArcade(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>The Arcade Games</b>", null, false, true));
+    private ArrayList<ResultDescription> parseArcade(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>The Arcade Games</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("blood"))
-            resultArray.add(new ResultDescription("Blood Enabled", obj.get("blood").getAsString()));
+            descArray.add(new ResultDescription("Blood Enabled", obj.get("blood").getAsString()));
         if (obj.has("max_wave"))
-            resultArray.add(new ResultDescription("Creeper Attack Max Wave", obj.get("max_wave").getAsString()));
+            descArray.add(new ResultDescription("Creeper Attack Max Wave", obj.get("max_wave").getAsString()));
         if (obj.has("wins_ender"))
-            resultArray.add(new ResultDescription("Ender Spleef Wins", obj.get("wins_ender").getAsString()));
+            descArray.add(new ResultDescription("Ender Spleef Wins", obj.get("wins_ender").getAsString()));
         if (obj.has("wins_party"))
-            resultArray.add(new ResultDescription("Party Games Wins", obj.get("wins_party").getAsString()));
+            descArray.add(new ResultDescription("Party Games Wins", obj.get("wins_party").getAsString()));
         if (obj.has("wins_party_2"))
-            resultArray.add(new ResultDescription("Party Games 2 Wins", obj.get("wins_party_2").getAsString()));
+            descArray.add(new ResultDescription("Party Games 2 Wins", obj.get("wins_party_2").getAsString()));
 
         //Bounty Hunter
         ArrayList<ResultDescription> bhArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Bounty Hunter</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Bounty Hunter</i>", null, false, true));
         if (obj.has("bounty_head"))
             bhArray.add(new ResultDescription("Bounty Head", obj.get("bounty_head").getAsString()));
         if (obj.has("bounty_kills_oneinthequiver"))
@@ -738,12 +765,12 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : bhArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Bounty Hunter", "Click here to view statistics from Bounty Hunter", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Bounty Hunter", "Click here to view statistics from Bounty Hunter", true, false, msg.toString()));
         }
 
         //Farm Hunt
         ArrayList<ResultDescription> fhArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Farm Hunt</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Farm Hunt</i>", null, false, true));
         if (obj.has("wins_farm_hunt"))
             fhArray.add(new ResultDescription("Wins", obj.get("wins_farm_hunt").getAsString()));
         if (obj.has("poop_collected"))
@@ -753,12 +780,12 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : fhArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Farm Hunt", "Click here to view statistics from Farm Hunt", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Farm Hunt", "Click here to view statistics from Farm Hunt", true, false, msg.toString()));
         }
 
         //Blocking Dead
         ArrayList<ResultDescription> tbdArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>The Blocking Dead</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>The Blocking Dead</i>", null, false, true));
         if (obj.has("headshots_dayone"))
             tbdArray.add(new ResultDescription("Headshots", obj.get("headshots_dayone").getAsString()));
         if (obj.has("kills_dayone"))
@@ -770,12 +797,12 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tbdArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("The Blocking Dead", "Click here to view statistics from The Blocking Dead", true, false, msg.toString()));
+            descArray.add(new ResultDescription("The Blocking Dead", "Click here to view statistics from The Blocking Dead", true, false, msg.toString()));
         }
 
         //Throwout
         ArrayList<ResultDescription> toArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Throwout</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Throwout</i>", null, false, true));
         if (obj.has("wins_throw_out"))
             toArray.add(new ResultDescription("Wins", obj.get("wins_throw_out").getAsString()));
         if (obj.has("kills_throw_out"))
@@ -787,12 +814,12 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : toArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Throwout", "Click here to view statistics from Throwout", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Throwout", "Click here to view statistics from Throwout", true, false, msg.toString()));
         }
 
         //Dragon Wars
         ArrayList<ResultDescription> dwArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Dragon Wars</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Dragon Wars</i>", null, false, true));
         if (obj.has("kills_dragonwars2"))
             dwArray.add(new ResultDescription("Kills", obj.get("kills_dragonwars2").getAsString()));
         if (obj.has("wins_dragonwars2"))
@@ -802,8 +829,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : dwArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Dragon Wars", "Click here to view statistics from Dragon Wars", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Dragon Wars", "Click here to view statistics from Dragon Wars", true, false, msg.toString()));
         }
+        return descArray;
     }
 
     /**
@@ -815,25 +843,26 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * damage_ffa, deaths_ffa, games_ffa, healed_ffa, kills_ffa, losses_ffa, wins_ffa, win_streaks_ffa
      * @param obj Statistics
      */
-    private void parseArena(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Arena Brawl</b>", null, false, true));
+    private ArrayList<ResultDescription> parseArena(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Arena Brawl</b>", null, false, true));
         if (obj.has("rating"))
-            resultArray.add(new ResultDescription("Arena Rating", obj.get("rating").getAsString()));
+            descArray.add(new ResultDescription("Arena Rating", obj.get("rating").getAsString()));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("coins_spent"))
-            resultArray.add(new ResultDescription("Total Coins Spent", obj.get("coins_spent").getAsString()));
+            descArray.add(new ResultDescription("Total Coins Spent", obj.get("coins_spent").getAsString()));
         if (obj.has("active_rune"))
-            resultArray.add(new ResultDescription("Active Rune", obj.get("active_rune").getAsString()));
+            descArray.add(new ResultDescription("Active Rune", obj.get("active_rune").getAsString()));
         if (obj.has("chest_opens"))
-            resultArray.add(new ResultDescription("Total Chest Opened", obj.get("chest_opens").getAsString()));
+            descArray.add(new ResultDescription("Total Chest Opened", obj.get("chest_opens").getAsString()));
         if (obj.has("keys"))
-            resultArray.add(new ResultDescription("Keys", obj.get("keys").getAsString()));
+            descArray.add(new ResultDescription("Keys", obj.get("keys").getAsString()));
         if (obj.has("magical_chest"))
-            resultArray.add(new ResultDescription("Total No of times Magical Chest Opened", obj.get("magical_chest").getAsString()));
+            descArray.add(new ResultDescription("Total No of times Magical Chest Opened", obj.get("magical_chest").getAsString()));
 
         ArrayList<ResultDescription> eqArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Equips</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Equips</i>", null, false, true));
         if (obj.has("offensive"))
             eqArray.add(new ResultDescription("Offensive", obj.get("offensive").getAsString()));
         if (obj.has("support"))
@@ -847,11 +876,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : eqArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Equips", "Click here to view Arena Equips", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Equips", "Click here to view Arena Equips", true, false, msg.toString()));
         }
 
         ArrayList<ResultDescription> twoArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>2v2</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>2v2</i>", null, false, true));
         if (obj.has("damage_2v2"))
             twoArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage_2v2").getAsString()));
         if (obj.has("deaths_2v2"))
@@ -873,11 +902,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : twoArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("2v2", "Click here to view statistics from 2v2 Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("2v2", "Click here to view statistics from 2v2 Arena", true, false, msg.toString()));
         }
 
         ArrayList<ResultDescription> fourArr = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>4v4</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>4v4</i>", null, false, true));
         if (obj.has("damage_4v4"))
             fourArr.add(new ResultDescription("Total Damage Dealt", obj.get("damage_4v4").getAsString()));
         if (obj.has("deaths_4v4"))
@@ -899,11 +928,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : fourArr){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("4v4", "Click here to view statistics from 4v4 Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("4v4", "Click here to view statistics from 4v4 Arena", true, false, msg.toString()));
         }
 
         ArrayList<ResultDescription> ffaArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>Free For All</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>Free For All</i>", null, false, true));
         if (obj.has("damage_ffa"))
             ffaArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage_ffa").getAsString()));
         if (obj.has("deaths_ffa"))
@@ -925,23 +954,23 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : ffaArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("Free For All (FFA)", "Click here to view statistics from FFA Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Free For All (FFA)", "Click here to view statistics from FFA Arena", true, false, msg.toString()));
         }
-
-
-
+        return descArray;
     }
 
     /**
      * Legacy Spleef Game?
      * @param obj Statistics
      */
-    private void parseSpleef(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Legacy Spleef</b>", null, false, true));
+    private ArrayList<ResultDescription> parseSpleef(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Legacy Spleef</b>", null, false, true));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+        return descArray;
     }
 
     /**
@@ -951,18 +980,19 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * wins_tntrun
      * @param obj Statistics
      */
-    private void parseTntGames(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>TNT Games</b>", null, false, true));
+    private ArrayList<ResultDescription> parseTntGames(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>TNT Games</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("selected_hat"))
             if (obj.get("selected_hat").isJsonNull())
-                resultArray.add(new ResultDescription("Selected Hat", "null"));
+                descArray.add(new ResultDescription("Selected Hat", "null"));
             else
-                resultArray.add(new ResultDescription("Selected Hat", obj.get("selected_hat").getAsString()));
+                descArray.add(new ResultDescription("Selected Hat", obj.get("selected_hat").getAsString()));
 
         ArrayList<ResultDescription> tntWArr = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>TNT Wizards</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>TNT Wizards</i>", null, false, true));
         if (obj.has("wins_capture"))
             tntWArr.add(new ResultDescription("Wins", obj.get("wins_capture").getAsString()));
         if (obj.has("kills_capture"))
@@ -974,11 +1004,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntWArr) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("TNT Wizards", "Click here to view statistics from TNT Wizards", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Wizards", "Click here to view statistics from TNT Wizards", true, false, msg.toString()));
         }
 
         ArrayList<ResultDescription> tntBSArr = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>TNT Bow Spleef</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>TNT Bow Spleef</i>", null, false, true));
         if (obj.has("deaths_bowspleef"))
             tntBSArr.add(new ResultDescription("Deaths", obj.get("deaths_bowspleef").getAsString()));
         if (obj.has("wins_bowspleef"))
@@ -988,11 +1018,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntBSArr) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("TNT Bow Spleef", "Click here to view statistics from Bow Spleef", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Bow Spleef", "Click here to view statistics from Bow Spleef", true, false, msg.toString()));
         }
 
         ArrayList<ResultDescription> tntTRArray = new ArrayList<>();
-        //resultArray.add(new ResultDescription("<i>TNT Tag/TNT Run</i>", null, false, true));
+        //descArray.add(new ResultDescription("<i>TNT Tag/TNT Run</i>", null, false, true));
         if (obj.has("wins_tntag"))
             tntTRArray.add(new ResultDescription("TNTTag Wins", obj.get("wins_tntag").getAsString()));
         if (obj.has("wins_tntrun"))
@@ -1002,8 +1032,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntTRArray) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            resultArray.add(new ResultDescription("TNT Tag/TNT Run", "Click here to view statistics from the 2 games", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Tag/TNT Run", "Click here to view statistics from the 2 games", true, false, msg.toString()));
         }
+        return descArray;
     }
 
     /**
@@ -1011,20 +1042,21 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * displayed: coins, deaths, wins, kills, killstreaks, shots_fired, hat, packages
      * @param obj Statistics
      */
-    private void parsePaintball(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Paintball</b>", null, false, true));
+    private ArrayList<ResultDescription> parsePaintball(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Paintball</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("wins"))
-            resultArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("shots_fired"))
-            resultArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
+            descArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("killstreaks"))
-            resultArray.add(new ResultDescription("Longest Killstreak", obj.get("killstreaks").getAsString()));
+            descArray.add(new ResultDescription("Longest Killstreak", obj.get("killstreaks").getAsString()));
         if (obj.has("packages")){
             StringBuilder packageBuilder = new StringBuilder();
             JsonArray packages = obj.get("packages").getAsJsonArray();
@@ -1038,8 +1070,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     packageBuilder.append(",").append(e.getAsString());
                 }
             }
-            resultArray.add(new ResultDescription("Packages", packageBuilder.toString()));
+            descArray.add(new ResultDescription("Packages", packageBuilder.toString()));
         }
+        return descArray;
     }
 
     /**
@@ -1048,30 +1081,31 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * shots_fired, cop_kills, criminal_kills, packages
      * @param obj Statistics
      */
-    private void parseMcGo(JsonObject obj){
-        resultArray.add(new ResultDescription("<b>Cops and Crims</b>", null, false, true));
+    private ArrayList<ResultDescription> parseMcGo(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<b>Cops and Crims</b>", null, false, true));
         if (obj.has("coins"))
-            resultArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("game_wins"))
-            resultArray.add(new ResultDescription("Game Wins", obj.get("game_wins").getAsString()));
+            descArray.add(new ResultDescription("Game Wins", obj.get("game_wins").getAsString()));
         if (obj.has("round_wins"))
-            resultArray.add(new ResultDescription("Round Wins", obj.get("round_wins").getAsString()));
+            descArray.add(new ResultDescription("Round Wins", obj.get("round_wins").getAsString()));
         if (obj.has("deaths"))
-            resultArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("bombs_defused"))
-            resultArray.add(new ResultDescription("Bombs Defused", obj.get("bombs_defused").getAsString()));
+            descArray.add(new ResultDescription("Bombs Defused", obj.get("bombs_defused").getAsString()));
         if (obj.has("bombs_planted"))
-            resultArray.add(new ResultDescription("Bombs Planted", obj.get("bombs_planted").getAsString()));
+            descArray.add(new ResultDescription("Bombs Planted", obj.get("bombs_planted").getAsString()));
         if (obj.has("shots_fired"))
-            resultArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
+            descArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
         if (obj.has("kills"))
-            resultArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("headshot_kills"))
-            resultArray.add(new ResultDescription("Total Headshot Kills", obj.get("headshot_kills").getAsString()));
+            descArray.add(new ResultDescription("Total Headshot Kills", obj.get("headshot_kills").getAsString()));
         if (obj.has("cop_kills"))
-            resultArray.add(new ResultDescription("Total Cops Kills", obj.get("cop_kills").getAsString()));
+            descArray.add(new ResultDescription("Total Cops Kills", obj.get("cop_kills").getAsString()));
         if (obj.has("criminal_kills"))
-            resultArray.add(new ResultDescription("Total Criminals Kills", obj.get("criminal_kills").getAsString()));
+            descArray.add(new ResultDescription("Total Criminals Kills", obj.get("criminal_kills").getAsString()));
         if (obj.has("packages")){
             StringBuilder packageBuilder = new StringBuilder();
             JsonArray packages = obj.get("packages").getAsJsonArray();
@@ -1085,7 +1119,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     packageBuilder.append(",").append(e.getAsString());
                 }
             }
-            resultArray.add(new ResultDescription("Packages", packageBuilder.toString()));
+            descArray.add(new ResultDescription("Packages", packageBuilder.toString()));
         }
+        return descArray;
     }
 }

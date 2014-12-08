@@ -11,7 +11,7 @@ public class ResultDescription {
     private String _title, _result;
     private boolean _hasDescription, _subTitle;
     private String _alert = null;
-    private ArrayList<ResultDescription> _childItems;
+    private ArrayList<ResultDescription> _childItems = null;
 
     public ResultDescription(String title, String result){
         this._title = title;
