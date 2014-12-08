@@ -88,6 +88,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String json) {
         if (except != null){
             Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            bar.setVisibility(View.GONE);
         } else {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);

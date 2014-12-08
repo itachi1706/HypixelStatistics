@@ -92,7 +92,7 @@ public class BoosterList extends ActionBarActivity {
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
-                    .setTitle("Detailed Booster Info").setMessage(parseStats())
+                    .setTitle("Active Boosters per Game").setMessage(parseStats())
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             return true;
@@ -121,7 +121,6 @@ public class BoosterList extends ActionBarActivity {
         }
         //Check if present then parse
         StringBuilder bu = new StringBuilder();
-        bu.append("Active Boosters per game").append("\n\n");
         if (quake != 0){
             bu.append("QuakeCraft: ").append(quake).append("\n");
         }
