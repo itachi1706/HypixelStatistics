@@ -55,6 +55,7 @@ public class MinecraftColorCodes {
                 case "ADMIN": return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
                 case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
+                case "JR_HELPER": return parseColors("§9[JR HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
             }
         }
         if (name.getPlayer().has("packageRank")){
@@ -102,6 +103,7 @@ public class MinecraftColorCodes {
                 case "ADMIN": return parseColors("§c[ADMIN] " + name.get("displayname").getAsString() + "§r");
                 case "HELPER": return parseColors("§9[HELPER] " + name.get("displayname").getAsString() + "§r");
                 case "MODERATOR": return parseColors("§2[MOD] " + name.get("displayname").getAsString() + "§r");
+                case "JR_HELPER": return parseColors("§9[JR HELPER] " + name.get("displayname").getAsString() + "§r");
             }
         }
         if (name.has("packageRank")){
@@ -183,6 +185,15 @@ public class MinecraftColorCodes {
             }
         }
         return null;
+    }
+
+    public static boolean isStaff(PlayerReply name){
+        if (name.getPlayer().has("rank")){
+            String rank = name.getPlayer().get("rank").getAsString();
+            if (rank.equals("ADMIN") || rank.equals("HELPER") || rank.equals("MODERATOR") || rank.equals("JR_HELPER"))
+                return true;
+        }
+        return false;
     }
 
 

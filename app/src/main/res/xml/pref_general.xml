@@ -6,7 +6,7 @@
             android:title="@string/pref_debug_title"
             android:summary="@string/pref_debug_summary"
             android:defaultValue="true" />
-        <Preference android:title="API Key" android:key="api_key" android:summary="@string/hypixel_api_key"/>
+        <Preference android:title="API Key" android:key="api_key" android:summary="Obtaining Key..."/>
         <Preference android:title="View API Key Info" android:key="view_api_info" android:summary="View information regarding the API Key"/>
         <Preference android:title="History" android:key="view_hist_activity" android:summary="View History stored onto your Device"/>
     </PreferenceCategory>

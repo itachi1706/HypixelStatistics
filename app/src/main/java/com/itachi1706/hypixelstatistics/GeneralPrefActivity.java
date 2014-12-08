@@ -1,13 +1,23 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerification;
+
+import java.util.UUID;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -67,6 +77,50 @@ public class GeneralPrefActivity extends ActionBarActivity {
                 }
             });
 
+            final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            final Preference api_key = findPreference("api_key");
+            updateKeyString(sp, api_key, prefs);
+
+            final Preference finalAPIInfo = prefs;
+            api_key.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    //Alert Dialog asking to enter new api key
+                    final EditText newKey = new EditText(getActivity());
+                    newKey.setSingleLine(true);
+                    newKey.setHint("Enter API Key (Including dashes)");
+                    new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
+                            .setMessage("This allows you to insert your own API Key to reduce the" +
+                                    "occurrence of API throttling. \n" +
+                                    "If you are a staff member, inserting your personal key" +
+                                    " will grant you access to more information \n\n" +
+                                    "To get your API Key, Launch Minecraft, join mc.hypixel.net and do /api in-game.\n\n" +
+                                    "Enter the entire API String given to you (including dashes) in the textbox below.")
+                            .setView(newKey)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String newKeyString = newKey.getText().toString();
+                                    if (newKeyString.equals("")) {
+                                        Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo).execute(UUID.fromString(newKeyString));
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setNeutralButton("Reset Key", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sp.edit().remove("api-key").apply();
+                                    updateKeyString(sp, api_key, finalAPIInfo);
+                                    Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                    return true;
+                }
+            });
+
             Preference histAct = findPreference("view_hist_activity");
             histAct.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -75,6 +129,15 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     return true;
                 }
             });
+        }
+
+        public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo){
+            String keyString = sp.getString("api-key", "Default Key");
+            apikey.setSummary(keyString);
+            if (keyString.equals("Default Key"))
+                apikeyinfo.setEnabled(false);
+            else
+                apikeyinfo.setEnabled(true);
         }
     }
 }
