@@ -14,6 +14,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -94,6 +95,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     //Alert Dialog asking to enter new api key
                     final EditText newKey = new EditText(getActivity());
                     newKey.setSingleLine(true);
+                    newKey.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                     newKey.setHint("Enter API Key (Including dashes)");
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
                             .setMessage("This allows you to insert your own API Key to reduce the" +
