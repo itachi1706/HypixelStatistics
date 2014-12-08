@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -190,7 +191,19 @@ public class PlayerInfoActivity extends ActionBarActivity {
             debugAlert.show();
             return true;
         } else if (id == R.id.view_legacy){
-            startActivity(new Intent(PlayerInfoActivity.this, OldPlayerInfoActivity.class));
+            new AlertDialog.Builder(PlayerInfoActivity.this)
+                    .setTitle("WARNING")
+                    .setMessage("You are about to use a no longer worked upon version of player statistics" +
+                            " that is incomplete in statistic data. This is still here" +
+                            " for people to see the development progression and will" +
+                            " be removed in the future. \n\n Are you sure you want to proceed?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton("Proceed!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(PlayerInfoActivity.this, OldPlayerInfoActivity.class));
+                        }
+            }).show();
             return true;
         }
 

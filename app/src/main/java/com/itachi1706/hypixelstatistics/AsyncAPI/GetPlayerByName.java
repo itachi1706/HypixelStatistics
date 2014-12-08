@@ -260,8 +260,8 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             resultArray.add(new ResultDescription("First Login: ",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
         if (reply.getPlayer().has("lastLogin"))
             resultArray.add(new ResultDescription("Last Login: ",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
-        //TODO Parse Time Played (MIN)
-        resultArray.add(new ResultDescription("Time Played: ",MinecraftColorCodes.parseColors("§cComing Soon™§r")));
+        resultArray.add(new ResultDescription("Time Played (From 16 May 2014) ",MinecraftColorCodes.parseColors(parseTimeOnline(reply.getPlayer().get("timePlaying").getAsLong()))));
+        //resultArray.add(new ResultDescription("Time Played: ",MinecraftColorCodes.parseColors("§cComing Soon™§r")));
         if (reply.getPlayer().has("networkExp"))
             resultArray.add(new ResultDescription("Network XP: ",reply.getPlayer().get("networkExp").getAsString()));
         if (reply.getPlayer().has("networkLevel"))
@@ -310,6 +310,20 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             resultArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
         if (reply.getPlayer().has("achievementsOneTime"))
             resultArray.add(new ResultDescription("No of 1-time Achievements Done: ", reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + ""));
+    }
+
+    private String parseTimeOnline(long time){
+        //Get Days if there is
+        if (time > 1440){
+            //Theres Days (D, H, M)
+            return String.format("%d Days, %d Hours, %d Minutes", TimeUnit.MINUTES.toDays(time), TimeUnit.MINUTES.toHours(time) - TimeUnit.DAYS.toHours(TimeUnit.MINUTES.toDays(time)), time - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(time)));
+        }
+        if (time > 60){
+            //Theres Hours (H, M)
+            return String.format("%d Hours, %d Minutes", TimeUnit.MINUTES.toHours(time) ,time - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(time)));
+        }
+        //Minutes only (M)
+        return time + " Minutes";
     }
 
     /* Donor Only Information
