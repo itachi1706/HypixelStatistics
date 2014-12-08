@@ -37,13 +37,13 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
     Context mContext;
     Exception except = null;
     SharedPreferences sp;
-    Preference key_info, key_string;
+    Preference key_staff, key_name;
 
-    public GetKeyInfoVerificationName(Context context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct){
+    public GetKeyInfoVerificationName(Context context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName){
         mContext = context;
         sp = sharedPrefs;
-        key_string = keyString;
-        key_info = keyInfoAct;
+        key_staff = keyStaff;
+        key_name = keyName;
     }
 
     @Override
@@ -91,12 +91,18 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                         .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
             } else {
                 //Succeeded
-                //TODO Alert Dialog of success
                 String pRank = MinecraftColorCodes.parseHypixelRanks(reply);
+                String successMessage = "New API Key Set! Welcome " + pRank + "!";
+                sp.edit().putString("playerName", pRank).apply();
+                if (MinecraftColorCodes.isStaff(reply)) {
+                    successMessage += " <br /><br />As a Staff Member (" + reply.getPlayer().get("rank").getAsString() + "), you now have access to additional information!";
+                    sp.edit().putString("rank", reply.getPlayer().get("rank").getAsString()).apply();
+                }
                 new AlertDialog.Builder(mContext).setTitle("Success!")
-                        .setMessage(Html.fromHtml("New API Key Set! Welcome " + pRank + "!"))
+                        .setMessage(Html.fromHtml(successMessage))
                         .setPositiveButton(android.R.string.ok, null).show();
-
+                GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
+                pref.updateApiKeyOwnerInfo(sp, key_staff, key_name);
             }
         }
     }

@@ -36,13 +36,15 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     Context mContext;
     Exception except = null;
     SharedPreferences sp;
-    Preference key_info, key_string;
+    Preference key_info, key_string, key_staff, key_name;
 
-    public GetKeyInfoVerification(Context context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct){
+    public GetKeyInfoVerification(Context context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct, Preference keyStaff, Preference keyName){
         mContext = context;
         sp = sharedPrefs;
         key_string = keyString;
         key_info = keyInfoAct;
+        key_staff = keyStaff;
+        key_name = keyName;
     }
 
     @Override
@@ -72,9 +74,11 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     }
 
     protected void onPostExecute(String json) {
+        GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
         if (except != null){
             new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
                     .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
+            pref.updateKeyString(sp, key_string, key_info);
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
@@ -83,19 +87,22 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
                         .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
                         .setPositiveButton(android.R.string.ok, null).show();
+                pref.updateKeyString(sp, key_string, key_info);
             } else if (!reply.isSuccess()){
 
                 //Not Successful
                 //debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 new AlertDialog.Builder(mContext).setTitle("Invalid Key")
                         .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
+                pref.updateKeyString(sp, key_string, key_info);
             } else {
                 //Succeeded
                 //Set SharedPref to new key and update general prefs
+                sp.edit().remove("playerName").apply();
+                sp.edit().remove("rank").apply();
                 sp.edit().putString("api-key",reply.getRecord().getKey().toString()).apply();
-                GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
                 pref.updateKeyString(sp, key_string, key_info);
-                new GetKeyInfoVerificationName(mContext,sp,key_string,key_info).execute(reply.getRecord().getOwner());
+                new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name).execute(reply.getRecord().getOwner());
             }
         }
     }

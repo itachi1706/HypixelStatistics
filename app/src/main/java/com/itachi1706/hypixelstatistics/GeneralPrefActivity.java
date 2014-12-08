@@ -12,6 +12,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -79,7 +80,10 @@ public class GeneralPrefActivity extends ActionBarActivity {
 
             final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
             final Preference api_key = findPreference("api_key");
+            final Preference staff_rank = findPreference("staff_rnk");
+            final Preference player_IGN = findPreference("staff_p");
             updateKeyString(sp, api_key, prefs);
+            updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
 
             final Preference finalAPIInfo = prefs;
             api_key.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -105,7 +109,16 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                         Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
-                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo).execute(UUID.fromString(newKeyString));
+                                    //Check if its a UUID
+                                    UUID uid;
+                                    try {
+                                        uid = UUID.fromString(newKeyString);
+                                    } catch (IllegalArgumentException e) {
+                                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    api_key.setSummary("Verifying Key...");
+                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN).execute(uid);
                                 }
                             })
                             .setNegativeButton(android.R.string.cancel, null)
@@ -114,6 +127,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     sp.edit().remove("api-key").apply();
                                     updateKeyString(sp, api_key, finalAPIInfo);
+                                    updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
                                     Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
                                 }
                             }).show();
@@ -136,8 +150,24 @@ public class GeneralPrefActivity extends ActionBarActivity {
             apikey.setSummary(keyString);
             if (keyString.equals("Default Key"))
                 apikeyinfo.setEnabled(false);
-            else
+            else {
                 apikeyinfo.setEnabled(true);
+            }
+        }
+
+        public void updateApiKeyOwnerInfo(SharedPreferences sp, Preference staff, Preference name){
+            String keyString = sp.getString("api-key", "Default Key");
+            if (keyString.equals("Default Key")){
+                staff.setSummary("-");
+                name.setSummary("-");
+                staff.setEnabled(false);
+                name.setEnabled(false);
+            } else {
+                staff.setSummary(sp.getString("rank", "Not Staff"));
+                name.setSummary(Html.fromHtml(sp.getString("playerName", "Cannot find player")));
+                staff.setEnabled(true);
+                name.setEnabled(true);
+            }
         }
     }
 }
