@@ -78,7 +78,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         if (except != null){
             new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
                     .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
-            pref.updateKeyString(sp, key_string, key_info);
+            pref.updateKeyString(sp, key_string, key_info, mContext);
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
@@ -87,21 +87,21 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
                         .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
                         .setPositiveButton(android.R.string.ok, null).show();
-                pref.updateKeyString(sp, key_string, key_info);
+                pref.updateKeyString(sp, key_string, key_info, mContext);
             } else if (!reply.isSuccess()){
 
                 //Not Successful
                 //debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 new AlertDialog.Builder(mContext).setTitle("Invalid Key")
                         .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
-                pref.updateKeyString(sp, key_string, key_info);
+                pref.updateKeyString(sp, key_string, key_info, mContext);
             } else {
                 //Succeeded
                 //Set SharedPref to new key and update general prefs
                 sp.edit().remove("playerName").apply();
                 sp.edit().remove("rank").apply();
                 sp.edit().putString("api-key",reply.getRecord().getKey().toString()).apply();
-                pref.updateKeyString(sp, key_string, key_info);
+                pref.updateKeyString(sp, key_string, key_info, mContext);
                 new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name).execute(reply.getRecord().getOwner());
             }
         }

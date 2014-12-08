@@ -1,6 +1,7 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,7 +84,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
             final Preference api_key = findPreference("api_key");
             final Preference staff_rank = findPreference("staff_rnk");
             final Preference player_IGN = findPreference("staff_p");
-            updateKeyString(sp, api_key, prefs);
+            updateKeyString(sp, api_key, prefs, getActivity());
             updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
 
             final Preference finalAPIInfo = prefs;
@@ -127,7 +128,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     sp.edit().remove("api-key").apply();
-                                    updateKeyString(sp, api_key, finalAPIInfo);
+                                    updateKeyString(sp, api_key, finalAPIInfo, getActivity());
                                     updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
                                     Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
                                 }
@@ -146,14 +147,16 @@ public class GeneralPrefActivity extends ActionBarActivity {
             });
         }
 
-        public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo){
+        public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo, Context mCon){
             String keyString = sp.getString("api-key", "Default Key");
             apikey.setSummary(keyString);
-            MainStaticVars.updateAPIKey(getActivity().getApplicationContext());
-            if (keyString.equals("Default Key"))
+            MainStaticVars.updateAPIKey(mCon);
+            if (keyString.equals("Default Key")) {
                 apikeyinfo.setEnabled(false);
-            else {
+                apikey.setTitle("API Key (Click to enter personal key)");
+            } else {
                 apikeyinfo.setEnabled(true);
+                apikey.setTitle("API Key (Click to change personal key)");
             }
         }
 
