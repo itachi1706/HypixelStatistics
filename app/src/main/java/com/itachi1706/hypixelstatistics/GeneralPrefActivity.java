@@ -97,7 +97,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     newKey.setHint("Enter API Key (Including dashes)");
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
                             .setMessage("This allows you to insert your own API Key to reduce the" +
-                                    "occurrence of API throttling. \n" +
+                                    " occurrence of API throttling. \n" +
                                     "If you are a staff member, inserting your personal key" +
                                     " will grant you access to more information \n\n" +
                                     "To get your API Key, Launch Minecraft, join mc.hypixel.net and do /api in-game.\n\n" +
