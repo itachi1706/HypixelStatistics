@@ -7,12 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -31,6 +33,7 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByName;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
 import java.util.ArrayList;
 
@@ -98,6 +101,19 @@ public class PlayerInfoActivity extends ActionBarActivity {
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
                     new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(name);
+                }
+            }
+        });
+
+        generalDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (generalDetails.getItemAtPosition(position) instanceof ResultDescription) {
+                    ResultDescription desc = (ResultDescription) generalDetails.getItemAtPosition(position);
+                    if (desc.get_alert() != null){
+                        new AlertDialog.Builder(PlayerInfoActivity.this).setTitle(desc.get_title())
+                                .setMessage(Html.fromHtml(desc.get_alert())).show();
+                    }
                 }
             }
         });

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.R;
@@ -35,23 +34,6 @@ public class ResultDescListAdapter extends ArrayAdapter<ResultDescription> {
         }
 
         ResultDescription i = items.get(position);
-
-        if (!i.is_hasDescription()) {
-            ListView.LayoutParams p = (ListView.LayoutParams) v.getLayoutParams();
-            p.height = 100;
-            v.setLayoutParams(p);
-        } else {
-            if (i.get_result().length() < 40 ){
-                ListView.LayoutParams p = (ListView.LayoutParams) v.getLayoutParams();
-                p.height = 150;
-                v.setLayoutParams(p);
-            } else {
-                ListView.LayoutParams p = (ListView.LayoutParams) v.getLayoutParams();
-                p.height = 180;
-                v.setLayoutParams(p);
-            }
-        }
-
 
         TextView title = (TextView) v.findViewById(R.id.tvTitle);
         TextView desc = (TextView) v.findViewById(R.id.tvResult);
