@@ -37,6 +37,7 @@ import java.util.Map;
  * Created by Kenneth on 10/11/2014, 10:12 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
+@Deprecated
 public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
 
     TextView debug,result, details;
@@ -150,10 +151,6 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
                     builder.append("<br /><br /><b><u>Achievements</u></b><br />");
                     builder.append(parseOngoingAchievements(reply));
                 }
-
-                //TODO Add (if present) stats parse, parkour parse, quest parse
-
-                //TODO Final formatting parse
                 details.setText(Html.fromHtml(builder.toString()));
             }
         }
@@ -187,7 +184,6 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
         tmp.append("First Login: ").append(new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))).append("<br />");
         if (reply.getPlayer().has("lastLogin"))
         tmp.append("Last Login: ").append(new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))).append("<br />");
-        //TODO Parse Time Played
         tmp.append("Time Played: ").append(MinecraftColorCodes.parseColors("§cComing Soon™§r")).append(" <br />");
         if (reply.getPlayer().has("networkExp"))
             tmp.append("Network XP: ").append(reply.getPlayer().get("networkExp").getAsString()).append("<br />");
@@ -293,16 +289,6 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
     }
 
     /**
-     * Parse statistics (Split based on GameType)
-     * @param reply PlayerReply object
-     * @return result
-     */
-    private String parseStats(PlayerReply reply){
-        //TODO Parse the Statistics based on the gameType
-        return null;
-    }
-
-    /**
      * Parse Ongoing Achievements
      * @param reply PlayerReply object
      * @return result
@@ -314,26 +300,5 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
             tmp.append(entry.getKey()).append(": ").append(entry.getValue()).append("<br />");
         }
         return tmp.toString();
-    }
-
-    /**
-     * Parse Lobby Parkour Staistics
-     * @param reply PlayerReply object
-     * @return result
-     */
-    private String parseParkourCounts(PlayerReply reply){
-        //TODO Parse the number of times a parkour is completed
-        return null;
-    }
-
-    /**
-     * Parse the Quests statistics
-     * @param reply PlayerReply object
-     * @return Statistics string
-     */
-    private String parseQuests(PlayerReply reply){
-        //TODO Do the string for parsing the number of time a quest is completed/active
-        //TODO If a quest is active, show when its started
-        return null;
     }
 }

@@ -192,7 +192,7 @@ public class PlayerInfoActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.view_legacy){
             new AlertDialog.Builder(PlayerInfoActivity.this)
-                    .setTitle("WARNING")
+                    .setTitle("WARNING - Legacy Version")
                     .setMessage("You are about to use a no longer worked upon version of player statistics" +
                             " that is incomplete in statistic data. This is still here" +
                             " for people to see the development progression and will" +

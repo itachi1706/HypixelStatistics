@@ -38,7 +38,7 @@ public class BoosterList extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BoosterDescription sel = (BoosterDescription) boostList.getItemAtPosition(position);
-                Intent intentE = new Intent(BoosterList.this, PlayerInfoActivity.class);
+                Intent intentE = new Intent(BoosterList.this, ExpandedPlayerInfoActivity.class);
                 intentE.putExtra("player", sel.get_mcName());
                 startActivity(intentE);
             }

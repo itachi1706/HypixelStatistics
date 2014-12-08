@@ -14,7 +14,7 @@
     <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
     <string name="keyinfo_total_label">Total Number Of Queries:</string>
     <string name="keyinfo_fields">-</string>
-    <string name="title_activity_player_info">View Player Statistics</string>
+    <string name="title_activity_player_info">View Player Statistics (Old)</string>
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>
     <string name="player_btnchk">Search!</string>
     <string name="player_etHint">Player Name</string>
@@ -31,6 +31,6 @@
     <string name="lv_booster_placeholder_location">Game Location</string>
     <string name="lv_booster_placeholder_boost_value">\?x Coins</string>
     <string name="title_activity_booster_list">Network Boosters List</string>
-    <string name="title_activity_expanded_player_info">View Player Statistics (Expanded Test)</string>
+    <string name="title_activity_expanded_player_info">View Player Statistics</string>
 
 </resources>

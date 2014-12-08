@@ -31,7 +31,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByName;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
@@ -77,7 +76,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setTitle("Querying Server...");
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
-            new GetPlayerByName(result, debug, generalDetails, pHead, checkProgress, headBar, getApplicationContext()).execute(intentPlayer);
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this).execute(intentPlayer);
 
         }
 
@@ -193,16 +192,16 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.view_legacy){
             new AlertDialog.Builder(ExpandedPlayerInfoActivity.this)
-                    .setTitle("WARNING")
+                    .setTitle("WARNING - Old Version")
                     .setMessage("You are about to use a no longer worked upon version of player statistics" +
-                            " that is incomplete in statistic data. This is still here" +
+                            " that has all its categories automatically expanded. This is still here" +
                             " for people to see the development progression and will" +
                             " be removed in the future. \n\n Are you sure you want to proceed?")
                     .setNegativeButton(android.R.string.no, null)
                     .setPositiveButton("Proceed!", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(ExpandedPlayerInfoActivity.this, OldPlayerInfoActivity.class));
+                            startActivity(new Intent(ExpandedPlayerInfoActivity.this, PlayerInfoActivity.class));
                         }
                     }).show();
             return true;

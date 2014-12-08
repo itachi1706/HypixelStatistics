@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"View Player", "View Activated Boosters", "View Player (Test)"};
+    String[] mainMenuItems = {"View Player", "View Activated Boosters"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BoosterDescription sel = (BoosterDescription) boosterMenu.getItemAtPosition(position);
-                Intent intentE = new Intent(MainActivity.this, PlayerInfoActivity.class);
+                Intent intentE = new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class);
                 intentE.putExtra("player", sel.get_mcName());
                 startActivity(intentE);
             }
@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
     private void checkMainMenuSelection(String selection){
         switch (selection){
             case "View Player":
-                startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
+                startActivity(new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class));
                 break;
             case "View Activated Boosters":
                 if (MainStaticVars.inProg){
@@ -123,9 +123,6 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 }
                 startActivity(new Intent(MainActivity.this, BoosterList.class));
-                break;
-            case "View Player (Test)":
-                startActivity(new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class));
                 break;
         }
     }

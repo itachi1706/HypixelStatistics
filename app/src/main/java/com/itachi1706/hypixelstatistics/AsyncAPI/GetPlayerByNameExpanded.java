@@ -185,10 +185,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
                 for (ResultDescription e : resultArray) {
                     if (e.get_result() != null) {
-                        ResultDescription exe = parseColorsInResults(e);
-                        e.set_result(exe.get_result());
+                        e.set_result(parseColorsInResults(e));
                     }
-
+                    if (e.get_childItems() != null){
+                        for (ResultDescription ex : e.get_childItems()){
+                            if (ex.get_result() != null){
+                                ex.set_result(parseColorsInResults(ex));
+                            }
+                        }
+                    }
                 }
 
                 ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(this.mContext, resultArray);
@@ -197,26 +202,18 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         }
     }
 
-    private ResultDescription parseColorsInResults(ResultDescription e){
+    private String parseColorsInResults(ResultDescription e){
         String r = e.get_result();
         if (e.get_result().equalsIgnoreCase("true") || e.get_result().equalsIgnoreCase("enabled")) {
-            e.set_result(MinecraftColorCodes.parseColors("§a" + r + "§r"));
+            return MinecraftColorCodes.parseColors("§a" + r + "§r");
         }
         if (e.get_result().equalsIgnoreCase("false") || e.get_result().equalsIgnoreCase("disabled")) {
-            e.set_result(MinecraftColorCodes.parseColors("§c" + r + "§r"));
+            return MinecraftColorCodes.parseColors("§c" + r + "§r");
         }
         if((e.get_result().equalsIgnoreCase("null") || e.get_result() == null) && e.is_hasDescription()){
-            e.set_result(MinecraftColorCodes.parseColors("§c" + "NONE" + "§r"));
+            return MinecraftColorCodes.parseColors("§c" + "NONE" + "§r");
         }
-        if (e.get_childItems() != null){
-            for (ResultDescription ex : resultArray){
-                if (ex.get_result() != null){
-                    ResultDescription exe = parseColorsInResults(ex);
-                    ex.set_result(exe.get_result());
-                }
-            }
-        }
-        return e;
+        return r;
     }
 
     private boolean checkHistory(PlayerReply reply){
