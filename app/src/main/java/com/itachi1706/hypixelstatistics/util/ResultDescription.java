@@ -77,7 +77,7 @@ public class ResultDescription {
         return _childItems;
     }
 
-    public void set_childItems(ArrayList<ResultDescription> _childItems) {
-        this._childItems = _childItems;
+    public ResultDescription get_childItems(int position) {
+        return _childItems.get(position);
     }
 }

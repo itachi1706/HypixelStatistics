@@ -37,6 +37,10 @@
             android:label="@string/title_activity_player_info" >
         </activity>
         <activity
+            android:name="com.itachi1706.hypixelstatistics.ExpandedPlayerInfoActivity"
+            android:label="@string/title_activity_expanded_player_info" >
+        </activity>
+        <activity
             android:name="com.itachi1706.hypixelstatistics.BoosterList"
             android:label="@string/title_activity_booster_list" >
         </activity>
