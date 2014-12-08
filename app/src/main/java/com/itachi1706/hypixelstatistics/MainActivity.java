@@ -3,8 +3,11 @@ package com.itachi1706.hypixelstatistics;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;
+    TextView customWelcome;
     ProgressBar boostProg;
     String[] mainMenuItems = {"View Player", "View Activated Boosters"};
 
@@ -63,8 +68,22 @@ public class MainActivity extends ActionBarActivity {
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
         }
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
         MainStaticVars.updateAPIKey(getApplicationContext());
+        customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String playerName = prefs.getString("playerName", "NOPE");
+        //Log.d("DEBUG", playerName);
+        if (playerName.equals("NOPE")){
+            customWelcome.setVisibility(View.INVISIBLE);
+        } else {
+            customWelcome.setVisibility(View.VISIBLE);
+            customWelcome.setText(Html.fromHtml("Welcome " + playerName + "!"));
+        }
     }
 
     @Override

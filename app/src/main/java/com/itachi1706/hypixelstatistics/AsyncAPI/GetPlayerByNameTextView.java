@@ -133,14 +133,16 @@ public class GetPlayerByNameTextView extends AsyncTask<String,Void,String> {
                     builder.append(parseDonor(reply));
                 }
 
-                if (reply.getPlayer().has("rank")){
-                    if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")){
-                        if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")){
-                            builder.append("<br /><br /><b><u>YouTuber Information</u></b><br />");
-                        } else {
-                            builder.append("<br /><br /><b><u>Staff Information</u></b><br />");
+                if (MainStaticVars.isStaff) {
+                    if (reply.getPlayer().has("rank")) {
+                        if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
+                            if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
+                                builder.append("<br /><br /><b><u>YouTuber Information</u></b><br />");
+                            } else {
+                                builder.append("<br /><br /><b><u>Staff Information</u></b><br />");
+                            }
+                            builder.append(parsePriviledged(reply));
                         }
-                        builder.append(parsePriviledged(reply));
                     }
                 }
 

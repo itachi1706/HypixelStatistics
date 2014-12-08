@@ -153,15 +153,17 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
                     parseDonor(reply);
                 }
 
-                if (reply.getPlayer().has("rank")){
-                    if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")){
-                        resultArray.add(new ResultDescription(" ", " "));
-                        if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")){
-                            resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false));
-                        } else {
-                            resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false));
+                if (MainStaticVars.isStaff) {
+                    if (reply.getPlayer().has("rank")) {
+                        if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
+                            resultArray.add(new ResultDescription(" ", " "));
+                            if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
+                                resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false));
+                            } else {
+                                resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false));
+                            }
+                            parsePriviledged(reply);
                         }
-                        parsePriviledged(reply);
                     }
                 }
 

@@ -18,10 +18,13 @@ public class MainStaticVars {
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static int numOfBoosters = 0, tmpBooster = 0;
     public static String apikey = null;
+    public static boolean isStaff = false;
 
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         apikey = prefs.getString("api-key",defaultkey);
+        isStaff = !prefs.getString("rank", "LEL").equals("LEL");
+        //Log.d("API KEY", "New API Key: " + apikey);
     }
 }

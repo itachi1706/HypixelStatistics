@@ -11,10 +11,10 @@
         android:id="@+id/lvMainMenu"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"
-        android:layout_above="@+id/tvBooster" />
+        android:layout_above="@+id/tvBooster"
+        android:layout_below="@+id/tvCustWelcome" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -42,5 +42,15 @@
         android:layout_marginTop="59dp"
         android:indeterminate="true"
         android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/tvCustWelcome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
