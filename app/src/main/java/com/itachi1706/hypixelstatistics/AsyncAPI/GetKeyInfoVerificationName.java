@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.Preference;
 import android.text.Html;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
@@ -14,7 +13,6 @@ import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
-import net.hypixel.api.reply.KeyReply;
 import net.hypixel.api.reply.PlayerReply;
 
 import org.apache.http.HttpResponse;
@@ -26,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.UUID;
 
 /**
  * Created by Kenneth on 10/11/2014, 10:12 PM
@@ -38,12 +35,14 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
     Exception except = null;
     SharedPreferences sp;
     Preference key_staff, key_name;
+    boolean isSettings = false;
 
-    public GetKeyInfoVerificationName(Context context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName){
+    public GetKeyInfoVerificationName(Context context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName, boolean isSettingss){
         mContext = context;
         sp = sharedPrefs;
         key_staff = keyStaff;
         key_name = keyName;
+        isSettings = isSettingss;
     }
 
     @Override
@@ -94,15 +93,19 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                 String pRank = MinecraftColorCodes.parseHypixelRanks(reply);
                 String successMessage = "New API Key Set! Welcome " + pRank + "!";
                 sp.edit().putString("playerName", pRank).apply();
+                sp.edit().putString("own", reply.getPlayer().get("displayname").getAsString()).apply();
                 if (MinecraftColorCodes.isStaff(reply)) {
                     successMessage += " <br /><br />As a Staff Member (" + reply.getPlayer().get("rank").getAsString() + "), you now have access to additional information!";
                     sp.edit().putString("rank", reply.getPlayer().get("rank").getAsString()).apply();
                 }
+                if (isSettings) {
                 new AlertDialog.Builder(mContext).setTitle("Success!")
                         .setMessage(Html.fromHtml(successMessage))
                         .setPositiveButton(android.R.string.ok, null).show();
-                GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
-                pref.updateApiKeyOwnerInfo(sp, key_staff, key_name);
+
+                    GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
+                    pref.updateApiKeyOwnerInfo(sp, key_staff, key_name);
+                }
             }
         }
     }

@@ -130,6 +130,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                     sp.edit().remove("api-key").apply();
                                     sp.edit().remove("rank").apply();
                                     sp.edit().remove("playerName").apply();
+                                    sp.edit().remove("own").apply();
                                     updateKeyString(sp, api_key, finalAPIInfo, getActivity());
                                     updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
                                     Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();

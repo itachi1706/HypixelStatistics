@@ -3,15 +3,11 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.Preference;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
-import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.KeyReply;
@@ -100,9 +96,10 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 //Set SharedPref to new key and update general prefs
                 sp.edit().remove("playerName").apply();
                 sp.edit().remove("rank").apply();
+                sp.edit().remove("own").apply();
                 sp.edit().putString("api-key",reply.getRecord().getKey().toString()).apply();
                 pref.updateKeyString(sp, key_string, key_info, mContext);
-                new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name).execute(reply.getRecord().getOwner());
+                new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name,true).execute(reply.getRecord().getOwner());
             }
         }
     }

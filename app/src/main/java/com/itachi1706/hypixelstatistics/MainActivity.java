@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
+import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -76,6 +77,8 @@ public class MainActivity extends ActionBarActivity {
         MainStaticVars.updateAPIKey(getApplicationContext());
         customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!prefs.getString("own", "n").equals("n"))
+            new GetKeyInfoVerificationName(getApplicationContext(), prefs, null, null, false).execute(prefs.getString("own", "Steve"));
         String playerName = prefs.getString("playerName", "NOPE");
         //Log.d("DEBUG", playerName);
         if (playerName.equals("NOPE")){
