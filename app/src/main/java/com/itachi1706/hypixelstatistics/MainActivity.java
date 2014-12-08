@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intentE);
             }
         });
+        MainStaticVars.updateAPIKey(getApplicationContext());
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
         }
