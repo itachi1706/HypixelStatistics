@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.HeadHistory;
@@ -30,6 +29,7 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     //boolean isActiveOnly;
     ProgressBar bar;
     ImageView image;
+    boolean retry = false;
 
     /*
     public BoosterGetPlayerHead(Context context, ListView listView, boolean isActive, ProgressBar bars){
@@ -43,6 +43,13 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
         mContext = context;
         image = view;
         bar = progress;
+    }
+
+    public BoosterGetPlayerHead(Context context, ImageView view, ProgressBar progress, boolean retrying){
+        mContext = context;
+        image = view;
+        bar = progress;
+        retry = retrying;
     }
 
     @Override
@@ -66,8 +73,11 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
             density = 300;
             //density = 500;
         }
-        //String headUrl = "https://minotar.net/avatar/" + data.get_mcName() + "/" + density + ".png";
-        String headUrl = "http://cravatar.eu/avatar/" + data.get_mcName() + "/" + density + ".png";
+        String headUrl;
+        if (retry)
+            headUrl = "https://minotar.net/avatar/" + data.get_mcName() + "/" + density + ".png";
+        else
+            headUrl = "http://cravatar.eu/avatar/" + data.get_mcName() + "/" + density + ".png";
         Drawable d = null;
         try {
             //Get Player Head
@@ -87,16 +97,30 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     protected void onPostExecute(Drawable draw) {
         if (except != null){
             if (except.getCause() == null){
-                Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                Log.d("BOOSTER HEAD EXCEPTION", "An Exception Occurred (" + except.getMessage() + ")");
+                if (!retry) {
+                    Log.d("BOOSTER HEAD EXCEPTION", "Retrying 1 more time from a different site");
+                    new BoosterGetPlayerHead(mContext, image, bar, true).execute(data);
+                } else {
+                    bar.setVisibility(View.GONE);
+                }
                 return;
             }
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 //Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
-                Log.d("TIMED OUT", "BOOSTER HEAD. Retrying...");
-                new BoosterGetPlayerHead(mContext, image, bar).execute(data);
+                if (!retry) {
+                    Log.d("TIMED OUT", "BOOSTER HEAD. Retrying 1 more time from a different site...");
+                    new BoosterGetPlayerHead(mContext, image, bar, true).execute(data);
+                } else {
+                    Log.d("TIMED OUT", "BOOSTER HEAD. Unable to get head!");
+                    bar.setVisibility(View.GONE);
+                }
+                return;
             } else
                 //Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
                 Log.d("EXCEPTION", "BOOSTER HEAD (" + except.getMessage() + ")");
+                bar.setVisibility(View.GONE);
         } else {
             //data.setMcHead(draw);
             image.setImageDrawable(draw);

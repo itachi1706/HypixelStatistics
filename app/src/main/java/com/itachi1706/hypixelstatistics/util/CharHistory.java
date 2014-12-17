@@ -19,7 +19,10 @@ public class CharHistory {
 
     public static void addHistory(PlayerReply result, SharedPreferences pref) {
         String playerName = result.getPlayer().get("playername").getAsString();
-        String playerMcName = result.getPlayer().get("displayname").getAsString();
+        String playerMcName = playerName;
+        if (MinecraftColorCodes.checkDisplayName(result)) {
+             playerMcName = result.getPlayer().get("displayname").getAsString();
+        }
         String prefix;
         if (result.getPlayer().has("prefix")) {
             prefix = result.getPlayer().get("prefix").getAsString();

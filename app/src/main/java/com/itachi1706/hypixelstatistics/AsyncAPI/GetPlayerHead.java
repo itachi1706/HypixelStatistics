@@ -26,11 +26,19 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
     Context mContext;
     Exception except = null;
     String playerNamer;
+    boolean retry = false;
 
     public GetPlayerHead(ProgressBar prog, ImageView head, Context context){
         progress = prog;
         imageViewhead = head;
         mContext = context;
+    }
+
+    public GetPlayerHead(ProgressBar prog, ImageView head, Context context, boolean retrying){
+        progress = prog;
+        imageViewhead = head;
+        mContext = context;
+        retry = retrying;
     }
 
     @Override
@@ -53,8 +61,11 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             //density = 500;
         }
         playerNamer = playerName[0];
-        //String headUrl = "https://minotar.net/avatar/" + playerNamer + "/" + density + ".png";
-        String headUrl = "http://cravatar.eu/avatar/" + playerNamer + "/" + density + ".png";
+        String headUrl;
+        if (retry)
+            headUrl = "https://minotar.net/avatar/" + playerNamer + "/" + density + ".png";
+        else
+            headUrl = "http://cravatar.eu/avatar/" + playerNamer + "/" + density + ".png";
 
         Drawable d = null;
         try {
@@ -76,12 +87,22 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
         progress.setVisibility(View.GONE);
         if (except != null){
             if (except.getCause() == null){
-                Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+
+                if (!retry){
+                    Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site", Toast.LENGTH_SHORT).show();
+                    new GetPlayerHead(progress, imageViewhead, mContext, true).execute(playerNamer);
+                }
+                else
+                    Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (except.getCause().toString().contains("SSLProtocolException"))
+            if (except.getCause().toString().contains("SSLProtocolException")) {
+                if (!retry) {
+                    Toast.makeText(mContext, "Head Download Timed Out. Retrying from different site", Toast.LENGTH_SHORT).show();
+                    new GetPlayerHead(progress, imageViewhead, mContext, true).execute(playerNamer);
+                }
                 Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
-            else
+            } else
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
         } else {
             imageViewhead.setImageDrawable(draw);

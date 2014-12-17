@@ -135,7 +135,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 progress.dismiss();
                 pro.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
-                new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
+                if (MinecraftColorCodes.checkDisplayName(reply)) {
+                    new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
+                } else
+                    pro.setVisibility(View.GONE);
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
                 if (!checkHistory(reply)) {
@@ -251,7 +254,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Rank: ", reply.getPlayer().get("rank").getAsString()));
         else
             descArray.add(new ResultDescription("Rank: ", "NORMAL"));
-        descArray.add(new ResultDescription("Name: ",reply.getPlayer().get("displayname").getAsString()));
+        if (MinecraftColorCodes.checkDisplayName(reply))
+            descArray.add(new ResultDescription("Name: ",reply.getPlayer().get("displayname").getAsString()));
+        else
+            descArray.add(new ResultDescription("Name: ",reply.getPlayer().get("playername").getAsString()));
         descArray.add(new ResultDescription("UUID: ",reply.getPlayer().get("uuid").getAsString()));
         if (reply.getPlayer().has("packageRank"))
             descArray.add(new ResultDescription("Donor Rank: ",reply.getPlayer().get("packageRank").getAsString()));

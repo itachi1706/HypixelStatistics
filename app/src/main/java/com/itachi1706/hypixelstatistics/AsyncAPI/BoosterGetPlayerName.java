@@ -108,8 +108,13 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 Toast.makeText(mContext.getApplicationContext(), "Invalid Player", Toast.LENGTH_SHORT).show();
             } else {
                 //Succeeded
-                playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
-                playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
+                if (!MinecraftColorCodes.checkDisplayName(reply)){
+                    playerName.set_mcName(reply.getPlayer().get("playername").getAsString());
+                    playerName.set_mcNameWithRank(reply.getPlayer().get("playername").getAsString());
+                } else {
+                    playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
+                    playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
+                }
                 playerName.set_done(true);
                 if (!checkHistory(reply)) {
                     CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));

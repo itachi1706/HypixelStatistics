@@ -45,45 +45,31 @@ public class MinecraftColorCodes {
      */
     public static String parseHypixelRanks(PlayerReply name){
         //Check for special rank
-        String special = specialRanks(name);
+        if (!checkDisplayName(name)){
+            return parseColors("§f" + name.getPlayer().get("playername").getAsString() + "§r");
+        }
+        String special = null;
+        if (name.getPlayer().has("prefix")){
+            special = newSpecialRanks(name.getPlayer().get("displayname").getAsString(), name.getPlayer().get("prefix").getAsString());
+        }
         if (special != null){
             return special;
         }
         if (name.getPlayer().has("rank")){
-            switch (name.getPlayer().get("rank").getAsString()){
-                case "YOUTUBER": return parseColors("§6[YT] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "ADMIN": return parseColors("§c[ADMIN] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "HELPER": return parseColors("§9[HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MODERATOR": return parseColors("§2[MOD] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "JR_HELPER": return parseColors("§9[JR HELPER] " + name.getPlayer().get("displayname").getAsString() + "§r");
+            String rank = rank(name.getPlayer().get("displayname").getAsString(), name.getPlayer().get("rank").getAsString());
+            if (rank != null){
+                return rank;
             }
         }
-        if (name.getPlayer().has("newpackageRank")){
-            switch (name.getPlayer().get("newpackageRank").getAsString()){
-                case "NONE": return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "VIP": return parseColors("§a[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "VIP_PLUS": return parseColors("§a[VIP§r§6+§r§a] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP": return parseColors("§b[MVP] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP_PLUS": return parseColors("§b[MVP§r§c+§r§b] " + name.getPlayer().get("displayname").getAsString() + "§r");
-            }
-        } else if (name.getPlayer().has("PackageRank")){
-            switch (name.getPlayer().get("PackageRank").getAsString()) {
-                case "NONE":
-                    return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "VIP":
-                    return parseColors("§a[VIP] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "VIP_PLUS":
-                    return parseColors("§a[VIP§r§6+§r§a] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP":
-                    return parseColors("§b[MVP] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "MVP_PLUS":
-                    return parseColors("§b[MVP§r§c+§r§b] " + name.getPlayer().get("displayname").getAsString() + "§r");
-            }
+        if (name.getPlayer().has("newPackageRank")){
+            return newPackageRank(name.getPlayer().get("displayname").getAsString(), name.getPlayer().get("newPackageRank").getAsString());
+        } else if (name.getPlayer().has("packageRank")){
+            return packageRank(name.getPlayer().get("displayname").getAsString(), name.getPlayer().get("packageRank").getAsString());
         } else {
             //Normal
             return parseColors("§7" + name.getPlayer().get("displayname").getAsString() + "§r");
         }
-        return "Error parsing String";
+        //return "Error parsing String";
     }
 
     /**
@@ -93,100 +79,116 @@ public class MinecraftColorCodes {
      */
     public static String parseHistoryHypixelRanks(JsonObject name){
         //Check for special rank
-        String special = specialRanksHistory(name);
+        String special = null;
+        if (name.has("prefix")){
+            special = newSpecialRanks(name.get("displayname").getAsString(), name.get("prefix").getAsString());
+        }
         if (special != null){
             return special;
         }
         if (name.has("rank")){
-            switch (name.get("rank").getAsString()){
-                case "YOUTUBER": return parseColors("§6[YT] " + name.get("displayname").getAsString() + "§r");
-                case "ADMIN": return parseColors("§c[ADMIN] " + name.get("displayname").getAsString() + "§r");
-                case "HELPER": return parseColors("§9[HELPER] " + name.get("displayname").getAsString() + "§r");
-                case "MODERATOR": return parseColors("§2[MOD] " + name.get("displayname").getAsString() + "§r");
-                case "JR_HELPER": return parseColors("§9[JR HELPER] " + name.get("displayname").getAsString() + "§r");
+            String rank = rank(name.get("displayname").getAsString(), name.get("rank").getAsString());
+            if (rank != null){
+                return rank;
             }
         }
-        if (name.has("newpackageRank")){
-            switch (name.get("newpackageRank").getAsString()){
-                case "NONE": return parseColors("§7" + name.get("displayname").getAsString() + "§r");
-                case "VIP": return parseColors("§a[VIP] " + name.get("displayname").getAsString() + "§r");
-                case "VIP_PLUS": return parseColors("§a[VIP§r§6+§r§a] " + name.get("displayname").getAsString() + "§r");
-                case "MVP": return parseColors("§b[MVP] " + name.get("displayname").getAsString() + "§r");
-                case "MVP_PLUS": return parseColors("§b[MVP§r§c+§r§b] " + name.get("displayname").getAsString() + "§r");
-            }
-        } else if (name.has("PackageRank")){
-            switch (name.get("PackageRank").getAsString()) {
-                case "NONE":
-                    return parseColors("§7" + name.get("displayname").getAsString() + "§r");
-                case "VIP":
-                    return parseColors("§a[VIP] " + name.get("displayname").getAsString() + "§r");
-                case "VIP_PLUS":
-                    return parseColors("§a[VIP§r§6+§r§a] " + name.get("displayname").getAsString() + "§r");
-                case "MVP":
-                    return parseColors("§b[MVP] " + name.get("displayname").getAsString() + "§r");
-                case "MVP_PLUS":
-                    return parseColors("§b[MVP§r§c+§r§b] " + name.get("displayname").getAsString() + "§r");
-            }
+        if (name.has("newPackageRank")){
+            return newPackageRank(name.get("displayname").getAsString(), name.get("newPackageRank").getAsString());
+        } else if (name.has("packageRank")){
+            return packageRank(name.get("displayname").getAsString(), name.get("packageRank").getAsString());
         } else {
             //Normal
             return parseColors("§7" + name.get("displayname").getAsString() + "§r");
         }
-        return "Error parsing String";
+        //return "Error parsing String";
     }
 
     /**
-     * Check for special prefixes from History
-     * @param name PlayerReply object
-     * @return parsed string if valid, null otherwise
+     * Parse New Package Ranks
+     * @param playername Player's Display Name
+     * @param newPackageRank Player's New Package Rank
+     * @return Formatted String
      */
-    private static String specialRanksHistory(JsonObject name){
-        if (name.has("prefix")) {
-            switch (name.get("prefix").getAsString()) {
-                case "§c[OWNER]":
-                    return parseColors("§c[OWNER] " + name.get("displayname").getAsString() + "§r");
-                case "§c[SLOTH]":
-                    return parseColors("§c[SLOTH] " + name.get("displayname").getAsString() + "§r");
-                case "§c[RETIRED]":
-                    return parseColors("§c[RETIRED] " + name.get("displayname").getAsString() + "§r");
-                case "§c[§aMC§fProHosting§c]":
-                    return parseColors("§c[§r§aMC§r§fProHosting§r§c] " + name.get("displayname").getAsString() + "§r");
-                case "§6[MOJANG]":
-                    return parseColors("§6[MOJANG] " + name.get("displayname").getAsString() + "§r");
-                case "§3[BUILD TEAM]":
-                    return parseColors("§3[BUILD TEAM] " + name.get("displayname").getAsString() + "§r");
-                case "§3[BUILD TEAM§c+§3]":
-                    return parseColors("§3[BUILD TEAM§r§c+§r§3] " + name.get("displayname").getAsString() + "§r");
-                case "§6[APPLE]":
-                    return parseColors("§6[APPLE] " + name.get("displayname").getAsString() + "§r");
-                default:
-                    return null;
-            }
+    private static String newPackageRank(String playername, String newPackageRank){
+        switch (newPackageRank) {
+            case "NONE":
+                return parseColors("§7" + playername + "§r");
+            case "VIP":
+                return parseColors("§a[VIP] " + playername + "§r");
+            case "VIP_PLUS":
+                return parseColors("§a[VIP§r§6+§r§a] " + playername + "§r");
+            case "MVP":
+                return parseColors("§b[MVP] " + playername + "§r");
+            case "MVP_PLUS":
+                return parseColors("§b[MVP§r§c+§r§b] " + playername + "§r");
+        }
+        return "An error occured (Invalid NewPackageRank)";
+    }
+
+    /**
+     * Parse Old Package Rank
+     * @param playername Player's Display Name
+     * @param packageRank Player's Pre EULA Rank
+     * @return Formatted String
+     */
+    private static String packageRank(String playername, String packageRank){
+        switch (packageRank) {
+            case "NONE":
+                return parseColors("§7" + playername + "§r");
+            case "VIP":
+                return parseColors("§a[VIP] " + playername + "§r");
+            case "VIP_PLUS":
+                return parseColors("§a[VIP§r§6+§r§a] " + playername + "§r");
+            case "MVP":
+                return parseColors("§b[MVP] " + playername + "§r");
+            case "MVP_PLUS":
+                return parseColors("§b[MVP§r§c+§r§b] " + playername + "§r");
+        }
+        return "An error occured (Invalid packageRank)";
+    }
+
+    /**
+     * Parse Priviledged Rank
+     * @param playername Player's Display Name
+     * @param rank Player's Rank
+     * @return Formatted String
+     */
+    private static String rank(String playername, String rank){
+        switch (rank){
+            case "YOUTUBER": return parseColors("§6[YT] " + playername + "§r");
+            case "ADMIN": return parseColors("§c[ADMIN] " + playername + "§r");
+            case "HELPER": return parseColors("§9[HELPER] " + playername + "§r");
+            case "MODERATOR": return parseColors("§2[MOD] " + playername + "§r");
+            case "JR_HELPER": return parseColors("§9[JR HELPER] " + playername + "§r");
         }
         return null;
     }
 
     /**
-     * Check for special prefixes
-     * @param name PlayerReply object
-     * @return parsed string if valid, null otherwise
+     * Parse Special Prefixed Ranks
+     * @param displayName Player's Display Name
+     * @param prefix Player's Personalized Prefix
+     * @return Formatted String
      */
-    private static String specialRanks(PlayerReply name){
-        if (name.getPlayer().has("prefix")){
-            switch (name.getPlayer().get("prefix").getAsString()){
-                case "§c[OWNER]": return parseColors("§c[OWNER] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§c[SLOTH]": return parseColors("§c[SLOTH] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§c[RETIRED]": return parseColors("§c[RETIRED] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§c[§aMC§fProHosting§c]": return parseColors("§c[§r§aMC§r§fProHosting§r§c] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§6[MOJANG]": return parseColors("§6[MOJANG] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§3[BUILD TEAM]": return parseColors("§3[BUILD TEAM] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§3[BUILD TEAM§c+§3]": return parseColors("§3[BUILD TEAM§r§c+§r§3] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                case "§6[APPLE]": return parseColors("§6[APPLE] " + name.getPlayer().get("displayname").getAsString() + "§r");
-                default: return null;
-            }
+    private static String newSpecialRanks(String displayName, String prefix){
+        switch (prefix){
+            case "§c[OWNER]": return parseColors("§c[OWNER] " + displayName + "§r");
+            case "§c[SLOTH]": return parseColors("§c[SLOTH] " + displayName + "§r");
+            case "§c[RETIRED]": return parseColors("§c[RETIRED] " + displayName + "§r");
+            case "§c[§aMC§fProHosting§c]": return parseColors("§c[§r§aMC§r§fProHosting§r§c] " + displayName + "§r");
+            case "§6[MOJANG]": return parseColors("§6[MOJANG] " + displayName + "§r");
+            case "§3[BUILD TEAM]": return parseColors("§3[BUILD TEAM] " + displayName + "§r");
+            case "§3[BUILD TEAM§c+§3]": return parseColors("§3[BUILD TEAM§r§c+§r§3] " + displayName + "§r");
+            case "§6[APPLE]": return parseColors("§6[APPLE] " + displayName + "§r");
+            default: return null;
         }
-        return null;
     }
 
+    /**
+     * Check if Player is a staff member
+     * @param name PlayerReply Object
+     * @return true if player is a staff member
+     */
     public static boolean isStaff(PlayerReply name){
         if (name.getPlayer().has("rank")){
             String rank = name.getPlayer().get("rank").getAsString();
@@ -194,6 +196,15 @@ public class MinecraftColorCodes {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Check if player object has a display name
+     * @param name PlayerReply Object
+     * @return true if player has a display name
+     */
+    public static boolean checkDisplayName(PlayerReply name){
+        return name.getPlayer().has("displayname");
     }
 
 
