@@ -73,7 +73,7 @@ public class GuildActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (memberInfo.getItemAtPosition(position) instanceof GuildMemberDesc) {
-                    GuildMemberDesc desc = (GuildMemberDesc) generalInfo.getItemAtPosition(position);
+                    GuildMemberDesc desc = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
                     if (desc.get_dailyCoins() != null){
                         //TODO Add Button to check player info
                         new AlertDialog.Builder(GuildActivity.this).setTitle("Daily Coins for " + desc.get_mcNameWithRank())
