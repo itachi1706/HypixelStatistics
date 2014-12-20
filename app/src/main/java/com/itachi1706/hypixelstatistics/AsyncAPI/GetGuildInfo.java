@@ -119,6 +119,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         guildInfo = new ArrayList<>();
         guildMembers = new ArrayList<>();
         MainStaticVars.guildList.clear();
+        guildInfo.add(new ResultDescription("Guild Name", reply.getGuild().get("name").getAsString()));
         guildInfo.add(new ResultDescription("Guild ID", guildID));
         if (reply.getGuild().has("created"))
             guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getGuild().get("created").getAsLong()))));

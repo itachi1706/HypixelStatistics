@@ -91,6 +91,7 @@ public class GuildActivity extends ActionBarActivity {
                 } else {
                     boolean state = searchFilter.isChecked();
                     String searchText = guildSearch.getText().toString();
+                    Toast.makeText(getApplicationContext(), "Querying Guild Information", Toast.LENGTH_SHORT).show();
                     new GetGuildId(state, GuildActivity.this, generalInfo, memberInfo).execute(searchText);
                 }
             }
