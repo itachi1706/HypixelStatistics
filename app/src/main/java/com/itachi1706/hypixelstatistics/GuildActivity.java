@@ -1,9 +1,11 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
 import android.view.Menu;
@@ -71,16 +73,33 @@ public class GuildActivity extends ActionBarActivity {
 
         memberInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 if (memberInfo.getItemAtPosition(position) instanceof GuildMemberDesc) {
                     GuildMemberDesc desc = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
                     if (desc.get_dailyCoins() != null){
-                        //TODO Add Button to check player info
                         new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Daily Coin Contributions by " + desc.get_mcNameWithRank()))
-                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null).show();
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null)
+                                .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        GuildMemberDesc sel = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
+                                        Intent intentE = new Intent(GuildActivity.this, ExpandedPlayerInfoActivity.class);
+                                        intentE.putExtra("player", sel.get_mcName());
+                                        startActivity(intentE);
+                                    }
+                                }).show();
                     } else {
                         new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Daily Coins Contributions by " + desc.get_mcNameWithRank()))
-                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors("This member did not make any contributions to the guild"))).setPositiveButton(android.R.string.ok, null).show();
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors("This member did not make any contributions to the guild"))).setPositiveButton(android.R.string.ok, null)
+                                .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        GuildMemberDesc sel = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
+                                        Intent intentE = new Intent(GuildActivity.this, ExpandedPlayerInfoActivity.class);
+                                        intentE.putExtra("player", sel.get_mcName());
+                                        startActivity(intentE);
+                                    }
+                                }).show();
                     }
                 }
             }
