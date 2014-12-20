@@ -62,7 +62,7 @@ public class GuildActivity extends ActionBarActivity {
                 if (generalInfo.getItemAtPosition(position) instanceof ResultDescription) {
                     ResultDescription desc = (ResultDescription) generalInfo.getItemAtPosition(position);
                     if (desc.get_alert() != null){
-                        new AlertDialog.Builder(GuildActivity.this).setTitle(desc.get_title())
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml(desc.get_title()))
                                 .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_alert()))).show();
                     }
                 }
