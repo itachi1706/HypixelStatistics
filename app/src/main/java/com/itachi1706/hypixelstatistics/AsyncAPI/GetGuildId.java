@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,10 +42,14 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... nameOrPlayer){
         String url = MainStaticVars.API_BASE_URL + "findGuild?key=" + MainStaticVars.apikey + "&";
-        if (_isName)//Is Guild Name
+        if (_isName) {//Is Guild Name
             url += "byName=" + nameOrPlayer[0];
-        else //Guild Player
+            Log.d("Getting Guild Info", "by Name");
+        } else { //Guild Player
             url += "byPlayer=" + nameOrPlayer[0];
+            Log.d("Getting Guild Info", "by Member");
+        }
+        Log.d("findGuild URL", url);
         String tmp = "";
         try {
             HttpClient client = new DefaultHttpClient();

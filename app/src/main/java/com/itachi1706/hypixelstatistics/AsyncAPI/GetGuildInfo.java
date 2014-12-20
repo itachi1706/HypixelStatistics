@@ -62,6 +62,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         guildID = guildId[0];
         String url = MainStaticVars.API_BASE_URL + "findGuild?key=" + MainStaticVars.apikey + "&id=" + guildID;
         String tmp = "";
+        Log.d("guild Info URL", url);
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet(url);
