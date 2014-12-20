@@ -60,7 +60,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... guildId){
         guildID = guildId[0];
-        String url = MainStaticVars.API_BASE_URL + "findGuild?key=" + MainStaticVars.apikey + "&id=" + guildID;
+        String url = MainStaticVars.API_BASE_URL + "guild?key=" + MainStaticVars.apikey + "&id=" + guildID;
         String tmp = "";
         Log.d("guild Info URL", url);
         try {
