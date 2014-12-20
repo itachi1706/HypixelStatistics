@@ -63,7 +63,7 @@ public class GuildActivity extends ActionBarActivity {
                     ResultDescription desc = (ResultDescription) generalInfo.getItemAtPosition(position);
                     if (desc.get_alert() != null){
                         new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml(desc.get_title()))
-                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_alert()))).show();
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_alert()))).setPositiveButton(android.R.string.ok, null).show();
                     }
                 }
             }
