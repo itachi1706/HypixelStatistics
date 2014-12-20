@@ -99,7 +99,7 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
         }
         if (reply.getGuild() == null) {
             if (_isName)
-                Toast.makeText(mContext, "Unable to find a guild by that name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Unable to find a guild by that name. Please note that searching by Guild Name is case sensitive", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, "This player does not have a guild", Toast.LENGTH_SHORT).show();
             return;
