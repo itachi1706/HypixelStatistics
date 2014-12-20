@@ -20,6 +20,8 @@ public class MainStaticVars {
     public static String apikey = null;
     public static boolean isStaff = false;
 
+    public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
+
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

@@ -32,5 +32,6 @@
     <string name="lv_booster_placeholder_boost_value">\?x Coins</string>
     <string name="title_activity_booster_list">Network Boosters List</string>
     <string name="title_activity_expanded_player_info">View Player Statistics</string>
+    <string name="title_activity_guild">GuildActivity</string>
 
 </resources>

@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"View Player", "View Activated Boosters"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void checkMainMenuSelection(String selection){
         switch (selection){
-            case "View Player":
+            case "Search Player":
                 startActivity(new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class));
                 break;
             case "View Activated Boosters":
@@ -123,6 +123,9 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 }
                 startActivity(new Intent(MainActivity.this, BoosterList.class));
+                break;
+            case "Search Guild":
+                startActivity(new Intent(MainActivity.this, GuildActivity.class));
                 break;
         }
     }
