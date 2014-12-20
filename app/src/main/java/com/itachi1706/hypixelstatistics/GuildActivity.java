@@ -76,7 +76,7 @@ public class GuildActivity extends ActionBarActivity {
                     GuildMemberDesc desc = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
                     if (desc.get_dailyCoins() != null){
                         //TODO Add Button to check player info
-                        new AlertDialog.Builder(GuildActivity.this).setTitle("Daily Coins for " + desc.get_mcNameWithRank())
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Daily Coins for " + desc.get_mcNameWithRank()))
                                 .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null).show();
                     }
                 }

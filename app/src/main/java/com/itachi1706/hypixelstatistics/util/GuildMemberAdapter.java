@@ -35,7 +35,7 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.listview_booster_desc, parent, false);
+            v = inflater.inflate(R.layout.listview_guild_desc, parent, false);
         }
 
         GuildMemberDesc i = items.get(position);

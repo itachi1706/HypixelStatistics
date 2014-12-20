@@ -145,7 +145,7 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
             }
         }
         if (done){
-            GuildMemberAdapter adapter = new GuildMemberAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.guildList);
+            GuildMemberAdapter adapter = new GuildMemberAdapter(mContext, R.layout.listview_guild_desc, MainStaticVars.guildList);
             _memberInfo.setAdapter(adapter);
         }
     }

@@ -195,20 +195,22 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         for (JsonElement e : memberArray) {
             JsonObject obj = e.getAsJsonObject();
             GuildMemberDesc member = new GuildMemberDesc(obj.get("name").getAsString(), obj.get("rank").getAsString(), obj.get("joined").getAsLong());
-
-            //Member Coins
             boolean hasKey1 = false;
+            Log.d("Guild Member", "Analysing " + member.get_name() + " guild contributions");
+            Log.d("Guild Member String", obj.toString());
+            //Member Coins
             for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
                 if (entry.getKey().startsWith("dailyCoins")){
                     //Split String and parse
                     hasKey1 = true;
                     String[] splitEntryKey = entry.getKey().split("-");
                     String date = splitEntryKey[1] + "/" + splitEntryKey[2] + "/" + splitEntryKey[3];
-                    builder.append(date).append(": §b").append(entry.getValue()).append("§r\n");
+                    builder.append(date).append(": §b").append(entry.getValue()).append("§r <br />");
                 }
             }
-            if (!hasKey1){
+            if (hasKey1){
                 member.set_dailyCoins(builder.toString());
+                Log.d("Guild Member Daily Coins", member.get_name() + " has daily coins contributions");
             }
             guildMembers.add(member);
         }
@@ -256,7 +258,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
             }
         }
         if (done){
-            GuildMemberAdapter adapter = new GuildMemberAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.guildList);
+            GuildMemberAdapter adapter = new GuildMemberAdapter(mContext, R.layout.listview_guild_desc, MainStaticVars.guildList);
             _memberInfo.setAdapter(adapter);
         }
     }
