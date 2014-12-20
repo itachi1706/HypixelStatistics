@@ -179,7 +179,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
                 hasKey = true;
                 String[] splitEntryKey = entry.getKey().split("-");
                 String date = splitEntryKey[1] + "/" + splitEntryKey[2] + "/" + splitEntryKey[3];
-                builder.append(date).append(": §b").append(entry.getValue()).append("§r\n");
+                builder.append(date).append(": §b").append(entry.getValue()).append("§r <br />");
             }
         }
         if (hasKey){

@@ -25,6 +25,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.GetGuildId;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class GuildActivity extends ActionBarActivity {
                     ResultDescription desc = (ResultDescription) generalInfo.getItemAtPosition(position);
                     if (desc.get_alert() != null){
                         new AlertDialog.Builder(GuildActivity.this).setTitle(desc.get_title())
-                                .setMessage(Html.fromHtml(desc.get_alert())).show();
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_alert()))).show();
                     }
                 }
             }
@@ -76,7 +77,7 @@ public class GuildActivity extends ActionBarActivity {
                     if (desc.get_dailyCoins() != null){
                         //TODO Add Button to check player info
                         new AlertDialog.Builder(GuildActivity.this).setTitle("Daily Coins for " + desc.get_mcNameWithRank())
-                                .setMessage(Html.fromHtml(desc.get_dailyCoins())).setPositiveButton(android.R.string.ok, null).show();
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null).show();
                     }
                 }
             }
