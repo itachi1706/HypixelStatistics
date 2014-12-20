@@ -94,9 +94,10 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
             Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        Log.d("GUILD INFO JSON STRING", json);
         Gson gson = new Gson();
         GuildReply reply = gson.fromJson(json, GuildReply.class);
+        Log.d("GUILD INFO JSON OBJECT", reply.toString());
         if (reply.isThrottle()) {
             //Throttled (API Exceeded Limit)
             Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
@@ -115,7 +116,9 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         //Success
 
         //General Info
-        guildInfo.add(new ResultDescription("Guild ID", reply.getGuild().get("_id").getAsString()));
+        guildInfo = new ArrayList<>();
+        guildMembers = new ArrayList<>();
+        guildInfo.add(new ResultDescription("Guild ID", guildID));
         if (reply.getGuild().has("created"))
             guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getGuild().get("created").getAsLong()))));
         if (reply.getGuild().has("joinable")) {
@@ -179,7 +182,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
                 builder.append(date).append(": §b").append(entry.getValue()).append("§r\n");
             }
         }
-        if (!hasKey){
+        if (hasKey){
             guildInfo.add(new ResultDescription("Daily Coins", "Click here to view daily coins activity", true, false, builder.toString()));
         }
 
