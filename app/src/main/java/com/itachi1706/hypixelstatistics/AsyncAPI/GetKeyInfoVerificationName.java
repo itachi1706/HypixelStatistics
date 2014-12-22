@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.Preference;
 import android.text.Html;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
@@ -78,6 +79,10 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
         } else {
             Gson gson = new Gson();
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
+            if (reply == null){
+                Toast.makeText(mContext, "Unable to verify key. Are you connected to the internet?", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
