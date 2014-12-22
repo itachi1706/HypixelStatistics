@@ -67,7 +67,12 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
                 }
             }
             if (location != null) {
-                location.setText(i.get_gameType().getName());
+                try {
+                    location.setText(i.get_gameType().getName());
+                } catch (NullPointerException e){
+                    Log.e("INVALID GAMETYPE", "Invalid New Gametype. Must add new game modes");
+                    location.setText("INVALID GAME MODE. Inform Dev");
+                }
             }
             if (time != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_date()));

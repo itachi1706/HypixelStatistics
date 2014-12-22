@@ -15,7 +15,8 @@ public enum GameType {
     WALLS3("MegaWalls", 13),
     ARCADE("Arcade", 14),
     ARENA("Arena", 17),
-    MCGO("Cops and Crims", 21);
+    MCGO("Cops and Crims", 21),
+    UHC("UHC Champions", 20);
 
     private static GameType[] v = values();
     private final String name;
