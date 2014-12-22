@@ -103,7 +103,7 @@ public class BoosterList extends ActionBarActivity {
 
     private String parseStats(){
         ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
-        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0;
+        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0, uhc = 0;
         for (BoosterDescription desc : check){
             switch (desc.get_gameType().getId()){
                 case 2: quake++; break;
@@ -116,6 +116,7 @@ public class BoosterList extends ActionBarActivity {
                 case 14: arcade++; break;
                 case 17: arena++; break;
                 case 21: cac++; break;
+                case 20: uhc++; break;
                 default: unknown++; break;
             }
         }
@@ -150,6 +151,9 @@ public class BoosterList extends ActionBarActivity {
         }
         if (cac != 0){
             bu.append("Cops and Crims: ").append(cac).append("\n");
+        }
+        if (uhc != 0){
+            bu.append("Ultra HardCore Champions: ").append(uhc).append("\n");
         }
         if (unknown != 0){
             bu.append("Unknown Game: ").append(unknown).append("\n");
