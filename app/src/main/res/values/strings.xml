@@ -18,8 +18,8 @@
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>
     <string name="player_btnchk">Search!</string>
     <string name="player_etHint">Player Name</string>
-    <string name="pref_debug_title">Debug Mode</string>
-    <string name="pref_debug_summary">Shows the JSON Array obtained from the server at the bottom of the screen</string>
+    <string name="pref_debug_title">Verbose Mode</string>
+    <string name="pref_debug_summary">Show more information as data is being queried</string>
     <string name="list_title">Title</string>
     <string name="list_result">Result</string>
     <string name="list_active_boost">Active Boosters</string>
