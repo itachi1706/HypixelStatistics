@@ -10,20 +10,32 @@ import net.hypixel.api.util.GameType;
  */
 public class BoosterDescription {
 
+    private String _purchaser;
     private int _boostRate, _originalTime, _timeRemaining;
     private long _date;
     private GameType _gameType;
-    private String _purchaser, _mcName, _mcNameWithRank;
+    private String _mcName, _mcNameWithRank;
+    private String _purchaseruuid;
     private boolean _done = false;
     private Drawable mcHead;
 
-    public BoosterDescription(int boostRate, long date, int gameType, int timeRemain, int originalTime, String purchaser){
+    public BoosterDescription(int boostRate, long date, int gameType, int timeRemain, int originalTime, String uuid, String purchaser){
         _boostRate = boostRate;
         _originalTime = originalTime;
         _timeRemaining = timeRemain;
         _date = date;
         _gameType = GameType.fromId(gameType);
         _purchaser = purchaser;
+        _purchaseruuid = uuid;
+    }
+
+    public BoosterDescription(int boostRate, long date, int gameType, int timeRemain, int originalTime, String uuid){
+        _boostRate = boostRate;
+        _originalTime = originalTime;
+        _timeRemaining = timeRemain;
+        _date = date;
+        _gameType = GameType.fromId(gameType);
+        _purchaseruuid = uuid;
     }
 
     public int get_boostRate() {
@@ -46,6 +58,7 @@ public class BoosterDescription {
         return _gameType;
     }
 
+    @Deprecated
     public String get_purchaser() {
         return _purchaser;
     }
@@ -84,5 +97,13 @@ public class BoosterDescription {
 
     public void set_mcNameWithRank(String _mcNameWithRank) {
         this._mcNameWithRank = _mcNameWithRank;
+    }
+
+    public String get_purchaseruuid() {
+        return _purchaseruuid;
+    }
+
+    public void set_purchaseruuid(String _purchaseruuid) {
+        this._purchaseruuid = _purchaseruuid;
     }
 }

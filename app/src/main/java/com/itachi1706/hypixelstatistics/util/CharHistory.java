@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -18,6 +19,9 @@ import org.json.JSONObject;
 public class CharHistory {
 
     public static void addHistory(PlayerReply result, SharedPreferences pref) {
+        // NEW UUID
+        String uid = result.getPlayer().get("uuid").getAsString();
+
         String playerName = result.getPlayer().get("playername").getAsString();
         String playerMcName = playerName;
         if (MinecraftColorCodes.checkDisplayName(result)) {
@@ -62,6 +66,7 @@ public class CharHistory {
             if (newPackageRank != null) {
                 obj.put("newPackageRank", newPackageRank);
             }
+            obj.put("uuid", uid);
             obj.put("displayname", playerMcName);
             obj.put("playername", playerName);
             obj.put("dateObtained", date);
@@ -94,6 +99,9 @@ public class CharHistory {
     }
 
     public static boolean checkHistoryExpired(com.google.gson.JsonObject obj){
+        //Check if user is null
+        if (!obj.has("uuid"))
+            return true;
         // 10 Days in millis 864000000
         final long expiryDay = 864000000;
         if (!obj.has("dateObtained")){
@@ -104,6 +112,10 @@ public class CharHistory {
         long currentDate = System.currentTimeMillis();
         //Check if Pass 10 days
         return currentDate - dateObt > expiryDay;
+    }
+
+    public static boolean checkLegacyStrings(JsonObject obj){
+        return !obj.has("uuid");
     }
 
     public static String getListOfHistory(SharedPreferences pref){

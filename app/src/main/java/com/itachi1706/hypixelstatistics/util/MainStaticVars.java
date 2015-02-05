@@ -16,7 +16,7 @@ public class MainStaticVars {
     public static final String API_BASE_URL = "https://api.hypixel.net/";
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
-    public static int numOfBoosters = 0, tmpBooster = 0;
+    public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
     public static String apikey = null;
     public static boolean isStaff = false;
 

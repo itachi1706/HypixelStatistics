@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -47,12 +48,14 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     ListView list;
     boolean isActiveOnly;
     ProgressBar bar;
+    TextView tooltip;
 
-    public BoosterGet(Context context, ListView listView, boolean isActive, ProgressBar bars){
+    public BoosterGet(Context context, ListView listView, boolean isActive, ProgressBar bars, TextView tooltips){
         mContext = context;
         list = listView;
         isActiveOnly = isActive;
         bar = bars;
+        tooltip = tooltips;
     }
 
     @Override
@@ -108,12 +111,25 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 JsonArray records = reply.getRecords().getAsJsonArray();
                 MainStaticVars.numOfBoosters = records.size();
                 MainStaticVars.tmpBooster = 0;
+                MainStaticVars.boosterProcessCounter = 0;
+                MainStaticVars.boosterMaxProcessCounter = 0;
                 if (records.size() != 0) {
+                    MainStaticVars.boosterMaxProcessCounter = records.size();
                     for (JsonElement e : records) {
                         JsonObject obj = e.getAsJsonObject();
-                        BoosterDescription desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
-                                obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
-                                obj.get("purchaser").getAsString());
+                        String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
+                        BoosterDescription desc;
+                        if (obj.has("purchaser")) {
+                            //Old Method
+                            desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                    obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                    uid, obj.get("purchaser").getAsString());
+                        } else {
+                            //New Method
+                            desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                    obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                    uid);
+                        }
                         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
                         boolean hasHist = false;
                         if (hist != null) {
@@ -121,28 +137,39 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                             JsonArray histCheck = check.getHistory();
                             for (JsonElement el : histCheck) {
                                 JsonObject histCheckName = el.getAsJsonObject();
-                                if (histCheckName.get("playername").getAsString().equals(desc.get_purchaser())) {
+                                //Check for legacy history
+                                if (CharHistory.checkLegacyStrings(histCheckName)){
+                                    //Old String, reobtain
+                                    histCheck.remove(histCheckName);
+                                    CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                                    Log.d("HISTORY", "Legacy History");
+                                    break;
+                                }
+                                else if (histCheckName.get("uuid").getAsString().equals(desc.get_purchaseruuid())) {
                                     //Check if history expired
                                     if (CharHistory.checkHistoryExpired(histCheckName)){
                                         //Expired, reobtain
                                         histCheck.remove(histCheckName);
                                         CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                                        Log.d("HISTORY", "History Expired");
                                         break;
                                     } else {
                                         desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
                                         desc.set_mcName(histCheckName.get("displayname").getAsString());
+                                        desc.set_purchaseruuid(histCheckName.get("uuid").getAsString());
                                         desc.set_done(true);
                                         hasHist = true;
                                         MainStaticVars.boosterList.add(desc);
                                         MainStaticVars.tmpBooster++;
-                                        Log.d("Player", "Found player " + desc.get_purchaser());
+                                        MainStaticVars.boosterProcessCounter++;
+                                        Log.d("Player", "Found player " + desc.get_mcName());
                                         break;
                                     }
                                 }
                             }
                         }
                         if (!hasHist)
-                            new BoosterGetPlayerName(mContext, list, isActiveOnly, bar).execute(desc);
+                            new BoosterGetPlayerName(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
                         checkIfComplete();
 
                     }
@@ -158,6 +185,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
 
     private void checkIfComplete(){
         if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            tooltip.setVisibility(View.INVISIBLE);
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
             MainStaticVars.inProg = false;
@@ -182,5 +210,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 MainStaticVars.parseRes = false;
             }
         }
+        tooltip.setVisibility(View.VISIBLE);
+        tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
     }
 }

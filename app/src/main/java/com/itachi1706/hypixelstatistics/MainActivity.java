@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;
-    TextView customWelcome;
+    TextView customWelcome, boosterTooltip;
     ProgressBar boostProg;
     String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
 
@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
         mainMenu.setAdapter(adapter);
         boostProg = (ProgressBar) findViewById(R.id.pbABoost);
+        boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
 
         mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
-        new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg).execute();
+        new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg, boosterTooltip).execute();
     }
 
     private void checkMainMenuSelection(String selection){

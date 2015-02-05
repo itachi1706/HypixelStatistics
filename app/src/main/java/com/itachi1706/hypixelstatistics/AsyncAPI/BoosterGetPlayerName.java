@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -47,18 +48,20 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
     ListView list;
     boolean isActive;
     ProgressBar bar;
+    TextView tooltip;
 
-    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars){
+    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars, TextView tooltips){
         mContext = context;
         list = listView;
         isActive = isActiveOnly;
         bar = bars;
+        tooltip = tooltips;
     }
 
     @Override
     protected String doInBackground(BoosterDescription... playerData) {
         playerName = playerData[0];
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&name=" + playerName.get_purchaser();
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&uuid=" + playerName.get_purchaseruuid();
         String tmp = "";
         //Get Statistics
         try {
@@ -95,15 +98,15 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
-                Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaser());
+                Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                 Log.d("RESOLVE", "Retrying");
-                new BoosterGetPlayerName(mContext, list, isActive, bar).execute(playerName);
+                new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
             } else if (!reply.isSuccess()){
                 //Not Successful
                 Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
-                Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_purchaser());
+                Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                 Log.d("RESOLVE", "Retrying");
-                new BoosterGetPlayerName(mContext, list, isActive, bar).execute(playerName);
+                new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
             } else if (reply.getPlayer() == null) {
                 Toast.makeText(mContext.getApplicationContext(), "Invalid Player", Toast.LENGTH_SHORT).show();
             } else {
@@ -122,6 +125,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 }
                 MainStaticVars.boosterList.add(playerName);
                 MainStaticVars.tmpBooster ++;
+                MainStaticVars.boosterProcessCounter++;
                 checkIfComplete();
                 //new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
@@ -147,6 +151,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
 
     private void checkIfComplete(){
         if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            tooltip.setVisibility(View.INVISIBLE);
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
             MainStaticVars.inProg = false;
@@ -171,5 +176,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 MainStaticVars.parseRes = false;
             }
         }
+        tooltip.setVisibility(View.VISIBLE);
+        tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
     }
 }

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
@@ -25,6 +26,7 @@ public class BoosterList extends ActionBarActivity {
 
     ListView boostList;
     ProgressBar prog;
+    TextView boosterTooltip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class BoosterList extends ActionBarActivity {
 
         boostList = (ListView) findViewById(R.id.BoostlvBooster);
         prog = (ProgressBar) findViewById(R.id.BoostpbProg);
+        boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
 
         boostList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,7 +67,7 @@ public class BoosterList extends ActionBarActivity {
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
-        new BoosterGet(this.getApplicationContext(), boostList, false, prog).execute();
+        new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
     }
 
 
