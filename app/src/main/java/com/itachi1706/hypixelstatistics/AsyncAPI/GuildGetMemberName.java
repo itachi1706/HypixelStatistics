@@ -50,7 +50,7 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
     @Override
     protected String doInBackground(GuildMemberDesc... playerData) {
         playerName = playerData[0];
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&name=" + playerName.get_name();
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&uuid=" + playerName.get_uuid();
         String tmp = "";
         //Get Statistics
         try {
@@ -97,7 +97,7 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
                 Log.d("RESOLVE", "Retrying");
                 new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
             } else if (reply.getPlayer() == null) {
-                Toast.makeText(mContext.getApplicationContext(), "Invalid Player", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_uuid(), Toast.LENGTH_SHORT).show();
             } else {
                 //Succeeded
                 if (!MinecraftColorCodes.checkDisplayName(reply)){

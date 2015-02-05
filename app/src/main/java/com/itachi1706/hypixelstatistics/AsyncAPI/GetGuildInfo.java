@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -88,6 +89,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         return tmp;
     }
 
+    @SuppressLint("SimpleDateFormat")
     protected void onPostExecute(String json) {
         if (except != null) {
             //Theres an exception
@@ -196,9 +198,13 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         JsonArray memberArray = reply.getGuild().getAsJsonArray("members");
         for (JsonElement e : memberArray) {
             JsonObject obj = e.getAsJsonObject();
-            GuildMemberDesc member = new GuildMemberDesc(obj.get("name").getAsString(), obj.get("rank").getAsString(), obj.get("joined").getAsLong());
+            GuildMemberDesc member;
+            if (obj.has("name"))
+                 member = new GuildMemberDesc(obj.get("uuid").getAsString(), obj.get("name").getAsString(), obj.get("rank").getAsString(), obj.get("joined").getAsLong());
+            else
+                member = new GuildMemberDesc(obj.get("uuid").getAsString(), obj.get("rank").getAsString(), obj.get("joined").getAsLong());
             boolean hasKey1 = false;
-            Log.d("Guild Member", "Analysing " + member.get_name() + " guild contributions");
+            Log.d("Guild Member", "Analysing " + member.get_uuid() + " guild contributions");
             Log.d("Guild Member String", obj.toString());
             //Member Coins
             for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
@@ -212,7 +218,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
             }
             if (hasKey1){
                 member.set_dailyCoins(builder.toString());
-                Log.d("Guild Member Daily Coins", member.get_name() + " has daily coins contributions");
+                Log.d("Guild Member D. Coins", member.get_uuid() + " has daily coins contributions");
             }
             guildMembers.add(member);
         }
@@ -226,12 +232,21 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
                 JsonArray histCheck = check.getHistory();
                 for (JsonElement el : histCheck) {
                     JsonObject histCheckName = el.getAsJsonObject();
-                    if (histCheckName.get("playername").getAsString().equals(desc.get_name())) {
+                    //Check for legacy history
+                    if (CharHistory.checkLegacyStrings(histCheckName)){
+                        //Old String, reobtain
+                        histCheck.remove(histCheckName);
+                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                        Log.d("HISTORY", "Legacy History");
+                        break;
+                    }
+                    else if (histCheckName.get("uuid").getAsString().equals(desc.get_uuid())) {
                         //Check if history expired
                         if (CharHistory.checkHistoryExpired(histCheckName)){
                             //Expired, reobtain
                             histCheck.remove(histCheckName);
                             CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                            Log.d("HISTORY", "History Expired");
                             break;
                         } else {
                             desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
@@ -239,7 +254,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
                             desc.set_done(true);
                             MainStaticVars.guildList.add(desc);
                             hasHist = true;
-                            Log.d("Player", "Found player " + desc.get_name());
+                            Log.d("Player", "Found player " + desc.get_mcName());
                             break;
                         }
                     }

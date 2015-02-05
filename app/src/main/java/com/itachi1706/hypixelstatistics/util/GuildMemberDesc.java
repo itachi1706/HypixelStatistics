@@ -7,11 +7,19 @@ package com.itachi1706.hypixelstatistics.util;
 public class GuildMemberDesc {
 
     private String _mcName, _mcNameWithRank, _name, _rank, _dailyCoins = null;
+    private String _uuid;
     private long _joined;
     private boolean _done = false;
     //private Drawable mcHead;
 
-    public GuildMemberDesc(String name, String rank, long dateJoined){
+    public GuildMemberDesc(String uuid, String rank, long dateJoined){
+        _uuid = uuid;
+        _rank = rank;
+        _joined = dateJoined;
+    }
+
+    public GuildMemberDesc(String uuid, String name, String rank, long dateJoined){
+        _uuid = uuid;
         _name = name;
         _rank = rank;
         _joined = dateJoined;
@@ -33,6 +41,7 @@ public class GuildMemberDesc {
         this._mcNameWithRank = _mcNameWithRank;
     }
 
+    @Deprecated
     public String get_name() {
         return _name;
     }
@@ -59,5 +68,13 @@ public class GuildMemberDesc {
 
     public void set_dailyCoins(String _dailyCoins) {
         this._dailyCoins = _dailyCoins;
+    }
+
+    public String get_uuid() {
+        return _uuid;
+    }
+
+    public void set_uuid(String _uuid) {
+        this._uuid = _uuid;
     }
 }
