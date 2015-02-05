@@ -108,7 +108,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 Log.d("RESOLVE", "Retrying");
                 new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
             } else if (reply.getPlayer() == null) {
-                Toast.makeText(mContext.getApplicationContext(), "Invalid Player", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid(), Toast.LENGTH_SHORT).show();
             } else {
                 //Succeeded
                 if (!MinecraftColorCodes.checkDisplayName(reply)){
