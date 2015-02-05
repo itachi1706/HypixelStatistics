@@ -185,7 +185,6 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
 
     private void checkIfComplete(){
         if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
-            tooltip.setVisibility(View.INVISIBLE);
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
             MainStaticVars.inProg = false;
@@ -206,11 +205,14 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 }
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
+                tooltip.setVisibility(View.INVISIBLE);
                 bar.setVisibility(View.GONE);
                 MainStaticVars.parseRes = false;
             }
         }
-        tooltip.setVisibility(View.VISIBLE);
-        tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
+        if (MainStaticVars.parseRes) {
+            tooltip.setVisibility(View.VISIBLE);
+            tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
+        }
     }
 }

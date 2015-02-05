@@ -176,7 +176,9 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 MainStaticVars.parseRes = false;
             }
         }
-        tooltip.setVisibility(View.VISIBLE);
-        tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
+        if (MainStaticVars.parseRes) {
+            tooltip.setVisibility(View.VISIBLE);
+            tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
+        }
     }
 }
