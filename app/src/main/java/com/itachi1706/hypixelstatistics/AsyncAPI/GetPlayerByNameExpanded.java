@@ -56,10 +56,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     ImageView ivHead;
     ProgressDialog progress;
     ProgressBar pro;
+    boolean isUUID;
 
     ArrayList<ResultDescription> resultArray;
 
-    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context){
+    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState){
         debug = debugView;
         result = resultView;
         mContext = context;
@@ -67,11 +68,17 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         ivHead = head;
         progress = prog;
         pro = header;
+        isUUID = uuidState;
     }
 
     @Override
     protected String doInBackground(String... playerName) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&name=" + playerName[0];
+        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey;
+        if (!isUUID) {
+            url += "&name=" + playerName[0];
+        } else {
+            url += "&uuid=" + playerName[0];
+        }
         String tmp = "";
         //Get Statistics
         try {
@@ -125,9 +132,16 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 details.setVisibility(View.INVISIBLE);
             } else if (reply.getPlayer() == null) {
                 progress.dismiss();
-                result.setText("Invalid Player");
-                result.setTextColor(Color.RED);
-                debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name (" + reply.getCause() + ")");
+                if (isUUID){
+                    result.setText("Invalid UUID");
+                    result.setTextColor(Color.RED);
+                    Toast.makeText(mContext, "Unable to find a player with this UUID. If you are searching with a name, select Search with Name option in the menu!", Toast.LENGTH_SHORT).show();
+                } else {
+                    result.setText("Invalid Player");
+                    result.setTextColor(Color.RED);
+                    Toast.makeText(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!", Toast.LENGTH_SHORT).show();
+                }
+                debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name/UUID (" + reply.getCause() + ")");
                 details.setVisibility(View.INVISIBLE);
             } else {
                 //Succeeded

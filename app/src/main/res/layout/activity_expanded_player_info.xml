@@ -11,10 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/PlayersBtnChk"
         android:id="@+id/PlayersetName"
         android:hint="@string/player_etHint"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_toStartOf="@+id/PlayersBtnChk"
+        android:layout_toLeftOf="@+id/PlayersBtnChk" />
 
     <Button
         android:layout_width="wrap_content"

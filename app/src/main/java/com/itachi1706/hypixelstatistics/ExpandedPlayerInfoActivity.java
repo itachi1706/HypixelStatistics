@@ -48,6 +48,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
     ImageView pHead;
     ProgressDialog checkProgress;
     ProgressBar headBar;
+    boolean usingUUID = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setTitle("Querying Server...");
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this).execute(intentPlayer);
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID).execute(intentPlayer);
 
         }
 
@@ -101,7 +102,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                     checkProgress.setTitle("Querying Server...");
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
-                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this).execute(name);
+                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID).execute(name);
                 }
             }
         });
@@ -196,7 +197,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                     .setMessage("You are about to use a no longer worked upon version of player statistics" +
                             " that has all its categories automatically expanded. This is still here" +
                             " for people to see the development progression and will" +
-                            " be removed in the future. \n\n Are you sure you want to proceed?")
+                            " be removed in the future. It may also crash the application. \n\n Are you sure you want to proceed?")
                     .setNegativeButton(android.R.string.no, null)
                     .setPositiveButton("Proceed!", new DialogInterface.OnClickListener() {
                         @Override
@@ -205,6 +206,16 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                         }
                     }).show();
             return true;
+        } else if (id == R.id.use_uuid_instead_of_name){
+            if (usingUUID){
+                usingUUID = false;
+                item.setTitle("Search with UUID");
+                playerName.setHint("Player Name");
+            } else {
+                usingUUID = true;
+                item.setTitle("Search with Name");
+                playerName.setHint("Player UUID");
+            }
         }
 
         return super.onOptionsItemSelected(item);
