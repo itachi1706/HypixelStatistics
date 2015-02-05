@@ -17,6 +17,7 @@
         <Preference android:title="App Version" android:key="view_app_version" android:summary="NULL" />
         <Preference android:title="Package Name" android:key="view_app_name"/>
         <Preference android:summary="None" android:title="Android Version" android:key="view_sdk_version"/>
+        <Preference android:title="Get Latest Update" android:key="launch_updater" android:summary="Launch a webpage to get the latest release of the application!"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

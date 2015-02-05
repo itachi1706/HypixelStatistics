@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -68,6 +69,17 @@ public class GeneralPrefActivity extends ActionBarActivity {
             verPref.setSummary(version);
             Preference pNamePref = findPreference("view_app_name");
             pNamePref.setSummary(packName);
+
+            Preference updaterPref = findPreference("launch_updater");
+            updaterPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(getResources().getString(R.string.link_updates)));
+                    startActivity(i);
+                    return false;
+                }
+            });
 
             Preference prefs = findPreference("view_sdk_version");
             prefs.setSummary(android.os.Build.VERSION.RELEASE);
