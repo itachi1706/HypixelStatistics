@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.itachi1706.hypixelstatistics"
         minSdkVersion 11
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0.5"
+        versionName "1.0.5 dev 1"
     }
     buildTypes {
         release {
