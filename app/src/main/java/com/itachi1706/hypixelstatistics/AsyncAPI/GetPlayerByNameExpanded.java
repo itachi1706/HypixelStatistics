@@ -448,7 +448,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     break;
                 case "holiday": //descArray.remove(descArray.size() - 1);
                     break;
-                default: resultArray.add(new ResultDescription(entry.getKey(), MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                default: resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
         }

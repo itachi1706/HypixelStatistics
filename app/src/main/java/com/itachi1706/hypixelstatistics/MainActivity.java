@@ -23,8 +23,10 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -39,6 +41,18 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Init error handling
+        File crashReportFolder = new File(this.getExternalFilesDir(null) + File.separator + "crash-report");
+        if (!crashReportFolder.exists())
+            if (crashReportFolder.mkdir())
+                Log.d("CRASH-REPORT HANDLER", "Directory Created!");
+        CustomExceptionHandler crashHandler = new CustomExceptionHandler(this.getExternalFilesDir(null) + File.separator +
+                "crash-report", this);
+        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
+            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        }
+        crashHandler.checkCrash();
 
         if (this.getIntent().hasExtra("EXIT"))
             if (getIntent().getBooleanExtra("EXIT", false))
@@ -76,6 +90,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        if (this.getIntent().hasExtra("EXIT"))
+            if (getIntent().getBooleanExtra("EXIT", false))
+                finish();
+
         MainStaticVars.updateAPIKey(getApplicationContext());
         customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
