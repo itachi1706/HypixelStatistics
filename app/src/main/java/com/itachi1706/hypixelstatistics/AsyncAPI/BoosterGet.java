@@ -210,7 +210,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 MainStaticVars.parseRes = false;
             }
         }
-        if (MainStaticVars.parseRes) {
+        if (MainStaticVars.inProg) {
             tooltip.setVisibility(View.VISIBLE);
             tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
         }
