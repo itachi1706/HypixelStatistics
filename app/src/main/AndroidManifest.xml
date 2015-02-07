@@ -49,8 +49,12 @@
         </activity>
         <activity
             android:name=".GuildActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:label="@string/title_activity_guild" >
+            android:label="@string/title_activity_guild"
+            android:windowSoftInputMode="adjustNothing" >
+        </activity>
+        <activity
+            android:name=".DebugSettings"
+            android:label="@string/title_activity_debug_pref" >
         </activity>
     </application>
 

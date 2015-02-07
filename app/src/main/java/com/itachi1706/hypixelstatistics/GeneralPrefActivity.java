@@ -162,6 +162,16 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     return true;
                 }
             });
+
+            Preference devInfoPref = findPreference("vDevInfo");
+            devInfoPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity(), DebugSettings.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
         }
 
         public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo, Context mCon){
