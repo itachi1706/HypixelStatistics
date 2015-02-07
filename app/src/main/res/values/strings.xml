@@ -36,5 +36,7 @@
     <string name="title_activity_guild">Search Guild Info</string>
     <string name="use_uuid_instead_of_name_text">Search with UUID</string>
     <string name="action_view_known_aliases">View Known Aliases</string>
+    <string name="action_refresh_server_info">Refresh Server Info</string>
+    <string name="action_view_server_motd">View Server MOTD</string>
 
 </resources>

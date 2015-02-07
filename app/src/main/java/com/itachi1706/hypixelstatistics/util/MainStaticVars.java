@@ -14,12 +14,22 @@ import java.util.ArrayList;
  */
 public class MainStaticVars {
     public static final String API_BASE_URL = "https://api.hypixel.net/";
+
+    //Booster
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
+
+    //Settings
     public static String apikey = null;
     public static boolean isStaff = false;
+
+    //Player Stats
     public static String knownAliases = "";
+
+    //Server Info
+    public static int playerCount = 0, maxPlayerCount = 0;
+    public static String serverMOTD = "Retrieving MOTD...";
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 

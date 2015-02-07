@@ -14,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"
         android:layout_above="@+id/tvBooster"
-        android:layout_below="@+id/tvCustWelcome" />
+        android:layout_below="@+id/tvPlayerCount" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -61,5 +61,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="48dp"
         android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/tvPlayerCount"
+        android:layout_below="@+id/tvCustWelcome"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

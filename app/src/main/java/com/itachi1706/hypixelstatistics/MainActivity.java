@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
+import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;
-    TextView customWelcome, boosterTooltip;
+    TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
 
@@ -67,6 +68,7 @@ public class MainActivity extends ActionBarActivity {
         mainMenu.setAdapter(adapter);
         boostProg = (ProgressBar) findViewById(R.id.pbABoost);
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
+        playerCount = (TextView) findViewById(R.id.tvPlayerCount);
 
         mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,6 +96,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        refreshServerCount();
 
         if (this.getIntent().hasExtra("EXIT"))
             if (getIntent().getBooleanExtra("EXIT", false))
@@ -154,6 +158,12 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void refreshServerCount(){
+        //Refresh server...
+        playerCount.setText("Querying Server Player Count...");
+        new InitServerPing(getApplicationContext(), playerCount).execute();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -175,6 +185,13 @@ public class MainActivity extends ActionBarActivity {
         } else if (id == R.id.action_refresh_active_boosters){
             updateActiveBoosters();
             Toast.makeText(this.getApplicationContext(), "Updating Active Booster List", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_refresh_server_info){
+            refreshServerCount();
+            Toast.makeText(this.getApplicationContext(), "Updating Server Info...", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_view_server_motd){
+            new AlertDialog.Builder(this).setTitle("Hypixel MOTD")
+                    .setMessage(Html.fromHtml(MainStaticVars.serverMOTD)).setPositiveButton(android.R.string.ok, null)
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
