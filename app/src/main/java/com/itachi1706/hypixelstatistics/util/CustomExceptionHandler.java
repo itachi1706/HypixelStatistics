@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
@@ -21,7 +22,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,13 +165,20 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
                 .setNegativeButton("Send Email", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("message/rfc822");
-                        intent.putExtra(Intent.EXTRA_EMAIL, "itachi1706@outlook.com");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "APP CRASH REPORT - com.itachi1706.hypixelstatistics");
-                        intent.putExtra(Intent.EXTRA_TEXT, stacktrace);
+                        String email = "itachi1706@outlook.com";
+                        String subject = "APP CRASH REPORT - com.itachi1706.hypixelstatistics";
+                        String emailUri = "";
+                        try {
+                            emailUri = "mailto:" + email + "?subject=" + URLEncoder.encode(subject, "UTF-8")
+                                    + "&body=" + URLEncoder.encode(stacktrace, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        Uri endUri = Uri.parse(emailUri);
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(endUri);
 
-                        mContext.startActivity(Intent.createChooser(intent, "Send Email"));
+                        mContext.startActivity(Intent.createChooser(intent, "Send Crash Report"));
                     }
                 }).show();
     }
