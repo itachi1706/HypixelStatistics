@@ -3,7 +3,9 @@ package com.itachi1706.hypixelstatistics.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -116,6 +118,23 @@ public class CharHistory {
 
     public static boolean checkLegacyStrings(JsonObject obj){
         return !obj.has("uuid");
+    }
+
+    public static void verifyNoLegacy(SharedPreferences pref){
+        String tmp = getListOfHistory(pref);
+        if (tmp == null)
+            return;
+        Gson gson = new Gson();
+        HistoryObject obj = gson.fromJson(tmp, HistoryObject.class);
+        JsonArray histCheck = obj.getHistory();
+        for (JsonElement el : histCheck){
+            JsonObject histCheckName = el.getAsJsonObject();
+            if (checkLegacyStrings(histCheckName)){
+                histCheck.remove(histCheckName);
+                updateJSONString(pref, histCheck);
+                Log.d("HISTORY", "History Expired");
+            }
+        }
     }
 
     public static String getListOfHistory(SharedPreferences pref){

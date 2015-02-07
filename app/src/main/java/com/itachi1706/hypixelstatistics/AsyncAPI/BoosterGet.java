@@ -113,6 +113,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 MainStaticVars.tmpBooster = 0;
                 MainStaticVars.boosterProcessCounter = 0;
                 MainStaticVars.boosterMaxProcessCounter = 0;
+
                 if (records.size() != 0) {
                     MainStaticVars.boosterMaxProcessCounter = records.size();
                     for (JsonElement e : records) {
@@ -137,15 +138,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                             JsonArray histCheck = check.getHistory();
                             for (JsonElement el : histCheck) {
                                 JsonObject histCheckName = el.getAsJsonObject();
-                                //Check for legacy history
-                                if (CharHistory.checkLegacyStrings(histCheckName)){
-                                    //Old String, reobtain
-                                    histCheck.remove(histCheckName);
-                                    CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
-                                    Log.d("HISTORY", "Legacy History");
-                                    break;
-                                }
-                                else if (histCheckName.get("uuid").getAsString().equals(desc.get_purchaseruuid())) {
+                                if (histCheckName.get("uuid").getAsString().equals(desc.get_purchaseruuid())) {
                                     //Check if history expired
                                     if (CharHistory.checkHistoryExpired(histCheckName)){
                                         //Expired, reobtain

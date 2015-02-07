@@ -232,15 +232,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
                 JsonArray histCheck = check.getHistory();
                 for (JsonElement el : histCheck) {
                     JsonObject histCheckName = el.getAsJsonObject();
-                    //Check for legacy history
-                    if (CharHistory.checkLegacyStrings(histCheckName)){
-                        //Old String, reobtain
-                        histCheck.remove(histCheckName);
-                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
-                        Log.d("HISTORY", "Legacy History");
-                        break;
-                    }
-                    else if (histCheckName.get("uuid").getAsString().equals(desc.get_uuid())) {
+                    if (histCheckName.get("uuid").getAsString().equals(desc.get_uuid())) {
                         //Check if history expired
                         if (CharHistory.checkHistoryExpired(histCheckName)){
                             //Expired, reobtain

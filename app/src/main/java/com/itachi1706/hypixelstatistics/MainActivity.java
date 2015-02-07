@@ -23,6 +23,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
@@ -53,6 +54,9 @@ public class MainActivity extends ActionBarActivity {
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
         crashHandler.checkCrash();
+
+        //Check for legacy strings
+        CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
         if (this.getIntent().hasExtra("EXIT"))
             if (getIntent().getBooleanExtra("EXIT", false))
