@@ -208,7 +208,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
             bos.write(stacktrace);
             bos.flush();
             bos.close();
-            Log.e("CRASH-HANDLER", "Written to file!");
+            Log.e("CRASH-HANDLER", "Written to file! " + filename);
         } catch (Exception e) {
             e.printStackTrace();
         }
