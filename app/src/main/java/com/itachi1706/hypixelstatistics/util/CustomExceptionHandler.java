@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
@@ -22,9 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,7 +142,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
             BufferedReader brs;
             try {
                 String sCurrentLine;
-                brs = new BufferedReader(new FileReader(indexFile));
+                brs = new BufferedReader(new FileReader(crashReport));
                 while ((sCurrentLine = brs.readLine()) != null) {
                     stacktrace += sCurrentLine + "\n";
                 }
@@ -167,16 +168,33 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
                     public void onClick(DialogInterface dialog, int which) {
                         String email = "itachi1706@outlook.com";
                         String subject = "APP CRASH REPORT - com.itachi1706.hypixelstatistics";
-                        String emailUri = "";
+                        StringBuilder bodyString = new StringBuilder();
+
+                        PackageInfo pInfo;
                         try {
-                            emailUri = "mailto:" + email + "?subject=" + URLEncoder.encode(subject, "UTF-8")
-                                    + "&body=" + URLEncoder.encode(stacktrace, "UTF-8");
-                        } catch (UnsupportedEncodingException e) {
+                            pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+                            bodyString.append("App Details\nApp Version: ").append(pInfo.versionName).append("\n");
+                            bodyString.append("App Name: ").append(pInfo.packageName).append("\n");
+                        } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
                         }
-                        Uri endUri = Uri.parse(emailUri);
-                        Intent intent = new Intent(Intent.ACTION_SENDTO);
-                        intent.setData(endUri);
+                        bodyString.append("\n\nDevice Information\n");
+                        bodyString.append("Model: ").append(Build.MODEL).append("\n");
+                        bodyString.append("Manufacturer: ").append(Build.MANUFACTURER).append("\n");
+                        bodyString.append("OS Build: ").append(Build.FINGERPRINT).append("\n");
+                        bodyString.append("Android Version: ").append(Build.VERSION.RELEASE).append("\n");
+                        bodyString.append("Android Code: ").append(Build.VERSION.INCREMENTAL).append("\n");
+                        bodyString.append("SDK Level: ").append(Build.VERSION.SDK_INT).append("\n");
+                        bodyString.append("\n\nStacktrace:\n");
+                        bodyString.append(stacktrace);
+
+
+                        Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
+                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                        intent.putExtra(Intent.EXTRA_TEXT, bodyString.toString());
+                        intent.setData(Uri.parse("mailto:" + email)); // or just "mailto:" for blank
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
 
                         mContext.startActivity(Intent.createChooser(intent, "Send Crash Report"));
                     }
