@@ -10,4 +10,6 @@
         android:orderInCategory="98" app:showAsAction="never" />
     <item android:id="@+id/use_uuid_instead_of_name" android:title="@string/use_uuid_instead_of_name_text"
         android:orderInCategory="96" app:showAsAction="never" />
+    <item android:id="@+id/view_known_alias" android:title="@string/action_view_known_aliases"
+        android:orderInCategory="97" app:showAsAction="never" />
 </menu>

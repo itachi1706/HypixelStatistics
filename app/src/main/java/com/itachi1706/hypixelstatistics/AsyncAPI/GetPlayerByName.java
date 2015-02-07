@@ -333,6 +333,15 @@ public class GetPlayerByName extends AsyncTask<String,Void,String> {
             resultArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
         if (reply.getPlayer().has("achievementsOneTime"))
             resultArray.add(new ResultDescription("No of 1-time Achievements Done: ", reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + ""));
+        if (reply.getPlayer().has("knownAliases")){
+            JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
+            StringBuilder listOfAliases = new StringBuilder();
+            for (JsonElement e : arr){
+                listOfAliases.append(e.getAsString()).append("\n");
+            }
+            MainStaticVars.knownAliases = listOfAliases.toString();
+            resultArray.add(new ResultDescription("Known Aliases: ", listOfAliases.toString().replace("\n", " ")));
+        }
     }
 
     private String parseTimeOnline(long time){

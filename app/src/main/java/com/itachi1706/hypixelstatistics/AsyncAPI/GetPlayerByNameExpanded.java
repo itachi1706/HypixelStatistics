@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -262,6 +263,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     networkLevel, mostRecentlyThanked, mostRecentlyTipped, thanksSent, tipsSent, channel, chat, tournamentTokens,
     vanityTokens, mostRecentGameType, seeRequest, tipsReceived, thanksReceived, achievementsOneTime
      */
+    @SuppressLint("SimpleDateFormat")
     private ArrayList<ResultDescription> parseGeneral(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         if (reply.getPlayer().has("rank"))
@@ -338,6 +340,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
         if (reply.getPlayer().has("achievementsOneTime"))
             descArray.add(new ResultDescription("No of 1-time Achievements Done: ", reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + ""));
+        if (reply.getPlayer().has("knownAliases")){
+            JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
+            StringBuilder listOfAliases = new StringBuilder();
+            for (JsonElement e : arr){
+                listOfAliases.append(e.getAsString()).append("\n");
+            }
+            MainStaticVars.knownAliases = listOfAliases.toString();
+            descArray.add(new ResultDescription("Known Aliases: ", listOfAliases.toString().replace("\n", " ")));
+        }
         return descArray;
     }
 
@@ -448,6 +459,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     break;
                 case "holiday": //descArray.remove(descArray.size() - 1);
                     break;
+                case "uhc": resultArray.add(new ResultDescription("UHC Champions Statistics", null, false, false, parseUHC(statistic), null));
+                    break;
                 default: resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
@@ -491,7 +504,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int i = 1;
             for (JsonElement e : completionArray){
                 JsonObject timings = e.getAsJsonObject();
-                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings.get("timeStart").getAsLong()));
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings.get("timeStart").getAsLong()));
                 int timeDurationWork = timings.get("timeTook").getAsInt();
                 String timeDuration = String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(timeDurationWork), TimeUnit.MILLISECONDS.toSeconds(timeDurationWork) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeDurationWork)));
                 parkArray.add(new ResultDescription("Attempt #" + i + " (" + timeDuration + ")", "On: " + timeStamp));
@@ -523,7 +536,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§aActive§r")));
                 //Get Start Time
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
-                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
                 qArray.add(new ResultDescription("Date Started", timeStamp));
             } else {
                 qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
@@ -1140,5 +1153,57 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Packages", packageBuilder.toString()));
         }
         return descArray;
+    }
+
+    /**
+     * UHC (UHC Champions)
+     * displayed: coins, score, rank, wins, deaths, kills, heads_eaten, equippedKit
+     * @param obj Statistics
+     * @return parsed List
+     */
+    private ArrayList<ResultDescription> parseUHC(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        if (obj.has("coins"))
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("score")) {
+            descArray.add(new ResultDescription("Score", obj.get("score").getAsInt() + ""));
+            descArray.add(new ResultDescription("Ranking", getUHCRank(obj.get("score").getAsInt())));
+        } else {
+            descArray.add(new ResultDescription("Score", "0"));
+            descArray.add(new ResultDescription("Ranking", getUHCRank(0)));
+        }
+        if (obj.has("wins"))
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+        if (obj.has("deaths"))
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+        if (obj.has("kills"))
+            descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+        if (obj.has("heads_eaten"))
+            descArray.add(new ResultDescription("Heads Eaten", obj.get("heads_eaten").getAsString()));
+        if (obj.has("equippedKit"))
+            descArray.add(new ResultDescription("Equipped Kit", obj.get("equippedKit").getAsString()));
+        return descArray;
+    }
+
+    private String getUHCRank(int score){
+        if (score > 10210)
+            return "Champion";
+        if (score > 5210)
+            return "Warlord";
+        if (score > 2710)
+            return "Gladiator";
+        if (score > 1710)
+            return "Centurion";
+        if (score > 960)
+            return "Captain";
+        if (score > 460)
+            return "Knight";
+        if (score > 210)
+            return "Sergeant";
+        if (score > 60)
+            return "Soldier";
+        if (score > 10)
+            return "Initiate";
+        return "Recruit";
     }
 }

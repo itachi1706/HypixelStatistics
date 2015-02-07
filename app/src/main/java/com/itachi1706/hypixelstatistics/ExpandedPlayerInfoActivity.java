@@ -34,6 +34,7 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
 import java.util.ArrayList;
@@ -147,6 +148,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
+        MainStaticVars.resetKnownAliases();
         playerName.setAdapter(adapter);
         if (!(myPref.getBoolean("debugMode", true))){
             debug.setVisibility(View.INVISIBLE);
@@ -216,6 +218,25 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                 item.setTitle("Search with Name");
                 playerName.setHint("Player UUID");
             }
+        } else if (id == R.id.view_known_alias){
+            TextView aliasView = new TextView(ExpandedPlayerInfoActivity.this);
+            aliasView.setGravity(Gravity.CENTER);
+            if (MainStaticVars.knownAliases.length() != 0)
+                aliasView.setText("\n" + MainStaticVars.knownAliases);
+            else
+                aliasView.setText("\nPlease query for a player to view his aliases");
+            LinearLayout dialogLayout = new LinearLayout(ExpandedPlayerInfoActivity.this);
+
+            dialogLayout.addView(aliasView);
+            dialogLayout.setOrientation(LinearLayout.VERTICAL);
+            AlertDialog.Builder debugAlert = new AlertDialog.Builder(ExpandedPlayerInfoActivity.this);
+            ScrollView scrollPane = new ScrollView(this);
+            scrollPane.addView(dialogLayout);
+            debugAlert.setView(scrollPane);
+            debugAlert.setTitle("Known Aliases");
+            debugAlert.setPositiveButton(android.R.string.ok, null);
+            debugAlert.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -19,6 +19,7 @@ public class MainStaticVars {
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
     public static String apikey = null;
     public static boolean isStaff = false;
+    public static String knownAliases = "";
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 
@@ -28,5 +29,9 @@ public class MainStaticVars {
         apikey = prefs.getString("api-key",defaultkey);
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
         //Log.d("API KEY", "New API Key: " + apikey);
+    }
+
+    public static void resetKnownAliases(){
+        knownAliases = "";
     }
 }
