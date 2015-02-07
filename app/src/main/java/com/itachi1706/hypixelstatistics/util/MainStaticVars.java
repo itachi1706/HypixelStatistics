@@ -22,7 +22,7 @@ public class MainStaticVars {
 
     //Settings
     public static String apikey = null;
-    public static boolean isStaff = false;
+    public static boolean isStaff = false, isOwner = false;
 
     //Player Stats
     public static String knownAliases = "";
@@ -38,8 +38,9 @@ public class MainStaticVars {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         apikey = prefs.getString("api-key",defaultkey);
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
+        isOwner = prefs.getString("api-key", "topkek").equals(defaultkey);
         //Log.d("API KEY", "New API Key: " + apikey);
-    }
+}
 
     public static void resetKnownAliases(){
         knownAliases = "";

@@ -80,6 +80,8 @@ public enum GameType {
                 return ARENA;
             case "MCGO":
                 return MCGO;
+            case "UHC":
+                return UHC;
         }
         return null;
     }

@@ -169,7 +169,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     //parseDonor(reply);
                 }
 
-                if (MainStaticVars.isStaff) {
+                if (MainStaticVars.isStaff || MainStaticVars.isOwner) {
                     if (reply.getPlayer().has("rank")) {
                         if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
                             if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
