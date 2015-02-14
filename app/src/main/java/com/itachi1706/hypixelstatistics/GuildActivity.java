@@ -77,7 +77,7 @@ public class GuildActivity extends ActionBarActivity {
                 if (memberInfo.getItemAtPosition(position) instanceof GuildMemberDesc) {
                     GuildMemberDesc desc = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
                     if (desc.get_dailyCoins() != null){
-                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Daily Coin Contributions by " + desc.get_mcNameWithRank()))
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Recent Daily Coin Contributions by " + desc.get_mcNameWithRank()))
                                 .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null)
                                 .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
                                     @Override
@@ -89,8 +89,8 @@ public class GuildActivity extends ActionBarActivity {
                                     }
                                 }).show();
                     } else {
-                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Daily Coins Contributions by " + desc.get_mcNameWithRank()))
-                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors("This member did not make any contributions to the guild"))).setPositiveButton(android.R.string.ok, null)
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Recent Daily Coins Contributions by " + desc.get_mcNameWithRank()))
+                                .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors("This member did not make any recent contributions to the guild"))).setPositiveButton(android.R.string.ok, null)
                                 .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
