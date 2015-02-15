@@ -20,6 +20,7 @@ import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class BoosterList extends ActionBarActivity {
@@ -95,7 +96,7 @@ public class BoosterList extends ActionBarActivity {
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
-                    .setTitle("Active Boosters per Game").setMessage(parseStats())
+                    .setTitle("Activated Boosters per Game").setMessage(parseStats())
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             return true;
@@ -107,61 +108,103 @@ public class BoosterList extends ActionBarActivity {
     private String parseStats(){
         ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
         int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0, uhc = 0;
+        int quakeSec = 0,wallsSec = 0,pbSec = 0,bsgSec = 0,tntSec = 0,
+                vzSec = 0,mwSec = 0,arcadeSec = 0,arenaSec = 0,cacSec = 0,unknownSec = 0, uhcSec = 0;
         for (BoosterDescription desc : check){
             switch (desc.get_gameType().getId()){
-                case 2: quake++; break;
-                case 3: walls++; break;
-                case 4: pb++; break;
-                case 5: bsg++; break;
-                case 6: tnt++; break;
-                case 7: vz++; break;
-                case 13: mw++; break;
-                case 14: arcade++; break;
-                case 17: arena++; break;
-                case 21: cac++; break;
-                case 20: uhc++; break;
-                default: unknown++; break;
+                case 2: quake++; quakeSec += desc.get_timeRemaining(); break;
+                case 3: walls++; wallsSec += desc.get_timeRemaining(); break;
+                case 4: pb++; pbSec += desc.get_timeRemaining(); break;
+                case 5: bsg++; bsgSec += desc.get_timeRemaining(); break;
+                case 6: tnt++; tntSec += desc.get_timeRemaining(); break;
+                case 7: vz++; vzSec += desc.get_timeRemaining(); break;
+                case 13: mw++; mwSec += desc.get_timeRemaining(); break;
+                case 14: arcade++; arcadeSec += desc.get_timeRemaining(); break;
+                case 17: arena++; arenaSec += desc.get_timeRemaining(); break;
+                case 21: cac++; cacSec += desc.get_timeRemaining(); break;
+                case 20: uhc++; uhcSec += desc.get_timeRemaining(); break;
+                default: unknown++; unknownSec += desc.get_timeRemaining(); break;
             }
         }
         //Check if present then parse
         StringBuilder bu = new StringBuilder();
+        bu.append("Booster Information as of the last booster query: \n\n");
         if (quake != 0){
-            bu.append("QuakeCraft: ").append(quake).append("\n");
+            bu.append("QuakeCraft: ").append(quake).append(" ").append(createTimeLeftString(quakeSec)).append("\n");
         }
         if (walls != 0){
-            bu.append("Walls: ").append(walls).append("\n");
+            bu.append("Walls: ").append(walls).append(" ").append(createTimeLeftString(wallsSec)).append("\n");
         }
         if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n");
+            bu.append("Paintball: ").append(pb).append(" ").append(createTimeLeftString(pbSec)).append("\n");
         }
         if (bsg != 0){
-            bu.append("Blitz Survival Games: ").append(bsg).append("\n");
+            bu.append("Blitz Survival Games: ").append(bsg).append(" ").append(createTimeLeftString(bsgSec)).append("\n");
         }
         if (tnt != 0){
-            bu.append("TNTGames: ").append(tnt).append("\n");
+            bu.append("TNTGames: ").append(tnt).append(" ").append(createTimeLeftString(tntSec)).append("\n");
         }
         if (vz != 0){
-            bu.append("VampireZ: ").append(vz).append("\n");
+            bu.append("VampireZ: ").append(vz).append(" ").append(createTimeLeftString(vzSec)).append("\n");
         }
         if (mw != 0){
-            bu.append("MegaWalls: ").append(mw).append("\n");
+            bu.append("MegaWalls: ").append(mw).append(" ").append(createTimeLeftString(mwSec)).append("\n");
         }
         if (arcade != 0){
-            bu.append("Arcade: ").append(arcade).append("\n");
+            bu.append("Arcade: ").append(arcade).append(" ").append(createTimeLeftString(arcadeSec)).append("\n");
         }
         if (arena != 0){
-            bu.append("Arena: ").append(arena).append("\n");
+            bu.append("Arena: ").append(arena).append(" ").append(createTimeLeftString(arenaSec)).append("\n");
         }
         if (cac != 0){
-            bu.append("Cops and Crims: ").append(cac).append("\n");
+            bu.append("Cops and Crims: ").append(cac).append(" ").append(createTimeLeftString(cacSec)).append("\n");
         }
         if (uhc != 0){
-            bu.append("Ultra HardCore Champions: ").append(uhc).append("\n");
+            bu.append("Ultra HardCore Champions: ").append(uhc).append(" ").append(createTimeLeftString(uhcSec)).append("\n");
         }
         if (unknown != 0){
-            bu.append("Unknown Game: ").append(unknown).append("\n");
+            bu.append("Unknown Game: ").append(unknown).append(" ").append(createTimeLeftString(unknownSec)).append("\n");
             bu.append("(Please Contact Dev of this)");
         }
         return bu.toString();
+    }
+
+    private String createTimeLeftString(int timeRemaining){
+        long days, hours, minutes, seconds;
+
+        days = TimeUnit.SECONDS.toDays(timeRemaining);
+        hours = TimeUnit.SECONDS.toHours(timeRemaining) - (days * 24);
+        minutes = TimeUnit.SECONDS.toMinutes(timeRemaining) - (TimeUnit.SECONDS.toHours(timeRemaining)* 60);
+        seconds = TimeUnit.SECONDS.toSeconds(timeRemaining) - (TimeUnit.SECONDS.toMinutes(timeRemaining) * 60);
+
+        //Craft the time statement
+        StringBuilder timeString = new StringBuilder();
+        timeString.append("(");
+        if (days != 0) {
+            if (days == 1)
+                timeString.append(days).append(" day ");
+            else
+                timeString.append(days).append(" days ");
+        }
+        if (hours != 0) {
+            if (hours == 1)
+                timeString.append(hours).append(" hour ");
+            else
+                timeString.append(hours).append(" hours ");
+        }
+        if (minutes != 0) {
+            if (minutes == 1)
+                timeString.append(minutes).append(" minute ");
+            else
+                timeString.append(minutes).append(" minutes ");
+        }
+        if (seconds != 0) {
+            if (seconds == 1)
+                timeString.append(seconds).append(" second ");
+            else
+                timeString.append(seconds).append(" seconds ");
+        }
+        timeString.append(")");
+        return timeString.toString();
     }
 }
