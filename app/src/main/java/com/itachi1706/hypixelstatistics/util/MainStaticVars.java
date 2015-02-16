@@ -45,4 +45,25 @@ public class MainStaticVars {
     public static void resetKnownAliases(){
         knownAliases = "";
     }
+
+    public static String getChangelogStringFromArrayList(ArrayList<String> changelog){
+         /* Legend of Stuff
+        1st Line - Current Version Number
+        2nd Line - Link to New Version
+        # - Changelog Version Number (Bold this)
+        * - Points
+        @ - Break Line
+         */
+        StringBuilder changelogBuilder = new StringBuilder();
+        changelogBuilder.append("New Version: ").append(changelog.get(0)).append("<br/><br/>");
+        for (String line : changelog){
+            if (line.startsWith("#"))
+                changelogBuilder.append("<b>").append(line.replace('#',' ')).append("</b><br />");
+            else if (line.startsWith("*"))
+                changelogBuilder.append(" - ").append(line.replace('*', ' ')).append("<br />");
+            else if (line.startsWith("@"))
+                changelogBuilder.append("<br />");
+        }
+        return changelogBuilder.toString();
+    }
 }

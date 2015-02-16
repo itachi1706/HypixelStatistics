@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
@@ -91,6 +92,8 @@ public class MainActivity extends ActionBarActivity {
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
         }
+
+        new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())).execute();
     }
 
     @Override
