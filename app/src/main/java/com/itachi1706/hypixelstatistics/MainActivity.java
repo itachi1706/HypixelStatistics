@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
             updateActiveBoosters();
         }
 
-        new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext())).execute();
+        new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()), true).execute();
     }
 
     @Override

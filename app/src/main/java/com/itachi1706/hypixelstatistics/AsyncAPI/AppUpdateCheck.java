@@ -36,10 +36,17 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
     Exception except = null;
     SharedPreferences sp;
     ArrayList<String> changelogStrings = new ArrayList<>();
+    boolean main = false;
 
     public AppUpdateCheck(Activity activity, SharedPreferences sharedPrefs){
         mActivity = activity;
         sp = sharedPrefs;
+    }
+
+    public AppUpdateCheck(Activity activity, SharedPreferences sharedPrefs, boolean isMain){
+        mActivity = activity;
+        sp = sharedPrefs;
+        main = isMain;
     }
 
 
@@ -111,6 +118,12 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                     mActivity.startActivity(intent);
                 }
             }).show();
+            return;
+        }
+        if (!main){
+            Log.d("UPDATE CHECK", "No Update Needed");
+            new AlertDialog.Builder(mActivity).setTitle("Check for New Update").setMessage("You are on the latest release! No update is required.")
+                    .setNegativeButton("Close", null).show();
         }
     }
 }
