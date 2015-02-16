@@ -2,7 +2,6 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,13 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.BoostersReply;
 
@@ -34,8 +28,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:24 PM
@@ -132,6 +124,8 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                                     uid);
                         }
                         //Move to BoosterGetHistory
+                        tooltip.setVisibility(View.VISIBLE);
+                        tooltip.setText("Booster list obtained. Processing Players now...");
                         new BoosterGetHistory(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
                     }
                 } else {

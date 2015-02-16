@@ -50,7 +50,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
         Gson gson = new Gson();
         desc = boosters[0];
         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-        boolean hasHist = false;
+        //boolean hasHist = false;
         if (hist != null) {
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
             JsonArray histCheck = check.getHistory();
@@ -81,7 +81,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
         return false;
     }
 
-    protected void onPostExecute(boolean hasHist){
+    protected void onPostExecute(Boolean hasHist){
         if (!hasHist)
             new BoosterGetPlayerName(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
         checkIfComplete();
