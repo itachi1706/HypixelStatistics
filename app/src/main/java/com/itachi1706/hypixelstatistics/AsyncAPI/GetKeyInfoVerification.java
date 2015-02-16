@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.Preference;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
@@ -78,6 +79,10 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
+            if (!MainStaticVars.checkIfYouGotJsonString(json)){
+                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 new AlertDialog.Builder(mContext).setTitle("Verification Throttled")

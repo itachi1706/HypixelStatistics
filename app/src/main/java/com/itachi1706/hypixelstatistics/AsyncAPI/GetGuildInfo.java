@@ -98,6 +98,10 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         }
         Log.d("GUILD INFO JSON STRING", json);
         Gson gson = new Gson();
+        if (!MainStaticVars.checkIfYouGotJsonString(json)){
+            Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+            return;
+        }
         GuildReply reply = gson.fromJson(json, GuildReply.class);
         Log.d("GUILD INFO JSON OBJECT", reply.toString());
         if (reply.isThrottle()) {

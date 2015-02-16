@@ -78,6 +78,10 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                     .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
         } else {
             Gson gson = new Gson();
+            if (!MainStaticVars.checkIfYouGotJsonString(json)){
+                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                return;
+            }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             if (reply == null){
                 Toast.makeText(mContext, "Unable to verify key. Are you connected to the internet?", Toast.LENGTH_SHORT).show();

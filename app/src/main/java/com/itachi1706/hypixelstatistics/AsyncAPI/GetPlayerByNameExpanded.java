@@ -114,6 +114,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             debug.setText(except.getMessage());
         } else {
             Gson gson = new Gson();
+            if (!MainStaticVars.checkIfYouGotJsonString(json)){
+                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                return;
+            }
             OldPlayerInfoActivity.lastGsonObtained = json;
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             debug.setText(reply.toString());

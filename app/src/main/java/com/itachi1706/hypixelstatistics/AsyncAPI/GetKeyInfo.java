@@ -73,6 +73,10 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
             debug.setText(except.getMessage());
         } else {
             Gson gson = new Gson();
+            if (!MainStaticVars.checkIfYouGotJsonString(json)){
+                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                return;
+            }
             KeyReply reply = gson.fromJson(json, KeyReply.class);
             debug.setText(reply.toString());
             if (reply.isThrottle()) {

@@ -83,38 +83,44 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
             Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
         } else {
             Gson gson = new Gson();
-            PlayerReply reply = gson.fromJson(json, PlayerReply.class);
-            if (reply.isThrottle()) {
-                //Throttled (API Exceeded Limit)
-                //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
-                Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_name());
+            if (!MainStaticVars.checkIfYouGotJsonString(json)) {
+                Log.d("Invalid JSON", json + " is invalid");
                 Log.d("RESOLVE", "Retrying");
                 new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
-            } else if (!reply.isSuccess()){
-                //Not Successful
-                Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
-                Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_name());
-                Log.d("RESOLVE", "Retrying");
-                new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
-            } else if (reply.getPlayer() == null) {
-                Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_uuid(), Toast.LENGTH_SHORT).show();
             } else {
-                //Succeeded
-                if (!MinecraftColorCodes.checkDisplayName(reply)){
-                    playerName.set_mcName(reply.getPlayer().get("playername").getAsString());
-                    playerName.set_mcNameWithRank(reply.getPlayer().get("playername").getAsString());
+                PlayerReply reply = gson.fromJson(json, PlayerReply.class);
+                if (reply.isThrottle()) {
+                    //Throttled (API Exceeded Limit)
+                    //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_uuid());
+                    Log.d("RESOLVE", "Retrying");
+                    new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
+                } else if (!reply.isSuccess()) {
+                    //Not Successful
+                    Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_uuid());
+                    Log.d("RESOLVE", "Retrying");
+                    new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
+                } else if (reply.getPlayer() == null) {
+                    Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_uuid(), Toast.LENGTH_SHORT).show();
                 } else {
-                    playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
-                    playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
+                    //Succeeded
+                    if (!MinecraftColorCodes.checkDisplayName(reply)) {
+                        playerName.set_mcName(reply.getPlayer().get("playername").getAsString());
+                        playerName.set_mcNameWithRank(reply.getPlayer().get("playername").getAsString());
+                    } else {
+                        playerName.set_mcName(reply.getPlayer().get("displayname").getAsString());
+                        playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
+                    }
+                    playerName.set_done(true);
+                    if (!checkHistory(reply)) {
+                        CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
+                        Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
+                    }
+                    MainStaticVars.guildList.add(playerName);
+                    checkIfComplete();
+                    //new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
                 }
-                playerName.set_done(true);
-                if (!checkHistory(reply)) {
-                    CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
-                    Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
-                }
-                MainStaticVars.guildList.add(playerName);
-                checkIfComplete();
-                //new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
             }
         }
     }

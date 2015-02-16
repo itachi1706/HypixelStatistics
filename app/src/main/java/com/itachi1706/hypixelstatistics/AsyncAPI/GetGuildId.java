@@ -86,6 +86,10 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
         }
 
         Gson gson = new Gson();
+        if (!MainStaticVars.checkIfYouGotJsonString(json)){
+            Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+            return;
+        }
         FindGuildReply reply = gson.fromJson(json, FindGuildReply.class);
         if (reply.isThrottle()) {
             //Throttled (API Exceeded Limit)

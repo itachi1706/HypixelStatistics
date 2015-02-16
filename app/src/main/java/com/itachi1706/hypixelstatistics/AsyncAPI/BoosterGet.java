@@ -87,52 +87,57 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
         } else {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);
-            BoostersReply reply = gson.fromJson(json, BoostersReply.class);
-            Log.d("BOOSTER", reply.toString());
-            if (reply.isThrottle()) {
-                //Throttled (API Exceeded Limit)
-                Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
-            } else if (!reply.isSuccess()) {
-                //Not Successful
-                Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+            if (!MainStaticVars.checkIfYouGotJsonString(json)){
+                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again", Toast.LENGTH_SHORT).show();
+                bar.setVisibility(View.GONE);
             } else {
-                //Succeeded
-                MainStaticVars.boosterList.clear();
-                MainStaticVars.boosterUpdated = false;
-                MainStaticVars.inProg = true;
-                JsonArray records = reply.getRecords().getAsJsonArray();
-                MainStaticVars.numOfBoosters = records.size();
-                MainStaticVars.tmpBooster = 0;
-                MainStaticVars.boosterProcessCounter = 0;
-                MainStaticVars.boosterMaxProcessCounter = 0;
-
-                if (records.size() != 0) {
-                    MainStaticVars.boosterMaxProcessCounter = records.size();
-                    for (JsonElement e : records) {
-                        JsonObject obj = e.getAsJsonObject();
-                        String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
-                        BoosterDescription desc;
-                        if (obj.has("purchaser")) {
-                            //Old Method
-                            desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
-                                    obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
-                                    uid, obj.get("purchaser").getAsString());
-                        } else {
-                            //New Method
-                            desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
-                                    obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
-                                    uid);
-                        }
-                        //Move to BoosterGetHistory
-                        tooltip.setVisibility(View.VISIBLE);
-                        tooltip.setText("Booster list obtained. Processing Players now...");
-                        new BoosterGetHistory(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
-                    }
+                BoostersReply reply = gson.fromJson(json, BoostersReply.class);
+                Log.d("BOOSTER", reply.toString());
+                if (reply.isThrottle()) {
+                    //Throttled (API Exceeded Limit)
+                    Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                } else if (!reply.isSuccess()) {
+                    //Not Successful
+                    Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
                 } else {
-                    String[] tmp = {"No Boosters Activated"};
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
-                    list.setAdapter(adapter);
-                    bar.setVisibility(View.GONE);
+                    //Succeeded
+                    MainStaticVars.boosterList.clear();
+                    MainStaticVars.boosterUpdated = false;
+                    MainStaticVars.inProg = true;
+                    JsonArray records = reply.getRecords().getAsJsonArray();
+                    MainStaticVars.numOfBoosters = records.size();
+                    MainStaticVars.tmpBooster = 0;
+                    MainStaticVars.boosterProcessCounter = 0;
+                    MainStaticVars.boosterMaxProcessCounter = 0;
+
+                    if (records.size() != 0) {
+                        MainStaticVars.boosterMaxProcessCounter = records.size();
+                        for (JsonElement e : records) {
+                            JsonObject obj = e.getAsJsonObject();
+                            String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
+                            BoosterDescription desc;
+                            if (obj.has("purchaser")) {
+                                //Old Method
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        uid, obj.get("purchaser").getAsString());
+                            } else {
+                                //New Method
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        uid);
+                            }
+                            //Move to BoosterGetHistory
+                            tooltip.setVisibility(View.VISIBLE);
+                            tooltip.setText("Booster list obtained. Processing Players now...");
+                            new BoosterGetHistory(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
+                        }
+                    } else {
+                        String[] tmp = {"No Boosters Activated"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
+                        list.setAdapter(adapter);
+                        bar.setVisibility(View.GONE);
+                    }
                 }
             }
         }

@@ -58,12 +58,16 @@ public class MainStaticVars {
         changelogBuilder.append("New Version: ").append(changelog.get(0)).append("<br/><br/>");
         for (String line : changelog){
             if (line.startsWith("#"))
-                changelogBuilder.append("<b>").append(line.replace('#',' ')).append("</b><br />");
+                changelogBuilder.append("<b>").append(line.replace('#', ' ')).append("</b><br />");
             else if (line.startsWith("*"))
                 changelogBuilder.append(" - ").append(line.replace('*', ' ')).append("<br />");
             else if (line.startsWith("@"))
                 changelogBuilder.append("<br />");
         }
         return changelogBuilder.toString();
+    }
+
+    public static boolean checkIfYouGotJsonString(String jsonString){
+        return !jsonString.startsWith("<!DOCTYPE html>");
     }
 }
