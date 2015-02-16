@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerification;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -169,6 +171,28 @@ public class GeneralPrefActivity extends ActionBarActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent(getActivity(), DebugSettings.class);
                     startActivity(intent);
+                    return true;
+                }
+            });
+
+            Preference changelogPref = findPreference("android_changelog");
+            changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    String changelog = sp.getString("version-changelog", "l");
+                    if (changelog.equals("l")){
+                        //Not available
+                        new AlertDialog.Builder(getActivity()).setTitle("No Changelog")
+                                .setMessage("No changelog was found. Please check if you can connect to the server")
+                                .setPositiveButton(android.R.string.ok, null).show();
+                    } else {
+                        String[] changelogArr = changelog.split("\n");
+                        ArrayList<String> changelogArrList = new ArrayList<>();
+                        Collections.addAll(changelogArrList, changelogArr);
+                        String body = MainStaticVars.getChangelogStringFromArrayList(changelogArrList);
+                        new AlertDialog.Builder(getActivity()).setTitle("Changelog")
+                                .setMessage(Html.fromHtml(body)).setPositiveButton("Close", null).show();
+                    }
                     return true;
                 }
             });
