@@ -1,7 +1,7 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.Preference;
@@ -32,13 +32,13 @@ import java.io.InputStreamReader;
  */
 public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
 
-    Context mContext;
+    Activity mContext;
     Exception except = null;
     SharedPreferences sp;
     Preference key_staff, key_name;
     boolean isSettings = false;
 
-    public GetKeyInfoVerificationName(Context context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName, boolean isSettingss){
+    public GetKeyInfoVerificationName(Activity context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName, boolean isSettingss){
         mContext = context;
         sp = sharedPrefs;
         key_staff = keyStaff;
@@ -79,12 +79,12 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
                 return;
             }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             if (reply == null){
-                Toast.makeText(mContext, "Unable to verify key. Are you connected to the internet?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.getApplicationContext(), "Unable to verify key. Are you connected to the internet?", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (reply.isThrottle()) {

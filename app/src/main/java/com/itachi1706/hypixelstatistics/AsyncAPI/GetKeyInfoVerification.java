@@ -1,7 +1,7 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.Preference;
@@ -30,12 +30,12 @@ import java.util.UUID;
  */
 public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
 
-    Context mContext;
+    Activity mContext;
     Exception except = null;
     SharedPreferences sp;
     Preference key_info, key_string, key_staff, key_name;
 
-    public GetKeyInfoVerification(Context context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct, Preference keyStaff, Preference keyName){
+    public GetKeyInfoVerification(Activity context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct, Preference keyStaff, Preference keyName){
         mContext = context;
         sp = sharedPrefs;
         key_string = keyString;
@@ -75,12 +75,12 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         if (except != null){
             new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
                     .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
-            pref.updateKeyString(sp, key_string, key_info, mContext);
+            pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (reply.isThrottle()) {
@@ -88,14 +88,14 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
                         .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
                         .setPositiveButton(android.R.string.ok, null).show();
-                pref.updateKeyString(sp, key_string, key_info, mContext);
+                pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else if (!reply.isSuccess()){
 
                 //Not Successful
                 //debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 new AlertDialog.Builder(mContext).setTitle("Invalid Key")
                         .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
-                pref.updateKeyString(sp, key_string, key_info, mContext);
+                pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else {
                 //Succeeded
                 //Set SharedPref to new key and update general prefs
@@ -103,7 +103,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 sp.edit().remove("rank").apply();
                 sp.edit().remove("own").apply();
                 sp.edit().putString("api-key",reply.getRecord().getKey().toString()).apply();
-                pref.updateKeyString(sp, key_string, key_info, mContext);
+                pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
                 new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name,true).execute(reply.getRecord().getOwner());
             }
         }
