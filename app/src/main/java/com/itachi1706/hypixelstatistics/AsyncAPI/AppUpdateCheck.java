@@ -81,6 +81,10 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         # - Changelog Version Number (Bold this)
         * - Points
          */
+        if (changelogStrings.size() <= 0){
+            Toast.makeText(mActivity.getApplicationContext(), "Unable to do app update check", Toast.LENGTH_SHORT).show();
+            return;
+        }
         sp.edit().putString("version-changelog", changelog).apply();
         String currentVersionNumber = changelogStrings.get(0);
         String currentAppVersion = "";
