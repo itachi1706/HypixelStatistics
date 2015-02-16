@@ -19,6 +19,7 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerification;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
@@ -58,6 +59,8 @@ public class GeneralPrefActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
 
+            final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
             //Debug Info Get
             String version = "NULL", packName = "NULL";
             try {
@@ -76,9 +79,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
             updaterPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(getResources().getString(R.string.link_updates)));
-                    startActivity(i);
+                    new AppUpdateCheck(getActivity(), sp).execute();
                     return false;
                 }
             });
@@ -95,7 +96,6 @@ public class GeneralPrefActivity extends ActionBarActivity {
                 }
             });
 
-            final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
             final Preference api_key = findPreference("api_key");
             final Preference staff_rank = findPreference("staff_rnk");
             final Preference player_IGN = findPreference("staff_p");
@@ -194,6 +194,28 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                 .setMessage(Html.fromHtml(body)).setPositiveButton("Close", null).show();
                     }
                     return true;
+                }
+            });
+
+            Preference oldVersionPref = findPreference("get_old_app");
+            oldVersionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(getResources().getString(R.string.link_legacy)));
+                    startActivity(i);
+                    return false;
+                }
+            });
+
+            Preference latestVersionPref = findPreference("get_latest_app");
+            latestVersionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(getResources().getString(R.string.link_updates)));
+                    startActivity(i);
+                    return false;
                 }
             });
         }

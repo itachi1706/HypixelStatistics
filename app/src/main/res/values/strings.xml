@@ -16,6 +16,7 @@
     <string name="keyinfo_fields">-</string>
     <string name="title_activity_player_info">View Player Statistics (Old)</string>
     <string name="link_updates">https://github.com/itachi1706/HypixelStatistics/releases/latest</string>
+    <string name="link_legacy">https://github.com/itachi1706/HypixelStatistics/releases</string>
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>
     <string name="player_btnchk">Search!</string>
     <string name="player_etHint">Player Name</string>
