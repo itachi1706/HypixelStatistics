@@ -131,40 +131,8 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                                     obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
                                     uid);
                         }
-                        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-                        boolean hasHist = false;
-                        if (hist != null) {
-                            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-                            JsonArray histCheck = check.getHistory();
-                            for (JsonElement el : histCheck) {
-                                JsonObject histCheckName = el.getAsJsonObject();
-                                if (histCheckName.get("uuid").getAsString().equals(desc.get_purchaseruuid())) {
-                                    //Check if history expired
-                                    if (CharHistory.checkHistoryExpired(histCheckName)){
-                                        //Expired, reobtain
-                                        histCheck.remove(histCheckName);
-                                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
-                                        Log.d("HISTORY", "History Expired");
-                                        break;
-                                    } else {
-                                        desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
-                                        desc.set_mcName(histCheckName.get("displayname").getAsString());
-                                        desc.set_purchaseruuid(histCheckName.get("uuid").getAsString());
-                                        desc.set_done(true);
-                                        hasHist = true;
-                                        MainStaticVars.boosterList.add(desc);
-                                        MainStaticVars.tmpBooster++;
-                                        MainStaticVars.boosterProcessCounter++;
-                                        Log.d("Player", "Found player " + desc.get_mcName());
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (!hasHist)
-                            new BoosterGetPlayerName(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
-                        checkIfComplete();
-
+                        //Move to BoosterGetHistory
+                        new BoosterGetHistory(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
                     }
                 } else {
                     String[] tmp = {"No Boosters Activated"};
@@ -173,39 +141,6 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     bar.setVisibility(View.GONE);
                 }
             }
-        }
-    }
-
-    private void checkIfComplete(){
-        if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
-            MainStaticVars.parseRes = true;
-            MainStaticVars.boosterUpdated = true;
-            MainStaticVars.inProg = false;
-            if (!isActiveOnly) {
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
-                list.setAdapter(adapter);
-                bar.setVisibility(View.GONE);
-            } else {
-                ArrayList<BoosterDescription> tmp = new ArrayList<>();
-                for (BoosterDescription desc : MainStaticVars.boosterList){
-                    tmp.add(desc);
-                }
-                Iterator<BoosterDescription> iter = tmp.iterator();
-                while (iter.hasNext()){
-                    BoosterDescription desc = iter.next();
-                    if (!desc.checkIfBoosterActive())
-                        iter.remove();
-                }
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
-                list.setAdapter(adapter);
-                tooltip.setVisibility(View.INVISIBLE);
-                bar.setVisibility(View.GONE);
-                MainStaticVars.parseRes = false;
-            }
-        }
-        if (MainStaticVars.inProg) {
-            tooltip.setVisibility(View.VISIBLE);
-            tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
         }
     }
 }
