@@ -465,6 +465,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     break;
                 case "uhc": resultArray.add(new ResultDescription("UHC Champions Statistics", null, false, false, parseUHC(statistic), null));
                     break;
+                case "battleground": resultArray.add(new ResultDescription("Warlords Statistics", null, false, false, parseWarlords(statistic), null));
+                    break;
                 default: resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
             }
@@ -1209,5 +1211,33 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (score > 10)
             return "Initiate";
         return "Recruit";
+    }
+
+    private ArrayList<ResultDescription> parseWarlords(JsonObject obj){
+        ArrayList<ResultDescription> descArray = new ArrayList<>();
+        if (obj.has("coins"))
+            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("wins"))
+            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+        if (obj.has("deaths"))
+            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+        if (obj.has("kills"))
+            descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+
+        if (obj.has("assists"))
+            descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
+        if (obj.has("chosen_class"))
+            descArray.add(new ResultDescription("Class Chosen", obj.get("chosen_class").getAsString()));
+        if (obj.has("damage"))
+            descArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage").getAsString()));
+        if (obj.has("heal"))
+            descArray.add(new ResultDescription("Total Health Healed", obj.get("heal").getAsString()));
+        if (obj.has("life_leeched"))
+            descArray.add(new ResultDescription("Total Life Leached", obj.get("life_leeched").getAsString()));
+        if (obj.has("repaired_common"))
+            descArray.add(new ResultDescription("Total Common Items Repaired", obj.get("repaired_common").getAsString()));
+        if (obj.has("repaired_rare"))
+            descArray.add(new ResultDescription("Total Rare Items Repaired", obj.get("repaired_rare").getAsString()));
+        return descArray;
     }
 }
