@@ -1226,8 +1226,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
         if (obj.has("assists"))
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
-        if (obj.has("chosen_class"))
-            descArray.add(new ResultDescription("Class Chosen", obj.get("chosen_class").getAsString()));
         if (obj.has("damage"))
             descArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage").getAsString()));
         if (obj.has("heal"))
@@ -1238,6 +1236,22 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Common Items Repaired", obj.get("repaired_common").getAsString()));
         if (obj.has("repaired_rare"))
             descArray.add(new ResultDescription("Total Rare Items Repaired", obj.get("repaired_rare").getAsString()));
+
+        if (obj.has("chosen_class")) {
+            String classChosen = obj.get("chosen_class").getAsString();
+            String formattedClass = classChosen.substring(0, 1).toUpperCase() + classChosen.substring(1);
+            descArray.add(new ResultDescription("Class Chosen", formattedClass));
+            String spec = "An Error Occured!";
+            switch (classChosen){
+                case "mage": if (obj.has("mage_spec")) {spec = obj.get("mage_spec").getAsString();} else { spec = "error"; } break;
+                case "paladin": if (obj.has("paladin_spec")) {spec = obj.get("paladin_spec").getAsString();} else { spec = "error"; } break;
+                case "pyromancer": if (obj.has("pyromancer_spec")) {spec = obj.get("pyromancer_spec").getAsString();} else { spec = "error"; } break;
+            }
+            descArray.add(new ResultDescription(formattedClass + " Spec Chosen", spec.substring(0,1).toUpperCase() + spec.substring(1)));
+        }
+        if (obj.has("selected_mount")){
+            descArray.add(new ResultDescription("Selected Mount", obj.get("selected_mount").getAsString()));
+        }
         return descArray;
     }
 }
