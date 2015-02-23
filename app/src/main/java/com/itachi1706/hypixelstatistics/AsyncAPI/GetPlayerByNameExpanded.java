@@ -678,7 +678,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
         } else {
-            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "You have no statistics for this class yet!"));
+            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "You do not have any statistics for this class yet!"));
         }
         return descArray;
     }
@@ -1316,7 +1316,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, msg.toString()));
         } else {
-            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "You have no statistics for this class/spec yet!"));
+            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "You do not have any statistics for this class/spec yet!"));
         }
         return descArray;
     }
