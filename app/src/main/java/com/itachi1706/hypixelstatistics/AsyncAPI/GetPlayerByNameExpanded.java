@@ -677,6 +677,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
             descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
+        } else {
+            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "You have no statistics for this class yet!"));
         }
         return descArray;
     }
@@ -1219,6 +1221,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
         if (obj.has("wins"))
             descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+        if (obj.has("win_streak"))
+            descArray.add(new ResultDescription("Current Win Streak", obj.get("win_streak").getAsString()));
+        if (obj.has("losses"))
+            descArray.add(new ResultDescription("Games Lost", obj.get("losses").getAsString()));
         if (obj.has("deaths"))
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
@@ -1228,15 +1234,22 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
         if (obj.has("damage"))
             descArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage").getAsString()));
+        if (obj.has("damage_taken"))
+            descArray.add(new ResultDescription("Total Damage Taken", obj.get("damage_taken").getAsString()));
+        if (obj.has("damage_prevented"))
+            descArray.add(new ResultDescription("Total Damage Prevented", obj.get("damage_prevented").getAsString()));
         if (obj.has("heal"))
             descArray.add(new ResultDescription("Total Health Healed", obj.get("heal").getAsString()));
         if (obj.has("life_leeched"))
             descArray.add(new ResultDescription("Total Life Leached", obj.get("life_leeched").getAsString()));
+        if (obj.has("broken_inventory"))
+            descArray.add(new ResultDescription("Broken Items in Inventory", obj.get("broken_inventory").getAsString()));
+        if (obj.has("repaired"))
+            descArray.add(new ResultDescription("Total Items Repaired", obj.get("repaired").getAsString()));
         if (obj.has("repaired_common"))
             descArray.add(new ResultDescription("Total Common Items Repaired", obj.get("repaired_common").getAsString()));
         if (obj.has("repaired_rare"))
             descArray.add(new ResultDescription("Total Rare Items Repaired", obj.get("repaired_rare").getAsString()));
-
         if (obj.has("chosen_class")) {
             String classChosen = obj.get("chosen_class").getAsString();
             String formattedClass = classChosen.substring(0, 1).toUpperCase() + classChosen.substring(1);
@@ -1251,6 +1264,59 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         }
         if (obj.has("selected_mount")){
             descArray.add(new ResultDescription("Selected Mount", obj.get("selected_mount").getAsString()));
+        }
+
+        //Individual Classes/Specs Statistics
+        //Mage
+        descArray = parseIndividualWarlordsStats(obj, "mage", "Mage Class", descArray);
+        //Pyromancer
+        descArray = parseIndividualWarlordsStats(obj, "pyromancer", "Pyromancer", descArray);
+        //Cryomancer
+        descArray = parseIndividualWarlordsStats(obj, "cryomancer", "Cryomancer", descArray);
+        //Aquamancer
+        descArray = parseIndividualWarlordsStats(obj, "aquamancer", "Aquamancer", descArray);
+        //Warrior
+        descArray = parseIndividualWarlordsStats(obj, "warrior", "Warrior Class", descArray);
+        //Berserker
+        descArray = parseIndividualWarlordsStats(obj, "berserker", "Berserker", descArray);
+        //Defender
+        descArray = parseIndividualWarlordsStats(obj, "defender", "Defender", descArray);
+        //Paladin
+        descArray = parseIndividualWarlordsStats(obj, "paladin", "Paladin Class", descArray);
+        //Avenger
+        descArray = parseIndividualWarlordsStats(obj, "avenger", "Avenger", descArray);
+        //Crusader
+        descArray = parseIndividualWarlordsStats(obj, "crusader", "Crusader", descArray);
+        //Protector
+        descArray = parseIndividualWarlordsStats(obj, "protector", "Protector", descArray);
+        //Shaman (Coming Soon)
+        descArray = parseIndividualWarlordsStats(obj, "shaman", "Shaman Class (Coming Soon)", descArray);
+        return descArray;
+    }
+
+
+    //damage_<>,damage_prevented_<>,losses_<>,<>_plays
+    private ArrayList<ResultDescription> parseIndividualWarlordsStats(JsonObject obj, String className, String title, ArrayList<ResultDescription> descArray){
+        ArrayList<ResultDescription> classArray = new ArrayList<>();
+        if (obj.has("damage_" + className))
+            classArray.add(new ResultDescription("Damage Dealt (" + className + ")", obj.get("damage_" + className).getAsString()));
+        if (obj.has("damage_prevented_" + className))
+            classArray.add(new ResultDescription("Damage Prevented (" + className + ")", obj.get("damage_prevented_" + className).getAsString()));
+        if (obj.has("losses_" + className))
+            classArray.add(new ResultDescription("Games Lost (" + className + ")", obj.get("losses_" + className).getAsString()));
+        if (obj.has("wins_" + className))
+            classArray.add(new ResultDescription("Games Won (" + className + ")", obj.get("wins_" + className).getAsString()));
+        if (obj.has(className + "_plays"))
+            classArray.add(new ResultDescription("Times Played as " + className + "", obj.get(className + "_plays").getAsString()));
+
+        if (classArray.size() > 0){
+            StringBuilder msg = new StringBuilder();
+            for (ResultDescription t : classArray){
+                msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
+            }
+            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, msg.toString()));
+        } else {
+            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "You have no statistics for this class/spec yet!"));
         }
         return descArray;
     }
