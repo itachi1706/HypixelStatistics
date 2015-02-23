@@ -19,6 +19,8 @@ import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
+import net.hypixel.api.util.GameType;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -107,9 +109,9 @@ public class BoosterList extends ActionBarActivity {
 
     private String parseStats(){
         ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
-        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0, uhc = 0;
+        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0, uhc = 0, war = 0;
         int quakeSec = 0,wallsSec = 0,pbSec = 0,bsgSec = 0,tntSec = 0,
-                vzSec = 0,mwSec = 0,arcadeSec = 0,arenaSec = 0,cacSec = 0,unknownSec = 0, uhcSec = 0;
+                vzSec = 0,mwSec = 0,arcadeSec = 0,arenaSec = 0,cacSec = 0,unknownSec = 0, uhcSec = 0, warSec = 0;
         for (BoosterDescription desc : check){
             switch (desc.get_gameType().getId()){
                 case 2: quake++; quakeSec += desc.get_timeRemaining(); break;
@@ -123,6 +125,7 @@ public class BoosterList extends ActionBarActivity {
                 case 17: arena++; arenaSec += desc.get_timeRemaining(); break;
                 case 21: cac++; cacSec += desc.get_timeRemaining(); break;
                 case 20: uhc++; uhcSec += desc.get_timeRemaining(); break;
+                case 23: war++; warSec += desc.get_timeRemaining(); break;
                 default: unknown++; unknownSec += desc.get_timeRemaining(); break;
             }
         }
@@ -130,37 +133,40 @@ public class BoosterList extends ActionBarActivity {
         StringBuilder bu = new StringBuilder();
         bu.append("Based on last booster query: \n\n");
         if (quake != 0){
-            bu.append("QuakeCraft: ").append(quake).append("\n").append(createTimeLeftString(quakeSec)).append("\n");
+            bu.append(GameType.QUAKECRAFT.getName() + ": ").append(quake).append("\n").append(createTimeLeftString(quakeSec)).append("\n");
         }
         if (walls != 0){
-            bu.append("Walls: ").append(walls).append("\n").append(createTimeLeftString(wallsSec)).append("\n");
+            bu.append(GameType.WALLS.getName() + ": ").append(walls).append("\n").append(createTimeLeftString(wallsSec)).append("\n");
         }
         if (pb != 0){
-            bu.append("Paintball: ").append(pb).append("\n").append(createTimeLeftString(pbSec)).append("\n");
+            bu.append(GameType.PAINTBALL.getName() + ": ").append(pb).append("\n").append(createTimeLeftString(pbSec)).append("\n");
         }
         if (bsg != 0){
-            bu.append("Blitz Survival Games: ").append(bsg).append("\n").append(createTimeLeftString(bsgSec)).append("\n");
+            bu.append(GameType.SURVIVAL_GAMES.getName() + ": ").append(bsg).append("\n").append(createTimeLeftString(bsgSec)).append("\n");
         }
         if (tnt != 0){
-            bu.append("TNTGames: ").append(tnt).append("\n").append(createTimeLeftString(tntSec)).append("\n");
+            bu.append(GameType.TNTGAMES.getName() + ": ").append(tnt).append("\n").append(createTimeLeftString(tntSec)).append("\n");
         }
         if (vz != 0){
-            bu.append("VampireZ: ").append(vz).append("\n").append(createTimeLeftString(vzSec)).append("\n");
+            bu.append(GameType.VAMPIREZ.getName() + ": ").append(vz).append("\n").append(createTimeLeftString(vzSec)).append("\n");
         }
         if (mw != 0){
-            bu.append("MegaWalls: ").append(mw).append("\n").append(createTimeLeftString(mwSec)).append("\n");
+            bu.append(GameType.WALLS3.getName() + ": ").append(mw).append("\n").append(createTimeLeftString(mwSec)).append("\n");
         }
         if (arcade != 0){
-            bu.append("Arcade: ").append(arcade).append("\n").append(createTimeLeftString(arcadeSec)).append("\n");
+            bu.append(GameType.ARCADE.getName() + ": ").append(arcade).append("\n").append(createTimeLeftString(arcadeSec)).append("\n");
         }
         if (arena != 0){
-            bu.append("Arena: ").append(arena).append("\n").append(createTimeLeftString(arenaSec)).append("\n");
+            bu.append(GameType.ARENA.getName() + ": ").append(arena).append("\n").append(createTimeLeftString(arenaSec)).append("\n");
         }
         if (cac != 0){
-            bu.append("Cops and Crims: ").append(cac).append("\n").append(createTimeLeftString(cacSec)).append("\n");
+            bu.append(GameType.MCGO.getName() + ": ").append(cac).append("\n").append(createTimeLeftString(cacSec)).append("\n");
         }
         if (uhc != 0){
-            bu.append("Ultra HardCore Champions: ").append(uhc).append("\n").append(createTimeLeftString(uhcSec)).append("\n");
+            bu.append(GameType.UHC.getName() + ": ").append(uhc).append("\n").append(createTimeLeftString(uhcSec)).append("\n");
+        }
+        if (war != 0){
+            bu.append(GameType.WARLORDS.getName() + ": ").append(war).append("\n").append(createTimeLeftString(warSec)).append("\n");
         }
         if (unknown != 0){
             bu.append("Unknown Game: ").append(unknown).append("\n").append(createTimeLeftString(unknownSec)).append("\n");

@@ -465,7 +465,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     break;
                 case "uhc": resultArray.add(new ResultDescription("UHC Champions Statistics", null, false, false, parseUHC(statistic), null));
                     break;
-                case "battleground": resultArray.add(new ResultDescription("Warlords Statistics", null, false, false, parseWarlords(statistic), null));
+                case "battleground": resultArray.add(new ResultDescription("Warlords Statistics (OPEN BETA)", null, false, false, parseWarlords(statistic), null));
                     break;
                 default: resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
                     break;
