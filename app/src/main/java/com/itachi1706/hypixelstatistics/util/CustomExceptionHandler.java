@@ -108,6 +108,8 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
             File folder = new File(localPath);
             File[] listOfFiles = folder.listFiles();
 
+            if (listOfFiles == null)
+                return;
             if (listOfFiles.length == 0)
                 return;
 
