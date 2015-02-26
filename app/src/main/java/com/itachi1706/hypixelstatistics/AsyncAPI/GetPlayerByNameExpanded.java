@@ -494,16 +494,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parseParkourCounts(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         JsonObject parkourMain = reply.getPlayer().getAsJsonObject("parkourCompletions");
-        boolean first = true;
         for (Map.Entry<String, JsonElement> entry : parkourMain.entrySet()){
-            //Get the location
-            if (first){
-                first = false;
-            } else {
-                descArray.add(new ResultDescription(" ", null, false, true));
-            }
             ArrayList<ResultDescription> parkArray = new ArrayList<>();
-            descArray.add(new ResultDescription("<b>" + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + "</b>", null, false, true));
             parkArray.add(new ResultDescription("Amount of Times Completed", entry.getValue().getAsJsonArray().size() + ""));
             //Get the count of times its completed
             JsonArray completionArray = entry.getValue().getAsJsonArray();
@@ -678,7 +670,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
         } else {
-            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "You do not have any statistics for this class yet!"));
+            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "This player does not have any statistics for this class yet!"));
         }
         return descArray;
     }
@@ -1316,7 +1308,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, msg.toString()));
         } else {
-            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "You do not have any statistics for this class/spec yet!"));
+            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "This player does not have any statistics for this class/spec yet!"));
         }
         return descArray;
     }
