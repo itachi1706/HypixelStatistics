@@ -1221,6 +1221,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+        if (obj.has("magic_dust"))
+            descArray.add(new ResultDescription("Magic Dust", obj.get("magic_dust").getAsString()));
 
         if (obj.has("assists"))
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
