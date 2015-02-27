@@ -1,6 +1,7 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,14 +9,18 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -56,6 +61,20 @@ public class GuildActivity extends ActionBarActivity {
         guildSearch.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         guildSearch.setAdapter(adapter);
+
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        guildSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    guildSearch.clearFocus();
+                    imm.hideSoftInputFromWindow(guildSearch.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    searchBtn.performClick();
+                }
+                return true;
+            }
+        });
 
         //On Click Listeners
         generalInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,6 +127,8 @@ public class GuildActivity extends ActionBarActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                guildSearch.clearFocus();
+                imm.hideSoftInputFromWindow(guildSearch.getWindowToken(), 0);
                 if (guildSearch.getText().toString().equals("") || guildSearch.getText().toString() == null){
                     Toast.makeText(getApplicationContext(), "Please enter a guild name or player!", Toast.LENGTH_SHORT).show();
                 } else {

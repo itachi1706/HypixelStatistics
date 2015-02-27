@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,9 +13,12 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -90,9 +94,25 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             debug.setVisibility(View.VISIBLE);
         }
 
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        playerName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    playerName.clearFocus();
+                    imm.hideSoftInputFromWindow(playerName.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    checkPlayer.performClick();
+                }
+                return true;
+            }
+        });
+
         checkPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playerName.clearFocus();
+                imm.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
                 if (playerName.getText().toString().equals("") || playerName.getText().toString() == null){
                     Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_SHORT).show();
                 } else {
