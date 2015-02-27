@@ -39,5 +39,10 @@
     <string name="action_view_known_aliases">View Known Aliases</string>
     <string name="action_refresh_server_info">Refresh Server Info</string>
     <string name="action_view_server_motd">View Server MOTD</string>
+    <string name="guild_btn_search">Search!</string>
+    <string name="guild_autocomplete_textview_hint">Guild Name/Member</string>
+    <string name="guild_togglehint_string">Click here to toggle search modes</string>
+    <string name="guild_memberText_title">Members</string>
+    <string name="activity_key_info_total_qry_unimplemented">Unimplemented by API (Soon)</string>
 
 </resources>
