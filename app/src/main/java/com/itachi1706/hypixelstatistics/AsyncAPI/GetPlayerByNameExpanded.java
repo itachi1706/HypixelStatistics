@@ -1273,6 +1273,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         if (obj.has("coins"))
             descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+        if (obj.has("magic_dust"))
+            descArray.add(new ResultDescription("Magic Dust", obj.get("magic_dust").getAsString()));
+        if (obj.has("void_shards"))
+            descArray.add(new ResultDescription("Void Shards", obj.get("void_shards").getAsString()));
         if (obj.has("wins"))
             descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
         if (obj.has("win_streak"))
@@ -1283,8 +1287,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
-        if (obj.has("magic_dust"))
-            descArray.add(new ResultDescription("Magic Dust", obj.get("magic_dust").getAsString()));
 
         if (obj.has("assists"))
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
@@ -1306,6 +1308,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Common Items Repaired", obj.get("repaired_common").getAsString()));
         if (obj.has("repaired_rare"))
             descArray.add(new ResultDescription("Total Rare Items Repaired", obj.get("repaired_rare").getAsString()));
+        if (obj.has("repaired_epic"))
+            descArray.add(new ResultDescription("Total Epic Items Repaired", obj.get("repaired_epic").getAsString()));
         if (obj.has("chosen_class")) {
             String classChosen = obj.get("chosen_class").getAsString();
             String formattedClass = classChosen.substring(0, 1).toUpperCase() + classChosen.substring(1);
@@ -1347,6 +1351,14 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         descArray = parseIndividualWarlordsStats(obj, "protector", "Protector", descArray);
         //Shaman (Coming Soon)
         descArray = parseIndividualWarlordsStats(obj, "shaman", "Shaman Class (Coming Soon)", descArray);
+
+        //Priviledged Info
+        if (MainStaticVars.isStaff || MainStaticVars.isOwner){
+            if (obj.has("afk_warned"))
+                descArray.add(new ResultDescription("Times warned for AFK", obj.get("afk_warned").getAsString()));
+            if (obj.has("penalty"))
+                descArray.add(new ResultDescription("Times Penalized", obj.get("penalty").getAsString()));
+        }
         return descArray;
     }
 
