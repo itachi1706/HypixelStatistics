@@ -33,6 +33,9 @@ public class MainStaticVars {
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 
+    //Parkour Numbers
+    public static final int SERVER_PARKOUR_COUNT = 12;
+
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
