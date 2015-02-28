@@ -92,7 +92,23 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
             }
             if (boostVal != null){
                 int boostTime = i.get_originalTime();
-                String timeDuration = String.format("%d hr", TimeUnit.SECONDS.toHours(boostTime));
+                String timeDuration = "Error";
+                if (boostTime > 7200 && boostTime%3600 != 0)
+                    timeDuration = String.format("%d hrs %d min", TimeUnit.SECONDS.toHours(boostTime), TimeUnit.SECONDS.toMinutes(boostTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(boostTime)));
+                else if (boostTime%3600 == 0 && boostTime != 3600)
+                    timeDuration = String.format("%d hrs", TimeUnit.SECONDS.toHours(boostTime));
+                else if (boostTime > 3600 && boostTime < 7200)
+                    timeDuration = String.format("%d hr %d min", TimeUnit.SECONDS.toHours(boostTime), TimeUnit.SECONDS.toMinutes(boostTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(boostTime)));
+                else if (boostTime == 3600)
+                    timeDuration = String.format("%d hr", TimeUnit.SECONDS.toHours(boostTime));
+                else if (boostTime < 3600 && boostTime > 60)
+                    timeDuration = String.format("%d mins", TimeUnit.SECONDS.toMinutes(boostTime));
+                else if (boostTime == 60)
+                    timeDuration = String.format("%d min", TimeUnit.SECONDS.toMinutes(boostTime));
+                else if (boostTime < 60 && boostTime > 1)
+                    timeDuration = String.format("%d secs", boostTime);
+                else if (boostTime == 1)
+                    timeDuration = String.format("%d sec", boostTime);
                 boostVal.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_boostRate() + "x§r Coins (" + timeDuration + ")")));
             }
         }
