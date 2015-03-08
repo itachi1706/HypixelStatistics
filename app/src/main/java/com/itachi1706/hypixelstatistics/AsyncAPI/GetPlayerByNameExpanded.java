@@ -25,6 +25,7 @@ import com.itachi1706.hypixelstatistics.util.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.PlayerStatisticsInDetail;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -1329,6 +1330,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         }
         if (obj.has("selected_mount")){
             descArray.add(new ResultDescription("Selected Mount", obj.get("selected_mount").getAsString()));
+        }
+
+        if (obj.has("current_weapon") && obj.has("weapon_inventory")){
+            descArray.add(new ResultDescription("Current Weapon (Click for detailed specs)", MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.getAsJsonObject("current_weapon"), obj.getAsJsonObject("weapon_inventory")) + "§r"),true, false, MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.getAsJsonObject("current_weapon"), obj.getAsJsonObject("weapon_inventory")) + "§r")));
         }
 
         //Individual Classes/Specs Statistics

@@ -1,0 +1,41 @@
+package com.itachi1706.hypixelstatistics.util.Warlords;
+
+/**
+ * Created by Kenneth on 8/3/2015, 5:06 PM
+ * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util.Warlords
+ */
+@SuppressWarnings("unused")
+public enum WeaponCategory {
+    COMMON("Common", "§a"),
+    RARE("Rare", "§9"),
+    EPIC("Epic", "§5"),
+    LEGENDARY("Legendary", "§6"),
+    DEFAULT("Error", "§f");
+
+    private static WeaponCategory[] v = values();
+    private final String name;
+    private final String colorCode;
+
+    private WeaponCategory(String name, String colorCode){
+        this.name = name;
+        this.colorCode = colorCode;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static WeaponCategory fromDatabase(String categoryName){
+        switch (categoryName){
+            case "COMMON": return COMMON;
+            case "RARE": return RARE;
+            case "EPIC": return EPIC;
+            case "LEGENDARY": return LEGENDARY;
+            default: return DEFAULT;
+        }
+    }
+}
