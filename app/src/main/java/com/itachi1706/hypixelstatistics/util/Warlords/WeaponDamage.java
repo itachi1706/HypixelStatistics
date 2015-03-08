@@ -7,6 +7,14 @@ package com.itachi1706.hypixelstatistics.util.Warlords;
 @SuppressWarnings("unused")
 public enum WeaponDamage {
     ZERO("0 - 0", 0, 0, 0),
+    EIGHTY("68 - 92", 68, 92, 80),
+    EIGHTY_ONE("68 - 93", 68, 93, 81),
+    EIGHTY_THREE("70 - 95", 70, 95, 83),
+    EIGHTY_FOUR("71 - 96", 71, 96, 84),
+    EIGHTY_FIVE("72 - 97", 72, 97, 85),
+    EIGHT_SIX("73 - 98", 73, 98, 86),
+    EIGHTY_SEVEN("73 - 100", 73, 100, 87),
+    EIGHTY_EIGHT("74 - 101", 74, 101, 88),
     NINETY("76 - 103", 76, 103, 90),
     NINETY_TWO("78 - 105", 78, 105, 92),
     NINETY_FOUR("79 - 108", 79, 108, 94),

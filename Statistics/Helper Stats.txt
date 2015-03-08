@@ -119,14 +119,14 @@
       
     ],
     "gadget": "TRAMPOLINE",
-    "karma": 1485,
+    "karma": 1585,
     "knownAliases": [
       "itachi1706"
     ],
     "knownAliasesLower": [
       "itachi1706"
     ],
-    "lastLogin": 1425737528090,
+    "lastLogin": 1425817266437,
     "monthlyCreditRewards": {
       "lastReceivedMonth": 2,
       "none": false,
@@ -138,8 +138,8 @@
     },
     "mostRecentGameType": "BATTLEGROUND",
     "mostRecentMinecraftVersion": 5,
-    "networkExp": 22217,
-    "networkLevel": 8,
+    "networkExp": 2367,
+    "networkLevel": 9,
     "newClock": "LVL2",
     "notifications": true,
     "packageRank": "MVP_PLUS",
@@ -302,13 +302,16 @@
           },
           {
             "time": 1425738588485
+          },
+          {
+            "time": 1425823121533
           }
         ]
       },
       "warlords_dedication": {
         "active": {
           "objectives": {
-            "warlords_weekly_dedi": 6
+            "warlords_weekly_dedi": 10
           },
           "started": 1425642503107
         }
@@ -338,6 +341,9 @@
           },
           {
             "time": 1425740493932
+          },
+          {
+            "time": 1425822152391
           }
         ]
       },
@@ -363,6 +369,9 @@
           },
           {
             "time": 1425739751412
+          },
+          {
+            "time": 1425823759436
           }
         ]
       },
@@ -379,9 +388,18 @@
           },
           "started": 1399707124681
         }
+      },
+      "welcome_to_hell": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1425823859709
+        }
       }
     },
     "rank": "HELPER",
+    "resourcePack": "bg-d88d2b997960.zip",
     "seeRequests": true,
     "settings": {
       "allowFriendRequests": false,
@@ -442,34 +460,34 @@
         "wins_4v4": 1
       },
       "Battleground": {
-        "assists": 353,
+        "assists": 396,
         "broken_inventory": 0,
         "chosen_class": "mage",
-        "coins": 28,
+        "coins": 12436,
         "current_weapon": 1425645831043,
-        "damage": 1118484,
-        "damage_mage": 1118484,
-        "damage_prevented": 137409,
-        "damage_prevented_mage": 137409,
-        "damage_prevented_pyromancer": 137409,
-        "damage_pyromancer": 1118484,
-        "damage_taken": 1072241,
-        "deaths": 177,
+        "damage": 1328531,
+        "damage_mage": 1328531,
+        "damage_prevented": 177920,
+        "damage_prevented_mage": 177920,
+        "damage_prevented_pyromancer": 177920,
+        "damage_pyromancer": 1328531,
+        "damage_taken": 1234912,
+        "deaths": 203,
         "flag_conquer_team": 10,
-        "heal": 1718,
-        "heal_mage": 1718,
-        "heal_pyromancer": 1718,
-        "kills": 148,
-        "losses": 14,
-        "losses_mage": 14,
-        "losses_pyromancer": 14,
+        "heal": 12102,
+        "heal_mage": 12102,
+        "heal_pyromancer": 12102,
+        "kills": 165,
+        "losses": 16,
+        "losses_mage": 16,
+        "losses_pyromancer": 16,
         "mage_armor_selection": 2,
         "mage_cooldown": 4,
         "mage_critchance": 2,
         "mage_critmultiplier": 2,
         "mage_energy": 4,
         "mage_health": 4,
-        "mage_plays": 31,
+        "mage_plays": 35,
         "mage_skill1": 5,
         "mage_skill2": 4,
         "mage_skill4": 5,
@@ -477,11 +495,11 @@
         "mage_spec": "pyromancer",
         "magic_dust": 184,
         "paladin_spec": "avenger",
-        "pyromancer_plays": 31,
-        "repaired": 114,
-        "repaired_common": 80,
+        "pyromancer_plays": 35,
+        "repaired": 128,
+        "repaired_common": 92,
         "repaired_epic": 1,
-        "repaired_rare": 33,
+        "repaired_rare": 35,
         "selected_mount": "noble_steed",
         "void_shards": 1,
         "warrior_spec": "berserker",
@@ -803,6 +821,27 @@
           },
           {
             "spec": {
+              "spec": 1,
+              "playerClass": 2
+            },
+            "ability": 0,
+            "abilityBoost": 4,
+            "damage": 99,
+            "energy": 15,
+            "chance": 11,
+            "multiplier": 154,
+            "health": 147,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "IRON_PICKAXE",
+            "id": 1425823877293,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
               "spec": 2,
               "playerClass": 2
             },
@@ -863,20 +902,293 @@
             "crafted": false,
             "upgradeMax": 2,
             "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 6,
+            "damage": 99,
+            "energy": 8,
+            "chance": 15,
+            "multiplier": 166,
+            "health": 103,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "DIAMOND_HOE",
+            "id": 1425823873749,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 2,
+            "abilityBoost": 3,
+            "damage": 84,
+            "energy": 0,
+            "chance": 9,
+            "multiplier": 164,
+            "health": 136,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "STONE_PICKAXE",
+            "id": 1425823880157,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 2
+            },
+            "ability": 1,
+            "abilityBoost": 3,
+            "damage": 86,
+            "energy": 0,
+            "chance": 8,
+            "multiplier": 159,
+            "health": 128,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "ROTTEN_FLESH",
+            "id": 1425823879200,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 2,
+            "damage": 90,
+            "energy": 0,
+            "chance": 15,
+            "multiplier": 145,
+            "health": 126,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "PUMPKIN_PIE",
+            "id": 1425823876719,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 2,
+            "damage": 85,
+            "energy": 0,
+            "chance": 15,
+            "multiplier": 144,
+            "health": 128,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "MUTTON",
+            "id": 1425823877715,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 2,
+            "damage": 90,
+            "energy": 0,
+            "chance": 5,
+            "multiplier": 142,
+            "health": 134,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "RABBIT_STEW",
+            "id": 1425823876131,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 0
+            },
+            "ability": 0,
+            "abilityBoost": 1,
+            "damage": 88,
+            "energy": 0,
+            "chance": 14,
+            "multiplier": 163,
+            "health": 89,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "WOOD_AXE",
+            "id": 1425823879602,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 2
+            },
+            "ability": 4,
+            "abilityBoost": 3,
+            "damage": 81,
+            "energy": 0,
+            "chance": 14,
+            "multiplier": 155,
+            "health": 96,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "RABBIT_STEW",
+            "id": 1425823878682,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 3,
+            "damage": 80,
+            "energy": 0,
+            "chance": 12,
+            "multiplier": 157,
+            "health": 84,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "GOLD_HOE",
+            "id": 1425823880824,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 1
+            },
+            "ability": 0,
+            "abilityBoost": 1,
+            "damage": 81,
+            "energy": 0,
+            "chance": 7,
+            "multiplier": 148,
+            "health": 83,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "STONE_PICKAXE",
+            "id": 1425823874696,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 2,
+            "abilityBoost": 1,
+            "damage": 83,
+            "energy": 0,
+            "chance": 8,
+            "multiplier": 161,
+            "health": 58,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "STONE_PICKAXE",
+            "id": 1425823875481,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 0
+            },
+            "ability": 0,
+            "abilityBoost": 1,
+            "damage": 90,
+            "energy": 0,
+            "chance": 5,
+            "multiplier": 145,
+            "health": 54,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "PUMPKIN_PIE",
+            "id": 1425823878282,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 0
+            },
+            "ability": 0,
+            "abilityBoost": 1,
+            "damage": 87,
+            "energy": 0,
+            "chance": 11,
+            "multiplier": 146,
+            "health": 50,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "RABBIT_STEW",
+            "id": 1425823881170,
+            "category": "COMMON",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
           }
         ],
         "win_streak": 1,
-        "wins": 14,
+        "wins": 15,
         "wins_blu": 10,
         "wins_capturetheflag": 4,
         "wins_capturetheflag_blu": 4,
-        "wins_domination": 10,
-        "wins_domination_a": 2,
+        "wins_domination": 11,
+        "wins_domination_a": 3,
         "wins_domination_blu": 6,
-        "wins_domination_red": 4,
-        "wins_mage": 14,
-        "wins_pyromancer": 14,
-        "wins_red": 4
+        "wins_domination_red": 5,
+        "wins_mage": 15,
+        "wins_pyromancer": 15,
+        "wins_red": 5
       },
       "HungerGames": {
         "blaze": 1,
@@ -1008,10 +1320,10 @@
     },
     "stoggle": true,
     "testPass": true,
-    "timePlaying": 4999,
+    "timePlaying": 5126,
     "tournamentTokens": 1,
     "uuid": "fee9070fbfaf49df801395320a7c5e68",
-    "vanityTokens": 30280,
+    "vanityTokens": 30310,
     "wardrobe": ",,DIAMOND_BOOTS,",
     "websiteSet": false
   },
