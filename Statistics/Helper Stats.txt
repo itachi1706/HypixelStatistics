@@ -1,405 +1,1019 @@
 {
-	"player": {
-		"_id": "516d32440cf21a98d746461e",
-		"achievements": {
-			"arena_bossed": 5,
-			"arena_climb_the_ranks": 1006,
-			"arena_gladiator": 5,
-			"arena_gotta_wear_em_all": 1,
-			"blitz_coins": 1919,
-			"blitz_kills": 50,
-			"blitz_wins": 2,
-			"general_coins": 2147478147,
-			"general_wins": 37,
-			"paintball_coins": 21330,
-			"paintball_kills": 631,
-			"paintball_wins": 21,
-			"quake_killing_sprees": 9,
-			"quake_kills": 841,
-			"quake_wins": 0,
-			"tntgames_bow_spleef_wins": 0,
-			"tntgames_tnt_run_wins": 1,
-			"tntgames_wizards_wins": 8,
-			"vampirez_coins": 7687,
-			"vampirez_kill_survivors": 96,
-			"vampirez_kill_vampires": 109,
-			"vampirez_survivor_wins": 2,
-			"walls3_coins": 1913,
-			"walls3_kills": 83,
-			"walls3_wins": 4,
-			"walls_kills": 1,
-			"walls_wins": 1
-		},
-		"achievementsOneTime": ["general_first_join",
-		"general_vip",
-		"general_vip_plus",
-		"general_first_chat",
-		"general_first_friend",
-		"general_first_party",
-		"general_use_portal",
-		"general_first_game",
-		"quake_good_guy_gamer",
-		"tntgames_bow_spleef_first_double_jump",
-		"paintball_unlock_killstreaks",
-		"general_friends_25",
-		"general_youtuber",
-		"tntgames_tnt_run_first_win",
-		"tntgames_tnt_run_no_sprinting",
-		"vampirez_purchase_gold",
-		"vampirez_purchase_armor",
-		"vampirez_purchase_sword",
-		"vampirez_purchase_food",
-		"vampirez_vampire_shop",
-		"vampirez_sole_survivor",
-		"quake_bogof",
-		"general_use_pet",
-		"general_join_vip_lobby",
-		"paintball_no_killstreaks",
-		"vampirez_vampire_fang_kill",
-		"vampirez_purchase_blood",
-		"blitz_first_game",
-		"blitz_youtuber",
-		"quake_what_have_i_done",
-		"quake_first_kill",
-		"quake_my_way",
-		"quake_humiliation",
-		"quake_looking_fancy",
-		"walls_revenge",
-		"tntgames_tnt_run_purchase_potion",
-		"paintball_first_kill",
-		"paintball_combo",
-		"walls3_attack_wither",
-		"paintball_activate_leeroy_jenkins",
-		"paintball_activate_killstreaks",
-		"paintball_unlock_hat",
-		"blitz_spawn_horse",
-		"blitz_kill_without_kit",
-		"blitz_use_wolf_tamer",
-		"blitz_craft_bread",
-		"vampirez_vampire_kills_one_round",
-		"blitz_first_blood",
-		"walls3_find_chest",
-		"paintball_last_kill",
-		"walls3_first_skill_upgrade",
-		"blitz_full_inventory",
-		"blitz_enchanted_armor",
-		"vampirez_blood",
-		"blitz_get_diamond_sword",
-		"blitz_enchant_sword",
-		"walls3_win_with_living_wither",
-		"walls3_win_before_deathmatch",
-		"arena_runic",
-		"arena_magical",
-		"tntgames_wizards_first_win",
-		"vampirez_herobrine_upgrade"],
-		"channel": "ALL",
-		"chatTunnel": null,
-		"displayname": "itachi1706",
-		"eulaCoins": true,
-		"fireworkStorage": [{
-			"flight_duration": 1.5,
-			"shape": "CREEPER",
-			"trail": true,
-			"twinkle": false,
-			"colors": "178,76,216:102,153,216:102,153,216:216,127,51",
-			"fade_colors": "153,51,51",
-			"selected": true
-		}],
-		"firstLogin": 1377344322481,
-		"fly": true,
-		"friendRequests": [],
-		"gadget": "TRAMPOLINE",
-		"karma": 610,
-		"knownAliases": ["itachi1706"],
-		"lastLogin": 1415628532544,
-		"mostRecentMinecraftVersion": 5,
-		"networkExp": 7359,
-		"networkLevel": 3,
-		"newClock": "LVL2",
-		"notifications": true,
-		"packageRank": "MVP_PLUS",
-		"packages": ["vip",
-		"vip_plus",
-		"pet_name",
-		"pet_hat"],
-		"petActive": true,
-		"playername": "itachi1706",
-		"pp": "note",
-		"quests": {
-			"blitzerk": {
-				"active": {
-					"objectives": {
-						
-					},
-					"started": 1399707135382
-				}
-			},
-			"gladiator": {
-				"active": {
-					"objectives": {
-						
-					},
-					"started": 1399870095165
-				},
-				"completions": [{
-					"time": 1399710548281
-				}]
-			},
-			"halloween2014": {
-				"completions": [{
-					"time": 1414552598407
-				}]
-			},
-			"megawaller": {
-				"active": {
-					"objectives": {
-						"kill": 2,
-						"win": 1
-					},
-					"started": 1399707138532
-				}
-			},
-			"paintball_expert": {
-				"active": {
-					"objectives": {
-						
-					},
-					"started": 1414676505209
-				},
-				"completions": [{
-					"time": 1400502530367
-				},
-				{
-					"time": 1402317049295
-				},
-				{
-					"time": 1405412039083
-				},
-				{
-					"time": 1406713104251
-				},
-				{
-					"time": 1412444617946
-				}]
-			},
-			"serial_killer": {
-				"active": {
-					"objectives": {
-						"paintball": 55
-					},
-					"started": 1409309157454
-				}
-			},
-			"space_mission": {
-				"active": {
-					"objectives": {
-						
-					},
-					"started": 1399707144732
-				}
-			},
-			"tnt_addict": {
-				"active": {
-					"objectives": {
-						"win": 1
-					},
-					"started": 1399870091164
-				},
-				"completions": [{
-					"time": 1399709595189
-				}]
-			},
-			"waller": {
-				"active": {
-					"objectives": {
-						
-					},
-					"started": 1399707141332
-				}
-			},
-			"warriors_journey": {
-				"active": {
-					"objectives": {
-						"arenawin2": 2,
-						"megawallswin": 1,
-						"paintballwin": 2,
-						"tntwin": 2,
-						"vampirezkillhuman": 1,
-						"vampirezkillvamps": 3
-					},
-					"started": 1399707124681
-				}
-			}
-		},
-		"rank": "HELPER",
-		"seeRequests": true,
-		"stats": {
-			"Arcade": {
-				"coins": 70042,
-				"headshots_dayone": 23,
-				"kills_dayone": 27,
-				"max_wave": 18,
-				"wins_farm_hunt": 1
-			},
-			"Arena": {
-				"active_rune": "slowing",
-				"coins": 18482,
-				"coins_spent": 500,
-				"damage_2v2": 37657,
-				"damage_4v4": 3680,
-				"damage_ffa": 3830,
-				"deaths_2v2": 5,
-				"deaths_4v4": 2,
-				"deaths_ffa": 1,
-				"games_2v2": 10,
-				"games_4v4": 2,
-				"games_ffa": 1,
-				"hat": "robot",
-				"healed_2v2": 16300,
-				"healed_4v4": 1100,
-				"healed_ffa": 1500,
-				"keys": 0,
-				"kills_2v2": 5,
-				"losses_2v2": 5,
-				"losses_4v4": 1,
-				"losses_ffa": 1,
-				"lvl_cooldown": 1,
-				"lvl_damage": 2,
-				"lvl_energy": 2,
-				"lvl_health": 2,
-				"magical_chest": 1,
-				"packages": ["rune_damage",
-				"rune_slowing",
-				"robot"],
-				"rating": 1006.8269162904036,
-				"win_streaks_2v2": 1,
-				"win_streaks_4v4": 1,
-				"win_streaks_ffa": 0,
-				"wins_2v2": 5,
-				"wins_4v4": 1
-			},
-			"HungerGames": {
-				"blaze": 1,
-				"coins": 20184,
-				"deaths": 72,
-				"horsetamer": 3,
-				"kills": 48,
-				"speleologist": 1,
-				"toxicologist": 4,
-				"wins": 2,
-				"wolftamer": 1
-			},
-			"MCGO": {
-				"coins": 51,
-				"cop_kills": 1,
-				"criminal_kills": 1,
-				"deaths": 7,
-				"headshot_kills": 5,
-				"kills": 2,
-				"killsNew": 2,
-				"killsNew_11_2014": 2,
-				"killsNew_2_11_2014": 2,
-				"kills_11_2014": 2,
-				"kills_2_11_2014": 2,
-				"round_wins": 2,
-				"shots_fired": 72
-			},
-			"Paintball": {
-				"coins": 832,
-				"deaths": 589,
-				"fortune": 2,
-				"godfather": 0,
-				"hat": "normal_hat",
-				"kills": 597,
-				"killstreaks": 17,
-				"packages": ["tripleshot",
-				"normal_hat",
-				"nuke",
-				"tntrain",
-				"lightning",
-				"superstrongarm",
-				"plusten",
-				"forcefield"],
-				"shots_fired": 14652,
-				"superluck": 3,
-				"wins": 19
-			},
-			"Quake": {
-				"coins": 18742,
-				"deaths": 827,
-				"hat": "cactus",
-				"kills": 770,
-				"killstreaks": 9,
-				"packages": ["cold_war",
-				"trigger.one_point_four",
-				"cactus",
-				"instant_respawn"],
-				"trigger": "ONE_POINT_FOUR"
-			},
-			"Spleef": {
-				"deaths": 5
-			},
-			"TNTGames": {
-				"bloodwizard_explode": 0,
-				"bloodwizard_regen": 0,
-				"coins": 20019,
-				"deaths_bowspleef": 12,
-				"deaths_capture": 67,
-				"doublejump_tntrun": 0,
-				"kills_capture": 99,
-				"packages": [],
-				"selected_hat": null,
-				"spleef_doublejump": 0,
-				"tags_bowspleef": 335,
-				"wins_capture": 6,
-				"wins_tntrun": 1
-			},
-			"VampireZ": {
-				"coins": 21223,
-				"disguise": "HEROBRINE",
-				"explosive_killer": 0,
-				"gold_booster": 0,
-				"human_deaths": 56,
-				"human_kills": 90,
-				"human_wins": 2,
-				"vampire_deaths": 116,
-				"vampire_doubler": 0,
-				"vampire_kills": 107,
-				"vampiric_minion": 0,
-				"wave_booster": 0
-			},
-			"Walls": {
-				"coins": 18600,
-				"deaths": 3,
-				"kills": 1,
-				"losses": 2,
-				"wins": 1
-			},
-			"Walls3": {
-				"chosen_class": "Herobrine",
-				"coins": 14103,
-				"deaths": 54,
-				"deaths_Herobrine": 33,
-				"finalDeaths": 3,
-				"finalKills": 6,
-				"finalKills_Herobrine": 6,
-				"herobrine_a": 2,
-				"herobrine_d": 8,
-				"kills": 79,
-				"kills_Herobrine": 62,
-				"losses": 6,
-				"losses_Herobrine": 5,
-				"wins": 4,
-				"wins_Herobrine": 4
-			}
-		},
-		"stoggle": true,
-		"testPass": true,
-		"timePlaying": 2734,
-		"tournamentTokens": 1,
-		"uuid": "fee9070fbfaf49df801395320a7c5e68",
-		"vanityTokens": 14500,
-		"wardrobe": ",,DIAMOND_BOOTS,"
-	},
-	"success": true
+  "player": {
+    "_id": "516d32440cf21a98d746461e",
+    "achievements": {
+      "arena_bossed": 5,
+      "arena_climb_the_ranks": 1006,
+      "arena_gladiator": 5,
+      "arena_gotta_wear_em_all": 1,
+      "blitz_coins": 1919,
+      "blitz_kills": 50,
+      "blitz_wins": 2,
+      "general_coins": 250000,
+      "general_wins": 37,
+      "paintball_coins": 21330,
+      "paintball_kills": 631,
+      "paintball_wins": 21,
+      "quake_killing_sprees": 9,
+      "quake_kills": 852,
+      "quake_wins": 0,
+      "tntgames_bow_spleef_wins": 0,
+      "tntgames_tnt_run_wins": 1,
+      "tntgames_wizards_wins": 8,
+      "vampirez_coins": 7857,
+      "vampirez_kill_survivors": 97,
+      "vampirez_kill_vampires": 113,
+      "vampirez_survivor_wins": 2,
+      "walls3_coins": 1913,
+      "walls3_kills": 83,
+      "walls3_wins": 4,
+      "walls_kills": 1,
+      "walls_wins": 1
+    },
+    "achievementsOneTime": [
+      "general_first_join",
+      "general_vip",
+      "general_vip_plus",
+      "general_first_chat",
+      "general_first_friend",
+      "general_first_party",
+      "general_use_portal",
+      "general_first_game",
+      "quake_good_guy_gamer",
+      "tntgames_bow_spleef_first_double_jump",
+      "paintball_unlock_killstreaks",
+      "general_friends_25",
+      "general_youtuber",
+      "tntgames_tnt_run_first_win",
+      "tntgames_tnt_run_no_sprinting",
+      "vampirez_purchase_gold",
+      "vampirez_purchase_armor",
+      "vampirez_purchase_sword",
+      "vampirez_purchase_food",
+      "vampirez_vampire_shop",
+      "vampirez_sole_survivor",
+      "quake_bogof",
+      "general_use_pet",
+      "general_join_vip_lobby",
+      "paintball_no_killstreaks",
+      "vampirez_vampire_fang_kill",
+      "vampirez_purchase_blood",
+      "blitz_first_game",
+      "blitz_youtuber",
+      "quake_what_have_i_done",
+      "quake_first_kill",
+      "quake_my_way",
+      "quake_humiliation",
+      "quake_looking_fancy",
+      "walls_revenge",
+      "tntgames_tnt_run_purchase_potion",
+      "paintball_first_kill",
+      "paintball_combo",
+      "walls3_attack_wither",
+      "paintball_activate_leeroy_jenkins",
+      "paintball_activate_killstreaks",
+      "paintball_unlock_hat",
+      "blitz_spawn_horse",
+      "blitz_kill_without_kit",
+      "blitz_use_wolf_tamer",
+      "blitz_craft_bread",
+      "vampirez_vampire_kills_one_round",
+      "blitz_first_blood",
+      "walls3_find_chest",
+      "paintball_last_kill",
+      "walls3_first_skill_upgrade",
+      "blitz_full_inventory",
+      "blitz_enchanted_armor",
+      "vampirez_blood",
+      "blitz_get_diamond_sword",
+      "blitz_enchant_sword",
+      "walls3_win_with_living_wither",
+      "walls3_win_before_deathmatch",
+      "arena_runic",
+      "arena_magical",
+      "tntgames_wizards_first_win",
+      "vampirez_herobrine_upgrade",
+      "general_creeperbook",
+      "arcade_bounty_hunter_target_killer",
+      "arcade_trampolinio_red_wool",
+      "arcade_pig_fishing_super_bacon"
+    ],
+    "channel": "ALL",
+    "chatTunnel": null,
+    "displayname": "itachi1706",
+    "eulaCoins": true,
+    "fireworkStorage": [
+      {
+        "flight_duration": 1.5,
+        "shape": "CREEPER",
+        "trail": true,
+        "twinkle": false,
+        "colors": "178,76,216:102,153,216:102,153,216:216,127,51",
+        "fade_colors": "153,51,51",
+        "selected": true
+      }
+    ],
+    "firstLogin": 1377344322481,
+    "fly": true,
+    "friendRequests": [
+      
+    ],
+    "gadget": "TRAMPOLINE",
+    "karma": 1485,
+    "knownAliases": [
+      "itachi1706"
+    ],
+    "knownAliasesLower": [
+      "itachi1706"
+    ],
+    "lastLogin": 1425737528090,
+    "monthlyCreditRewards": {
+      "lastReceivedMonth": 2,
+      "none": false,
+      "vip": false,
+      "vipPlus": false,
+      "mvp": false,
+      "mvpPlus": true,
+      "totalBonuses": 1
+    },
+    "mostRecentGameType": "BATTLEGROUND",
+    "mostRecentMinecraftVersion": 5,
+    "networkExp": 22217,
+    "networkLevel": 8,
+    "newClock": "LVL2",
+    "notifications": true,
+    "packageRank": "MVP_PLUS",
+    "packages": [
+      "vip",
+      "vip_plus",
+      "pet_name",
+      "pet_hat"
+    ],
+    "parkourCompletions": {
+      "CopsnCrims": [
+        {
+          "timeStart": 1425130940581,
+          "timeTook": 59154
+        }
+      ]
+    },
+    "petActive": true,
+    "playername": "itachi1706",
+    "pp": "note",
+    "quests": {
+      "blitzerk": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1399707135382
+        }
+      },
+      "explosive_games": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1422967201276
+        }
+      },
+      "gladiator": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1399870095165
+        },
+        "completions": [
+          {
+            "time": 1399710548281
+          }
+        ]
+      },
+      "halloween2014": {
+        "completions": [
+          {
+            "time": 1414552598407
+          }
+        ]
+      },
+      "megawaller": {
+        "active": {
+          "objectives": {
+            "kill": 2,
+            "win": 1
+          },
+          "started": 1399707138532
+        }
+      },
+      "nugget_warriors": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1424951480413
+        }
+      },
+      "paintball_expert": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1414676505209
+        },
+        "completions": [
+          {
+            "time": 1400502530367
+          },
+          {
+            "time": 1402317049295
+          },
+          {
+            "time": 1405412039083
+          },
+          {
+            "time": 1406713104251
+          },
+          {
+            "time": 1412444617946
+          }
+        ]
+      },
+      "serial_killer": {
+        "active": {
+          "objectives": {
+            "paintball": 55,
+            "quake": 11
+          },
+          "started": 1409309157454
+        }
+      },
+      "space_mission": {
+        "active": {
+          "objectives": {
+            "kill": 11
+          },
+          "started": 1399707144732
+        }
+      },
+      "tnt_addict": {
+        "active": {
+          "objectives": {
+            "win": 1
+          },
+          "started": 1399870091164
+        },
+        "completions": [
+          {
+            "time": 1399709595189
+          }
+        ]
+      },
+      "waller": {
+        "active": {
+          "objectives": {
+            
+          },
+          "started": 1399707141332
+        }
+      },
+      "warlords_ctf": {
+        "completions": [
+          {
+            "time": 1424951220357
+          },
+          {
+            "time": 1425131902613
+          },
+          {
+            "time": 1425293672719
+          },
+          {
+            "time": 1425392985835
+          },
+          {
+            "time": 1425477492942
+          },
+          {
+            "time": 1425567869777
+          },
+          {
+            "time": 1425645017192
+          },
+          {
+            "time": 1425738588485
+          }
+        ]
+      },
+      "warlords_dedication": {
+        "active": {
+          "objectives": {
+            "warlords_weekly_dedi": 6
+          },
+          "started": 1425642503107
+        }
+      },
+      "warlords_domination": {
+        "completions": [
+          {
+            "time": 1424949886382
+          },
+          {
+            "time": 1425130486786
+          },
+          {
+            "time": 1425297621140
+          },
+          {
+            "time": 1425391991017
+          },
+          {
+            "time": 1425478348767
+          },
+          {
+            "time": 1425566311751
+          },
+          {
+            "time": 1425645776630
+          },
+          {
+            "time": 1425740493932
+          }
+        ]
+      },
+      "warlords_win": {
+        "completions": [
+          {
+            "time": 1424949886382
+          },
+          {
+            "time": 1425130486787
+          },
+          {
+            "time": 1425293672723
+          },
+          {
+            "time": 1425393958812
+          },
+          {
+            "time": 1425476277646
+          },
+          {
+            "time": 1425643049274
+          },
+          {
+            "time": 1425739751412
+          }
+        ]
+      },
+      "warriors_journey": {
+        "active": {
+          "objectives": {
+            "arenawin2": 2,
+            "megawallswin": 1,
+            "paintballwin": 2,
+            "quake25kill": 11,
+            "tntwin": 2,
+            "vampirezkillhuman": 1,
+            "vampirezkillvamps": 3
+          },
+          "started": 1399707124681
+        }
+      }
+    },
+    "rank": "HELPER",
+    "seeRequests": true,
+    "settings": {
+      "allowFriendRequests": false,
+      "allowGuildRequests": false,
+      "chatAlerts": true,
+      "playerVisibility": true
+    },
+    "stats": {
+      "Arcade": {
+        "bounty_kills_oneinthequiver": 3,
+        "coins": 228826,
+        "deaths_oneinthequiver": 16,
+        "deaths_throw_out": 6,
+        "headshots_dayone": 23,
+        "kills_dayone": 27,
+        "kills_oneinthequiver": 14,
+        "kills_throw_out": 5,
+        "max_wave": 18,
+        "wins_farm_hunt": 1
+      },
+      "Arena": {
+        "active_rune": "slowing",
+        "coins": 23482,
+        "coins_spent": 500,
+        "damage_2v2": 37657,
+        "damage_4v4": 3680,
+        "damage_ffa": 3830,
+        "deaths_2v2": 5,
+        "deaths_4v4": 2,
+        "deaths_ffa": 1,
+        "games_2v2": 10,
+        "games_4v4": 2,
+        "games_ffa": 1,
+        "hat": "robot",
+        "healed_2v2": 16300,
+        "healed_4v4": 1100,
+        "healed_ffa": 1500,
+        "keys": 0,
+        "kills_2v2": 5,
+        "losses_2v2": 5,
+        "losses_4v4": 1,
+        "losses_ffa": 1,
+        "lvl_cooldown": 1,
+        "lvl_damage": 2,
+        "lvl_energy": 2,
+        "lvl_health": 2,
+        "magical_chest": 1,
+        "packages": [
+          "rune_damage",
+          "rune_slowing",
+          "robot"
+        ],
+        "rating": 1006.8269162904036,
+        "win_streaks_2v2": 1,
+        "win_streaks_4v4": 1,
+        "win_streaks_ffa": 0,
+        "wins_2v2": 5,
+        "wins_4v4": 1
+      },
+      "Battleground": {
+        "assists": 353,
+        "broken_inventory": 0,
+        "chosen_class": "mage",
+        "coins": 28,
+        "current_weapon": 1425645831043,
+        "damage": 1118484,
+        "damage_mage": 1118484,
+        "damage_prevented": 137409,
+        "damage_prevented_mage": 137409,
+        "damage_prevented_pyromancer": 137409,
+        "damage_pyromancer": 1118484,
+        "damage_taken": 1072241,
+        "deaths": 177,
+        "flag_conquer_team": 10,
+        "heal": 1718,
+        "heal_mage": 1718,
+        "heal_pyromancer": 1718,
+        "kills": 148,
+        "losses": 14,
+        "losses_mage": 14,
+        "losses_pyromancer": 14,
+        "mage_armor_selection": 2,
+        "mage_cooldown": 4,
+        "mage_critchance": 2,
+        "mage_critmultiplier": 2,
+        "mage_energy": 4,
+        "mage_health": 4,
+        "mage_plays": 31,
+        "mage_skill1": 5,
+        "mage_skill2": 4,
+        "mage_skill4": 5,
+        "mage_skill5": 1,
+        "mage_spec": "pyromancer",
+        "magic_dust": 184,
+        "paladin_spec": "avenger",
+        "pyromancer_plays": 31,
+        "repaired": 114,
+        "repaired_common": 80,
+        "repaired_epic": 1,
+        "repaired_rare": 33,
+        "selected_mount": "noble_steed",
+        "void_shards": 1,
+        "warrior_spec": "berserker",
+        "weapon_inventory": [
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 7,
+            "damage": 101,
+            "energy": 17,
+            "chance": 15,
+            "multiplier": 160,
+            "health": 187,
+            "cooldown": 4,
+            "movement": 0,
+            "material": "STRING",
+            "id": 1425296962186,
+            "category": "EPIC",
+            "crafted": false,
+            "upgradeMax": 1,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 2,
+            "abilityBoost": 4,
+            "damage": 98,
+            "energy": 11,
+            "chance": 15,
+            "multiplier": 179,
+            "health": 191,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "PUFFERFISH",
+            "id": 1425478660042,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 2
+            },
+            "ability": 0,
+            "abilityBoost": 5,
+            "damage": 96,
+            "energy": 12,
+            "chance": 18,
+            "multiplier": 169,
+            "health": 191,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "PUFFERFISH",
+            "id": 1424949938754,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 5,
+            "damage": 99,
+            "energy": 5,
+            "chance": 14,
+            "multiplier": 168,
+            "health": 194,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "COOKED_COD",
+            "id": 1425131122475,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 4,
+            "damage": 98,
+            "energy": 9,
+            "chance": 13,
+            "multiplier": 157,
+            "health": 197,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "GOLD_SPADE",
+            "id": 1425131121876,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 2
+            },
+            "ability": 1,
+            "abilityBoost": 5,
+            "damage": 98,
+            "energy": 9,
+            "chance": 10,
+            "multiplier": 158,
+            "health": 198,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "COOKED_RABBIT",
+            "id": 1425740524000,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 5,
+            "damage": 90,
+            "energy": 7,
+            "chance": 17,
+            "multiplier": 169,
+            "health": 186,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "COOKED_RABBIT",
+            "id": 1424949938104,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 2
+            },
+            "ability": 0,
+            "abilityBoost": 5,
+            "damage": 96,
+            "energy": 8,
+            "chance": 13,
+            "multiplier": 156,
+            "health": 196,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "POTATO",
+            "id": 1425478654641,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 4,
+            "damage": 92,
+            "energy": 6,
+            "chance": 10,
+            "multiplier": 179,
+            "health": 163,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "DIAMOND_HOE",
+            "id": 1425645827787,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 4,
+            "damage": 94,
+            "energy": 5,
+            "chance": 12,
+            "multiplier": 167,
+            "health": 170,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "GOLD_AXE",
+            "id": 1425299567959,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 0
+            },
+            "ability": 0,
+            "abilityBoost": 4,
+            "damage": 97,
+            "energy": 14,
+            "chance": 10,
+            "multiplier": 151,
+            "health": 174,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "PUFFERFISH",
+            "id": 1425740523497,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 2
+            },
+            "ability": 3,
+            "abilityBoost": 4,
+            "damage": 99,
+            "energy": 11,
+            "chance": 12,
+            "multiplier": 172,
+            "health": 146,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "IRON_AXE",
+            "id": 1425478657925,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 6,
+            "damage": 100,
+            "energy": 11,
+            "chance": 14,
+            "multiplier": 171,
+            "health": 139,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "IRON_PICKAXE",
+            "id": 1425645831043,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 1
+            },
+            "ability": 0,
+            "abilityBoost": 6,
+            "damage": 99,
+            "energy": 6,
+            "chance": 20,
+            "multiplier": 161,
+            "health": 147,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "COOKED_RABBIT",
+            "id": 1425645829288,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 1
+            },
+            "ability": 1,
+            "abilityBoost": 4,
+            "damage": 98,
+            "energy": 6,
+            "chance": 10,
+            "multiplier": 161,
+            "health": 153,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "DIAMOND_HOE",
+            "id": 1425645829631,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 2
+            },
+            "ability": 3,
+            "abilityBoost": 4,
+            "damage": 92,
+            "energy": 5,
+            "chance": 15,
+            "multiplier": 156,
+            "health": 148,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "GOLD_SPADE",
+            "id": 1424951256293,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 0,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 2,
+              "playerClass": 2
+            },
+            "ability": 4,
+            "abilityBoost": 4,
+            "damage": 96,
+            "energy": 13,
+            "chance": 16,
+            "multiplier": 152,
+            "health": 131,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "GOLD_SPADE",
+            "id": 1425740525501,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          },
+          {
+            "spec": {
+              "spec": 1,
+              "playerClass": 2
+            },
+            "ability": 0,
+            "abilityBoost": 4,
+            "damage": 92,
+            "energy": 5,
+            "chance": 17,
+            "multiplier": 164,
+            "health": 120,
+            "cooldown": 0,
+            "movement": 0,
+            "material": "COOKED_RABBIT",
+            "id": 1425645832393,
+            "category": "RARE",
+            "crafted": false,
+            "upgradeMax": 2,
+            "upgradeTimes": 0
+          }
+        ],
+        "win_streak": 1,
+        "wins": 14,
+        "wins_blu": 10,
+        "wins_capturetheflag": 4,
+        "wins_capturetheflag_blu": 4,
+        "wins_domination": 10,
+        "wins_domination_a": 2,
+        "wins_domination_blu": 6,
+        "wins_domination_red": 4,
+        "wins_mage": 14,
+        "wins_pyromancer": 14,
+        "wins_red": 4
+      },
+      "HungerGames": {
+        "blaze": 1,
+        "coins": 22184,
+        "deaths": 72,
+        "horsetamer": 3,
+        "kills": 48,
+        "speleologist": 1,
+        "toxicologist": 4,
+        "wins": 2,
+        "wolftamer": 1
+      },
+      "MCGO": {
+        "coins": 2051,
+        "cop_kills": 1,
+        "criminal_kills": 1,
+        "deaths": 7,
+        "headshot_kills": 5,
+        "kills": 2,
+        "killsNew": 2,
+        "killsNew_11_2014": 2,
+        "killsNew_2_11_2014": 2,
+        "kills_11_2014": 2,
+        "kills_2_11_2014": 2,
+        "round_wins": 2,
+        "shots_fired": 72
+      },
+      "Paintball": {
+        "coins": 10832,
+        "deaths": 589,
+        "fortune": 2,
+        "godfather": 0,
+        "hat": "normal_hat",
+        "kills": 597,
+        "killstreaks": 17,
+        "packages": [
+          "tripleshot",
+          "normal_hat",
+          "nuke",
+          "tntrain",
+          "lightning",
+          "superstrongarm",
+          "plusten",
+          "forcefield"
+        ],
+        "shots_fired": 14652,
+        "superluck": 3,
+        "wins": 19
+      },
+      "Quake": {
+        "coins": 23822,
+        "deaths": 839,
+        "hat": "cactus",
+        "kills": 781,
+        "killstreaks": 9,
+        "packages": [
+          "cold_war",
+          "trigger.one_point_four",
+          "cactus",
+          "instant_respawn"
+        ],
+        "trigger": "ONE_POINT_FOUR"
+      },
+      "TNTGames": {
+        "bloodwizard_explode": 0,
+        "bloodwizard_regen": 0,
+        "coins": 30019,
+        "deaths_bowspleef": 12,
+        "deaths_capture": 67,
+        "doublejump_tntrun": 0,
+        "kills_capture": 99,
+        "packages": [
+          
+        ],
+        "selected_hat": null,
+        "spleef_doublejump": 0,
+        "tags_bowspleef": 335,
+        "wins_capture": 6,
+        "wins_tntrun": 1
+      },
+      "UHC": {
+        "coins": 2000
+      },
+      "VampireZ": {
+        "blood_booster": 0,
+        "blood_drinker": 0,
+        "coins": 6393,
+        "disguise": "HEROBRINE",
+        "expert_swag": 0,
+        "explosive_killer": 0,
+        "final_breath": 0,
+        "gold_booster": 0,
+        "gold_starter": 0,
+        "human_deaths": 57,
+        "human_kills": 91,
+        "human_wins": 2,
+        "loot_drops": 0,
+        "vampire_deaths": 116,
+        "vampire_doubler": 0,
+        "vampire_kills": 111,
+        "vampiric_minion": 0,
+        "wave_booster": 0,
+        "zombie_kills": 1
+      },
+      "Walls": {
+        "coins": 21600,
+        "deaths": 3,
+        "kills": 1,
+        "losses": 2,
+        "wins": 1
+      },
+      "Walls3": {
+        "chosen_class": "Herobrine",
+        "coins": 16103,
+        "deaths": 54,
+        "deaths_Herobrine": 33,
+        "finalDeaths": 3,
+        "finalKills": 6,
+        "finalKills_Herobrine": 6,
+        "herobrine_a": 2,
+        "herobrine_d": 8,
+        "kills": 79,
+        "kills_Herobrine": 62,
+        "losses": 6,
+        "losses_Herobrine": 5,
+        "wins": 4,
+        "wins_Herobrine": 4
+      }
+    },
+    "stoggle": true,
+    "testPass": true,
+    "timePlaying": 4999,
+    "tournamentTokens": 1,
+    "uuid": "fee9070fbfaf49df801395320a7c5e68",
+    "vanityTokens": 30280,
+    "wardrobe": ",,DIAMOND_BOOTS,",
+    "websiteSet": false
+  },
+  "success": true
 }
