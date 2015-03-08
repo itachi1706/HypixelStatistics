@@ -103,7 +103,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
         }
         Log.d("VERSION-SERVER", "Version on Server: " + currentVersionNumber);
-        Log.d("VERSION-LOCAL", "Current VersionL " + currentAppVersion);
+        Log.d("VERSION-LOCAL", "Current Version: " + currentAppVersion);
         int comparisions = currentVersionNumber.compareTo(currentAppVersion);
         if (comparisions == 1){
             Log.d("UPDATE NEEDED", "An Update is needed");

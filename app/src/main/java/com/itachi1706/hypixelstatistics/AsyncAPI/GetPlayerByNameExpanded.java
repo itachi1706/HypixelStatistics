@@ -125,7 +125,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             OldPlayerInfoActivity.lastGsonObtained = json;
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
-            debug.setText(reply.toString());
+            debug.setText(json);
             ivHead.setImageDrawable(null);
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
@@ -602,49 +602,51 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
                 qArray.add(new ResultDescription("Date Started", timeStamp));
+
+                if (entry.getValue().getAsJsonObject().get("active").getAsJsonObject().has("objectives")){
+                    JsonObject arr = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().getAsJsonObject("objectives");
+                    if (arr.entrySet().size() > 0) {
+                        StringBuilder build = new StringBuilder();
+                        build.append("<br />");
+                        for (Map.Entry<String, JsonElement> key : arr.entrySet()) {
+                            switch (key.getKey()) {
+                                case "kill":
+                                    build.append("Killed Players: ").append(key.getValue()); break;
+                                case "win":
+                                    build.append("Won Games: ").append(key.getValue()); break;
+                                case "paintball":
+                                    build.append("Kill 55 players in Paintball Warfare: ").append(key.getValue()).append("/55"); break;
+                                case "quake":
+                                    build.append("Kill 55 players in QuakeCraft: ").append(key.getValue()).append("/55"); break;
+                                case "warlords_weekly_dedi":
+                                    build.append("Complete 30 matches with 10 kills/assists: ").append(key.getValue()).append("/30"); break;
+                                case "arenawin2":
+                                    build.append("Win 2 games of Arena Brawl: ").append(key.getValue()).append("/2"); break;
+                                case "megawallswin":
+                                    build.append("Win 1 game of Mega Walls: ").append(key.getValue()).append("/1"); break;
+                                case "paintballwin":
+                                    build.append("Win 2 games of Paintball: ").append(key.getValue()).append("/2"); break;
+                                case "quake25kill":
+                                    build.append("Kill 25 players in QuakeCraft: ").append(key.getValue()).append("/25"); break;
+                                case "tntwin":
+                                    build.append("Win 3 games of The TNT Games: ").append(key.getValue()).append("/3"); break;
+                                case "vampirezkillhuman":
+                                    build.append("Kill 1 human in VampireZ: ").append(key.getValue()).append("/1"); break;
+                                case "vampirezkillvamps":
+                                    build.append("Kill 3 Vampires in VampireZ: ").append(key.getValue()).append("/3"); break;
+                                default:
+                                    build.append(key.getKey()).append(": ").append(key.getValue()); break;
+                            }
+                            build.append("<br />");
+                        }
+                        qArray.add(new ResultDescription("Objectives", build.toString()));
+                    }
+                }
             } else {
                 qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
             }
 
-            if (entry.getValue().getAsJsonObject().get("active").getAsJsonObject().has("objectives")){
-                JsonObject arr = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().getAsJsonObject("objectives");
-                if (arr.entrySet().size() > 0) {
-                    StringBuilder build = new StringBuilder();
-                    build.append("<br />");
-                    for (Map.Entry<String, JsonElement> key : arr.entrySet()) {
-                        switch (key.getKey()) {
-                            case "kill":
-                                build.append("Killed Players: ").append(key.getValue());
-                            case "win":
-                                build.append("Won Games: ").append(key.getValue());
-                            case "paintball":
-                                build.append("Kill 55 players in Paintball Warfare: ").append(key.getValue()).append("/55");
-                            case "quake":
-                                build.append("Kill 55 players in QuakeCraft: ").append(key.getValue()).append("/55");
-                            case "warlords_weekly_dedi":
-                                build.append("Complete 30 matches with 10 kills/assists: ").append(key.getValue()).append("/30");
-                            case "arenawin2":
-                                build.append("Win 2 games of Arena Brawl: ").append(key.getValue()).append("/2");
-                            case "megawallswin":
-                                build.append("Win 1 game of Mega Walls: ").append(key.getValue()).append("/1");
-                            case "paintballwin":
-                                build.append("Win 2 games of Paintball: ").append(key.getValue()).append("/2");
-                            case "quake25kill":
-                                build.append("Kill 25 players in QuakeCraft: ").append(key.getValue()).append("/25");
-                            case "tntwin":
-                                build.append("Win 3 games of The TNT Games: ").append(key.getValue()).append("/3");
-                            case "vampirezkillhuman":
-                                build.append("Kill 1 human in VampireZ: ").append(key.getValue()).append("/1");
-                            case "vampirezkillvamps":
-                                build.append("Kill 3 Vampires in VampireZ: ").append(key.getValue()).append("/3");
-                            default:
-                                build.append(key.getKey()).append(": ").append(key.getValue());
-                        }
-                        build.append("<br />");
-                    }
-                    qArray.add(new ResultDescription("Objectives:", build.toString()));
-                }
-            }
+
 
 
             //Get number of completion times
@@ -1375,11 +1377,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         }
 
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
-            descArray.add(new ResultDescription("Current Weapon (Click for detailed specs)",
-                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.getAsJsonObject("current_weapon"),
-                            obj.getAsJsonObject("weapon_inventory")) + "§r"),true, false,
-                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.getAsJsonObject("current_weapon"),
-                            obj.getAsJsonObject("weapon_inventory")))));
+            descArray.add(new ResultDescription("Weapon Currently Equipped",
+                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
+                            obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true, false,
+                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
+                            obj.getAsJsonArray("weapon_inventory")))));
         }
 
         //Individual Classes/Specs Statistics

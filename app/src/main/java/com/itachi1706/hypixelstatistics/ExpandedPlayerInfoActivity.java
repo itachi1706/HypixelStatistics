@@ -242,7 +242,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             }
         } else if (id == R.id.view_known_alias){
             String message;
-            if (debug.getText().length() > 10) {
+            if (debug.getText().length() > 200) {
                 Gson gson = new Gson();
                 PlayerReply reply = gson.fromJson(debug.getText().toString(), PlayerReply.class);
                 if (reply.getPlayer().has("knownAliases")){

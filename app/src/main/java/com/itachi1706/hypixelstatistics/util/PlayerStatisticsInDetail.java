@@ -17,21 +17,19 @@ public class PlayerStatisticsInDetail {
 
     //Warlords
 
-    public static String getCurrentEquippedWeaponName(JsonObject currentEquipped, JsonObject weaponInventory){
+    public static String getCurrentEquippedWeaponName(String currentEquipped, JsonArray weaponInventory){
         //Name format: <rarityColor><unknown> <name> of the <className>
-        String weaponID = currentEquipped.getAsString();
-        JsonArray weaponInvArr = weaponInventory.getAsJsonArray();
-        JsonObject weaponStats = getWeaponStats(weaponID, weaponInvArr);
+        JsonObject weaponStats = getWeaponStats(currentEquipped, weaponInventory);
         if (weaponStats == null){
             return "An error occured";
         }
         WarlordsSpecs className = getClassSpecName(weaponStats.get("spec").getAsJsonObject());
-        WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsJsonObject());
-        WeaponName name = getWeaponName(weaponStats.get("material").getAsJsonObject());
+        WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsString());
+        WeaponName name = getWeaponName(weaponStats.get("material").getAsString());
         return rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
     }
 
-    public static String getCurrentEquippedWeaponSpecification(JsonObject currentEquipped, JsonObject weaponInventory){
+    public static String getCurrentEquippedWeaponSpecification(String currentEquipped, JsonArray weaponInventory){
         /*
         Spec
         ====
@@ -50,17 +48,15 @@ public class PlayerStatisticsInDetail {
          */
 
         //Get the specs
-        String weaponID = currentEquipped.getAsString();
-        JsonArray weaponInvArr = weaponInventory.getAsJsonArray();
-        JsonObject weaponStats = getWeaponStats(weaponID, weaponInvArr);
+        JsonObject weaponStats = getWeaponStats(currentEquipped, weaponInventory);
         if (weaponStats == null){
             return "An error occurred";
         }
         WarlordsSpecs className = getClassSpecName(weaponStats.get("spec").getAsJsonObject());
-        WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsJsonObject());
-        WeaponName name = getWeaponName(weaponStats.get("material").getAsJsonObject());
-        WeaponAbility ability = getWeaponAbilityName(weaponStats.getAsJsonObject("ability"), className);
-        WeaponDamage damage = getWeaponDamage(weaponStats.getAsJsonObject("damage"));
+        WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsString());
+        WeaponName name = getWeaponName(weaponStats.get("material").getAsString());
+        WeaponAbility ability = getWeaponAbilityName(weaponStats.get("ability").getAsInt(), className);
+        WeaponDamage damage = getWeaponDamage(weaponStats.get("damage").getAsInt());
         int abilityMultiplier = weaponStats.get("abilityBoost").getAsInt();
         int energy = weaponStats.get("energy").getAsInt(), chance = weaponStats.get("chance").getAsInt();
         int multiplier = weaponStats.get("multiplier").getAsInt(), health = weaponStats.get("health").getAsInt();
@@ -71,7 +67,7 @@ public class PlayerStatisticsInDetail {
         //Craft the dialog box string :D
         StringBuilder builder = new StringBuilder();
         builder.append("Weapon Specs <br /><br />");
-        builder.append("Name: §b").append(name.getWeaponName()).append("§r<br />");
+        builder.append("Name: §b").append(name.getWeaponName()).append(" of the ").append(className.getSpecName()).append("§r<br />");
         builder.append("Rarity: ").append(rarityColor.getColorCode()).append(rarityColor.getName()).append("§r<br /><br />");
 
         builder.append("Damage ID: §4").append(weaponStats.get("damage").getAsInt()).append("§r <br />");
@@ -108,24 +104,20 @@ public class PlayerStatisticsInDetail {
         return builder.toString();
     }
 
-    private static WeaponDamage getWeaponDamage(JsonObject damage){
-        int damageID = damage.getAsInt();
-        return WeaponDamage.fromDatabase(damageID);
+    private static WeaponDamage getWeaponDamage(int damage){
+        return WeaponDamage.fromDatabase(damage);
     }
 
-    private static WeaponAbility getWeaponAbilityName(JsonObject ability, WarlordsSpecs spec){
-        int abilityID = ability.getAsInt();
-        return WeaponAbility.fromDatabase(spec, abilityID);
+    private static WeaponAbility getWeaponAbilityName(int ability, WarlordsSpecs spec){
+        return WeaponAbility.fromDatabase(spec, ability);
     }
 
-    private static WeaponName getWeaponName(JsonObject mat){
-        String material = mat.getAsString();
-        return WeaponName.fromDatabase(material);
+    private static WeaponName getWeaponName(String mat){
+        return WeaponName.fromDatabase(mat);
     }
 
-    private static WeaponCategory getRarityColor(JsonObject cat){
-        String categoryName = cat.getAsString();
-        return WeaponCategory.fromDatabase(categoryName);
+    private static WeaponCategory getRarityColor(String cat){
+        return WeaponCategory.fromDatabase(cat);
     }
 
     private static WarlordsSpecs getClassSpecName(JsonObject spec){
