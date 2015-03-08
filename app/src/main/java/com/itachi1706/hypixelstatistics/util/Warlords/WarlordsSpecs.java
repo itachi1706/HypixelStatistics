@@ -19,9 +19,7 @@ public enum WarlordsSpecs {
     CRUSADER("Crusader", "Paladin"),
     PROTECTOR("Protector", "Paladin");
 
-    private static WarlordsSpecs[] v = values();
-    private final String specName;
-    private final String className;
+    private final String specName, className;
 
     private WarlordsSpecs(String specName, String className){
         this.specName = specName;

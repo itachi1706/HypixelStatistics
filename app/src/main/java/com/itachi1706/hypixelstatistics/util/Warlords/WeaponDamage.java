@@ -9,10 +9,8 @@ public enum WeaponDamage {
     ZERO("0 - 0", 0, 0),
     WIP("Work in Progress (WIP)", 0, 0);
 
-    private static WeaponDamage[] v = values();
     private final String damageRangeString;
-    private final int minDamage;
-    private final int maxDamage;
+    private final int minDamage, maxDamage;
 
     private WeaponDamage(String damageRange, int minDamage, int maxDamage){
         this.damageRangeString = damageRange;

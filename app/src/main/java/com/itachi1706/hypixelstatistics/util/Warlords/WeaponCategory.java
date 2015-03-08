@@ -12,9 +12,7 @@ public enum WeaponCategory {
     LEGENDARY("Legendary", "§6"),
     DEFAULT("Error", "§f");
 
-    private static WeaponCategory[] v = values();
-    private final String name;
-    private final String colorCode;
+    private final String name, colorCode;
 
     private WeaponCategory(String name, String colorCode){
         this.name = name;

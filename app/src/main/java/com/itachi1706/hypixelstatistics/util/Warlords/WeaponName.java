@@ -54,7 +54,6 @@ public enum WeaponName {
     COOKED_PORKCHOP("Gemini", WeaponCategory.LEGENDARY),
     GOLDEN_CARROT("Void Edge", WeaponCategory.LEGENDARY);
 
-    private static WeaponName[] v = values();
     private final String weaponName;
     private final WeaponCategory category;
 
