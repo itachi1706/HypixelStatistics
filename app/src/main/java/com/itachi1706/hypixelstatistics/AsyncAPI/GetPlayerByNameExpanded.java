@@ -1333,7 +1333,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         }
 
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
-            descArray.add(new ResultDescription("Current Weapon (Click for detailed specs)", MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.getAsJsonObject("current_weapon"), obj.getAsJsonObject("weapon_inventory")) + "§r"),true, false, MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.getAsJsonObject("current_weapon"), obj.getAsJsonObject("weapon_inventory")) + "§r")));
+            descArray.add(new ResultDescription("Current Weapon (Click for detailed specs)",
+                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.getAsJsonObject("current_weapon"),
+                            obj.getAsJsonObject("weapon_inventory")) + "§r"),true, false,
+                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.getAsJsonObject("current_weapon"),
+                            obj.getAsJsonObject("weapon_inventory")))));
         }
 
         //Individual Classes/Specs Statistics

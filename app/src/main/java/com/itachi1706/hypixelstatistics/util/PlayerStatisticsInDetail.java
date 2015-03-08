@@ -70,39 +70,39 @@ public class PlayerStatisticsInDetail {
 
         //Craft the dialog box string :D
         StringBuilder builder = new StringBuilder();
-        builder.append("Specifications <br /><br />");
-        builder.append("Name: ").append(name.getWeaponName()).append("<br />");
-        builder.append("Rarity: ").append(rarityColor.getName()).append("<br /><br />");
+        builder.append("Weapon Specs <br /><br />");
+        builder.append("Name: §b").append(name.getWeaponName()).append("§r<br />");
+        builder.append("Rarity: ").append(rarityColor.getColorCode()).append(rarityColor.getName()).append("§r<br /><br />");
 
         if (damage == WeaponDamage.WIP)
-            builder.append("Damage: ").append(damage.getDamageRangeString()).append("<br />");
+            builder.append("Damage: §4").append(damage.getDamageRangeString()).append("§r<br />");
         else
-            builder.append("Damage: ").append(damage.getMinDamage()).append(" - ").append(damage.getMaxDamage()).append("<br />");
-        builder.append("Crit Chance: ").append(chance).append("% <br />");
-        builder.append("Crit Multiplier: ").append(multiplier).append("% <br /><br />");
+            builder.append("Damage: §c").append(damage.getMinDamage()).append("§r - §c").append(damage.getMaxDamage()).append("§r<br />");
+        builder.append("Crit Chance: §c").append(chance).append("%§r <br />");
+        builder.append("Crit Multiplier: §c").append(multiplier).append("%§r <br /><br />");
 
-        builder.append(className.getClassName()).append(" (").append(className.getSpecName()).append("): <br />");
-        builder.append("Increase the damage you deal with ").append(ability.getAbilityName()).append(" by ")
-                .append(abilityMultiplier).append("% <br /><br />");
+        builder.append("§a").append(className.getClassName()).append(" (").append(className.getSpecName()).append("): <br />");
+        builder.append("Increase the damage you deal with ").append(ability.getAbilityName()).append(" by §r§c")
+                .append(abilityMultiplier).append("%§r <br /><br />");
 
         if (health != 0)
-            builder.append("Health: +").append(health).append("<br />");
+            builder.append("Health: §a+").append(health).append("§r<br />");
         if (energy != 0)
-            builder.append("Max Energy: +").append(energy).append("<br />");
+            builder.append("Max Energy: §a+").append(energy).append("§r<br />");
         if (movement != 0)
-            builder.append("Speed: +").append(movement).append("% <br />");
+            builder.append("Speed: §a+").append(movement).append("%§r <br />");
         if (cooldown != 0)
-            builder.append("Cooldown Reduction: +").append(cooldown).append("%<br />");
+            builder.append("Cooldown Reduction: §a+").append(cooldown).append("%§r<br />");
 
         builder.append("<br />");
 
         if (crafted) {
-            builder.append("Crafted: ").append("True").append("<br />");
+            builder.append("§3Crafted§r <br />");
         } else {
-            builder.append("Crafted: ").append("False").append("<br />");
+            builder.append("§5Repaired§r <br />");
         }
-        builder.append("Max Upgrades: ").append(maxUpgrades).append("<br />");
-        builder.append("Times Upgraded: ").append(upgradeTimes).append("<br />");
+        builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
+        builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
 
         return builder.toString();
     }
