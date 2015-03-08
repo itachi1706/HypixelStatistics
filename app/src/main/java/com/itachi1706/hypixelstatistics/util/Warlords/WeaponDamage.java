@@ -12,7 +12,7 @@ public enum WeaponDamage {
     EIGHTY_THREE("70 - 95", 70, 95, 83),
     EIGHTY_FOUR("71 - 96", 71, 96, 84),
     EIGHTY_FIVE("72 - 97", 72, 97, 85),
-    EIGHT_SIX("73 - 98", 73, 98, 86),
+    EIGHTY_SIX("73 - 98", 73, 98, 86),
     EIGHTY_SEVEN("73 - 100", 73, 100, 87),
     EIGHTY_EIGHT("74 - 101", 74, 101, 88),
     NINETY("76 - 103", 76, 103, 90),
@@ -42,6 +42,14 @@ public enum WeaponDamage {
 
     public static WeaponDamage fromDatabase(int damageID){
         switch (damageID){
+            case 80: return EIGHTY;
+            case 81: return EIGHTY_ONE;
+            case 83: return EIGHTY_THREE;
+            case 84: return EIGHTY_FOUR;
+            case 85: return EIGHTY_FIVE;
+            case 86: return EIGHTY_SIX;
+            case 87: return EIGHTY_SEVEN;
+            case 88: return EIGHTY_EIGHT;
             case 90: return NINETY;
             case 92: return NINETY_TWO;
             case 94: return NINETY_FOUR;
