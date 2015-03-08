@@ -104,8 +104,8 @@ public class CharHistory {
         //Check if user is null
         if (!obj.has("uuid"))
             return true;
-        // 10 Days in millis 864000000
-        final long expiryDay = 864000000;
+        // 30 Days in millis 2592000000L
+        final long expiryDay = 2592000000L;
         if (!obj.has("dateObtained")){
             //Prev Gen Hist, reobtain
             return true;
