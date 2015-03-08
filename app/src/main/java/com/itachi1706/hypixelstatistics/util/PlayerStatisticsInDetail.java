@@ -74,8 +74,9 @@ public class PlayerStatisticsInDetail {
         builder.append("Name: §b").append(name.getWeaponName()).append("§r<br />");
         builder.append("Rarity: ").append(rarityColor.getColorCode()).append(rarityColor.getName()).append("§r<br /><br />");
 
+        builder.append("Damage ID: §4").append(weaponStats.get("damage").getAsInt()).append("§r <br />");
         if (damage == WeaponDamage.WIP)
-            builder.append("Damage: §4").append(damage.getDamageRangeString()).append("§r<br />");
+            builder.append("Damage: §4").append(damage.getDamageRangeString()).append(" §r<br />");
         else
             builder.append("Damage: §c").append(damage.getMinDamage()).append("§r - §c").append(damage.getMaxDamage()).append("§r<br />");
         builder.append("Crit Chance: §c").append(chance).append("%§r <br />");
