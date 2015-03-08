@@ -116,7 +116,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
+                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
                 return;
             }
             OldPlayerInfoActivity.lastGsonObtained = json;

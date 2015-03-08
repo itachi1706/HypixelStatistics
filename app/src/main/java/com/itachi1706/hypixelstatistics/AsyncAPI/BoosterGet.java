@@ -88,7 +88,10 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again", Toast.LENGTH_SHORT).show();
+                if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
+                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again", Toast.LENGTH_SHORT).show();
                 bar.setVisibility(View.GONE);
             } else {
                 BoostersReply reply = gson.fromJson(json, BoostersReply.class);

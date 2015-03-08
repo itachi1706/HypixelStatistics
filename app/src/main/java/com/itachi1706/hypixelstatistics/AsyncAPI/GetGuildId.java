@@ -87,7 +87,10 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
 
         Gson gson = new Gson();
         if (!MainStaticVars.checkIfYouGotJsonString(json)){
-            Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+            if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
+                Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
             return;
         }
         FindGuildReply reply = gson.fromJson(json, FindGuildReply.class);

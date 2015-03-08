@@ -73,14 +73,16 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     protected void onPostExecute(String json) {
         GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
         if (except != null){
-            new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
-                    .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
+            Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
             pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
+                if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
+                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (reply.isThrottle()) {

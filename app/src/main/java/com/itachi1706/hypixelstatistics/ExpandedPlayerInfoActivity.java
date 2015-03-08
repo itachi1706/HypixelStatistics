@@ -41,6 +41,8 @@ import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.ResultDescription;
 
+import net.hypixel.api.reply.PlayerReply;
+
 import java.util.ArrayList;
 
 
@@ -239,21 +241,26 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                 playerName.setHint("Player UUID");
             }
         } else if (id == R.id.view_known_alias){
-            TextView aliasView = new TextView(ExpandedPlayerInfoActivity.this);
-            aliasView.setGravity(Gravity.CENTER);
-            if (MainStaticVars.knownAliases.length() != 0)
-                aliasView.setText("\n" + MainStaticVars.knownAliases);
-            else
-                aliasView.setText("\nPlease query for a player to view his aliases");
-            LinearLayout dialogLayout = new LinearLayout(ExpandedPlayerInfoActivity.this);
-
-            dialogLayout.addView(aliasView);
-            dialogLayout.setOrientation(LinearLayout.VERTICAL);
+            String message;
+            if (debug.getText().length() > 10) {
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(debug.getText().toString(), PlayerReply.class);
+                if (reply.getPlayer().has("knownAliases")){
+                    JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
+                    StringBuilder listOfAliases = new StringBuilder();
+                    for (JsonElement e : arr){
+                        listOfAliases.append(e.getAsString()).append("\n");
+                    }
+                    MainStaticVars.knownAliases = listOfAliases.toString();
+                    message = "\n" + MainStaticVars.knownAliases;
+                } else {
+                    message = "\nPlayer has no known aliases";
+                }
+            }else
+                message = "\nPlease query for a player to view his aliases";
             AlertDialog.Builder debugAlert = new AlertDialog.Builder(ExpandedPlayerInfoActivity.this);
-            ScrollView scrollPane = new ScrollView(this);
-            scrollPane.addView(dialogLayout);
-            debugAlert.setView(scrollPane);
             debugAlert.setTitle("Known Aliases");
+            debugAlert.setMessage(message);
             debugAlert.setPositiveButton(android.R.string.ok, null);
             debugAlert.show();
             return true;
