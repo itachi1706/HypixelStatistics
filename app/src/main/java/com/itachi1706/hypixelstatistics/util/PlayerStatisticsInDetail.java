@@ -103,8 +103,15 @@ public class PlayerStatisticsInDetail {
         } else {
             builder.append("§5Repaired§r <br />");
         }
-        builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
-        builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
+        if (rarityColor == WeaponCategory.EPIC) {
+            //Magic Forged
+            builder.append("§bMagic Forged [").append(upgradeTimes).append("/").append(maxUpgrades).append("]§r <br />");
+        } else if (rarityColor == WeaponCategory.LEGENDARY) {
+            //Void Forged
+            builder.append("§dVoid Forged [").append(upgradeTimes).append("/").append(maxUpgrades).append("]§r <br />");
+        }
+            //builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
+            //builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
 
         return builder.toString();
     }

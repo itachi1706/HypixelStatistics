@@ -84,7 +84,8 @@ public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
                 if (i != null) {
                     if (i.get_alert() != null){
                         new AlertDialog.Builder(activity).setTitle(i.get_title())
-                                .setMessage(Html.fromHtml(i.get_alert())).show();
+                                .setMessage(Html.fromHtml(i.get_alert()))
+                                .setPositiveButton(android.R.string.ok, null).show();
                     }
                 }
             }
