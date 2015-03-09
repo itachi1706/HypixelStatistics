@@ -52,7 +52,8 @@ public enum WeaponName {
     COOKED_MUTTON("Amaranth", WeaponCategory.LEGENDARY),
     COOKED_BEEF("Armblade", WeaponCategory.LEGENDARY),
     COOKED_PORKCHOP("Gemini", WeaponCategory.LEGENDARY),
-    GOLDEN_CARROT("Void Edge", WeaponCategory.LEGENDARY);
+    GOLDEN_CARROT("Void Edge", WeaponCategory.LEGENDARY),
+    UNKNOWN("Unknown Weapon", WeaponCategory.DEFAULT);
 
     private final String weaponName;
     private final WeaponCategory category;
@@ -74,6 +75,7 @@ public enum WeaponName {
         switch (material){
             //Common
             case "WOODEN_AXE": return WOODEN_AXE;
+            case "WOOD_AXE": return WOODEN_AXE;
             case "STONE_AXE": return STONE_AXE;
             case "GOLDEN_HOE": return GOLDEN_HOE;
             case "IRON_SHOVEL": return IRON_SHOVEL;
@@ -97,9 +99,11 @@ public enum WeaponName {
             //Epic
             case "DIAMOND_AXE": return DIAMOND_AXE;
             case "WOODEN_HOE": return WOODEN_HOE;
+            case "WOOD_HOE": return WOODEN_HOE;
             case "STONE_HOE": return STONE_HOE;
             case "IRON_HOE": return IRON_HOE;
             case "WOODEN_SHOVEL": return WOODEN_SHOVEL;
+            case "WOOD_SPADE": return WOODEN_SHOVEL;
             case "DIAMOND_SHOVEL": return DIAMOND_SHOVEL;
             case "GOLDEN_PICKAXE": return GOLDEN_PICKAXE;
             case "CLOWNFISH": return CLOWNFISH;
@@ -113,6 +117,7 @@ public enum WeaponName {
                 //Legendary
             case "STONE_SHOVEL": return STONE_SHOVEL;
             case "WOODEN_PICKAXE": return WOODEN_PICKAXE;
+            case "WOOD_PICKAXE": return WOODEN_PICKAXE;
             case "DIAMOND_PIXKAXE": return DIAMOND_PICKAXE;
             case "COD": return COD;
             case "POISONOUS_POTATO": return POISONOUS_POTATO;
@@ -124,6 +129,6 @@ public enum WeaponName {
             case "COOKED_PORKCHOP": return COOKED_PORKCHOP;
             case "GOLDEN_CARROT": return GOLDEN_CARROT;
         }
-        return null;
+        return UNKNOWN;
     }
 }

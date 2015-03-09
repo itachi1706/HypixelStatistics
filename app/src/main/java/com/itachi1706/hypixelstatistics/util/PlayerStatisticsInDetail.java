@@ -26,7 +26,9 @@ public class PlayerStatisticsInDetail {
         WarlordsSpecs className = getClassSpecName(weaponStats.get("spec").getAsJsonObject());
         WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsString());
         WeaponName name = getWeaponName(weaponStats.get("material").getAsString());
-        return rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
+        if (name == WeaponName.UNKNOWN)
+            return rarityColor.getColorCode() + " " + weaponStats.get("material").getAsString() + " of the " + className.getSpecName();
+        return "(UNKNOWN) " + rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
     }
 
     public static String getCurrentEquippedWeaponSpecification(String currentEquipped, JsonArray weaponInventory){
@@ -67,7 +69,10 @@ public class PlayerStatisticsInDetail {
         //Craft the dialog box string :D
         StringBuilder builder = new StringBuilder();
         builder.append("Weapon Specs <br /><br />");
-        builder.append("Name: §b").append(name.getWeaponName()).append(" of the ").append(className.getSpecName()).append("§r<br />");
+        if (name == WeaponName.UNKNOWN)
+            builder.append("Name: §b(Unknown) ").append(weaponStats.get("material").getAsString()).append(" of the ").append(className.getSpecName()).append("§r<br />");
+        else
+            builder.append("Name: §b").append(name.getWeaponName()).append(" of the ").append(className.getSpecName()).append("§r<br />");
         builder.append("Rarity: ").append(rarityColor.getColorCode()).append(rarityColor.getName()).append("§r<br /><br />");
 
         builder.append("Damage ID: §4").append(weaponStats.get("damage").getAsInt()).append("§r <br />");
