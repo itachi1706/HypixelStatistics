@@ -26,6 +26,7 @@ public enum WeaponDamage {
     NINETY_NINE("84 - 113", 84, 113, 99),
     ONE_HUNDERED("85 - 115", 85, 115, 100),
     ONE_HUNDRED_ONE("85 - 116 ", 85, 116, 101),
+    ONE_HUNDERED_TEN("93 - 126", 93, 126, 110),
     WIP("Work in Progress (WIP)", 0, 0, 0);
 
     private final String damageRangeString;
@@ -63,6 +64,7 @@ public enum WeaponDamage {
             case 99: return NINETY_NINE;
             case 100: return ONE_HUNDERED;
             case 101: return ONE_HUNDRED_ONE;
+            case 110: return ONE_HUNDERED_TEN;
             default: return WIP;
         }
     }
