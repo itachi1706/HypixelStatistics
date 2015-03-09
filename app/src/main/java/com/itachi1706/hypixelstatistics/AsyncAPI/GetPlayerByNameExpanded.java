@@ -1360,6 +1360,18 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Epic Items Repaired", obj.get("repaired_epic").getAsString()));
         if (obj.has("repaired_legendary"))
             descArray.add(new ResultDescription("Total Legendary Items Repaired", obj.get("repaired_legendary").getAsString()));
+
+        if (obj.has("crafted"))
+            descArray.add(new ResultDescription("Total Items Crafted", obj.get("crafted").getAsString()));
+        if (obj.has("crafted_common"))
+            descArray.add(new ResultDescription("Total Common Items Crafted", obj.get("crafted_common").getAsString()));
+        if (obj.has("crafted_rare"))
+            descArray.add(new ResultDescription("Total Rare Items Crafted", obj.get("crafted_rare").getAsString()));
+        if (obj.has("crafted_epic"))
+            descArray.add(new ResultDescription("Total Epic Items Crafted", obj.get("crafted_epic").getAsString()));
+        if (obj.has("crafted_legendary"))
+            descArray.add(new ResultDescription("Total Legendary Items Crafted", obj.get("crafted_legendary").getAsString()));
+        
         if (obj.has("chosen_class")) {
             String classChosen = obj.get("chosen_class").getAsString();
             String formattedClass = classChosen.substring(0, 1).toUpperCase() + classChosen.substring(1);
