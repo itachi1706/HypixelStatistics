@@ -27,8 +27,8 @@ public class PlayerStatisticsInDetail {
         WeaponCategory rarityColor = getRarityColor(weaponStats.get("category").getAsString());
         WeaponName name = getWeaponName(weaponStats.get("material").getAsString());
         if (name == WeaponName.UNKNOWN)
-            return rarityColor.getColorCode() + " " + weaponStats.get("material").getAsString() + " of the " + className.getSpecName();
-        return "(UNKNOWN) " + rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
+            return "(UNKNOWN) " + rarityColor.getColorCode() + " " + weaponStats.get("material").getAsString() + " of the " + className.getSpecName();
+        return rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
     }
 
     public static String getCurrentEquippedWeaponSpecification(String currentEquipped, JsonArray weaponInventory){
