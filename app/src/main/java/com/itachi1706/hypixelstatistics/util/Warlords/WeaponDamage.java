@@ -19,6 +19,7 @@ public enum WeaponDamage {
     EIGHTY_NINE("75 - 102", 75, 102, 89),
     NINETY("76 - 103", 76, 103, 90),
     NINETY_TWO("78 - 105", 78, 105, 92),
+    NINETY_THREE("79 - 106", 79, 106, 93),
     NINETY_FOUR("79 - 108", 79, 108, 94),
     NINETY_SIX("81 - 110", 81, 110, 96),
     NINETY_SEVEN("82 - 111", 82, 111, 97),
@@ -57,6 +58,7 @@ public enum WeaponDamage {
             case 89: return EIGHTY_NINE;
             case 90: return NINETY;
             case 92: return NINETY_TWO;
+            case 93: return NINETY_THREE;
             case 94: return NINETY_FOUR;
             case 96: return NINETY_SIX;
             case 97: return NINETY_SEVEN;
