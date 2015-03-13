@@ -634,6 +634,16 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                                     build.append("Kill 1 human in VampireZ: ").append(key.getValue()).append("/1"); break;
                                 case "vampirezkillvamps":
                                     build.append("Kill 3 Vampires in VampireZ: ").append(key.getValue()).append("/3"); break;
+                                case "blitzkill":
+                                    build.append("Kill 5 players in Blitz Survival Games: ").append(key.getValue()).append("/5"); break;
+                                case "blitz":
+                                    build.append("Win 20 games of Blitz Survival Games: ").append(key.getValue()).append("/20"); break;
+                                case "megawalls":
+                                    build.append("Win 10 games of Mega Walls: ").append(key.getValue()).append("/10"); break;
+                                case "killblitz10":
+                                    build.append("Kill 10 players in Blitz Survival Games: ").append(key.getValue()).append("/10"); break;
+                                case "winblitz":
+                                    build.append("Win 1 game of Blitz Survival Games: ").append(key.getValue()).append("/10"); break;
                                 default:
                                     build.append(key.getKey()).append(": ").append(key.getValue()); break;
                             }
