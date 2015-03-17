@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ExpandedResultDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -336,8 +337,14 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Vanity Tokens: ",reply.getPlayer().get("vanityTokens").getAsString()));
         else
             descArray.add(new ResultDescription("Vanity Tokens: ", "0 "));
-        if (reply.getPlayer().has("mostRecentGameType"))
-            descArray.add(new ResultDescription("Last Game Played: ",reply.getPlayer().get("mostRecentGameType").getAsString()));
+        if (reply.getPlayer().has("mostRecentGameType")) {
+            GameType recentGameType = GameTypeCapsReturn.fromDatabase(reply.getPlayer().get("mostRecentGameType").getAsString());
+            if (recentGameType == null) {
+                descArray.add(new ResultDescription("Last Game Played: ", reply.getPlayer().get("mostRecentGameType").getAsString()));
+            } else {
+                descArray.add(new ResultDescription("Last Game Played: ", recentGameType.getName()));
+            }
+        }
         if (reply.getPlayer().has("seeRequests")) {
             if (reply.getPlayer().get("seeRequests").getAsBoolean())
                 descArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
