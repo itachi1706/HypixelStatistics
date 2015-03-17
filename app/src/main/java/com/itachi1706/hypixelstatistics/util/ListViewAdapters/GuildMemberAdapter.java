@@ -60,7 +60,7 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
             }
             if (joined != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_joined()));
-                joined.setText("Used On: " + timeStamp);
+                joined.setText("Joined On: " + timeStamp);
             }
             if (head != null) {
                 prog.setVisibility(View.VISIBLE);
