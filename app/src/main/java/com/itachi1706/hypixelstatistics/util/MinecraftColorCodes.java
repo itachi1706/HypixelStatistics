@@ -8,33 +8,77 @@ import net.hypixel.api.reply.PlayerReply;
  * Created by Kenneth on 11/11/2014, 2:11 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
-public class MinecraftColorCodes {
+public enum MinecraftColorCodes {
+    BLACK("§0", "<font color='#000000'>", "Black", "&0"),
+    DARK_BLUE("§1", "<font color='#0000AA'>", "Dark Blue", "&1"),
+    DARK_GREEN("§2", "<font color='#00AA00'>", "Dark Green", "&2"),
+    DARK_AQUA("§3", "<font color='#00AAAA'>", "Dark Aqua", "&3"),
+    DARK_RED("§4", "<font color='#AA0000'>", "Dark Red", "&4"),
+    DARK_PURPLE("§5", "<font color='#AA00AA'>", "Dark Purple", "&5"),
+    GOLD("§6", "<font color='#FFAA00'>", "Gold", "&6"),
+    GRAY("§7", "<font color='#AAAAAA'>", "Gray", "&7"),
+    DARK_GRAY("§8", "<font color='#555555'>", "Dark Gray", "&8"),
+    BLUE("§9", "<font color='#5555FF'>", "Blue", "&9"),
+    GREEN("§a", "<font color='#55FF55'>", "Green", "&a"),
+    AQUA("§b", "<font color='#55FFFF'>", "Aqua", "&b"),
+    RED("§c", "<font color='#FF5555'>", "Red", "&c"),
+    LIGHT_PURPLE("§d", "<font color='#FF55FF'>", "Light Purple", "&d"),
+    YELLOW("§e", "<font color='#FFFF55'>", "Yellow", "&e"),
+    WHITE("§f", "<font color='#FFFFFF'>", "White", "&f"),
+    CLEAR("§r", "</font>", "Clear", "&r"); //Clear Formatting
+    
+    private final String colorCode, htmlCode, colorName, bukkitColorCode;
+    
+    private MinecraftColorCodes(String colorCode, String htmlCode, String colorName, String bukkitColorCode){
+        this.colorCode = colorCode;
+        this.htmlCode = htmlCode;
+        this.colorName = colorName;
+        this.bukkitColorCode = bukkitColorCode;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public String getHtmlCode() {
+        return htmlCode;
+    }
+
+    @SuppressWarnings("unused")
+    public String getColorName() {
+        return colorName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getBukkitColorCode() {
+        return bukkitColorCode;
+    }
 
     /**
-     * Parse a string to HTML formatted String with colour
+     * Parse a string to HTML formatted String with colour through enums
      * (Note: If you have colour, you need to reset it with §r)
      * @param in the string to be formatted
      * @return the formatted HTMML string
      */
     public static String parseColors(String in){
         String out = in;
-        out = out.replace("§0","<font color='#000000'>");   //Black
-        out = out.replace("§1","<font color='#0000AA'>");   //Dark Blue
-        out = out.replace("§2","<font color='#00AA00'>");   //Dark Green
-        out = out.replace("§3","<font color='#00AAAA'>");   //Dark Aqua
-        out = out.replace("§4","<font color='#AA0000'>");   //Dark Red
-        out = out.replace("§5","<font color='#AA00AA'>");   //Dark Purple
-        out = out.replace("§6","<font color='#FFAA00'>");   //Gold
-        out = out.replace("§7","<font color='#AAAAAA'>");   //Gray
-        out = out.replace("§8","<font color='#555555'>");   //Dark Gray
-        out = out.replace("§9","<font color='#5555FF'>");   //Blue
-        out = out.replace("§a","<font color='#55FF55'>");   //Green
-        out = out.replace("§b","<font color='#55FFFF'>");   //Aqua
-        out = out.replace("§c","<font color='#FF5555'>");   //Red
-        out = out.replace("§d","<font color='#FF55FF'>");   //Light Purple
-        out = out.replace("§e","<font color='#FFFF55'>");   //Yellow
-        out = out.replace("§f","<font color='#FFFFFF'>");   //White
-        out = out.replace("§r","</font>");                  //Close
+        out = out.replace(BLACK.getColorCode(),BLACK.getHtmlCode());                //Black
+        out = out.replace(DARK_BLUE.getColorCode(),DARK_BLUE.getHtmlCode());        //Dark Blue
+        out = out.replace(DARK_GREEN.getColorCode(),DARK_GREEN.getHtmlCode());      //Dark Green
+        out = out.replace(DARK_AQUA.getColorCode(),DARK_AQUA.getHtmlCode());        //Dark Aqua
+        out = out.replace(DARK_RED.getColorCode(),DARK_RED.getHtmlCode());          //Dark Red
+        out = out.replace(DARK_PURPLE.getColorCode(),DARK_PURPLE.getHtmlCode());    //Dark Purple
+        out = out.replace(GOLD.getColorCode(),GOLD.getHtmlCode());                  //Gold
+        out = out.replace(GRAY.getColorCode(),GRAY.getHtmlCode());                  //Gray
+        out = out.replace(DARK_GRAY.getColorCode(),DARK_GRAY.getHtmlCode());        //Dark Gray
+        out = out.replace(BLUE.getColorCode(),BLUE.getHtmlCode());                  //Blue
+        out = out.replace(GREEN.getColorCode(),GREEN.getHtmlCode());                //Green
+        out = out.replace(AQUA.getColorCode(),AQUA.getHtmlCode());                  //Aqua
+        out = out.replace(RED.getColorCode(),RED.getHtmlCode());                    //Red
+        out = out.replace(LIGHT_PURPLE.getColorCode(),LIGHT_PURPLE.getHtmlCode());  //Light Purple
+        out = out.replace(YELLOW.getColorCode(),YELLOW.getHtmlCode());              //Yellow
+        out = out.replace(WHITE.getColorCode(),WHITE.getHtmlCode());                //White
+        out = out.replace(CLEAR.getColorCode(),CLEAR.getHtmlCode());                //Close
         return out;
     }
 
@@ -206,6 +250,4 @@ public class MinecraftColorCodes {
     public static boolean checkDisplayName(PlayerReply name){
         return name.getPlayer().has("displayname");
     }
-
-
 }
