@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -184,7 +183,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_player_info, menu);
+        getMenuInflater().inflate(R.menu.menu_player_info_expanded, menu);
         return true;
     }
 
@@ -214,21 +213,6 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             debugAlert.setTitle("JSON Information");
             debugAlert.setPositiveButton(android.R.string.ok, null);
             debugAlert.show();
-            return true;
-        } else if (id == R.id.view_legacy){
-            new AlertDialog.Builder(ExpandedPlayerInfoActivity.this)
-                    .setTitle("WARNING - Old Version")
-                    .setMessage("You are about to use a no longer worked upon version of player statistics" +
-                            " that has all its categories automatically expanded. This is still here" +
-                            " for people to see the development progression and will" +
-                            " be removed in the future. It may also crash the application. \n\n Are you sure you want to proceed?")
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton("Proceed!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(ExpandedPlayerInfoActivity.this, PlayerInfoActivity.class));
-                        }
-                    }).show();
             return true;
         } else if (id == R.id.use_uuid_instead_of_name){
             if (usingUUID){

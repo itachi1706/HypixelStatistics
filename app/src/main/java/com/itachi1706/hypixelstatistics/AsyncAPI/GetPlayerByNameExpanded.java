@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.OldPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.util.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.HistoryObject;
@@ -123,7 +122,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
                 return;
             }
-            OldPlayerInfoActivity.lastGsonObtained = json;
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             debug.setText(json);
             ivHead.setImageDrawable(null);

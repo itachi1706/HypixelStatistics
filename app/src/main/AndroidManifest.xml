@@ -27,16 +27,8 @@
             android:label="@string/title_activity_key_info" >
         </activity>
         <activity
-            android:name=".OldPlayerInfoActivity"
-            android:label="@string/title_activity_player_info_old" >
-        </activity>
-        <activity
             android:name=".GeneralPrefActivity"
             android:label="@string/title_activity_general_pref" >
-        </activity>
-        <activity
-            android:name=".PlayerInfoActivity"
-            android:label="@string/title_activity_player_info" >
         </activity>
         <activity
             android:name=".ExpandedPlayerInfoActivity"
