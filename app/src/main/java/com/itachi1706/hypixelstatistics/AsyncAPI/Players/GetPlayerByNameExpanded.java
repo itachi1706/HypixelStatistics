@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Players;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,14 +19,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
-import com.itachi1706.hypixelstatistics.util.ExpandedResultDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.PlayerStatisticsInDetail;
-import com.itachi1706.hypixelstatistics.util.ResultDescription;
+import com.itachi1706.hypixelstatistics.util.Warlords.DetailedWeaponStatistics;
+import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.util.GameType;
@@ -1428,9 +1428,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
             descArray.add(new ResultDescription("Weapon Currently Equipped",
-                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
+                    MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
                             obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true, false,
-                    MinecraftColorCodes.parseColors(PlayerStatisticsInDetail.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
+                    MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
                             obj.getAsJsonArray("weapon_inventory")))));
         }
 

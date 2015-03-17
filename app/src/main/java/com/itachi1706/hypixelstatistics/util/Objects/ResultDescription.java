@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.Objects;
 
 import java.util.ArrayList;
 

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfo;
+import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfo;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck;
 
 import android.content.Context;
 import android.graphics.Color;

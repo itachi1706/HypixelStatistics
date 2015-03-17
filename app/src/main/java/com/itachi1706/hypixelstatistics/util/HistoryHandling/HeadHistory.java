@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.HistoryHandling;
 
 import android.content.Context;
 import android.graphics.Bitmap;

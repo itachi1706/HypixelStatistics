@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.BoostersReply;

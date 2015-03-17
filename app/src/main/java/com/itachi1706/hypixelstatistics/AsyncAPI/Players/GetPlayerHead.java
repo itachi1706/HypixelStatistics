@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Players;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.itachi1706.hypixelstatistics.util.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 
 import java.io.IOException;
 import java.io.InputStream;

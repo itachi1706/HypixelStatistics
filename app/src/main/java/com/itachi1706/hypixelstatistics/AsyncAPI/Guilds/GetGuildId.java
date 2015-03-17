@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Guilds;
 
 import android.app.Activity;
 import android.os.AsyncTask;

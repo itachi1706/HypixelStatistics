@@ -1,19 +1,14 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.Warlords;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.Warlords.WarlordsSpecs;
-import com.itachi1706.hypixelstatistics.util.Warlords.WeaponAbility;
-import com.itachi1706.hypixelstatistics.util.Warlords.WeaponCategory;
-import com.itachi1706.hypixelstatistics.util.Warlords.WeaponDamage;
-import com.itachi1706.hypixelstatistics.util.Warlords.WeaponName;
 
 /**
  * Created by Kenneth on 8/3/2015, 4:28 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
-public class PlayerStatisticsInDetail {
+public class DetailedWeaponStatistics {
 
     //Warlords
 

@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGetPlayerHead;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

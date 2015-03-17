@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Guilds;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -12,10 +12,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
-import com.itachi1706.hypixelstatistics.util.GuildMemberAdapter;
-import com.itachi1706.hypixelstatistics.util.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.GuildMemberAdapter;
+import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 

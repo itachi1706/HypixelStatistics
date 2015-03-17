@@ -34,11 +34,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetPlayerByNameExpanded;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
-import com.itachi1706.hypixelstatistics.util.HistoryObject;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.ResultDescription;
+import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
 

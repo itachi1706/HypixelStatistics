@@ -20,12 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
-import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerificationName;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
+import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
-import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.CharHistory;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 

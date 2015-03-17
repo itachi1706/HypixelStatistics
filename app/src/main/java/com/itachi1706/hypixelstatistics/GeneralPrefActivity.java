@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
-import com.itachi1706.hypixelstatistics.AsyncAPI.GetKeyInfoVerification;
+import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.util.ArrayList;

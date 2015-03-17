@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI;
+package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.itachi1706.hypixelstatistics.util.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.util.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +20,13 @@ import java.net.URLConnection;
  * Created by Kenneth on 11/11/2014, 9:19 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawable> {
+public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Drawable> {
 
     Context mContext;
     Exception except = null;
-    GuildMemberDesc data;
+    BoosterDescription data;
+    //ListView list;
+    //boolean isActiveOnly;
     ProgressBar bar;
     ImageView image;
     boolean retry = false;
@@ -37,13 +39,13 @@ public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawabl
         bar = bars;
     }*/
 
-    public GuildGetPlayerHead(Context context, ImageView view, ProgressBar progress){
+    public BoosterGetPlayerHead(Context context, ImageView view, ProgressBar progress){
         mContext = context;
         image = view;
         bar = progress;
     }
 
-    public GuildGetPlayerHead(Context context, ImageView view, ProgressBar progress, boolean retrying){
+    public BoosterGetPlayerHead(Context context, ImageView view, ProgressBar progress, boolean retrying){
         mContext = context;
         image = view;
         bar = progress;
@@ -51,7 +53,7 @@ public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawabl
     }
 
     @Override
-    protected Drawable doInBackground(GuildMemberDesc... playerData) {
+    protected Drawable doInBackground(BoosterDescription... playerData) {
         data = playerData[0];
         int density = 500;
         //Log.d("SCREEN DENSITY", mContext.getResources().getDisplayMetrics().density + "");
@@ -99,7 +101,7 @@ public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawabl
                 Log.d("BOOSTER HEAD EXCEPTION", "An Exception Occurred (" + except.getMessage() + ")");
                 if (!retry) {
                     Log.d("BOOSTER HEAD EXCEPTION", "Retrying 1 more time from a different site");
-                    new GuildGetPlayerHead(mContext, image, bar, true).execute(data);
+                    new BoosterGetPlayerHead(mContext, image, bar, true).execute(data);
                 } else {
                     bar.setVisibility(View.GONE);
                 }
@@ -109,7 +111,7 @@ public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawabl
                 //Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
                 if (!retry) {
                     Log.d("TIMED OUT", "BOOSTER HEAD. Retrying 1 more time from a different site...");
-                    new GuildGetPlayerHead(mContext, image, bar, true).execute(data);
+                    new BoosterGetPlayerHead(mContext, image, bar, true).execute(data);
                 } else {
                     Log.d("TIMED OUT", "BOOSTER HEAD. Unable to get head!");
                     bar.setVisibility(View.GONE);

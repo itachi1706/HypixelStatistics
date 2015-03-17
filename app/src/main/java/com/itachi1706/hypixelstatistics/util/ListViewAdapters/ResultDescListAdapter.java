@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import java.util.ArrayList;
 

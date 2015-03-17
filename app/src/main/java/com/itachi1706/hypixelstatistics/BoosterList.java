@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.BoosterGet;
-import com.itachi1706.hypixelstatistics.util.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.BoosterDescription;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.util.GameType;

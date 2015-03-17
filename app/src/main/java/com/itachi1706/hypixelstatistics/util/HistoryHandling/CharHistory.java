@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.util;
+package com.itachi1706.hypixelstatistics.util.HistoryHandling;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
 

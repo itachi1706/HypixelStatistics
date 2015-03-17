@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 
 import java.util.ArrayList;
 
