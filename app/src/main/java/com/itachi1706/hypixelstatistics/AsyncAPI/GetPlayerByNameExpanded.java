@@ -448,37 +448,60 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             //Based on stat go parse it
             JsonObject statistic = entry.getValue().getAsJsonObject();
-            switch (entry.getKey().toLowerCase()){
-                case "arena": resultArray.add(new ResultDescription("Arena Brawl Statistics", null, false, false, parseArena(statistic), null));
-                    break;
-                case "arcade": resultArray.add(new ResultDescription("The Arcade Games Statistics", null, false, false, parseArcade(statistic), null));
-                    break;
-                case "hungergames": resultArray.add(new ResultDescription("Blitz Survival Games Statistics", null, false, false, parseHG(statistic), null));
-                    break;
-                case "mcgo": resultArray.add(new ResultDescription("Cops and Crims Statistics", null, false, false, parseMcGo(statistic), null));
-                    break;
-                case "paintball": resultArray.add(new ResultDescription("Paintball Statistics", null, false, false, parsePaintball(statistic), null));
-                    break;
-                case "quake": resultArray.add(new ResultDescription("Quakecraft Statistics", null, false, false, parseQuake(statistic), null));
-                    break;
-                case "spleef": resultArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, false, parseSpleef(statistic), null));
-                    break;
-                case "tntgames": resultArray.add(new ResultDescription("TNT Games Statistics", null, false, false, parseTntGames(statistic), null));
-                    break;
-                case "vampirez": resultArray.add(new ResultDescription("VampireZ Statistics", null, false, false, parseVampZ(statistic), null));
-                    break;
-                case "walls": resultArray.add(new ResultDescription("Walls Statistics", null, false, false, parseWalls(statistic), null));
-                    break;
-                case "walls3": resultArray.add(new ResultDescription("Mega Walls Statistics", null, false, false, parseWalls3(statistic), null));
-                    break;
-                case "holiday": //descArray.remove(descArray.size() - 1);
-                    break;
-                case "uhc": resultArray.add(new ResultDescription("UHC Champions Statistics", null, false, false, parseUHC(statistic), null));
-                    break;
-                case "battleground": resultArray.add(new ResultDescription("Warlords Statistics (OPEN BETA)", null, false, false, parseWarlords(statistic), null));
-                    break;
-                default: resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
-                    break;
+            GameType parseVariousGamemode = GameType.fromDatabase(entry.getKey());
+            if (parseVariousGamemode == null) {
+                switch (entry.getKey().toLowerCase()) {
+                    case "spleef":
+                        resultArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, false, parseSpleef(statistic), null));
+                        break;
+                    case "holiday": //descArray.remove(descArray.size() - 1);
+                        break;
+                    default:
+                        resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                        break;
+                }
+            } else {
+                switch (parseVariousGamemode) {
+                    case ARENA:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseArena(statistic), null));
+                        break;
+                    case ARCADE:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseArcade(statistic), null));
+                        break;
+                    case SURVIVAL_GAMES:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseHG(statistic), null));
+                        break;
+                    case MCGO:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseMcGo(statistic), null));
+                        break;
+                    case PAINTBALL:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parsePaintball(statistic), null));
+                        break;
+                    case QUAKECRAFT:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseQuake(statistic), null));
+                        break;
+                    case TNTGAMES:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseTntGames(statistic), null));
+                        break;
+                    case VAMPIREZ:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseVampZ(statistic), null));
+                        break;
+                    case WALLS:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWalls(statistic), null));
+                        break;
+                    case WALLS3:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWalls3(statistic), null));
+                        break;
+                    case UHC:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseUHC(statistic), null));
+                        break;
+                    case WARLORDS:
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWarlords(statistic), null));
+                        break;
+                    default:
+                        resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                        break;
+                }
             }
         }
         return descArray;
