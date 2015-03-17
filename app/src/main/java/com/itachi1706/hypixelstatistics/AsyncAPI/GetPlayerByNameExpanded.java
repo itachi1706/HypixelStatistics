@@ -770,17 +770,17 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parseIndividualMW(JsonObject obj, String className, ArrayList<ResultDescription> descArray){
         ArrayList<ResultDescription> classArray = new ArrayList<>();
         if (obj.has("deaths_" + className))
-            classArray.add(new ResultDescription("Deaths (" + className + ")", obj.get("deaths_" + className).getAsString()));
+            classArray.add(new ResultDescription("Deaths", obj.get("deaths_" + className).getAsString()));
         if (obj.has("kills_" + className))
-            classArray.add(new ResultDescription("Kills (" + className + ")", obj.get("kills_" + className).getAsString()));
+            classArray.add(new ResultDescription("Kills", obj.get("kills_" + className).getAsString()));
         if (obj.has("finalDeaths_" + className))
-            classArray.add(new ResultDescription("Final Deaths (" + className + ")", obj.get("finalDeaths_" + className).getAsString()));
+            classArray.add(new ResultDescription("Final Deaths", obj.get("finalDeaths_" + className).getAsString()));
         if (obj.has("finalKills_" + className))
-            classArray.add(new ResultDescription("Final Kills (" + className + ")", obj.get("finalKills_" + className).getAsString()));
+            classArray.add(new ResultDescription("Final Kills", obj.get("finalKills_" + className).getAsString()));
         if (obj.has("wins_" + className))
-            classArray.add(new ResultDescription("Games Won (" + className + ")", obj.get("wins_" + className).getAsString()));
+            classArray.add(new ResultDescription("Games Won", obj.get("wins_" + className).getAsString()));
         if (obj.has("losses_" + className))
-            classArray.add(new ResultDescription("Games Lost (" + className + ")", obj.get("losses_" + className).getAsString()));
+            classArray.add(new ResultDescription("Games Lost", obj.get("losses_" + className).getAsString()));
         if (classArray.size() > 0){
             StringBuilder msg = new StringBuilder();
             for (ResultDescription t : classArray){
@@ -1445,15 +1445,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parseIndividualWarlordsStats(JsonObject obj, String className, String title, ArrayList<ResultDescription> descArray){
         ArrayList<ResultDescription> classArray = new ArrayList<>();
         if (obj.has("damage_" + className))
-            classArray.add(new ResultDescription("Damage Dealt (" + className + ")", obj.get("damage_" + className).getAsString()));
+            classArray.add(new ResultDescription("Damage Dealt", obj.get("damage_" + className).getAsString()));
         if (obj.has("damage_prevented_" + className))
-            classArray.add(new ResultDescription("Damage Prevented (" + className + ")", obj.get("damage_prevented_" + className).getAsString()));
+            classArray.add(new ResultDescription("Damage Prevented", obj.get("damage_prevented_" + className).getAsString()));
         if (obj.has("losses_" + className))
-            classArray.add(new ResultDescription("Games Lost (" + className + ")", obj.get("losses_" + className).getAsString()));
+            classArray.add(new ResultDescription("Games Lost", obj.get("losses_" + className).getAsString()));
         if (obj.has("wins_" + className))
-            classArray.add(new ResultDescription("Games Won (" + className + ")", obj.get("wins_" + className).getAsString()));
+            classArray.add(new ResultDescription("Games Won", obj.get("wins_" + className).getAsString()));
         if (obj.has(className + "_plays"))
-            classArray.add(new ResultDescription("Times Played as " + className + "", obj.get(className + "_plays").getAsString()));
+            classArray.add(new ResultDescription("Times Played as " + className, obj.get(className + "_plays").getAsString()));
 
         if (classArray.size() > 0){
             StringBuilder msg = new StringBuilder();
