@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.QuestName;
 import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.QuestObjectives;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExpandedResultDescListAdapter;
@@ -673,10 +674,17 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
                 }
                 //Add quest statistics to DB
-                //TODO Switch to enumerated Quests
+                QuestName questN = QuestName.fromDB(entry.getKey());
+                if (questN == QuestName.UNKNOWN){
+                    //This is default unknown quests
+                    String tryFormatQuestName = entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase();
+                    descArray.add(new ResultDescription(tryFormatQuestName, "Click here to see " + tryFormatQuestName + " quest statistics", true, false, msg.toString()));
+                } else {
+                    descArray.add(new ResultDescription(questN.getQuestTitle(), "Click here to see " + questN.getQuestTitle() + " quest statistics", true, false, msg.toString()));
+                }
 
-                //This is default
-                descArray.add(new ResultDescription(entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase(), "Click here to see " + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " quest statistics", true, false, msg.toString()));
+
+
             }
         }
         return descArray;
