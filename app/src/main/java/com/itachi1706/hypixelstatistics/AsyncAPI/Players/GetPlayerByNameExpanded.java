@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.QuestObjectives;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
@@ -637,43 +638,17 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                         StringBuilder build = new StringBuilder();
                         build.append("<br />");
                         for (Map.Entry<String, JsonElement> key : arr.entrySet()) {
-                            switch (key.getKey()) {
-                                case "kill":
-                                    build.append("Killed Players: ").append(key.getValue()); break;
-                                case "win":
-                                    build.append("Won Games: ").append(key.getValue()); break;
-                                case "paintball":
-                                    build.append("Kill 55 players in Paintball Warfare: ").append(key.getValue()).append("/55"); break;
-                                case "quake":
-                                    build.append("Kill 55 players in QuakeCraft: ").append(key.getValue()).append("/55"); break;
-                                case "warlords_weekly_dedi":
-                                    build.append("Complete 30 matches with 10 kills/assists: ").append(key.getValue()).append("/30"); break;
-                                case "arenawin2":
-                                    build.append("Win 2 games of Arena Brawl: ").append(key.getValue()).append("/2"); break;
-                                case "megawallswin":
-                                    build.append("Win 1 game of Mega Walls: ").append(key.getValue()).append("/1"); break;
-                                case "paintballwin":
-                                    build.append("Win 2 games of Paintball: ").append(key.getValue()).append("/2"); break;
-                                case "quake25kill":
-                                    build.append("Kill 25 players in QuakeCraft: ").append(key.getValue()).append("/25"); break;
-                                case "tntwin":
-                                    build.append("Win 3 games of The TNT Games: ").append(key.getValue()).append("/3"); break;
-                                case "vampirezkillhuman":
-                                    build.append("Kill 1 human in VampireZ: ").append(key.getValue()).append("/1"); break;
-                                case "vampirezkillvamps":
-                                    build.append("Kill 3 Vampires in VampireZ: ").append(key.getValue()).append("/3"); break;
-                                case "blitzkill":
-                                    build.append("Kill 5 players in Blitz Survival Games: ").append(key.getValue()).append("/5"); break;
-                                case "blitz":
-                                    build.append("Win 20 games of Blitz Survival Games: ").append(key.getValue()).append("/20"); break;
-                                case "megawalls":
-                                    build.append("Win 10 games of Mega Walls: ").append(key.getValue()).append("/10"); break;
-                                case "killblitz10":
-                                    build.append("Kill 10 players in Blitz Survival Games: ").append(key.getValue()).append("/10"); break;
-                                case "winblitz":
-                                    build.append("Win 1 game of Blitz Survival Games: ").append(key.getValue()).append("/10"); break;
-                                default:
-                                    build.append(key.getKey()).append(": ").append(key.getValue()); break;
+                            QuestObjectives qObj = QuestObjectives.fromDB(key.getKey());
+                            if (qObj == QuestObjectives.UNKNOWN){
+                                //Unknown Variable, set Default
+                                build.append(key.getKey()).append(": ").append(key.getValue());
+                            } else if (qObj.getMaxLimit() == -1){
+                                //No Max Limit
+                                build.append(qObj.getHumanReadableDesc()).append(": ").append(key.getValue());
+                            } else {
+                                //Known Variable with max limit
+                                build.append(qObj.getHumanReadableDesc()).append(": ").append(key.getValue())
+                                        .append("/").append(qObj.getMaxLimit());
                             }
                             build.append("<br />");
                         }
@@ -683,8 +658,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             } else {
                 qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
             }
-
-
 
 
             //Get number of completion times
@@ -699,6 +672,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 for (ResultDescription t : qArray){
                     msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
                 }
+                //Add quest statistics to DB
+                //TODO Switch to enumerated Quests
+
+                //This is default
                 descArray.add(new ResultDescription(entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase(), "Click here to see " + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " quest statistics", true, false, msg.toString()));
             }
         }

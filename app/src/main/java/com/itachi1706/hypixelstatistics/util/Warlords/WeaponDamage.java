@@ -71,7 +71,7 @@ public enum WeaponDamage {
             case 99: return NINETY_NINE;
             case 100: return ONE_HUNDERED;
             case 101: return ONE_HUNDRED_ONE;
-            case 107: returnb ONE_HUNDERED_SEVEN;
+            case 107: return ONE_HUNDERED_SEVEN;
             case 110: return ONE_HUNDERED_TEN;
             default: return WIP;
         }
