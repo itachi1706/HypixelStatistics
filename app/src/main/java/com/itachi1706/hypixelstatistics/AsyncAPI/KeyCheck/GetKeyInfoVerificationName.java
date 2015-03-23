@@ -74,8 +74,12 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
-                    .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
+            if (!mContext.isFinishing()) {
+                new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
+                        .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
+            } else {
+                Toast.makeText(mContext.getApplicationContext(), "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
@@ -92,14 +96,22 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
             }
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
-                new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
-                        .setMessage("API Limit has been reached and we could not check your player rank, however key has been set.\n" +
-                                "If you are a staff member, to get access to additional info, please relaunch the application")
-                        .setPositiveButton(android.R.string.ok, null).show();
+                if (!mContext.isFinishing()) {
+                    new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
+                            .setMessage("API Limit has been reached and we could not check your player rank, however key has been set.\n" +
+                                    "If you are a staff member, to get access to additional info, please relaunch the application")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), "API Limit Reached!", Toast.LENGTH_SHORT).show();
+                }
             } else if (!reply.isSuccess()){
                 //Not Successful
-                new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
-                        .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
+                if (!mContext.isFinishing()) {
+                    new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
+                            .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + reply.getCause() + ")", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 //Succeeded
                 String pRank = MinecraftColorCodes.parseHypixelRanks(reply);
@@ -114,10 +126,13 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                     successMessage += " <br /><br />As the creator of the application, you get access to additional information too!";
                 }
                 if (isSettings) {
-                new AlertDialog.Builder(mContext).setTitle("Success!")
-                        .setMessage(Html.fromHtml(successMessage))
-                        .setPositiveButton(android.R.string.ok, null).show();
-
+                    if (!mContext.isFinishing()) {
+                        new AlertDialog.Builder(mContext).setTitle("Success!")
+                                .setMessage(Html.fromHtml(successMessage))
+                                .setPositiveButton(android.R.string.ok, null).show();
+                    } else {
+                        Toast.makeText(mContext.getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    }
                     GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
                     pref.updateApiKeyOwnerInfo(sp, key_staff, key_name);
                 }

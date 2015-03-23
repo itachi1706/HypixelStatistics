@@ -87,16 +87,24 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
             }
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
-                new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
-                        .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
-                        .setPositiveButton(android.R.string.ok, null).show();
+                if (!mContext.isFinishing()) {
+                    new AlertDialog.Builder(mContext).setTitle("Verification Throttled")
+                            .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), "API Limit Reached. Unable to verify key, try again later", Toast.LENGTH_SHORT).show();
+                }
                 pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else if (!reply.isSuccess()){
 
                 //Not Successful
                 //debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
-                new AlertDialog.Builder(mContext).setTitle("Invalid Key")
-                        .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
+                if (!mContext.isFinishing()) {
+                    new AlertDialog.Builder(mContext).setTitle("Invalid Key")
+                            .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), "Invalid Key (" + reply.getCause() + ")", Toast.LENGTH_SHORT).show();
+                }
                 pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else {
                 //Succeeded

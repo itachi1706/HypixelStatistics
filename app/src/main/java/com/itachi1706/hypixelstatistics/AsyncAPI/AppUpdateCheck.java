@@ -110,20 +110,26 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
             //Outdated Version. Prompt Update
             String bodyMsg = MainStaticVars.getChangelogStringFromArrayList(changelogStrings);
             String title = "A New Update is Available!";
-            new AlertDialog.Builder(mActivity).setTitle(title).setMessage(Html.fromHtml(bodyMsg))
-                    .setNegativeButton("Don't Update", null).setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/itachi1706/HypixelStatistics/releases/latest"));
-                    mActivity.startActivity(intent);
-                }
-            }).show();
+            if (!mActivity.isFinishing()) {
+                new AlertDialog.Builder(mActivity).setTitle(title).setMessage(Html.fromHtml(bodyMsg))
+                        .setNegativeButton("Don't Update", null).setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/itachi1706/HypixelStatistics/releases/latest"));
+                        mActivity.startActivity(intent);
+                    }
+                }).show();
+            }
             return;
         }
         if (!main){
             Log.d("UPDATE CHECK", "No Update Needed");
-            new AlertDialog.Builder(mActivity).setTitle("Check for New Update").setMessage("You are on the latest release! No update is required.")
-                    .setNegativeButton("Close", null).show();
+            if (!mActivity.isFinishing()) {
+                new AlertDialog.Builder(mActivity).setTitle("Check for New Update").setMessage("You are on the latest release! No update is required.")
+                        .setNegativeButton("Close", null).show();
+            } else {
+                Toast.makeText(mActivity.getApplicationContext(), "No update is required", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
