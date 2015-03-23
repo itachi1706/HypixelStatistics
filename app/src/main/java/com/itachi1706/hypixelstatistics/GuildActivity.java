@@ -4,11 +4,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ScaleXSpan;
+import android.text.style.StyleSpan;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +35,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GetGuildId;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import java.util.ArrayList;
@@ -93,10 +98,21 @@ public class GuildActivity extends ActionBarActivity {
         memberInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+
                 if (memberInfo.getItemAtPosition(position) instanceof GuildMemberDesc) {
                     GuildMemberDesc desc = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
+
+                    //Create Title
+                    String title = "Recent Daily Coin Contributions by " + desc.get_mcNameWithRank();
+                    SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+                    StyleSpan span = new StyleSpan(Typeface.BOLD);
+                    ScaleXSpan span1 = new ScaleXSpan(1);
+                    ssBuilder.setSpan(span, 0, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    ssBuilder.setSpan(span1, 0, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
                     if (desc.get_dailyCoins() != null){
-                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Recent Daily Coin Contributions by " + desc.get_mcNameWithRank()))
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml(ssBuilder.toString()))
                                 .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(desc.get_dailyCoins()))).setPositiveButton(android.R.string.ok, null)
                                 .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
                                     @Override
@@ -108,7 +124,7 @@ public class GuildActivity extends ActionBarActivity {
                                     }
                                 }).show();
                     } else {
-                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml("Recent Daily Coins Contributions by " + desc.get_mcNameWithRank()))
+                        new AlertDialog.Builder(GuildActivity.this).setTitle(Html.fromHtml(ssBuilder.toString()))
                                 .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors("This member did not make any recent contributions to the guild"))).setPositiveButton(android.R.string.ok, null)
                                 .setNegativeButton("View Player Info", new DialogInterface.OnClickListener() {
                                     @Override
@@ -119,6 +135,7 @@ public class GuildActivity extends ActionBarActivity {
                                         startActivity(intentE);
                                     }
                                 }).show();
+
                     }
                 }
             }
