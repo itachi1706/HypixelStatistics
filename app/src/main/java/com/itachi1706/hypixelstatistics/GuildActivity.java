@@ -62,6 +62,13 @@ public class GuildActivity extends ActionBarActivity {
         generalInfo = (ListView) findViewById(R.id.lvGeneral);
         memberInfo = (ListView) findViewById(R.id.lvMember);
 
+        //Check if its from another class
+        if (this.getIntent().hasExtra("playername")){
+            String playername = this.getIntent().getStringExtra("playername");
+            Toast.makeText(getApplicationContext(), "Getting Guild Information for " + playername, Toast.LENGTH_SHORT).show();
+            new GetGuildId(false, GuildActivity.this, generalInfo, memberInfo).execute(playername);
+        }
+
         //Settings
         guildSearch.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());

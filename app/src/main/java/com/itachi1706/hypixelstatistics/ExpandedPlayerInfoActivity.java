@@ -248,6 +248,25 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             debugAlert.setPositiveButton(android.R.string.ok, null);
             debugAlert.show();
             return true;
+        } else if (id == R.id.view_guild){
+            if (debug.getText().length() > 200) {
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(debug.getText().toString(), PlayerReply.class);
+                if (reply.getPlayer().has("displayname")) {
+                    Intent intent = new Intent(ExpandedPlayerInfoActivity.this, GuildActivity.class);
+                    intent.putExtra("playername", reply.getPlayer().get("displayname").getAsString());
+                    startActivity(intent);
+                } else {
+                    new AlertDialog.Builder(ExpandedPlayerInfoActivity.this).setTitle("Player not found")
+                            .setMessage("Please search a player to view guild")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                }
+            } else {
+                new AlertDialog.Builder(ExpandedPlayerInfoActivity.this).setTitle("Player not found")
+                        .setMessage("Please search a player to view guild")
+                        .setPositiveButton(android.R.string.ok, null).show();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
