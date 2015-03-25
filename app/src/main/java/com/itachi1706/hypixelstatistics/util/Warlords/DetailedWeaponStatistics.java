@@ -26,7 +26,7 @@ public class DetailedWeaponStatistics {
         return rarityColor.getColorCode() + " " + name.getWeaponName() + " of the " + className.getSpecName();
     }
 
-    public static String getCurrentEquippedWeaponSpecification(String currentEquipped, JsonArray weaponInventory){
+    public static String getCurrentEquippedWeaponSpecification(String currentEquipped, JsonArray weaponInventory, String player){
         /*
         Spec
         ====
@@ -63,7 +63,6 @@ public class DetailedWeaponStatistics {
 
         //Craft the dialog box string :D
         StringBuilder builder = new StringBuilder();
-        builder.append("Weapon Specs <br /><br />");
         if (name == WeaponName.UNKNOWN)
             builder.append("Name: §b(Unknown) ").append(weaponStats.get("material").getAsString()).append(" of the ").append(className.getSpecName()).append("§r<br />");
         else
@@ -108,6 +107,11 @@ public class DetailedWeaponStatistics {
             //builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
             //builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
 
+        String weaponString = "http://plancke.nl/hypixel/generators/warlords/weapon/";
+        weaponString += player + "/";
+        weaponString += currentEquipped;
+        builder.append("<br />Link to weapon on Plancke <br />");
+        builder.append("<a href='").append(weaponString).append("'>Click here to view weapon stat on Plancke</a>");
         return builder.toString();
     }
 
