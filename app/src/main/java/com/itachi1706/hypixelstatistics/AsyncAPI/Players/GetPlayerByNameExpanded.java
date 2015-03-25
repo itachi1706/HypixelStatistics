@@ -62,6 +62,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     ProgressDialog progress;
     ProgressBar pro;
     boolean isUUID;
+    private String localPlayerName;
 
     ArrayList<ResultDescription> resultArray;
 
@@ -281,9 +282,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         else
             descArray.add(new ResultDescription("Rank: ", "NORMAL"));
         if (MinecraftColorCodes.checkDisplayName(reply))
-            descArray.add(new ResultDescription("Name: ",reply.getPlayer().get("displayname").getAsString()));
+            this.localPlayerName = reply.getPlayer().get("displayname").getAsString();
         else
-            descArray.add(new ResultDescription("Name: ",reply.getPlayer().get("playername").getAsString()));
+            this.localPlayerName = reply.getPlayer().get("playername").getAsString();
+        descArray.add(new ResultDescription("Name: ", this.localPlayerName));
         descArray.add(new ResultDescription("UUID: ",reply.getPlayer().get("uuid").getAsString()));
         if (reply.getPlayer().has("packageRank"))
             descArray.add(new ResultDescription("Donor Rank: ",reply.getPlayer().get("packageRank").getAsString()));
@@ -1416,7 +1418,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
                             obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true, false,
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
-                            obj.getAsJsonArray("weapon_inventory")))));
+                            obj.getAsJsonArray("weapon_inventory"), localPlayerName))));
         }
 
         //Individual Classes/Specs Statistics
