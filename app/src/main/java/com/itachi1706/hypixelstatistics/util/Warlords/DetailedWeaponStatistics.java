@@ -107,11 +107,11 @@ public class DetailedWeaponStatistics {
             //builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
             //builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
 
-        String weaponString = "http://plancke.nl/hypixel/generators/warlords/weapon/";
+        String weaponString = "http://www.plancke.nl/hypixel/generators/warlords/weapon/";
         weaponString += player + "/";
-        weaponString += currentEquipped;
-        builder.append("<br />Link to weapon on Plancke <br />");
-        builder.append("<a href='").append(weaponString).append("'>Click here to view weapon stat on Plancke</a>");
+        weaponString += currentEquipped + ".png";
+        builder.append("<br />");
+        builder.append("<a href='").append(weaponString).append("'>View weapon on Plancke.nl</a>");
         return builder.toString();
     }
 

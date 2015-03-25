@@ -3,6 +3,7 @@ package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +85,13 @@ public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 if (i != null) {
                     if (i.get_alert() != null){
-                        new AlertDialog.Builder(activity).setTitle(i.get_title())
+                        TextView tv = (TextView) new AlertDialog.Builder(activity)
+                                .setTitle(i.get_title())
                                 .setMessage(Html.fromHtml(i.get_alert()))
-                                .setPositiveButton(android.R.string.ok, null).show();
+                                //.setView(tv)
+                                .setPositiveButton(android.R.string.ok, null).show()
+                                .findViewById(android.R.id.message);
+                        tv.setMovementMethod(LinkMovementMethod.getInstance());
                     }
                 }
             }
