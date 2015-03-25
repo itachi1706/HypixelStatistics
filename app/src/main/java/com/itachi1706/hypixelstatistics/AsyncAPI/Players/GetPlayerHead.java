@@ -1,13 +1,22 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI.Players;
 
-import android.content.Context;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 
 import java.io.IOException;
@@ -23,22 +32,25 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
 
     ProgressBar progress;
     ImageView imageViewhead;
-    Context mContext;
+    Activity mContext;
     Exception except = null;
     String playerNamer;
     boolean retry = false;
+    android.support.v7.app.ActionBar actionBar;
 
-    public GetPlayerHead(ProgressBar prog, ImageView head, Context context){
+    public GetPlayerHead(ProgressBar prog, ImageView head, Activity context, android.support.v7.app.ActionBar actBar){
         progress = prog;
         imageViewhead = head;
         mContext = context;
+        actionBar = actBar;
     }
 
-    public GetPlayerHead(ProgressBar prog, ImageView head, Context context, boolean retrying){
+    public GetPlayerHead(ProgressBar prog, ImageView head, Activity context, boolean retrying, android.support.v7.app.ActionBar actBar){
         progress = prog;
         imageViewhead = head;
         mContext = context;
         retry = retrying;
+        actionBar = actBar;
     }
 
     @Override
@@ -90,7 +102,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
 
                 if (!retry){
                     Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site", Toast.LENGTH_SHORT).show();
-                    new GetPlayerHead(progress, imageViewhead, mContext, true).execute(playerNamer);
+                    new GetPlayerHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
                 else
                     Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
@@ -99,13 +111,47 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 if (!retry) {
                     Toast.makeText(mContext, "Head Download Timed Out. Retrying from different site", Toast.LENGTH_SHORT).show();
-                    new GetPlayerHead(progress, imageViewhead, mContext, true).execute(playerNamer);
+                    new GetPlayerHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
                 Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
             } else
                 Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
         } else {
             imageViewhead.setImageDrawable(draw);
+
+            //Palette API generate and update activity primary and primary dark colors
+            Bitmap toUseForPalette = ((BitmapDrawable) draw).getBitmap();
+            Palette.generateAsync(toUseForPalette, 32, new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    int primaryColor = palette.getVibrantColor(R.color.blue_500);
+                    int primaryDarkColor = palette.getDarkVibrantColor(R.color.blue_700);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        //Lollipop and after so yay status bar color changes :D
+                        //Animate Status Bar
+                        Integer colorFromStatus = mContext.getResources().getColor(R.color.blue_700), colorToStatus = primaryDarkColor;
+                        ValueAnimator statusBarAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFromStatus, colorToStatus);
+                        statusBarAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override @TargetApi(21)
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                mContext.getWindow().setStatusBarColor((Integer) animation.getAnimatedValue());
+                            }
+                        });
+                        statusBarAnimation.start();
+                    }
+                    //This supports all version of android from SDK 11 so dont have the legendary color changes :(
+                    //Animate action bar
+                    Integer colorFromAction = mContext.getResources().getColor(R.color.blue_500), colorToAction = primaryColor;
+                    ValueAnimator actionBarAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFromAction, colorToAction);
+                    actionBarAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            actionBar.setBackgroundDrawable(new ColorDrawable((Integer) animation.getAnimatedValue()));
+                        }
+                    });
+                    actionBarAnimation.start();
+                }
+            });
 
             //Check if image is already on device
             if (HeadHistory.checkIfHeadExists(mContext, playerNamer)){

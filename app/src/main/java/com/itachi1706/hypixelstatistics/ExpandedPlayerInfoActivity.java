@@ -36,8 +36,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -74,6 +74,8 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         playerName.setAdapter(adapter);
 
+        final android.support.v7.app.ActionBar supportBar = this.getSupportActionBar();
+
         if (this.getIntent().hasExtra("player")){
             String intentPlayer = this.getIntent().getStringExtra("player");
             playerName.setText(intentPlayer);
@@ -83,8 +85,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setTitle("Querying Server...");
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID).execute(intentPlayer);
-
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar).execute(intentPlayer);
         }
 
         //Check if we should hide the debug window
@@ -124,7 +125,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                     checkProgress.setTitle("Querying Server...");
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
-                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID).execute(name);
+                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar).execute(name);
                 }
             }
         });

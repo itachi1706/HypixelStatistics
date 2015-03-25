@@ -67,9 +67,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     boolean isUUID;
     private String localPlayerName;
 
+    android.support.v7.app.ActionBar ab;
+
     ArrayList<ResultDescription> resultArray;
 
-    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState){
+    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState, android.support.v7.app.ActionBar acb){
         debug = debugView;
         result = resultView;
         mContext = context;
@@ -78,6 +80,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         progress = prog;
         pro = header;
         isUUID = uuidState;
+        this.ab = acb;
     }
 
     @Override
@@ -165,7 +168,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 pro.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
                 if (MinecraftColorCodes.checkDisplayName(reply)) {
-                    new GetPlayerHead(pro, ivHead, mContext).execute(reply.getPlayer().get("displayname").getAsString());
+                    new GetPlayerHead(pro, ivHead, mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
                 } else
                     pro.setVisibility(View.GONE);
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
