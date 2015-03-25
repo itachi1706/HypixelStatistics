@@ -19,16 +19,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
+import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.LobbyList;
+import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.OngoingAchievements;
 import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.QuestName;
 import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.QuestObjectives;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExpandedResultDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.Warlords.DetailedWeaponStatistics;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.util.Warlords.DetailedWeaponStatistics;
 
 import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.util.GameType;
@@ -45,6 +47,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -194,7 +197,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 }
 
                 if (reply.getPlayer().has("achievements")){
-                    resultArray.add(new ResultDescription("<b>Achievements</b>", null, false, false, parseOngoingAchievements(reply), null));
+                    resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, false, parseOngoingAchievements(reply), null));
                     //parseOngoingAchievements(reply);
                 }
 
@@ -512,16 +515,86 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     }
 
     /**
-     * Parse Ongoing Achievements
+     * Parse Ongoing Achievements with Achievement Enums
      * @param reply PlayerReply object
      */
     private ArrayList<ResultDescription> parseOngoingAchievements(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         JsonObject achievements = reply.getPlayer().getAsJsonObject("achievements");
-        for (Map.Entry<String, JsonElement> entry : achievements.entrySet()){
-            descArray.add(new ResultDescription(entry.getKey() + ": ", entry.getValue().toString()));
+        Map<String, JsonElement> tmpMapping = new HashMap<>();
+        Map<String, JsonElement> toRemove = new HashMap<>();
+        for (Map.Entry<String, JsonElement> e : achievements.entrySet()){
+            //Temp transfer to another map
+            tmpMapping.put(e.getKey(), e.getValue());
         }
+
+        //Iterate through the tmpMapping based on lobbies
+        for (LobbyList list : LobbyList.values()) {
+            ArrayList<ResultDescription> perLobbyArray = new ArrayList<>();
+            for (Map.Entry<String, JsonElement> entry : tmpMapping.entrySet()) {
+                OngoingAchievements achievement = OngoingAchievements.fromDatabase(entry.getKey());
+                if (achievement.getAchievementLobbies() == list){
+                    if (achievement == OngoingAchievements.UNKNOWN)
+                        perLobbyArray.add(new ResultDescription(entry.getKey() + "(" + list.getName() + ")", entry.getValue().toString()));
+                    else {
+                        ArrayList<ResultDescription> tmpArray = splitAchievements(achievement, entry.getValue().getAsInt());
+                        for (ResultDescription d : tmpArray) {
+                            perLobbyArray.add(d);
+                        }
+                        tmpArray.clear();
+                    }
+                    toRemove.put(entry.getKey(), entry.getValue());
+                }
+            }
+            if (perLobbyArray.size() > 0){
+                descArray.add(new ResultDescription("<b>" + list.getName() + "</b>", MinecraftColorCodes.GOLD.getHtmlCode() + perLobbyArray.size() + " achievements" + MinecraftColorCodes.CLEAR.getHtmlCode()));
+                for (ResultDescription d : perLobbyArray)
+                descArray.add(d);
+            }
+            perLobbyArray.clear();
+        }
+
+        //Remove the already displayed stuff from tmpMapping
+        for (Map.Entry<String, JsonElement> entry : toRemove.entrySet()){
+            tmpMapping.remove(entry.getKey());
+        }
+
+        //Remaining ones in Hashmap just also print
+        for (Map.Entry<String, JsonElement> entry : tmpMapping.entrySet()){
+            OngoingAchievements achievement = OngoingAchievements.fromDatabase(entry.getKey());
+            if (achievement == OngoingAchievements.UNKNOWN)
+                descArray.add(new ResultDescription(entry.getKey() + "(" + LobbyList.UNKNOWN.getName() + ")", entry.getValue().toString()));
+            else {
+                ArrayList<ResultDescription> tmpArray = splitAchievements(achievement, entry.getValue().getAsInt());
+                for (ResultDescription d : tmpArray) {
+                    descArray.add(d);
+                }
+            }
+        }
+
+        tmpMapping.clear();
+        toRemove.clear();
         return descArray;
+    }
+
+    private ArrayList<ResultDescription> splitAchievements(OngoingAchievements achievement, int achievedValue){
+        ArrayList<ResultDescription> endResult = new ArrayList<>();
+        for (int i = 1; i <= achievement.getMax_tiers(); i++){
+            String title = OngoingAchievements.getTitleByTier(achievement, i);
+            String description = OngoingAchievements.getDescriptionByTier(achievement, i);
+            int tierValue = OngoingAchievements.getTierByTier(achievement, i);
+            String progression;
+            if (tierValue < achievedValue){
+                //Completed alr (Show Completed)
+                progression = MinecraftColorCodes.GREEN.getHtmlCode() + "Completed" + MinecraftColorCodes.CLEAR.getHtmlCode();
+            } else {
+                //In progress (Show progress)
+                progression = achievedValue + "/" + tierValue;
+            }
+            String compiledSubString = description + "<br />" + progression;
+            endResult.add(new ResultDescription(title, compiledSubString));
+        }
+        return endResult;
     }
 
     /**

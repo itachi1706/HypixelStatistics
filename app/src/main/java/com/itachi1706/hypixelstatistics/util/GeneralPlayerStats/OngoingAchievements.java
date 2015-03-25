@@ -25,7 +25,7 @@ public enum OngoingAchievements {
 
     TNTGAMES_BOW_SPLEEF_WINS("Archery ", "Win %s games of Bow Spleef", "tntgames_bow_spleef_wins", 5, 10, 20, 50, 100, 500, LobbyList.TNT),
     TNTGAMES_TNT_RUN_WINS("Marathon ", "Win %s games of TNT Run", "tntgames_tnt_run_wins", 5, 10, 20, 50, 100, 500, LobbyList.TNT),
-    TNTGAMES_WIZARDS_WINS("Sorcery", "Win %s games of Wizards", "tntgames_wizards_wins", 5, 10, 20, 50, 100, 500, LobbyList.TNT),
+    TNTGAMES_WIZARDS_WINS("Sorcery ", "Win %s games of Wizards", "tntgames_wizards_wins", 5, 10, 20, 50, 100, 500, LobbyList.TNT),
 
     QUAKE_KILLS("MLG ", "Kill %s players", "quake_kills", 5, 100, 1000, 10000, 50000, 100000, LobbyList.QUAKE),
     QUAKE_WINS("Winner ", "Win %s games", "quake_wins", 5, 10, 50, 100, 1000, 2000, LobbyList.QUAKE),
