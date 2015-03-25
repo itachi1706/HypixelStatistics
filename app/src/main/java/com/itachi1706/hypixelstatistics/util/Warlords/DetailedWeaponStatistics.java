@@ -72,9 +72,9 @@ public class DetailedWeaponStatistics {
 
         builder.append("Damage ID: §4").append(weaponStats.get("damage").getAsInt()).append("§r <br />");
         if (damage == WeaponDamage.WIP)
-            builder.append("Damage: §4").append(damage.getDamageRangeString()).append(" §r<br />");
+            builder.append("Base Damage: §4").append(damage.getDamageRangeString()).append(" §r<br />");
         else
-            builder.append("Damage: §c").append(damage.getMinDamage()).append("§r - §c").append(damage.getMaxDamage()).append("§r<br />");
+            builder.append("Base Damage: §c").append(damage.getMinDamage()).append("§r - §c").append(damage.getMaxDamage()).append("§r<br />");
         builder.append("Crit Chance: §c").append(chance).append("%§r <br />");
         builder.append("Crit Multiplier: §c").append(multiplier).append("%§r <br /><br />");
 
