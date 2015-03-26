@@ -157,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case "View Activated Boosters":
                 if (MainStaticVars.inProg){
-                    new AlertDialog.Builder(this).setMessage("The app is still getting a list of boosters. Please wait a while before trying to view boosters")
+                    new AlertDialog.Builder(this).setMessage("The app is still processing the booster list. Please wait a while before selecting this option.")
                             .setTitle("Notice").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
