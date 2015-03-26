@@ -14,11 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
+import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;
 
 import java.util.ArrayList;
@@ -51,7 +57,12 @@ public class BoosterList extends ActionBarActivity {
         });
 
         if (!MainStaticVars.boosterUpdated){
-            updateActiveBoosters();
+            if (!MainStaticVars.isBriefBooster) {
+                updateActiveBoosters();
+            } else {
+                //Parse Brief Booster
+                parseBriefBoosters();
+            }
         } else {
             if (MainStaticVars.boosterList.size() != 0) {
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
@@ -65,11 +76,65 @@ public class BoosterList extends ActionBarActivity {
         }
     }
 
+    private void parseBriefBoosters(){
+        final String jsonString = MainStaticVars.boosterJsonString;
+        if (jsonString != null && jsonString.length() > 50){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Gson gson = new Gson();
+                    BoostersReply reply = gson.fromJson(jsonString, BoostersReply.class);
+                    MainStaticVars.boosterList.clear();
+                    MainStaticVars.boosterUpdated = false;
+                    MainStaticVars.inProg = true;
+                    JsonArray records = reply.getRecords().getAsJsonArray();
+                    MainStaticVars.numOfBoosters = records.size();
+                    MainStaticVars.tmpBooster = 0;
+                    MainStaticVars.boosterProcessCounter = 0;
+                    MainStaticVars.boosterMaxProcessCounter = 0;
+
+                    if (records.size() != 0) {
+                        MainStaticVars.boosterMaxProcessCounter = records.size();
+                        BoosterList.this.getSupportActionBar().setTitle(BoosterList.this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterMaxProcessCounter + ")");
+                        for (JsonElement e : records) {
+                            JsonObject obj = e.getAsJsonObject();
+                            String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
+                            BoosterDescription desc;
+                            if (obj.has("purchaser")) {
+                                //Old Method
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        uid, obj.get("purchaser").getAsString());
+                            } else {
+                                //New Method
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        uid);
+                            }
+                            //Move to BoosterGetHistory
+                            boosterTooltip.setVisibility(View.VISIBLE);
+                            boosterTooltip.setText("Booster list obtained. Processing Players now...");
+                            new BoosterGetHistory(getApplicationContext(), boostList, false, prog, boosterTooltip).execute(desc);
+                        }
+                    } else {
+                        String[] tmp = {"No Boosters Activated"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
+                        boostList.setAdapter(adapter);
+                        prog.setVisibility(View.GONE);
+                    }
+                }
+            }).start();
+        }
+    }
+
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
+        MainStaticVars.boosterUpdated = false;
+        MainStaticVars.inProg = false;
+        MainStaticVars.parseRes = false;
         new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
     }
 
