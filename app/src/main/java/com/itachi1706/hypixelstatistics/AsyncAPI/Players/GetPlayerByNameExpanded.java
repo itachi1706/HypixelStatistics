@@ -284,90 +284,90 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parseGeneral(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         if (reply.getPlayer().has("rank"))
-            descArray.add(new ResultDescription("Rank: ", reply.getPlayer().get("rank").getAsString()));
+            descArray.add(new ResultDescription("Rank", reply.getPlayer().get("rank").getAsString()));
         else
-            descArray.add(new ResultDescription("Rank: ", "NORMAL"));
+            descArray.add(new ResultDescription("Rank", "NORMAL"));
         if (MinecraftColorCodes.checkDisplayName(reply))
             this.localPlayerName = reply.getPlayer().get("displayname").getAsString();
         else
             this.localPlayerName = reply.getPlayer().get("playername").getAsString();
-        descArray.add(new ResultDescription("Name: ", this.localPlayerName));
-        descArray.add(new ResultDescription("UUID: ",reply.getPlayer().get("uuid").getAsString()));
+        descArray.add(new ResultDescription("Name", this.localPlayerName));
+        descArray.add(new ResultDescription("UUID",reply.getPlayer().get("uuid").getAsString()));
         if (reply.getPlayer().has("packageRank"))
-            descArray.add(new ResultDescription("Donor Rank: ",reply.getPlayer().get("packageRank").getAsString()));
+            descArray.add(new ResultDescription("Donor Rank",reply.getPlayer().get("packageRank").getAsString()));
         if (reply.getPlayer().has("disguise"))
-            descArray.add(new ResultDescription("Disguise: ",reply.getPlayer().get("disguise").getAsString()));
+            descArray.add(new ResultDescription("Disguise",reply.getPlayer().get("disguise").getAsString()));
         if (reply.getPlayer().has("eulaCoins"))
-            descArray.add(new ResultDescription("Veteran Donor: ", "true"));
+            descArray.add(new ResultDescription("Veteran Donor", "true"));
         if (reply.getPlayer().has("gadget"))
-            descArray.add(new ResultDescription("Lobby Gadget: ",reply.getPlayer().get("gadget").getAsString()));
+            descArray.add(new ResultDescription("Lobby Gadget",reply.getPlayer().get("gadget").getAsString()));
         if (reply.getPlayer().has("karma"))
-            descArray.add(new ResultDescription("Karma: ",reply.getPlayer().get("karma").getAsString()));
+            descArray.add(new ResultDescription("Karma",reply.getPlayer().get("karma").getAsString()));
         if (reply.getPlayer().has("firstLogin"))
-            descArray.add(new ResultDescription("First Login: ",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
+            descArray.add(new ResultDescription("First Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
         if (reply.getPlayer().has("lastLogin"))
-            descArray.add(new ResultDescription("Last Login: ",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
+            descArray.add(new ResultDescription("Last Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
         if (reply.getPlayer().has("timePlaying"))
             descArray.add(new ResultDescription("Time Played (From 16 May 2014) ",MinecraftColorCodes.parseColors(parseTimeOnline(reply.getPlayer().get("timePlaying").getAsLong()))));
-        //descArray.add(new ResultDescription("Time Played: ",MinecraftColorCodes.parseColors("§cComing Soon™§r")));
+        //descArray.add(new ResultDescription("Time Played",MinecraftColorCodes.parseColors("§cComing Soon™§r")));
         if (reply.getPlayer().has("networkExp"))
-            descArray.add(new ResultDescription("Network XP: ",reply.getPlayer().get("networkExp").getAsString()));
+            descArray.add(new ResultDescription("Network XP",reply.getPlayer().get("networkExp").getAsString()));
         if (reply.getPlayer().has("networkLevel"))
-            descArray.add(new ResultDescription("Network Level: ",reply.getPlayer().get("networkLevel").getAsString()));
+            descArray.add(new ResultDescription("Network Level",reply.getPlayer().get("networkLevel").getAsString()));
         else
-            descArray.add(new ResultDescription("Network Level: " , "1"));
+            descArray.add(new ResultDescription("Network Level" , "1"));
         if (reply.getPlayer().has("mostRecentlyThanked"))
-            descArray.add(new ResultDescription("Last Thanked (Legacy): ",reply.getPlayer().get("mostRecentlyThanked").getAsString()));
+            descArray.add(new ResultDescription("Last Thanked (Legacy)",reply.getPlayer().get("mostRecentlyThanked").getAsString()));
         if (reply.getPlayer().has("mostRecentlyTipped"))
-            descArray.add(new ResultDescription("Last Tipped (Legacy): ",reply.getPlayer().get("mostRecentlyTipped").getAsString()));
+            descArray.add(new ResultDescription("Last Tipped (Legacy)",reply.getPlayer().get("mostRecentlyTipped").getAsString()));
         if (reply.getPlayer().has("mostRecentlyThankedUuid"))
-            descArray.add(new ResultDescription("Last Thanked: ",reply.getPlayer().get("mostRecentlyThankedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyThankedUuid").getAsString()));
+            descArray.add(new ResultDescription("Last Thanked",reply.getPlayer().get("mostRecentlyThankedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyThankedUuid").getAsString()));
         if (reply.getPlayer().has("mostRecentlyTippedUuid"))
-            descArray.add(new ResultDescription("Last Tipped: ",reply.getPlayer().get("mostRecentlyTippedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyTippedUuid").getAsString()));
+            descArray.add(new ResultDescription("Last Tipped",reply.getPlayer().get("mostRecentlyTippedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyTippedUuid").getAsString()));
         if (reply.getPlayer().has("thanksSent"))
-            descArray.add(new ResultDescription("No of Thanks sent: ",reply.getPlayer().get("thanksSent").getAsString()));
+            descArray.add(new ResultDescription("No of Thanks sent",reply.getPlayer().get("thanksSent").getAsString()));
         if (reply.getPlayer().has("tipsSent"))
-            descArray.add(new ResultDescription("No of Tips sent: ",reply.getPlayer().get("tipsSent").getAsString()));
+            descArray.add(new ResultDescription("No of Tips sent",reply.getPlayer().get("tipsSent").getAsString()));
         if (reply.getPlayer().has("thanksReceived"))
-            descArray.add(new ResultDescription("No of Thanks received: ",reply.getPlayer().get("thanksReceived").getAsString()));
+            descArray.add(new ResultDescription("No of Thanks received",reply.getPlayer().get("thanksReceived").getAsString()));
         if (reply.getPlayer().has("tipsReceived"))
-            descArray.add(new ResultDescription("No of Tips sent received: ",reply.getPlayer().get("tipsReceived").getAsString()));
+            descArray.add(new ResultDescription("No of Tips sent received",reply.getPlayer().get("tipsReceived").getAsString()));
         if (reply.getPlayer().has("channel"))
-            descArray.add(new ResultDescription("Current Chat Channel: ",reply.getPlayer().get("channel").getAsString()));
+            descArray.add(new ResultDescription("Current Chat Channel",reply.getPlayer().get("channel").getAsString()));
         else
-            descArray.add(new ResultDescription("Current Chat Channel: ", "ALL"));
+            descArray.add(new ResultDescription("Current Chat Channel", "ALL"));
         if (reply.getPlayer().has("chat")) {
             if (reply.getPlayer().get("chat").getAsBoolean())
-                descArray.add(new ResultDescription("Chat Enabled: ", "Enabled"));
+                descArray.add(new ResultDescription("Chat Enabled", "Enabled"));
             else
-                descArray.add(new ResultDescription("Chat Enabled: ", "Disabled"));
+                descArray.add(new ResultDescription("Chat Enabled", "Disabled"));
         } else
-            descArray.add(new ResultDescription("Chat Enabled: ", "Enabled"));
+            descArray.add(new ResultDescription("Chat Enabled", "Enabled"));
         if (reply.getPlayer().has("tournamentTokens"))
-            descArray.add(new ResultDescription("Tournament Tokens: ",reply.getPlayer().get("tournamentTokens").getAsString()));
+            descArray.add(new ResultDescription("Tournament Tokens",reply.getPlayer().get("tournamentTokens").getAsString()));
         else
-            descArray.add(new ResultDescription("Tournament Tokens: ", "0"));
+            descArray.add(new ResultDescription("Tournament Tokens", "0"));
         if (reply.getPlayer().has("vanityTokens"))
-            descArray.add(new ResultDescription("Vanity Tokens: ",reply.getPlayer().get("vanityTokens").getAsString()));
+            descArray.add(new ResultDescription("Vanity Tokens",reply.getPlayer().get("vanityTokens").getAsString()));
         else
-            descArray.add(new ResultDescription("Vanity Tokens: ", "0 "));
+            descArray.add(new ResultDescription("Vanity Tokens", "0 "));
         if (reply.getPlayer().has("mostRecentGameType")) {
             GameType recentGameType = GameTypeCapsReturn.fromDatabase(reply.getPlayer().get("mostRecentGameType").getAsString());
             if (recentGameType == null) {
-                descArray.add(new ResultDescription("Last Game Played: ", reply.getPlayer().get("mostRecentGameType").getAsString()));
+                descArray.add(new ResultDescription("Last Game Played", reply.getPlayer().get("mostRecentGameType").getAsString()));
             } else {
-                descArray.add(new ResultDescription("Last Game Played: ", recentGameType.getName()));
+                descArray.add(new ResultDescription("Last Game Played", recentGameType.getName()));
             }
         }
         if (reply.getPlayer().has("seeRequests")) {
             if (reply.getPlayer().get("seeRequests").getAsBoolean())
-                descArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
+                descArray.add(new ResultDescription("Friend Requests", "Enabled"));
             else
-                descArray.add(new ResultDescription("Friend Requests: ", "Disabled"));
+                descArray.add(new ResultDescription("Friend Requests", "Disabled"));
         } else
-            descArray.add(new ResultDescription("Friend Requests: ", "Enabled"));
+            descArray.add(new ResultDescription("Friend Requests", "Enabled"));
         if (reply.getPlayer().has("achievementsOneTime"))
-            descArray.add(new ResultDescription("No of 1-time Achievements Done: ", reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + ""));
+            descArray.add(new ResultDescription("No of 1-time Achievements Done", reply.getPlayer().getAsJsonArray("achievementsOneTime").size() + ""));
         if (reply.getPlayer().has("knownAliases")){
             JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
             StringBuilder listOfAliases = new StringBuilder();
@@ -375,7 +375,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 listOfAliases.append(e.getAsString()).append("\n");
             }
             MainStaticVars.knownAliases = listOfAliases.toString();
-            descArray.add(new ResultDescription("Known Aliases: ", listOfAliases.toString().replace("\n", " ")));
+            descArray.add(new ResultDescription("Known Aliases", listOfAliases.toString().replace("\n", " ")));
         }
         return descArray;
     }
@@ -400,21 +400,21 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parseDonor(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         if (reply.getPlayer().has("fly"))
-            descArray.add(new ResultDescription("Fly Mode: ", reply.getPlayer().get("fly").getAsString()));
+            descArray.add(new ResultDescription("Fly Mode", reply.getPlayer().get("fly").getAsString()));
         if (reply.getPlayer().has("petActive"))
-            descArray.add(new ResultDescription("Active Pet: ", reply.getPlayer().get("petActive").getAsString()));
+            descArray.add(new ResultDescription("Active Pet", reply.getPlayer().get("petActive").getAsString()));
         else
-            descArray.add(new ResultDescription("Active Pet: ", "false"));
+            descArray.add(new ResultDescription("Active Pet", "false"));
         if (reply.getPlayer().has("pp"))
-            descArray.add(new ResultDescription("Particle Pack: ", reply.getPlayer().get("pp").getAsString()));
+            descArray.add(new ResultDescription("Particle Pack", reply.getPlayer().get("pp").getAsString()));
         if (reply.getPlayer().has("testpass"))
-            descArray.add(new ResultDescription("Test Server Access: ", reply.getPlayer().get("testpass").getAsString()));
+            descArray.add(new ResultDescription("Test Server Access", reply.getPlayer().get("testpass").getAsString()));
         if (reply.getPlayer().has("wardrobe"))
-            descArray.add(new ResultDescription("Wardrobe (H,C,L,B): ", reply.getPlayer().get("wardrobe").getAsString()));
+            descArray.add(new ResultDescription("Wardrobe (H,C,L,B)", reply.getPlayer().get("wardrobe").getAsString()));
         if (reply.getPlayer().has("auto_spawn_pet"))
-            descArray.add(new ResultDescription("Auto-Spawn Pet: ", reply.getPlayer().get("auto_spawn_pet").getAsString()));
+            descArray.add(new ResultDescription("Auto-Spawn Pet", reply.getPlayer().get("auto_spawn_pet").getAsString()));
         if (reply.getPlayer().has("legacyGolem"))
-            descArray.add(new ResultDescription("Golem Supporter: ", reply.getPlayer().get("legacyGolem").getAsString()));
+            descArray.add(new ResultDescription("Golem Supporter", reply.getPlayer().get("legacyGolem").getAsString()));
         return descArray;
     }
 
@@ -424,25 +424,25 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
     private ArrayList<ResultDescription> parsePriviledged(PlayerReply reply){
         ArrayList<ResultDescription> descArray = new ArrayList<>();
         if (reply.getPlayer().has("vanished"))
-            descArray.add(new ResultDescription("Vanished: ", reply.getPlayer().get("vanished").getAsString()));
+            descArray.add(new ResultDescription("Vanished", reply.getPlayer().get("vanished").getAsString()));
         if (reply.getPlayer().has("stoggle")) {
             if (reply.getPlayer().get("stoggle").getAsBoolean())
-                descArray.add(new ResultDescription("Staff Chat: " , "Enabled"));
+                descArray.add(new ResultDescription("Staff Chat" , "Enabled"));
             else
-                descArray.add(new ResultDescription("Staff Chat: ", "Disabled"));
+                descArray.add(new ResultDescription("Staff Chat", "Disabled"));
         }
         if (reply.getPlayer().has("silence"))
-            descArray.add(new ResultDescription("Chat Silenced: ", reply.getPlayer().get("silence").getAsString()));
+            descArray.add(new ResultDescription("Chat Silenced", reply.getPlayer().get("silence").getAsString()));
         if (reply.getPlayer().has("chatTunnel")) {
             if (reply.getPlayer().get("chatTunnel").isJsonNull())
-                descArray.add(new ResultDescription("Tunneled Into: ", "None"));
+                descArray.add(new ResultDescription("Tunneled Into", "None"));
             else
-                descArray.add(new ResultDescription("Tunneled Into: ", reply.getPlayer().get("chatTunnel").getAsString()));
+                descArray.add(new ResultDescription("Tunneled Into", reply.getPlayer().get("chatTunnel").getAsString()));
         }
         if (reply.getPlayer().has("nick"))
-            descArray.add(new ResultDescription("Nicked As: ", reply.getPlayer().get("nick").getAsString()));
+            descArray.add(new ResultDescription("Nicked As", reply.getPlayer().get("nick").getAsString()));
         if (reply.getPlayer().has("prefix"))
-            descArray.add(new ResultDescription("Rank Prefix: ", reply.getPlayer().get("prefix").getAsString()));
+            descArray.add(new ResultDescription("Rank Prefix", reply.getPlayer().get("prefix").getAsString()));
         return descArray;
     }
 
