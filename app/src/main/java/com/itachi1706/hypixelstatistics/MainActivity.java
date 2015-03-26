@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetBrief;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
@@ -39,6 +40,10 @@ public class MainActivity extends ActionBarActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
+
+    //Testing purposees
+    //TODO Eventually use setting
+    private boolean testBriefBooster = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +88,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BoosterDescription sel = (BoosterDescription) boosterMenu.getItemAtPosition(position);
-                Intent intentE = new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class);
-                intentE.putExtra("player", sel.get_mcName());
-                startActivity(intentE);
+                //TODO Switch this to the setting too
+                if (!testBriefBooster) {
+                    Intent intentE = new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class);
+                    intentE.putExtra("player", sel.get_mcName());
+                    startActivity(intentE);
+                }
             }
         });
+
         MainStaticVars.updateAPIKey(getApplicationContext());
         if (!MainStaticVars.boosterUpdated) {
             updateActiveBoosters();
@@ -134,7 +143,11 @@ public class MainActivity extends ActionBarActivity {
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
-        new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg, boosterTooltip).execute();
+        //TODO Switch this to the setting soon
+        if (!testBriefBooster)
+            new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg, boosterTooltip).execute();
+        else
+            new BoosterGetBrief(this.getApplicationContext(), boosterMenu, boostProg, boosterTooltip).execute();
     }
 
     private void checkMainMenuSelection(String selection){

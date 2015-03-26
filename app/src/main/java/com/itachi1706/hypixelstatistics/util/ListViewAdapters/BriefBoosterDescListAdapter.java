@@ -2,7 +2,6 @@ package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
 import android.content.Context;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,13 +53,13 @@ public class BriefBoosterDescListAdapter extends ArrayAdapter<BoosterDescription
 
         if (i.is_done()) {
             if (playerName != null) {
-                playerName.setText(Html.fromHtml(i.get_mcName()));
+                playerName.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_mcName() + "§r")));
             }
             if (time != null) {
                 if (i.get_boostRate() > 1)
-                    time.setText(i.get_boostRate() + " boosters activated");
+                    time.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§a" + i.get_boostRate() + "§r boosters activated")));
                 else
-                    time.setText(i.get_boostRate() + " booster activated");
+                    time.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§a" + i.get_boostRate() + "§r booster activated")));
             }
             if (status != null){
                 status.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Time Remaining: " + createTimeLeftString(i.get_timeRemaining()))));
@@ -94,7 +89,7 @@ public class BriefBoosterDescListAdapter extends ArrayAdapter<BoosterDescription
 
         //Craft the time statement
         StringBuilder timeString = new StringBuilder();
-        timeString.append("(");
+        timeString.append("(§b");
         if (days != 0) {
             if (days == 1)
                 timeString.append(days).append(" day ");
@@ -119,7 +114,7 @@ public class BriefBoosterDescListAdapter extends ArrayAdapter<BoosterDescription
             else
                 timeString.append(seconds).append(" seconds ");
         }
-        timeString.append(")");
+        timeString.append("§r)");
         return timeString.toString();
     }
 }
