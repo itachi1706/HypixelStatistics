@@ -89,6 +89,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
 
     private void checkIfComplete(){
         if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            tooltip.setVisibility(View.INVISIBLE);
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
             MainStaticVars.inProg = false;
