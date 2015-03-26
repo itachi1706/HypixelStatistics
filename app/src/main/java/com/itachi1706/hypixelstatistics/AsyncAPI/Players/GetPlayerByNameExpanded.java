@@ -713,7 +713,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 //Get Start Time
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
-                qArray.add(new ResultDescription("Date Started", timeStamp));
+                qArray.add(new ResultDescription("Date Started", timeStamp + "<br />"));
 
                 if (entry.getValue().getAsJsonObject().get("active").getAsJsonObject().has("objectives")){
                     JsonObject arr = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().getAsJsonObject("objectives");
@@ -735,7 +735,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                             }
                             build.append("<br />");
                         }
-                        qArray.add(new ResultDescription("Objectives", build.toString()));
+                        qArray.add(new ResultDescription("<b>Objectives</b>", build.toString()));
                     }
                 }
             } else {
