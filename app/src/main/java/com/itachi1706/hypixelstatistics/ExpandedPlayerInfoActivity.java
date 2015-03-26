@@ -86,6 +86,17 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
             new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar).execute(intentPlayer);
+        } else if (this.getIntent().hasExtra("playerUuid")){
+            String intentPlayerUid = this.getIntent().getStringExtra("playerUuid");
+            playerName.setText(intentPlayerUid);
+            checkProgress = new ProgressDialog(ExpandedPlayerInfoActivity.this);
+            checkProgress.setCancelable(false);
+            checkProgress.setIndeterminate(true);
+            checkProgress.setTitle("Querying Server...");
+            checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
+            checkProgress.show();
+            usingUUID = true;
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, true, supportBar).execute(intentPlayerUid);
         }
 
         //Check if we should hide the debug window

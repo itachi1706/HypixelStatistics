@@ -321,9 +321,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (reply.getPlayer().has("mostRecentlyTipped"))
             descArray.add(new ResultDescription("Last Tipped (Legacy): ",reply.getPlayer().get("mostRecentlyTipped").getAsString()));
         if (reply.getPlayer().has("mostRecentlyThankedUuid"))
-            descArray.add(new ResultDescription("Last Thanked: ",reply.getPlayer().get("mostRecentlyThankedUuid").getAsString()));
+            descArray.add(new ResultDescription("Last Thanked: ",reply.getPlayer().get("mostRecentlyThankedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyThankedUuid").getAsString()));
         if (reply.getPlayer().has("mostRecentlyTippedUuid"))
-            descArray.add(new ResultDescription("Last Tipped: ",reply.getPlayer().get("mostRecentlyTippedUuid").getAsString()));
+            descArray.add(new ResultDescription("Last Tipped: ",reply.getPlayer().get("mostRecentlyTippedUuid").getAsString(), true, "=+=senduuid=+= " + reply.getPlayer().get("mostRecentlyTippedUuid").getAsString()));
         if (reply.getPlayer().has("thanksSent"))
             descArray.add(new ResultDescription("No of Thanks sent: ",reply.getPlayer().get("thanksSent").getAsString()));
         if (reply.getPlayer().has("tipsSent"))

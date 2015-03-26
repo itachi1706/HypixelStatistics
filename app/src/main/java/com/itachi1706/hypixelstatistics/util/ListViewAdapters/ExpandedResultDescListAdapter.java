@@ -2,8 +2,10 @@ package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.itachi1706.hypixelstatistics.ExpandedPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
@@ -80,13 +83,24 @@ public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 if (i != null) {
                     if (i.get_alert() != null){
-                        TextView tv = (TextView) new AlertDialog.Builder(activity)
-                                .setTitle(i.get_title())
-                                .setMessage(Html.fromHtml(i.get_alert()))
-                                //.setView(tv)
-                                .setPositiveButton(android.R.string.ok, null).show()
-                                .findViewById(android.R.id.message);
-                        tv.setMovementMethod(LinkMovementMethod.getInstance());
+                        //Check for special cases
+                        if (i.get_alert().startsWith("=+=senduuid=+=")){
+                            //Special (Query for a player with the given UUID in an new activity)
+                            String[] tmp = i.get_alert().split(" ");
+                            String uuid_to_go_to = tmp[1];
+                            Intent uuidOfPlayer = new Intent(activity, ExpandedPlayerInfoActivity.class);
+                            uuidOfPlayer.putExtra("playerUuid", uuid_to_go_to);
+                            Log.d("INTENT-ACTIVITY_LAUNCH", "Sending intent to launch activity to search with UUID: " + uuid_to_go_to);
+                            activity.startActivity(uuidOfPlayer);
+                        } else {
+                            //Normal text view
+                            TextView tv = (TextView) new AlertDialog.Builder(activity)
+                                    .setTitle(i.get_title())
+                                    .setMessage(Html.fromHtml(i.get_alert()))
+                                    .setPositiveButton(android.R.string.ok, null).show()
+                                    .findViewById(android.R.id.message);
+                            tv.setMovementMethod(LinkMovementMethod.getInstance());
+                        }
                     }
                 }
             }
