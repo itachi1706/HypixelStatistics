@@ -92,6 +92,7 @@ public class BoosterList extends ActionBarActivity {
                     MainStaticVars.tmpBooster = 0;
                     MainStaticVars.boosterProcessCounter = 0;
                     MainStaticVars.boosterMaxProcessCounter = 0;
+                    prog.setVisibility(View.VISIBLE);
 
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
