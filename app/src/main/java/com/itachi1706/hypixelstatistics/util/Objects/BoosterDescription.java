@@ -38,6 +38,12 @@ public class BoosterDescription {
         _purchaseruuid = uuid;
     }
 
+    public BoosterDescription(String gamemode, int totalDuration, int count){
+        this._mcName = gamemode;
+        this._timeRemaining = totalDuration;
+        this._boostRate = count;
+    }
+
     public int get_boostRate() {
         return _boostRate;
     }
@@ -70,6 +76,8 @@ public class BoosterDescription {
     public void set_mcName(String _mcName) {
         this._mcName = _mcName;
     }
+
+    public void set_timeRemaining(int timeRemaining) { this._timeRemaining = timeRemaining; }
 
     public boolean is_done() {
         return _done;

@@ -112,6 +112,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     MainStaticVars.tmpBooster = 0;
                     MainStaticVars.boosterProcessCounter = 0;
                     MainStaticVars.boosterMaxProcessCounter = 0;
+                    MainStaticVars.boosterJsonString = json;
 
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
