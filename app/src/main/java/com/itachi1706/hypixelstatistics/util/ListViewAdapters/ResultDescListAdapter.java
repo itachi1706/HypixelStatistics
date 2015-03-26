@@ -44,13 +44,8 @@ public class ResultDescListAdapter extends ArrayAdapter<ResultDescription> {
                 desc.setText(Html.fromHtml(i.get_result()));
                 desc.setTextSize(14);
             } else {
-                if (i.is_subTitle()){
-                    desc.setText(Html.fromHtml(i.get_title()));
-                    desc.setTextSize(18);
-                } else {
-                    desc.setText(Html.fromHtml(i.get_title()));
-                    desc.setTextSize(22);
-                }
+                desc.setText(Html.fromHtml(i.get_title()));
+                desc.setTextSize(22);
             }
         }
         if (title != null){

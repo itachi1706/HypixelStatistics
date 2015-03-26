@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ResultDescription {
 
     private String _title, _result;
-    private boolean _hasDescription, _subTitle;
+    private boolean _hasDescription;
     private String _alert = null;
     private ArrayList<ResultDescription> _childItems = null;
 
@@ -25,28 +25,26 @@ public class ResultDescription {
         this._hasDescription = description;
     }
 
-    public ResultDescription(String title, String result, boolean description, boolean subTitle){
+    public ResultDescription(String title, String result, boolean description, String dialog){
         this._title = title;
         this._result = result;
         this._hasDescription = description;
-        this._subTitle = subTitle;
+        this._alert = dialog;
     }
 
-    public ResultDescription(String title, String result, boolean description, boolean subTitle, ArrayList<ResultDescription> child, String dialog){
+    public ResultDescription(String title, String result, boolean description, ArrayList<ResultDescription> child){
         this._title = title;
         this._result = result;
         this._hasDescription = description;
-        this._subTitle = subTitle;
-        this._alert = dialog;
         this._childItems = child;
     }
 
-    public ResultDescription(String title, String result, boolean description, boolean subTitle, String dialog){
+    public ResultDescription(String title, String result, boolean description, ArrayList<ResultDescription> child, String dialog){
         this._title = title;
         this._result = result;
         this._hasDescription = description;
-        this._subTitle = subTitle;
         this._alert = dialog;
+        this._childItems = child;
     }
 
     public String get_title() {
@@ -63,10 +61,6 @@ public class ResultDescription {
 
     public boolean is_hasDescription() {
         return _hasDescription;
-    }
-
-    public boolean is_subTitle() {
-        return _subTitle;
     }
 
     public String get_alert() {

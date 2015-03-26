@@ -178,11 +178,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
                 }
                 //Parse
-                resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, false, parseGeneral(reply), null));
+                resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, parseGeneral(reply), null));
                 //parseGeneral(reply);
 
                 if (reply.getPlayer().has("packageRank")) {
-                    resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, false, parseDonor(reply), null));
+                    resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, parseDonor(reply), null));
                     //parseDonor(reply);
                 }
 
@@ -190,9 +190,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     if (reply.getPlayer().has("rank")) {
                         if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
                             if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
-                                resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, false, parsePriviledged(reply), null));
+                                resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, parsePriviledged(reply), null));
                             } else {
-                                resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, false, parsePriviledged(reply), null));
+                                resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, parsePriviledged(reply), null));
                             }
                             //parsePriviledged(reply);
                         }
@@ -200,21 +200,21 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 }
 
                 if (reply.getPlayer().has("achievements")){
-                    resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, false, parseOngoingAchievements(reply), null));
+                    resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, parseOngoingAchievements(reply), null));
                     //parseOngoingAchievements(reply);
                 }
 
                 if (reply.getPlayer().has("quests")){
-                    resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, false, parseQuests(reply), null));
+                    resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, parseQuests(reply), null));
                     //parseQuests(reply);
                 }
                 if (reply.getPlayer().has("parkourCompletions")) {
-                    resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, false, parseParkourCounts(reply), null));
+                    resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, parseParkourCounts(reply), null));
                     //parseParkourCounts(reply);
                 }
 
                 if (reply.getPlayer().has("stats")){
-                    //resultArray.add(new ResultDescription("<b>Game Statistics</b>", null, false, false, parseStats(reply), null));
+                    //resultArray.add(new ResultDescription("<b>Game Statistics</b>", null, false, parseStats(reply), null));
                     parseStats(reply);
                 }
 
@@ -317,9 +317,13 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         else
             descArray.add(new ResultDescription("Network Level: " , "1"));
         if (reply.getPlayer().has("mostRecentlyThanked"))
-            descArray.add(new ResultDescription("Last Thanked: ",reply.getPlayer().get("mostRecentlyThanked").getAsString()));
+            descArray.add(new ResultDescription("Last Thanked (Legacy): ",reply.getPlayer().get("mostRecentlyThanked").getAsString()));
         if (reply.getPlayer().has("mostRecentlyTipped"))
-            descArray.add(new ResultDescription("Last Tipped: ",reply.getPlayer().get("mostRecentlyTipped").getAsString()));
+            descArray.add(new ResultDescription("Last Tipped (Legacy): ",reply.getPlayer().get("mostRecentlyTipped").getAsString()));
+        if (reply.getPlayer().has("mostRecentlyThankedUuid"))
+            descArray.add(new ResultDescription("Last Thanked: ",reply.getPlayer().get("mostRecentlyThankedUuid").getAsString()));
+        if (reply.getPlayer().has("mostRecentlyTippedUuid"))
+            descArray.add(new ResultDescription("Last Tipped: ",reply.getPlayer().get("mostRecentlyTippedUuid").getAsString()));
         if (reply.getPlayer().has("thanksSent"))
             descArray.add(new ResultDescription("No of Thanks sent: ",reply.getPlayer().get("thanksSent").getAsString()));
         if (reply.getPlayer().has("tipsSent"))
@@ -454,7 +458,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             if (first){
                 first = false;
             } else {
-                descArray.add(new ResultDescription(" ", null, false, true));
+                descArray.add(new ResultDescription(" ", null, false));
             }
             //Based on stat go parse it
             JsonObject statistic = entry.getValue().getAsJsonObject();
@@ -462,7 +466,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             if (parseVariousGamemode == null) {
                 switch (entry.getKey().toLowerCase()) {
                     case "spleef":
-                        resultArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, false, parseSpleef(statistic), null));
+                        resultArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, parseSpleef(statistic)));
                         break;
                     case "holiday": //descArray.remove(descArray.size() - 1);
                         break;
@@ -473,40 +477,40 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             } else {
                 switch (parseVariousGamemode) {
                     case ARENA:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseArena(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseArena(statistic)));
                         break;
                     case ARCADE:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseArcade(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseArcade(statistic)));
                         break;
                     case SURVIVAL_GAMES:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseHG(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseHG(statistic)));
                         break;
                     case MCGO:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseMcGo(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseMcGo(statistic)));
                         break;
                     case PAINTBALL:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parsePaintball(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parsePaintball(statistic)));
                         break;
                     case QUAKECRAFT:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseQuake(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseQuake(statistic)));
                         break;
                     case TNTGAMES:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseTntGames(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseTntGames(statistic)));
                         break;
                     case VAMPIREZ:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseVampZ(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseVampZ(statistic)));
                         break;
                     case WALLS:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWalls(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseWalls(statistic)));
                         break;
                     case WALLS3:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWalls3(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseWalls3(statistic)));
                         break;
                     case UHC:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseUHC(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseUHC(statistic)));
                         break;
                     case WARLORDS:
-                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, false, parseWarlords(statistic), null));
+                        resultArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, parseWarlords(statistic)));
                         break;
                     default:
                         resultArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
@@ -632,56 +636,56 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 //Currently there is 12 parkour (with Warlords coming soon)
                 switch(entry.getKey()){
                     case "ArcadeGames":
-                        descArray.add(new ResultDescription(GameType.ARCADE.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.ARCADE.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "Arena":
-                        descArray.add(new ResultDescription(GameType.ARENA.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.ARENA.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "BlitzLobby":
-                        descArray.add(new ResultDescription(GameType.SURVIVAL_GAMES.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.SURVIVAL_GAMES.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "CopsnCrims":
-                        descArray.add(new ResultDescription(GameType.MCGO.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.MCGO.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "MainLobby":
-                        descArray.add(new ResultDescription("Main Lobby Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription("Main Lobby Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "MegaWalls":
-                        descArray.add(new ResultDescription(GameType.WALLS3.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.WALLS3.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "Paintball":
-                        descArray.add(new ResultDescription(GameType.PAINTBALL.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.PAINTBALL.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "QuakeCraft":
-                        descArray.add(new ResultDescription(GameType.QUAKECRAFT.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.QUAKECRAFT.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "TNT":
-                        descArray.add(new ResultDescription(GameType.TNTGAMES.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.TNTGAMES.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "TheWallsLobby":
-                        descArray.add(new ResultDescription(GameType.WALLS.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.WALLS.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "uhc":
-                        descArray.add(new ResultDescription(GameType.UHC.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.UHC.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     case "vampirez":
-                        descArray.add(new ResultDescription(GameType.VAMPIREZ.getName() + " Parkour", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(GameType.VAMPIREZ.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
                     //case "Warlords": break;
                     default:
-                        descArray.add(new ResultDescription(entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " (Legacy)", "Click here to view parkour statistics", true, false, msg.toString()));
+                        descArray.add(new ResultDescription(entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " (Legacy)", "Click here to view parkour statistics", true, msg.toString()));
                         legacyCount++;
                         break;
                 }
@@ -756,9 +760,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 if (questN == QuestName.UNKNOWN){
                     //This is default unknown quests
                     String tryFormatQuestName = entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase();
-                    descArray.add(new ResultDescription(tryFormatQuestName, "Click here to see " + tryFormatQuestName + " quest statistics", true, false, msg.toString()));
+                    descArray.add(new ResultDescription(tryFormatQuestName, "Click here to see " + tryFormatQuestName + " quest statistics", true, msg.toString()));
                 } else {
-                    descArray.add(new ResultDescription(questN.getQuestTitle(), "Click here to see " + questN.getQuestTitle() + " quest statistics", true, false, msg.toString()));
+                    descArray.add(new ResultDescription(questN.getQuestTitle(), "Click here to see " + questN.getQuestTitle() + " quest statistics", true, msg.toString()));
                 }
 
 
@@ -879,9 +883,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : classArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, msg.toString()));
+            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, msg.toString()));
         //} else {
-        //    descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, false, "This player does not have any statistics for this class yet!"));
+        //    descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, "This player does not have any statistics for this class yet!"));
         }
         return descArray;
     }
@@ -1007,7 +1011,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : bhArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Bounty Hunter", "Click here to view statistics from Bounty Hunter", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Bounty Hunter", "Click here to view statistics from Bounty Hunter", true, msg.toString()));
         }
 
         //Farm Hunt
@@ -1022,7 +1026,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : fhArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Farm Hunt", "Click here to view statistics from Farm Hunt", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Farm Hunt", "Click here to view statistics from Farm Hunt", true, msg.toString()));
         }
 
         //Blocking Dead
@@ -1039,7 +1043,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tbdArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("The Blocking Dead", "Click here to view statistics from The Blocking Dead", true, false, msg.toString()));
+            descArray.add(new ResultDescription("The Blocking Dead", "Click here to view statistics from The Blocking Dead", true, msg.toString()));
         }
 
         //Throwout
@@ -1056,7 +1060,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : toArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Throwout", "Click here to view statistics from Throwout", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Throwout", "Click here to view statistics from Throwout", true, msg.toString()));
         }
 
         //Dragon Wars
@@ -1071,7 +1075,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : dwArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Dragon Wars", "Click here to view statistics from Dragon Wars", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Dragon Wars", "Click here to view statistics from Dragon Wars", true, msg.toString()));
         }
         return descArray;
     }
@@ -1118,7 +1122,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : eqArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Equips", "Click here to view Arena Equips", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Equips", "Click here to view Arena Equips", true, msg.toString()));
         }
 
         ArrayList<ResultDescription> twoArray = new ArrayList<>();
@@ -1144,7 +1148,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : twoArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("2v2", "Click here to view statistics from 2v2 Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("2v2", "Click here to view statistics from 2v2 Arena", true, msg.toString()));
         }
 
         ArrayList<ResultDescription> fourArr = new ArrayList<>();
@@ -1170,7 +1174,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : fourArr){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("4v4", "Click here to view statistics from 4v4 Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("4v4", "Click here to view statistics from 4v4 Arena", true, msg.toString()));
         }
 
         ArrayList<ResultDescription> ffaArray = new ArrayList<>();
@@ -1196,7 +1200,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : ffaArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("Free For All (FFA)", "Click here to view statistics from FFA Arena", true, false, msg.toString()));
+            descArray.add(new ResultDescription("Free For All (FFA)", "Click here to view statistics from FFA Arena", true, msg.toString()));
         }
         return descArray;
     }
@@ -1246,7 +1250,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntWArr) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("TNT Wizards", "Click here to view statistics from TNT Wizards", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Wizards", "Click here to view statistics from TNT Wizards", true, msg.toString()));
         }
 
         ArrayList<ResultDescription> tntBSArr = new ArrayList<>();
@@ -1260,7 +1264,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntBSArr) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("TNT Bow Spleef", "Click here to view statistics from Bow Spleef", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Bow Spleef", "Click here to view statistics from Bow Spleef", true, msg.toString()));
         }
 
         ArrayList<ResultDescription> tntTRArray = new ArrayList<>();
@@ -1274,7 +1278,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : tntTRArray) {
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription("TNT Tag/TNT Run", "Click here to view statistics from the 2 games", true, false, msg.toString()));
+            descArray.add(new ResultDescription("TNT Tag/TNT Run", "Click here to view statistics from the 2 games", true, msg.toString()));
         }
         return descArray;
     }
@@ -1492,7 +1496,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
             descArray.add(new ResultDescription("Weapon Currently Equipped",
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
-                            obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true, false,
+                            obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true,
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
                             obj.getAsJsonArray("weapon_inventory"), localPlayerName))));
         }
@@ -1553,9 +1557,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             for (ResultDescription t : classArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
-            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, msg.toString()));
+            descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, msg.toString()));
         //} else {
-        //    descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, false, "This player does not have any statistics for this class/spec yet!"));
+        //    descArray.add(new ResultDescription(title + " Statistics", "Click here to view " + title + " Statistics", true, "This player does not have any statistics for this class/spec yet!"));
         }
         return descArray;
     }

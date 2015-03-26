@@ -194,7 +194,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
             }
         }
         if (hasKey){
-            guildInfo.add(new ResultDescription("Daily Coins", "Click here to view daily coins activity", true, false, builder.toString()));
+            guildInfo.add(new ResultDescription("Daily Coins", "Click here to view daily coins activity", true, builder.toString()));
         }
 
         ResultDescListAdapter adapter = new ResultDescListAdapter(mContext, R.layout.listview_result_desc, guildInfo);
