@@ -218,6 +218,16 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     return false;
                 }
             });
+
+            Preference useDetailedPref = findPreference("detailed_active_boosters");
+            useDetailedPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Preference will take effect after a reboot " +
+                            "or refresh of active boosters", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
         }
 
         public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo, Context mCon){

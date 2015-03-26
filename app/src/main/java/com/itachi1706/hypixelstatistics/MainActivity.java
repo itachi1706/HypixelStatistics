@@ -41,10 +41,6 @@ public class MainActivity extends ActionBarActivity {
     ProgressBar boostProg;
     String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
 
-    //Testing purposees
-    //TODO Eventually use setting
-    private boolean testBriefBooster = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +57,8 @@ public class MainActivity extends ActionBarActivity {
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
         crashHandler.checkCrash();
+
+        MainStaticVars.updateBriefBoosterPref(getApplicationContext());
 
         //Check for legacy strings
         CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
@@ -88,8 +86,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BoosterDescription sel = (BoosterDescription) boosterMenu.getItemAtPosition(position);
-                //TODO Switch this to the setting too
-                if (!testBriefBooster) {
+                if (MainStaticVars.isUsingDetailedActiveBooster) {
                     Intent intentE = new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class);
                     intentE.putExtra("player", sel.get_mcName());
                     startActivity(intentE);
@@ -116,6 +113,7 @@ public class MainActivity extends ActionBarActivity {
                 finish();
 
         MainStaticVars.updateAPIKey(getApplicationContext());
+        MainStaticVars.updateBriefBoosterPref(getApplicationContext());
         customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!prefs.getString("own", "n").equals("n"))
@@ -143,8 +141,7 @@ public class MainActivity extends ActionBarActivity {
         BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
-        //TODO Switch this to the setting soon
-        if (!testBriefBooster)
+        if (MainStaticVars.isUsingDetailedActiveBooster)
             new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg, boosterTooltip).execute();
         else
             new BoosterGetBrief(this.getApplicationContext(), boosterMenu, boostProg, boosterTooltip).execute();

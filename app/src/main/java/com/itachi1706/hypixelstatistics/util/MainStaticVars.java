@@ -22,10 +22,11 @@ public class MainStaticVars {
     //inProg - Still getting player booster names
     //parseRes - Parsing Results
     //isBriefBooster - Brief Booster
+    //isUsingDetailedActiveBooster - Whether Detailed Active Boosters are being used or not
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static String boosterJsonString;
-    public static boolean isBriefBooster = false;
+    public static boolean isBriefBooster = false, isUsingDetailedActiveBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
 
     //Settings
@@ -55,6 +56,11 @@ public class MainStaticVars {
 
     public static void resetKnownAliases(){
         knownAliases = "";
+    }
+
+    public static void updateBriefBoosterPref(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        isUsingDetailedActiveBooster = prefs.getBoolean("detailed_active_boosters", false);
     }
 
     public static String getChangelogStringFromArrayList(ArrayList<String> changelog){
