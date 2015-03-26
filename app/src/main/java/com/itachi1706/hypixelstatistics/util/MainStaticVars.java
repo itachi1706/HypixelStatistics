@@ -18,8 +18,14 @@ public class MainStaticVars {
     public static final String API_BASE_URL = "https://api.hypixel.net/";
 
     //Booster
+    //boosterUpdated - Finished Updating Booster
+    //inProg - Still getting player booster names
+    //parseRes - Parsing Results
+    //isBriefBooster - Brief Booster
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
+    public static String boosterJsonString;
+    public static boolean isBriefBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
 
     //Settings
