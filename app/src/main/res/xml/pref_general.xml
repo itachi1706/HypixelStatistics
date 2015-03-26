@@ -6,6 +6,11 @@
             android:title="@string/pref_debug_title"
             android:summary="@string/pref_debug_summary"
             android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="detailed_active_boosters"
+            android:title="Detailed Active Boosters (In-Dev)"
+            android:summary="Show detailed active boosters (Note: This will increase load times)"
+            android:defaultValue="false" />
         <Preference android:title="API Key (Click to enter personal key)" android:key="api_key" android:summary="Obtaining Key..."/>
         <Preference android:title="View API Key Info" android:key="view_api_info" android:summary="View information regarding the API Key"/>
         <Preference android:title="History" android:key="view_hist_activity" android:summary="View History stored onto your Device"/>
