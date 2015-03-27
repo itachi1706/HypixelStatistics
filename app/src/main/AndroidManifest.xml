@@ -32,6 +32,7 @@
         </activity>
         <activity
             android:name=".ExpandedPlayerInfoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_expanded_player_info" >
         </activity>
         <activity

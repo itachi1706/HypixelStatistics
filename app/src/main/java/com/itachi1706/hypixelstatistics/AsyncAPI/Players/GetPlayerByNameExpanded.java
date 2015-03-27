@@ -121,7 +121,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            progress.dismiss();
+            if (progress != null && progress.isShowing())
+                progress.dismiss();
             debug.setText(except.getMessage());
         } else {
             Gson gson = new Gson();
@@ -143,13 +144,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 details.setVisibility(View.INVISIBLE);
             } else if (!reply.isSuccess()){
                 //Not Successful
-                progress.dismiss();
+                if (progress != null && progress.isShowing())
+                    progress.dismiss();
                 result.setText(reply.getCause());
                 result.setTextColor(Color.RED);
                 debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 details.setVisibility(View.INVISIBLE);
             } else if (reply.getPlayer() == null) {
-                progress.dismiss();
+                if (progress != null && progress.isShowing())
+                    progress.dismiss();
                 if (isUUID){
                     result.setText("Invalid UUID");
                     result.setTextColor(Color.RED);
@@ -164,7 +167,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             } else {
                 //Succeeded
                 resultArray = new ArrayList<>();
-                progress.dismiss();
+                if (progress != null && progress.isShowing())
+                    progress.dismiss();
                 pro.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
                 if (MinecraftColorCodes.checkDisplayName(reply)) {
