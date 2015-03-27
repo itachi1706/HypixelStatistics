@@ -14,12 +14,17 @@ import net.hypixel.api.reply.FindGuildReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by Kenneth on 20/12/2014, 4:41 PM
@@ -54,7 +59,10 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
         Log.d("findGuild URL", url);
         String tmp = "";
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -81,7 +89,12 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String json){
         if (except != null){
             //Theres an exception
-            Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
+            if (except instanceof ConnectTimeoutException)
+                Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+            else if (except instanceof SocketTimeoutException)
+                Toast.makeText(mContext, "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
             return;
         }
 

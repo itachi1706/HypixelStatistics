@@ -45,6 +45,10 @@ public class MainStaticVars {
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 12;
 
+    public static final int HTTP_QUERY_TIMEOUT = 60000; //60 seconds timeout
+    //Basically how long to try and query
+    //Will throw ConnectTimeoutException (setConnectionTimeout) and SocketTimeoutException (setSoTimeout)
+
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

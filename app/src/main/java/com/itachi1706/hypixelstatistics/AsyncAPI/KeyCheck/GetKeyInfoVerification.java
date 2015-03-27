@@ -16,12 +16,17 @@ import net.hypixel.api.reply.KeyReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.util.UUID;
 
 /**
@@ -49,7 +54,10 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
         String tmp = "";
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -73,7 +81,12 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     protected void onPostExecute(String json) {
         GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
         if (except != null){
-            Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            if (except instanceof ConnectTimeoutException)
+                Toast.makeText(mContext.getApplicationContext(), "Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+            else if (except instanceof SocketTimeoutException)
+                Toast.makeText(mContext.getApplicationContext(), "Socket Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
             pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
         } else {
             Gson gson = new Gson();

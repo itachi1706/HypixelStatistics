@@ -19,12 +19,17 @@ import net.hypixel.api.reply.PlayerReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by Kenneth on 10/11/2014, 10:12 PM
@@ -51,7 +56,10 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
         String url = MainStaticVars.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + owner[0];
         String tmp = "";
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -74,11 +82,17 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            if (!mContext.isFinishing()) {
-                new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
-                        .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
-            } else {
-                Toast.makeText(mContext.getApplicationContext(), "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            if (except instanceof ConnectTimeoutException)
+                Toast.makeText(mContext.getApplicationContext(), "Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+            else if (except instanceof SocketTimeoutException)
+                Toast.makeText(mContext.getApplicationContext(), "Socket Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+            else {
+                if (!mContext.isFinishing()) {
+                    new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
+                            .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
+                } else {
+                    Toast.makeText(mContext.getApplicationContext(), "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             Gson gson = new Gson();

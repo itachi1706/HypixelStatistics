@@ -19,6 +19,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,7 +58,10 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         String url = "http://www.itachi1706.com/android/hypstatistics.html";
         String tmp = "";
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 

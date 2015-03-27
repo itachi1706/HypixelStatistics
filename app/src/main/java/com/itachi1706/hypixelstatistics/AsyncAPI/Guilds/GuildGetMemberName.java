@@ -14,22 +14,27 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.GuildMemberAdapter;
-import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM
@@ -41,10 +46,17 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
     Activity mContext;
     GuildMemberDesc playerName;
     ListView _memberInfo;
+    boolean retry = false;
 
     public GuildGetMemberName(Activity activity, ListView memberInfo){
         mContext = activity;
         _memberInfo = memberInfo;
+    }
+
+    public GuildGetMemberName(Activity activity, ListView memberInfo, boolean retry){
+        this.mContext = activity;
+        this._memberInfo = memberInfo;
+        this.retry = retry;
     }
 
     @Override
@@ -54,7 +66,10 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
         String tmp = "";
         //Get Statistics
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -80,7 +95,19 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
 
     protected void onPostExecute(String json) {
         if (except != null){
-            Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            if (except instanceof ConnectTimeoutException){
+                if (retry)
+                    Toast.makeText(mContext.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                else
+                    new GuildGetMemberName(mContext, _memberInfo, true).execute(playerName);
+            } else if (except instanceof SocketTimeoutException) {
+                if (retry)
+                    Toast.makeText(mContext.getApplicationContext(), "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                else
+                    new GuildGetMemberName(mContext, _memberInfo, true).execute(playerName);
+            } else {
+                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)) {

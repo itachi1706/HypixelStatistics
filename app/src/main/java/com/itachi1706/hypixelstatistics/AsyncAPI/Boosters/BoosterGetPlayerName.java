@@ -27,12 +27,17 @@ import net.hypixel.api.reply.PlayerReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,6 +54,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
     boolean isActive;
     ProgressBar bar;
     TextView tooltip;
+    int retry = 0;
 
     public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars, TextView tooltips){
         mContext = context;
@@ -58,6 +64,15 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
         tooltip = tooltips;
     }
 
+    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, int retry){
+        mContext = context;
+        list = listView;
+        isActive = isActiveOnly;
+        bar = bars;
+        tooltip = tooltips;
+        this.retry = retry;
+    }
+
     @Override
     protected String doInBackground(BoosterDescription... playerData) {
         playerName = playerData[0];
@@ -65,7 +80,10 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
         String tmp = "";
         //Get Statistics
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -90,8 +108,23 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
     }
 
     protected void onPostExecute(String json) {
-        if (except != null){
-            Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+        if (except != null) {
+            if (except instanceof ConnectTimeoutException) {
+                if (retry > 10)
+                    Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                else {
+                    Log.d("RESOLVE", "Retrying");
+                    new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip, retry + 1).execute(playerName);
+                }
+            } else if (except instanceof SocketTimeoutException){
+                if (retry > 10)
+                    Toast.makeText(mContext, "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                else {
+                    Log.d("RESOLVE", "Retrying");
+                    new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip, retry + 1).execute(playerName);
+                }
+            } else
+                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){

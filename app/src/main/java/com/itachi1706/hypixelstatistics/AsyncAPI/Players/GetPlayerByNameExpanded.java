@@ -38,12 +38,17 @@ import net.hypixel.api.util.GameType;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,7 +99,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         String tmp = "";
         //Get Statistics
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -123,7 +131,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (except != null){
             if (progress != null && progress.isShowing())
                 progress.dismiss();
-            debug.setText(except.getMessage());
+            if (except instanceof ConnectTimeoutException){
+                result.setText("Connection Timed Out. Try again later");
+                result.setTextColor(Color.RED);
+            } else if (except instanceof SocketTimeoutException) {
+                result.setText("Socket Connection Timed Out. Try again later");
+                result.setTextColor(Color.RED);
+            } else {
+                debug.setText(except.getMessage());
+            }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){

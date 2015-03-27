@@ -15,12 +15,17 @@ import net.hypixel.api.reply.KeyReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.util.UUID;
 
 /**
@@ -47,7 +52,10 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
         String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
         String tmp = "";
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -70,7 +78,15 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            debug.setText(except.getMessage());
+            if (except instanceof ConnectTimeoutException){
+                result.setText("Connection Timed Out. Try again later");
+                result.setTextColor(Color.RED);
+            } else if (except instanceof SocketTimeoutException) {
+                result.setText("Socket Connection Timed Out. Try again later");
+                result.setTextColor(Color.RED);
+            } else {
+                debug.setText(except.getMessage());
+            }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){

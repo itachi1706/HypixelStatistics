@@ -27,12 +27,17 @@ import net.hypixel.api.reply.GuildReply;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,7 +70,10 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         String tmp = "";
         Log.d("guild Info URL", url);
         try {
-            HttpClient client = new DefaultHttpClient();
+            final HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
 
@@ -93,14 +101,19 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String json) {
         if (except != null) {
             //Theres an exception
-            Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
+            if (except instanceof ConnectTimeoutException)
+                Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+            else if (except instanceof SocketTimeoutException)
+                Toast.makeText(mContext, "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
             return;
         }
         Log.d("GUILD INFO JSON STRING", json);
         Gson gson = new Gson();
         if (!MainStaticVars.checkIfYouGotJsonString(json)){
             if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
             return;
