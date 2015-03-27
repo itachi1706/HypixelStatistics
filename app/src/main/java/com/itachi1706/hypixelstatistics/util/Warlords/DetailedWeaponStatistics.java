@@ -58,7 +58,9 @@ public class DetailedWeaponStatistics {
         int energy = weaponStats.get("energy").getAsInt(), chance = weaponStats.get("chance").getAsInt();
         int multiplier = weaponStats.get("multiplier").getAsInt(), health = weaponStats.get("health").getAsInt();
         int cooldown = weaponStats.get("cooldown").getAsInt(), movement = weaponStats.get("movement").getAsInt();
-        boolean crafted = weaponStats.get("crafted").getAsBoolean();
+        boolean crafted = false;
+        if (weaponStats.has("crafted"))
+            crafted = weaponStats.get("crafted").getAsBoolean();
         int maxUpgrades = weaponStats.get("upgradeMax").getAsInt(), upgradeTimes = weaponStats.get("upgradeTimes").getAsInt();
 
         //Craft the dialog box string :D
