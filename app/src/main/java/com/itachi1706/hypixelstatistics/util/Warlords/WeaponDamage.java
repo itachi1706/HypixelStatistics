@@ -30,6 +30,7 @@ public enum WeaponDamage {
     ONE_HUNDERED("85 - 115", 85, 115, 100),
     ONE_HUNDRED_ONE("85 - 116 ", 85, 116, 101),
     ONE_HUNDERED_SEVEN("90 - 123", 90, 123, 107),
+    ONE_HUNDERED_NINE("92 - 125", 92, 125, 109),
     ONE_HUNDERED_TEN("93 - 126", 93, 126, 110),
     WIP("Work in Progress (WIP)", 0, 0, 0);
 
@@ -72,6 +73,7 @@ public enum WeaponDamage {
             case 100: return ONE_HUNDERED;
             case 101: return ONE_HUNDRED_ONE;
             case 107: return ONE_HUNDERED_SEVEN;
+            case 109: return ONE_HUNDERED_NINE;
             case 110: return ONE_HUNDERED_TEN;
             default: return WIP;
         }
