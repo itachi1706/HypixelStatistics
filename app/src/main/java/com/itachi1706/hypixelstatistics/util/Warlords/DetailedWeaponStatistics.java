@@ -61,7 +61,15 @@ public class DetailedWeaponStatistics {
         boolean crafted = false;
         if (weaponStats.has("crafted"))
             crafted = weaponStats.get("crafted").getAsBoolean();
-        int maxUpgrades = weaponStats.get("upgradeMax").getAsInt(), upgradeTimes = weaponStats.get("upgradeTimes").getAsInt();
+        int maxUpgrades, upgradeTimes;
+        if (weaponStats.has("upgradeMax"))
+            maxUpgrades = weaponStats.get("upgradeMax").getAsInt();
+        else
+            maxUpgrades = 0;
+        if (weaponStats.has("upgradeTimes"))
+            upgradeTimes = weaponStats.get("upgradeTimes").getAsInt();
+        else
+            upgradeTimes = 0;
 
         //Craft the dialog box string :D
         StringBuilder builder = new StringBuilder();
