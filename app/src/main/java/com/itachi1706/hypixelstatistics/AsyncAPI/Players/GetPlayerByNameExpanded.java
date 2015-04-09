@@ -616,7 +616,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 progression = MinecraftColorCodes.GREEN.getHtmlCode() + "Completed" + MinecraftColorCodes.CLEAR.getHtmlCode();
             } else {
                 //In progress (Show progress)
-                progression = achievedValue + "/" + tierValue;
+                progression = MinecraftColorCodes.LIGHT_PURPLE.getHtmlCode() + achievedValue + MinecraftColorCodes.CLEAR.getHtmlCode() +
+                        "/" + MinecraftColorCodes.AQUA.getHtmlCode() + tierValue + MinecraftColorCodes.CLEAR.getHtmlCode();
             }
             String compiledSubString = description + "<br />" + progression;
             endResult.add(new ResultDescription(title, compiledSubString));
