@@ -100,7 +100,7 @@ public class BoosterList extends ActionBarActivity {
                         for (JsonElement e : records) {
                             JsonObject obj = e.getAsJsonObject();
                             String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
-                            BoosterDescription desc;
+                            final BoosterDescription desc;
                             if (obj.has("purchaser")) {
                                 //Old Method
                                 desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
@@ -113,15 +113,25 @@ public class BoosterList extends ActionBarActivity {
                                         uid);
                             }
                             //Move to BoosterGetHistory
-                            boosterTooltip.setVisibility(View.VISIBLE);
-                            boosterTooltip.setText("Booster list obtained. Processing Players now...");
-                            new BoosterGetHistory(getApplicationContext(), boostList, false, prog, boosterTooltip).execute(desc);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boosterTooltip.setVisibility(View.VISIBLE);
+                                    boosterTooltip.setText("Booster list obtained. Processing Players now...");
+                                    new BoosterGetHistory(getApplicationContext(), boostList, false, prog, boosterTooltip).execute(desc);
+                                }
+                            });
                         }
                     } else {
-                        String[] tmp = {"No Boosters Activated"};
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
-                        boostList.setAdapter(adapter);
-                        prog.setVisibility(View.GONE);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String[] tmp = {"No Boosters Activated"};
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
+                                boostList.setAdapter(adapter);
+                                prog.setVisibility(View.GONE);
+                            }
+                        });
                     }
                 }
             }).start();
