@@ -1123,7 +1123,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             gwArray.add(new ResultDescription("Empire Kills", obj.get("sw_empire_kills").getAsString()));
         if (gwArray.size() > 0){
             StringBuilder msg = new StringBuilder();
-            for (ResultDescription t : dwArray){
+            for (ResultDescription t : gwArray){
                 msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
             }
             descArray.add(new ResultDescription("Galaxy Wars", "Click here to view statistics from Galaxy Wars", true, msg.toString()));
