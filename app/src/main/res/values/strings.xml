@@ -46,5 +46,6 @@
     <string name="activity_key_info_total_qry_unimplemented">Unimplemented by API (Soon)</string>
     <string name="pref_detailed_active_boosters_title">Detailed Active Boosters</string>
     <string name="pref_detailed_active_boosters_summary">Show detailed active boosters (Note: This will increase load times)</string>
+    <string name="player_session_info_coming_soon">Session Info Coming Soon</string>
 
 </resources>
