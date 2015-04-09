@@ -1098,6 +1098,27 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription("Dragon Wars", "Click here to view statistics from Dragon Wars", true, msg.toString()));
         }
+
+        //Galaxy Wars
+        ArrayList<ResultDescription> gwArray = new ArrayList<>();
+        //descArray.add(new ResultDescription("<i>Dragon Wars</i>", null, false, true));
+        if (obj.has("sw_kills"))
+            gwArray.add(new ResultDescription("Kills", obj.get("sw_kills").getAsString()));
+        if (obj.has("sw_shots_fired"))
+            gwArray.add(new ResultDescription("Shots Fired", obj.get("sw_shots_fired").getAsString()));
+        if (obj.has("sw_rebel_kills"))
+            gwArray.add(new ResultDescription("Rebel Kills", obj.get("sw_rebel_kills").getAsString()));
+        if (obj.has("sw_deaths"))
+            gwArray.add(new ResultDescription("Deaths", obj.get("sw_deaths").getAsString()));
+        if (obj.has("sw_empire_kills"))
+            gwArray.add(new ResultDescription("Empire Kills", obj.get("sw_empire_kills").getAsString()));
+        if (gwArray.size() > 0){
+            StringBuilder msg = new StringBuilder();
+            for (ResultDescription t : dwArray){
+                msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
+            }
+            descArray.add(new ResultDescription("Galaxy Wars", "Click here to view statistics from Galaxy Wars", true, msg.toString()));
+        }
         return descArray;
     }
 
