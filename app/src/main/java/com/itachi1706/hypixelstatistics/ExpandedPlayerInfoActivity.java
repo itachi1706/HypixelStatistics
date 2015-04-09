@@ -48,7 +48,7 @@ import java.util.ArrayList;
 public class ExpandedPlayerInfoActivity extends ActionBarActivity {
 
     AutoCompleteTextView playerName;
-    TextView debug, result;
+    TextView debug, result, session;
     ExpandableListView generalDetails;
     Button checkPlayer;
     ImageView pHead;
@@ -70,6 +70,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
         debug.setMovementMethod(new ScrollingMovementMethod());
         generalDetails = (ExpandableListView) findViewById(R.id.players_lvGeneral);
         headBar = (ProgressBar) findViewById(R.id.PlayerspbHead);
+        session = (TextView) findViewById(R.id.player_tvSessionInfo);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         playerName.setAdapter(adapter);
@@ -85,7 +86,8 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setTitle("Querying Server...");
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar).execute(intentPlayer);
+            session.setVisibility(View.INVISIBLE);
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar, session).execute(intentPlayer);
         } else if (this.getIntent().hasExtra("playerUuid")){
             String intentPlayerUid = this.getIntent().getStringExtra("playerUuid");
             playerName.setText(intentPlayerUid);
@@ -96,7 +98,8 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
             usingUUID = true;
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, true, supportBar).execute(intentPlayerUid);
+            session.setVisibility(View.INVISIBLE);
+            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, true, supportBar, session).execute(intentPlayerUid);
         }
 
         //Check if we should hide the debug window
@@ -126,7 +129,7 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
             public void onClick(View v) {
                 playerName.clearFocus();
                 imm.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
-                if (playerName.getText().toString().equals("") || playerName.getText().toString() == null){
+                if (playerName.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_SHORT).show();
                 } else {
                     String name = playerName.getText().toString();
@@ -136,7 +139,8 @@ public class ExpandedPlayerInfoActivity extends ActionBarActivity {
                     checkProgress.setTitle("Querying Server...");
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
-                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar).execute(name);
+                    session.setVisibility(View.INVISIBLE);
+                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, ExpandedPlayerInfoActivity.this, usingUUID, supportBar, session).execute(name);
                 }
             }
         });

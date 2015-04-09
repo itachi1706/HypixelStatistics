@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoPlayerStats;
 import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
 import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.LobbyList;
 import com.itachi1706.hypixelstatistics.util.GeneralPlayerStats.OngoingAchievements;
@@ -62,7 +63,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
-    TextView debug, result;
+    TextView debug, result, sessionTV;
     ExpandableListView details;
     Activity mContext;
     Exception except = null;
@@ -76,7 +77,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     ArrayList<ResultDescription> resultArray;
 
-    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState, android.support.v7.app.ActionBar acb){
+    public GetPlayerByNameExpanded(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState, android.support.v7.app.ActionBar acb, TextView sessionTV){
         debug = debugView;
         result = resultView;
         mContext = context;
@@ -86,6 +87,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         pro = header;
         isUUID = uuidState;
         this.ab = acb;
+        this.sessionTV = sessionTV;
     }
 
     @Override
@@ -193,6 +195,13 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     pro.setVisibility(View.GONE);
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
+
+                //Get Session Info
+                String uuidSession = reply.getPlayer().get("uuid").getAsString();
+                sessionTV.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
+                sessionTV.setVisibility(View.VISIBLE);
+                new GetSessionInfoPlayerStats(sessionTV).execute(uuidSession);
+
                 if (!checkHistory(reply)) {
                     CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
                     Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
