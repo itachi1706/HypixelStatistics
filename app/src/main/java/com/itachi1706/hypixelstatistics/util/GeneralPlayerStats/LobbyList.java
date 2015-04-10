@@ -20,7 +20,7 @@ public enum LobbyList {
 
     private String name, key;
 
-    private LobbyList(String name, String key){
+    LobbyList(String name, String key){
         this.name = name;
         this.key = key;
     }

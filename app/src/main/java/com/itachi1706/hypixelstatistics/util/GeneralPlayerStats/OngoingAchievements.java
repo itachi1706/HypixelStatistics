@@ -51,7 +51,7 @@ public enum OngoingAchievements {
     private LobbyList achievementLobbies;
 
     //Possible Tiers: 3/5
-    private OngoingAchievements(String title, String description, String achievementKey, int max_tiers, int tier1, int tier2, int tier3, int tier4, int tier5, LobbyList achievementLobbies){
+    OngoingAchievements(String title, String description, String achievementKey, int max_tiers, int tier1, int tier2, int tier3, int tier4, int tier5, LobbyList achievementLobbies){
         this.title = title;
         this.description = description;
         this.achievementKey = achievementKey;

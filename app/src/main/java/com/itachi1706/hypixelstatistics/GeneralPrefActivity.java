@@ -53,6 +53,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
      * This fragment shows general preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
+    @SuppressWarnings("ConstantConditions")
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {

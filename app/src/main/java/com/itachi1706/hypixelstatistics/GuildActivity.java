@@ -153,7 +153,7 @@ public class GuildActivity extends ActionBarActivity {
             public void onClick(View v) {
                 guildSearch.clearFocus();
                 imm.hideSoftInputFromWindow(guildSearch.getWindowToken(), 0);
-                if (guildSearch.getText().toString().equals("") || guildSearch.getText().toString() == null){
+                if (guildSearch.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(), "Please enter a guild name or player!", Toast.LENGTH_SHORT).show();
                 } else {
                     boolean state = searchFilter.isChecked();

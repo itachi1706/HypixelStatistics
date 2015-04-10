@@ -8,6 +8,7 @@ import net.hypixel.api.util.GameType;
  * Created by Kenneth on 18/11/2014, 9:03 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@SuppressWarnings("unused")
 public class BoosterDescription {
 
     private String _purchaser;

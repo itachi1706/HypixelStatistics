@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  * Created by Kenneth on 13/11/2014, 9:44 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@SuppressLint("InflateParams")
 public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
 
     private ArrayList<ResultDescription> items;

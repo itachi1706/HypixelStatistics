@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends ActionBarActivity {
 
     ListView mainMenu, boosterMenu;

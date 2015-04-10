@@ -37,7 +37,7 @@ public enum WeaponDamage {
     private final String damageRangeString;
     private final int minDamage, maxDamage, id;
 
-    private WeaponDamage(String damageRange, int minDamage, int maxDamage, int id){
+    WeaponDamage(String damageRange, int minDamage, int maxDamage, int id){
         this.damageRangeString = damageRange;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;

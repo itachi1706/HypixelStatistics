@@ -14,7 +14,7 @@ public enum WeaponCategory {
 
     private final String name, colorCode;
 
-    private WeaponCategory(String name, String colorCode){
+    WeaponCategory(String name, String colorCode){
         this.name = name;
         this.colorCode = colorCode;
     }

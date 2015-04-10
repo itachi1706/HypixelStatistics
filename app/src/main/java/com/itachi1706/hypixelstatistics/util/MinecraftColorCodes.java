@@ -29,7 +29,7 @@ public enum MinecraftColorCodes {
     
     private final String colorCode, htmlCode, colorName, bukkitColorCode;
     
-    private MinecraftColorCodes(String colorCode, String htmlCode, String colorName, String bukkitColorCode){
+    MinecraftColorCodes(String colorCode, String htmlCode, String colorName, String bukkitColorCode){
         this.colorCode = colorCode;
         this.htmlCode = htmlCode;
         this.colorName = colorName;

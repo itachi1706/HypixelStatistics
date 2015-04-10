@@ -26,7 +26,7 @@ public enum QuestName {
 
     private String questTitle, questKey;
 
-    private QuestName(String questTitle, String questKey){
+    QuestName(String questTitle, String questKey){
         this.questTitle = questTitle;
         this.questKey = questKey;
     }

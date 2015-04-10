@@ -88,7 +88,7 @@ public enum OneTimeAchievements {
     private String title, description, oneTimeAchievementKey;
     private LobbyList gametype;
 
-    private OneTimeAchievements(String title, String description, String oneTimeAchievementKey, LobbyList gametype){
+    OneTimeAchievements(String title, String description, String oneTimeAchievementKey, LobbyList gametype){
         this.title = title;
         this.description = description;
         this.oneTimeAchievementKey = oneTimeAchievementKey;

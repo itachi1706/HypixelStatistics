@@ -21,7 +21,7 @@ public enum WarlordsSpecs {
 
     private final String specName, className;
 
-    private WarlordsSpecs(String specName, String className){
+    WarlordsSpecs(String specName, String className){
         this.specName = specName;
         this.className = className;
     }

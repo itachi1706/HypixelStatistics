@@ -27,7 +27,7 @@ public enum QuestObjectives {
     private String humanReadableDesc, keyName;
     private int maxLimit;
 
-    private QuestObjectives(String humanReadableDesc, String keyName, int maxLimit){
+    QuestObjectives(String humanReadableDesc, String keyName, int maxLimit){
         this.humanReadableDesc = humanReadableDesc;
         this.keyName = keyName;
         this.maxLimit = maxLimit;

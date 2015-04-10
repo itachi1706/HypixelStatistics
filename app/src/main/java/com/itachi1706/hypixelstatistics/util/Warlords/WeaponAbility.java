@@ -52,7 +52,7 @@ public enum WeaponAbility {
     private static WeaponAbility[] v = values();
     private final String abilityName;
 
-    private WeaponAbility(String abilityName){
+    WeaponAbility(String abilityName){
         this.abilityName = abilityName;
     }
 

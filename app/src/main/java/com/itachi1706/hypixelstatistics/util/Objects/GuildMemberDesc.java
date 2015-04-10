@@ -4,6 +4,7 @@ package com.itachi1706.hypixelstatistics.util.Objects;
  * Created by Kenneth on 20/12/2014, 5:43 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@SuppressWarnings("unused")
 public class GuildMemberDesc {
 
     private String _mcName, _mcNameWithRank, _name, _rank, _dailyCoins = null;
