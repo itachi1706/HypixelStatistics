@@ -108,6 +108,7 @@ public class GetSessionInfoPlayerStats extends AsyncTask<String, Void, String> {
                     result.setText("Not In-Game");
                     result.setTextColor(Color.RED);
                 } else {
+                    result.setTextColor(Color.WHITE);
                     String serverName = reply.getSession().get("server").getAsString();
                     int playerCount = reply.getSession().get("players").getAsJsonArray().size();
                     result.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§aIn-Game§r (§6" + serverName +
