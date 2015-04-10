@@ -101,6 +101,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         sp.edit().putString("version-changelog", changelog).apply();
         String currentVersionNumber = changelogStrings.get(0);
         String currentAppVersion = "";
+        final String newVersionURL = changelogStrings.get(1);
         PackageInfo pInfo;
         try {
             pInfo = mActivity.getApplicationContext().getPackageManager().getPackageInfo(mActivity.getApplicationContext().getPackageName(), 0);
@@ -121,7 +122,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                         .setNegativeButton("Don't Update", null).setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/itachi1706/HypixelStatistics/releases/latest"));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVersionURL));
                         mActivity.startActivity(intent);
                     }
                 }).show();
