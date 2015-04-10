@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GuildGetPlayerHead;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoGuildMember;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -57,9 +58,12 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
             }
             if (rank != null) {
                 //Check if its running
-                //TODO Try and figure out how to make this more efficient
-                rank.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_rank() + "§r (Getting Session...)")));
-                new GetSessionInfoGuildMember(rank, i.get_rank()).execute(i.get_uuid());
+                if (MainStaticVars.guild_member_session_data.containsKey(i.get_uuid())){
+                    rank.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.guild_member_session_data.get(i.get_uuid()))));
+                } else {
+                    rank.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_rank() + "§r (Getting Session...)")));
+                    new GetSessionInfoGuildMember(rank, i.get_rank()).execute(i.get_uuid());
+                }
             }
             if (joined != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_joined()));

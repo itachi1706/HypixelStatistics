@@ -35,7 +35,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
 
     Exception except = null;
     TextView result;
-    String rankName;
+    String rankName, uuidValue;
 
     public GetSessionInfoGuildMember(TextView playerSession, String guildRank){
         this.rankName = guildRank;
@@ -46,6 +46,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... uuidQuery) {
         String url = MainStaticVars.API_BASE_URL + "session?key=" + MainStaticVars.apikey + "&uuid=" + uuidQuery[0];
         String tmp = "";
+        uuidValue = uuidQuery[0];
         Log.i("SESSION-GUILD", "Getting Session Data for " + uuidQuery[0]);
         //Get Statistics
         try {
@@ -134,6 +135,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
                     resultString += "§aIn-Game [§b" + serverName + " §r-§d " + playerCount + "§r players§r])";
                     result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
                 }
+                MainStaticVars.guild_member_session_data.put(uuidValue, resultString);
             }
         }
     }

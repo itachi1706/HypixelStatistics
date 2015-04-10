@@ -9,6 +9,7 @@ import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM
@@ -49,6 +50,8 @@ public class MainStaticVars {
     public static final int HTTP_QUERY_TIMEOUT = 60000; //60 seconds timeout
     //Basically how long to try and query
     //Will throw ConnectTimeoutException (setConnectionTimeout) and SocketTimeoutException (setSoTimeout)
+
+    public static HashMap<String, String> guild_member_session_data = new HashMap<>();
 
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
