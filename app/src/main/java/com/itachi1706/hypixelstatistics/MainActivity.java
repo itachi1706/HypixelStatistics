@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "FriendListView"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,8 +169,20 @@ public class MainActivity extends ActionBarActivity {
             case "Search Guild":
                 startActivity(new Intent(MainActivity.this, GuildActivity.class));
                 break;
-            case "FriendListView":
-                startActivity(new Intent(MainActivity.this, FriendListActivity.class));
+            case "View Player Friend List (BETA)":
+                //TODO Complete this and remove BETA Tag
+                if (MainStaticVars.isCreator){
+                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is extremely unstable. Do you want to continue?")
+                            .setTitle("App Instability Warning").setPositiveButton("Go Ahead!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(MainActivity.this, FriendListActivity.class));
+                        }
+                    }).setNegativeButton("Maybe Not", null).show();
+                } else {
+                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is only available for BETA Testers")
+                            .setTitle("BETA Testers Only").setNegativeButton("Aww", null).show();
+                }
                 break;
         }
     }
