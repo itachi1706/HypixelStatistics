@@ -50,4 +50,5 @@
     <string name="pref_set_api_key_dialog_init_prompt">This allows you to insert your own API Key to reduce the occurrence of API throttling. \nIf you are a staff member, inserting your personal key will grant you access to more information \n\nTo get your API Key, Launch Minecraft, join §6mc.hypixel.net§r and do §b/api§r in-game.\n\nEnter the entire API String given to you (including dashes) in the textbox below.</string>
     <string name="title_activity_friend_list">View Friend\'s List</string>
     <string name="action_search_title">Search</string>
+    <string name="searchable_friend_hint">Enter Player\'s UUID</string>
 </resources>

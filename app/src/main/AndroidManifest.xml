@@ -54,7 +54,13 @@
         </activity>
         <activity
             android:name=".FriendListActivity"
-            android:label="@string/title_activity_friend_list" >
+            android:label="@string/title_activity_friend_list"
+            android:launchMode="singleTop">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable_friend" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
         </activity>
     </application>
 
