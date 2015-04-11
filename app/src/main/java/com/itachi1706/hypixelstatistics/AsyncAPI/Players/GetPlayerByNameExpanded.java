@@ -215,7 +215,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                     //parseDonor(reply);
                 }
 
-                if (MainStaticVars.isStaff || MainStaticVars.isOwner) {
+                if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
                     if (reply.getPlayer().has("rank")) {
                         if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
                             if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
@@ -1579,7 +1579,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         descArray = parseIndividualWarlordsStats(obj, "shaman", "Shaman Class (Coming Soon)", descArray);
 
         //Priviledged Info
-        if (MainStaticVars.isStaff || MainStaticVars.isOwner){
+        if (MainStaticVars.isStaff || MainStaticVars.isCreator){
             if (obj.has("afk_warned"))
                 descArray.add(new ResultDescription("Times warned for AFK", obj.get("afk_warned").getAsString()));
             if (obj.has("penalty"))

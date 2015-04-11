@@ -113,12 +113,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     newKey.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                     newKey.setHint("Enter API Key (Including dashes)");
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
-                            .setMessage("This allows you to insert your own API Key to reduce the" +
-                                    " occurrence of API throttling. \n" +
-                                    "If you are a staff member, inserting your personal key" +
-                                    " will grant you access to more information \n\n" +
-                                    "To get your API Key, Launch Minecraft, join mc.hypixel.net and do /api in-game.\n\n" +
-                                    "Enter the entire API String given to you (including dashes) in the textbox below.")
+                            .setMessage(getString(R.string.pref_set_api_key_dialog_init_prompt))
                             .setView(newKey)
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
