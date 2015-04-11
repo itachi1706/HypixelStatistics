@@ -1,6 +1,8 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -104,6 +106,17 @@ public class GeneralPrefActivity extends ActionBarActivity {
             final Preference player_UUID = findPreference("staff_uuid");
             updateKeyString(sp, api_key, prefs, getActivity());
             updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
+
+            player_UUID.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Player UUID", player_UUID.getSummary());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getActivity(),"Text copied to clipboard", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
 
             final Preference finalAPIInfo = prefs;
             api_key.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
