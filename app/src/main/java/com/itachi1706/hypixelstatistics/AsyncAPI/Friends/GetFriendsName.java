@@ -64,7 +64,7 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
         playerName = playerData[0];
         String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&uuid=" + playerName.getFriendUUID();
         String tmp = "";
-        Log.i("FRIENDS-NAME", "Getting Friend Name for " + playerData[0]);
+        Log.i("FRIENDS-NAME", "Getting Friend Name for " + playerData[0].getFriendUUID());
         //Get Statistics
         try {
             final HttpParams httpParams = new BasicHttpParams();
