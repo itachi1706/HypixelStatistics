@@ -47,5 +47,5 @@
     <string name="pref_detailed_active_boosters_title">Detailed Active Boosters</string>
     <string name="pref_detailed_active_boosters_summary">Show detailed active boosters (Note: This will increase load times)</string>
     <string name="player_session_info_coming_soon">Session Info Coming Soon</string>
-    <string name="pref_set_api_key_dialog_init_prompt">This allows you to insert your own API Key to reduce the occurrence of API throttling. \nIf you are a staff member, inserting your personal key will grant you access to more information \n\nTo get your API Key, Launch Minecraft, join mc.hypixel.net and do /api in-game.\n\nEnter the entire API String given to you (including dashes) in the textbox below.</string>
+    <string name="pref_set_api_key_dialog_init_prompt">This allows you to insert your own API Key to reduce the occurrence of API throttling. \nIf you are a staff member, inserting your personal key will grant you access to more information \n\nTo get your API Key, Launch Minecraft, join §6mc.hypixel.net§r and do §b/api§r in-game.\n\nEnter the entire API String given to you (including dashes) in the textbox below.</string>
 </resources>

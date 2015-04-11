@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -114,41 +115,41 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     newKey.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                     newKey.setHint("Enter API Key (Including dashes)");
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
-                            .setMessage(getString(R.string.pref_set_api_key_dialog_init_prompt))
-                            .setView(newKey)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String newKeyString = newKey.getText().toString();
-                                    if (newKeyString.equals("")) {
-                                        Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                    //Check if its a UUID
-                                    UUID uid;
-                                    try {
-                                        uid = UUID.fromString(newKeyString);
-                                    } catch (IllegalArgumentException e) {
-                                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                    api_key.setSummary("Verifying Key...");
-                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN, player_UUID).execute(uid);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .setNeutralButton("Reset Key", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    sp.edit().remove("api-key").apply();
-                                    sp.edit().remove("rank").apply();
-                                    sp.edit().remove("playerName").apply();
-                                    sp.edit().remove("own").apply();
-                                    updateKeyString(sp, api_key, finalAPIInfo, getActivity());
-                                    updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
-                                    Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).show();
+                            .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(getString(R.string.pref_set_api_key_dialog_init_prompt))))
+                                    .setView(newKey)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String newKeyString = newKey.getText().toString();
+                                            if (newKeyString.equals("")) {
+                                                Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                            //Check if its a UUID
+                                            UUID uid;
+                                            try {
+                                                uid = UUID.fromString(newKeyString);
+                                            } catch (IllegalArgumentException e) {
+                                                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                            api_key.setSummary("Verifying Key...");
+                                            new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN, player_UUID).execute(uid);
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.cancel, null)
+                                    .setNeutralButton("Reset Key", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            sp.edit().remove("api-key").apply();
+                                            sp.edit().remove("rank").apply();
+                                            sp.edit().remove("playerName").apply();
+                                            sp.edit().remove("own").apply();
+                                            updateKeyString(sp, api_key, finalAPIInfo, getActivity());
+                                            updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
+                                            Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
                     return true;
                 }
             });
