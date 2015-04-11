@@ -120,7 +120,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             return;
         }
         if (reply.getRecords().size() == 0) {
-            tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b0§r")));
+            tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: Â§b0Â§r")));
             String[] noFriendsSadFace = {"No Friends Found :("};
             ArrayAdapter<String> noFriendsAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_list_item_1, noFriendsSadFace);
             playerListView.setAdapter(noFriendsAdapter);
@@ -128,7 +128,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         }
         MainStaticVars.friends_session_data.clear();
         //Process Friends Requests
-        tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b" + reply.getRecords().size() + "§r")));
+        tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: Â§b" + reply.getRecords().size() + "Â§r")));
         ArrayList<FriendsObject> friendsListTemp = new ArrayList<>();
         for (JsonElement e : reply.getRecords()) {
             JsonObject obj = e.getAsJsonObject();
