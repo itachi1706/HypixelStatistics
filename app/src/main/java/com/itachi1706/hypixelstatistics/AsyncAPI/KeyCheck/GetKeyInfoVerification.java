@@ -38,15 +38,16 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     Activity mContext;
     Exception except = null;
     SharedPreferences sp;
-    Preference key_info, key_string, key_staff, key_name;
+    Preference key_info, key_string, key_staff, key_name, key_uuid;
 
-    public GetKeyInfoVerification(Activity context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct, Preference keyStaff, Preference keyName){
+    public GetKeyInfoVerification(Activity context, SharedPreferences sharedPrefs, Preference keyString, Preference keyInfoAct, Preference keyStaff, Preference keyName, Preference keyuuid){
         mContext = context;
         sp = sharedPrefs;
         key_string = keyString;
         key_info = keyInfoAct;
         key_staff = keyStaff;
         key_name = keyName;
+        key_uuid = keyuuid;
     }
 
     @Override
@@ -127,7 +128,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                 sp.edit().remove("own").apply();
                 sp.edit().putString("api-key",reply.getRecord().getKey().toString()).apply();
                 pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
-                new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name,true).execute(reply.getRecord().getOwner());
+                new GetKeyInfoVerificationName(mContext,sp,key_staff,key_name,key_uuid,true).execute(reply.getRecord().getOwner());
             }
         }
     }

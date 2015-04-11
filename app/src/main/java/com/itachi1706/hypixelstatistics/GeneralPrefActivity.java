@@ -100,8 +100,9 @@ public class GeneralPrefActivity extends ActionBarActivity {
             final Preference api_key = findPreference("api_key");
             final Preference staff_rank = findPreference("staff_rnk");
             final Preference player_IGN = findPreference("staff_p");
+            final Preference player_UUID = findPreference("staff_uuid");
             updateKeyString(sp, api_key, prefs, getActivity());
-            updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
+            updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
 
             final Preference finalAPIInfo = prefs;
             api_key.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -132,7 +133,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                         return;
                                     }
                                     api_key.setSummary("Verifying Key...");
-                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN).execute(uid);
+                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN, player_UUID).execute(uid);
                                 }
                             })
                             .setNegativeButton(android.R.string.cancel, null)
@@ -144,7 +145,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                                     sp.edit().remove("playerName").apply();
                                     sp.edit().remove("own").apply();
                                     updateKeyString(sp, api_key, finalAPIInfo, getActivity());
-                                    updateApiKeyOwnerInfo(sp, staff_rank, player_IGN);
+                                    updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
                                     Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
                                 }
                             }).show();
@@ -239,18 +240,22 @@ public class GeneralPrefActivity extends ActionBarActivity {
             }
         }
 
-        public void updateApiKeyOwnerInfo(SharedPreferences sp, Preference staff, Preference name){
+        public void updateApiKeyOwnerInfo(SharedPreferences sp, Preference staff, Preference name, Preference uuid){
             String keyString = sp.getString("api-key", "Default Key");
             if (keyString.equals("Default Key")){
                 staff.setSummary("-");
                 name.setSummary("-");
+                uuid.setSummary("-");
                 staff.setEnabled(false);
                 name.setEnabled(false);
+                uuid.setEnabled(false);
             } else {
                 staff.setSummary(sp.getString("rank", "Not Staff"));
                 name.setSummary(Html.fromHtml(sp.getString("playerName", "Cannot find player")));
+                uuid.setSummary(sp.getString("own-uuid", "Invalid Player UUID. Please relaunch App"));
                 staff.setEnabled(true);
                 name.setEnabled(true);
+                uuid.setEnabled(true);
             }
         }
     }

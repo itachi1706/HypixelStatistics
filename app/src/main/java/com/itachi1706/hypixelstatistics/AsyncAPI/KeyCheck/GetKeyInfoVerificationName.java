@@ -40,14 +40,15 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
     Activity mContext;
     Exception except = null;
     SharedPreferences sp;
-    Preference key_staff, key_name;
+    Preference key_staff, key_name, key_uuid;
     boolean isSettings = false;
 
-    public GetKeyInfoVerificationName(Activity context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName, boolean isSettingss){
+    public GetKeyInfoVerificationName(Activity context, SharedPreferences sharedPrefs, Preference keyStaff, Preference keyName, Preference keyuuid, boolean isSettingss){
         mContext = context;
         sp = sharedPrefs;
         key_staff = keyStaff;
         key_name = keyName;
+        key_uuid = keyuuid;
         isSettings = isSettingss;
     }
 
@@ -132,6 +133,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                 String successMessage = "New API Key Set! Welcome " + pRank + "!";
                 sp.edit().putString("playerName", pRank).apply();
                 sp.edit().putString("own", reply.getPlayer().get("displayname").getAsString()).apply();
+                sp.edit().putString("own-uuid", reply.getPlayer().get("uuid").getAsString()).apply();
                 if (MinecraftColorCodes.isStaff(reply)) {
                     successMessage += " <br /><br />As a Staff Member (" + reply.getPlayer().get("rank").getAsString() + "), you now have access to additional information!";
                     sp.edit().putString("rank", reply.getPlayer().get("rank").getAsString()).apply();
@@ -148,7 +150,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                         Toast.makeText(mContext.getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
                     }
                     GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
-                    pref.updateApiKeyOwnerInfo(sp, key_staff, key_name);
+                    pref.updateApiKeyOwnerInfo(sp, key_staff, key_name, key_uuid);
                 }
             }
         }

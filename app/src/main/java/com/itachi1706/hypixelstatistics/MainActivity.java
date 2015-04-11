@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
         customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!prefs.getString("own", "n").equals("n"))
-            new GetKeyInfoVerificationName(this, prefs, null, null, false).execute(prefs.getString("own", "Steve"));
+            new GetKeyInfoVerificationName(this, prefs, null, null, null, false).execute(prefs.getString("own", "Steve"));
         String playerName = prefs.getString("playerName", "NOPE");
         //Log.d("DEBUG", playerName);
         if (playerName.equals("NOPE")){
