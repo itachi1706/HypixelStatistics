@@ -32,8 +32,8 @@
         </activity>
         <activity
             android:name=".ExpandedPlayerInfoActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_expanded_player_info" >
+            android:label="@string/title_activity_expanded_player_info"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BoosterList"
@@ -51,6 +51,10 @@
         <activity
             android:name=".DebugSettings"
             android:label="@string/title_activity_debug_pref" >
+        </activity>
+        <activity
+            android:name=".FriendListActivity"
+            android:label="@string/title_activity_friend_list" >
         </activity>
     </application>
 

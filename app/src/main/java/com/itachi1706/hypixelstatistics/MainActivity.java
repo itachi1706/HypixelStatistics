@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "FriendListView"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +168,9 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case "Search Guild":
                 startActivity(new Intent(MainActivity.this, GuildActivity.class));
+                break;
+            case "FriendListView":
+                startActivity(new Intent(MainActivity.this, FriendListActivity.class));
                 break;
         }
     }
