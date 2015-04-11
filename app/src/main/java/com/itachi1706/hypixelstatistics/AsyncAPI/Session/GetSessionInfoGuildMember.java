@@ -132,7 +132,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
                 } else {
                     String serverName = reply.getSession().get("server").getAsString();
                     int playerCount = reply.getSession().get("players").getAsJsonArray().size();
-                    resultString += "§aIn-Game [§b" + serverName + " §r-§d " + playerCount + "§r players§r])";
+                    resultString += "§aIn-Game §r[§b" + serverName + " §r-§d " + playerCount + "§r players])";
                     result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
                 }
                 MainStaticVars.guild_member_session_data.put(uuidValue, resultString);
