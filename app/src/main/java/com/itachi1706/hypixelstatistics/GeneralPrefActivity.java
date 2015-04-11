@@ -114,8 +114,9 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     newKey.setSingleLine(true);
                     newKey.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                     newKey.setHint("Enter API Key (Including dashes)");
+                    String dialogPrompt = getString(R.string.pref_set_api_key_dialog_init_prompt);
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
-                            .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(getString(R.string.pref_set_api_key_dialog_init_prompt))))
+                            .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(dialogPrompt.replace("\n","<br />"))))
                                     .setView(newKey)
                                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                         @Override
