@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class MainStaticVars {
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 
+    public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
+
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 12;
 
@@ -52,6 +55,8 @@ public class MainStaticVars {
     //Will throw ConnectTimeoutException (setConnectionTimeout) and SocketTimeoutException (setSoTimeout)
 
     public static HashMap<String, String> guild_member_session_data = new HashMap<>();
+
+    public static HashMap<String, String> friends_session_data = new HashMap<>();
 
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
