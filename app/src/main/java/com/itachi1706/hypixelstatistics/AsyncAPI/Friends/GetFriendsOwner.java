@@ -144,7 +144,7 @@ public class GetFriendsOwner extends AsyncTask<String, Void, String> {
                         playername = MinecraftColorCodes.parseHypixelRanks(reply);
                     }
                     desc.setText(Html.fromHtml(MinecraftColorCodes.parseColors(playername + "'s friends" +
-                            "<br />Friends: §b" + friendListSize + "§r")));
+                            "<br />Friends: Â§b" + friendListSize + "Â§r")));
                     if (!checkHistory(reply)) {
                         CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mActivity.getApplicationContext()));
                         Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
