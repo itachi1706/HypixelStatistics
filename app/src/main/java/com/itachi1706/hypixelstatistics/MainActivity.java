@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)", "View your Friend's List"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)", "View your Friend's List (BETA)"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
 
             //Remove the view your friend's list stuff
             ArrayList<String> mainMenuWithoutFriends = new ArrayList<>(Arrays.asList(mainMenuItems));
-            mainMenuWithoutFriends.remove("View your Friend's List");
+            mainMenuWithoutFriends.remove("View your Friend's List (BETA)");
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuWithoutFriends);
             mainMenu.setAdapter(adapter);
         } else {
@@ -196,7 +196,7 @@ public class MainActivity extends ActionBarActivity {
                             .setTitle("BETA Testers Only").setNegativeButton("Aww", null).show();
                 }
                 break;
-            case "View your Friend's List":
+            case "View your Friend's List (BETA)":
                 //TODO Complete this and remove BETA Tag
                 if (MainStaticVars.isCreator){
                     new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is extremely unstable. Do you want to continue?")
