@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -21,9 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 
 import java.text.SimpleDateFormat;

@@ -12,15 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsHead;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GuildGetPlayerHead;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoFriends;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoGuildMember;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
-import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -30,7 +27,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;

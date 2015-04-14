@@ -1,6 +1,5 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI.Session;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
