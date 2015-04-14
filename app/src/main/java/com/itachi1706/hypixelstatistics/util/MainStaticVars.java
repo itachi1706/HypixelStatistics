@@ -48,6 +48,7 @@ public class MainStaticVars {
 
     public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
     public static int friendsListSize = 0;
+    public static String friendOwner = "";
     public static FriendsListAdapter friendsListAdapter;
 
     //Parkour Numbers

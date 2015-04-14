@@ -1,22 +1,33 @@
 package com.itachi1706.hypixelstatistics;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class FriendListActivity extends ActionBarActivity {
@@ -36,6 +47,35 @@ public class FriendListActivity extends ActionBarActivity {
         friendListView = (ListView) findViewById(R.id.lvFriendList);
         loadingStatus = (ProgressBar) findViewById(R.id.pbFriendsList);
         progressInfo = (TextView) findViewById(R.id.tvProgressInfo);
+
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object obj = friendListView.getItemAtPosition(position);
+                if (obj instanceof FriendsObject){
+                    final FriendsObject friend = (FriendsObject) obj;
+                    String message;
+                    if (friend.isSendFromOwner()){
+                        message = "Friend Request sent by " + MainStaticVars.friendOwner + "<br />";
+                    } else {
+                        message = "Sent Friend Request to " + MainStaticVars.friendOwner + "<br />";
+                    }
+                    String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(friend.getDate()));
+                    message += "Friends From: " + timeStamp;
+                    new AlertDialog.Builder(FriendListActivity.this).setTitle(Html.fromHtml(friend.get_mcNameWithRank()))
+                        .setMessage(Html.fromHtml(message))
+                        .setPositiveButton("View Player Info", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intentE = new Intent(FriendListActivity.this, ExpandedPlayerInfoActivity.class);
+                                intentE.putExtra("player", friend.get_mcName());
+                                startActivity(intentE);
+                            }
+                        }).setNegativeButton("Close", null).show();
+
+                }
+            }
+        });
 
         handleIntent(getIntent());
     }

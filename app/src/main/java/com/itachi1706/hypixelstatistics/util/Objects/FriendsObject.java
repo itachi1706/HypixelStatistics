@@ -9,11 +9,12 @@ public class FriendsObject {
 
     private long date;
     private String _mcName, _mcNameWithRank, friendUUID;
-    private boolean _done;
+    private boolean _done, sendFromOwner;
 
-    public FriendsObject(long date, String friendUUID){
+    public FriendsObject(long date, String friendUUID, boolean sendFromOwner){
         this.date = date;
         this.friendUUID = friendUUID;
+        this.sendFromOwner = sendFromOwner;
     }
 
     public String getFriendUUID() {
@@ -54,5 +55,13 @@ public class FriendsObject {
 
     public void set_done(boolean _done) {
         this._done = _done;
+    }
+
+    public boolean isSendFromOwner() {
+        return sendFromOwner;
+    }
+
+    public void setSendFromOwner(boolean sendFromOwner) {
+        this.sendFromOwner = sendFromOwner;
     }
 }

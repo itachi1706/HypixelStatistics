@@ -142,6 +142,18 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         //Process Friends Requests
         tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b" + reply.getRecords().size() + "§r")));
 
+        //Get Name of player whose's friends list is being shown
+        String user = checkHistory(uuidValue);
+        if (user.equals("err")){
+            //Get Name
+            new GetFriendsOwner(mActivity, tvResult, reply.getRecords().size()).execute(uuidValue);
+        } else {
+            //Set Name
+            tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors(user + "'s friends" +
+                    "<br />Friends: §b" + reply.getRecords().size() + "§r")));
+            MainStaticVars.friendOwner = user;
+        }
+
         //Update info
         progressInfo.setText("Found " + reply.getRecords().size() + " friends. Processing now...");
         ArrayList<FriendsObject> friendsListTemp = new ArrayList<>();
@@ -153,9 +165,9 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             String receiverUUID = obj.get("uuidReceiver").getAsString();
             FriendsObject friends;
             if (senderUUID.equals(uuidValue)) {
-                friends = new FriendsObject(friendsFromDate, receiverUUID);
+                friends = new FriendsObject(friendsFromDate, receiverUUID, true);
             } else {
-                friends = new FriendsObject(friendsFromDate, senderUUID);
+                friends = new FriendsObject(friendsFromDate, senderUUID, false);
             }
             friendsListTemp.add(friends);
             //Update progress
@@ -224,5 +236,30 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             progressCircle.setVisibility(View.INVISIBLE);
             progressInfo.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private String checkHistory(String uuid){
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mActivity.getApplicationContext()));
+        Gson gson = new Gson();
+        if (hist != null) {
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            JsonArray histCheck = check.getHistory();
+            for (JsonElement el : histCheck) {
+                JsonObject histCheckName = el.getAsJsonObject();
+                if (histCheckName.get("uuid").getAsString().equals(uuid)) {
+                    //Check if history expired
+                    if (CharHistory.checkHistoryExpired(histCheckName)) {
+                        //Expired, reobtain
+                        histCheck.remove(histCheckName);
+                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mActivity.getApplicationContext()), histCheck);
+                        Log.d("HISTORY", "History Expired");
+                        break;
+                    } else {
+                        return MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName);
+                    }
+                }
+            }
+        }
+        return "err";
     }
 }
