@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,10 +54,16 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
     private ListView playerListView;
     private TextView tvResult;
 
-    public GetFriendsListUUID(Activity mActivity, ListView playerListView, TextView tvResult){
+    //Progress Information
+    private ProgressBar progressCircle;
+    private TextView progressInfo;
+
+    public GetFriendsListUUID(Activity mActivity, ListView playerListView, TextView tvResult, ProgressBar progress, TextView progressInfo){
         this.mActivity = mActivity;
         this.playerListView = playerListView;
         this.tvResult = tvResult;
+        this.progressCircle = progress;
+        this.progressInfo = progressInfo;
     }
 
     @Override
@@ -124,12 +132,20 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             String[] noFriendsSadFace = {"No Friends Found :("};
             ArrayAdapter<String> noFriendsAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_list_item_1, noFriendsSadFace);
             playerListView.setAdapter(noFriendsAdapter);
+
+            //Dismiss progress bar and info
+            progressInfo.setVisibility(View.INVISIBLE);
+            progressCircle.setVisibility(View.INVISIBLE);
             return;
         }
         MainStaticVars.friends_session_data.clear();
         //Process Friends Requests
         tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b" + reply.getRecords().size() + "§r")));
+
+        //Update info
+        progressInfo.setText("Found " + reply.getRecords().size() + " friends. Processing now...");
         ArrayList<FriendsObject> friendsListTemp = new ArrayList<>();
+        int processedProgress = 1, processedSize = reply.getRecords().size();
         for (JsonElement e : reply.getRecords()) {
             JsonObject obj = e.getAsJsonObject();
             long friendsFromDate = obj.get("started").getAsLong();
@@ -142,7 +158,11 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
                 friends = new FriendsObject(friendsFromDate, senderUUID);
             }
             friendsListTemp.add(friends);
+            //Update progress
+            progressInfo.setText("Processed " + processedProgress + "/" + processedSize);
         }
+        progressInfo.setText("Processing Completed. Retrieving Friends Data now...");
+        MainStaticVars.friendsListSize = processedSize;
         //Check history
         for (FriendsObject f : friendsListTemp) {
             String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mActivity.getApplicationContext()));
@@ -167,12 +187,14 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
                             MainStaticVars.friendsList.add(f);
                             hasHist = true;
                             Log.d("Player", "Found player " + f.get_mcName());
+                            //Update process
+                            progressInfo.setText("Retrieved " + MainStaticVars.friendsList.size() + "/" + MainStaticVars.friendsListSize + " friends");
                             break;
                         }
                     }
                 }
                 if (!hasHist)
-                    new GetFriendsName(mActivity, playerListView).execute(f);
+                    new GetFriendsName(mActivity, playerListView, progressCircle, progressInfo).execute(f);
                 checkIfComplete();
             }
         }
@@ -190,6 +212,12 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         if (done){
             FriendsListAdapter adapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
             playerListView.setAdapter(adapter);
+        }
+
+        if (MainStaticVars.friendsList.size() >= MainStaticVars.friendsListSize){
+            //Complete. Hide progress data
+            progressCircle.setVisibility(View.INVISIBLE);
+            progressInfo.setVisibility(View.INVISIBLE);
         }
     }
 }

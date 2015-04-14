@@ -45,7 +45,7 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
         String url = MainStaticVars.API_BASE_URL + "session?key=" + MainStaticVars.apikey + "&uuid=" + uuidQuery[0];
         String tmp = "";
         uuidValue = uuidQuery[0];
-        Log.i("SESSION-GUILD", "Getting Session Data for " + uuidQuery[0]);
+        Log.i("SESSION-FRIEND", "Getting Session Data for " + uuidQuery[0]);
         //Get Statistics
         try {
             final HttpParams httpParams = new BasicHttpParams();
@@ -86,6 +86,7 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String json){
         String resultString = "";
+        Log.i("SESSION-FRIEND", "Session Data received for " + uuidValue + ". Parsing...");
         if (except != null){
             if (except instanceof ConnectTimeoutException){
                 resultString += "§4Unknown [1]§r";

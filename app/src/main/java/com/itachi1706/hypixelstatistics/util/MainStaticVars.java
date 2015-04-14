@@ -46,6 +46,7 @@ public class MainStaticVars {
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 
     public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
+    public static int friendsListSize = 0;
 
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 12;

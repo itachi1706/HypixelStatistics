@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +21,8 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
 
 public class FriendListActivity extends ActionBarActivity {
 
-    TextView friendsCount;
+    TextView friendsCount, progressInfo;
+    ProgressBar loadingStatus;
     ListView friendListView;
     private boolean isSearchActive = false;
     private Menu activityMenu;
@@ -31,6 +34,8 @@ public class FriendListActivity extends ActionBarActivity {
 
         friendsCount = (TextView) findViewById(R.id.friendCount);
         friendListView = (ListView) findViewById(R.id.lvFriendList);
+        loadingStatus = (ProgressBar) findViewById(R.id.pbFriendsList);
+        progressInfo = (TextView) findViewById(R.id.tvProgressInfo);
 
         handleIntent(getIntent());
     }
@@ -59,8 +64,11 @@ public class FriendListActivity extends ActionBarActivity {
 
             //Do stuff with query
             friendsCount.setText("You asked for: " + searchQuery);
+            loadingStatus.setVisibility(View.VISIBLE);
+            progressInfo.setVisibility(View.VISIBLE);
+            progressInfo.setText("Retriving Friends List... Querying API...");
             Toast.makeText(this.getApplicationContext(), "Retrieving Friend List of " + searchQuery, Toast.LENGTH_SHORT).show();
-            new GetFriendsListUUID(this, friendListView, friendsCount).execute(searchQuery);
+            new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
         }
     }
 
