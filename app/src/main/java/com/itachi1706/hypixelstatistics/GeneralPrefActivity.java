@@ -113,7 +113,7 @@ public class GeneralPrefActivity extends ActionBarActivity {
                     ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("Player UUID", player_UUID.getSummary());
                     clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getActivity(),"Text copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"UUID copied to clipboard", Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });
