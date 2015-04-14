@@ -48,6 +48,11 @@ public class FriendListActivity extends ActionBarActivity {
         loadingStatus = (ProgressBar) findViewById(R.id.pbFriendsList);
         progressInfo = (TextView) findViewById(R.id.tvProgressInfo);
 
+        if (this.getIntent().hasExtra("playeruuid")){
+            //Automatically search this UUID
+            retrieveFriendsList(this.getIntent().getStringExtra("playeruuid"));
+        }
+
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,12 +109,16 @@ public class FriendListActivity extends ActionBarActivity {
 
             //Do stuff with query
             friendsCount.setText("You asked for: " + searchQuery);
-            loadingStatus.setVisibility(View.VISIBLE);
-            progressInfo.setVisibility(View.VISIBLE);
-            progressInfo.setText("Retriving Friends List... Querying API...");
-            Toast.makeText(this.getApplicationContext(), "Retrieving Friend List of " + searchQuery, Toast.LENGTH_SHORT).show();
-            new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
+            retrieveFriendsList(searchQuery);
         }
+    }
+
+    private void retrieveFriendsList(String searchQuery){
+        loadingStatus.setVisibility(View.VISIBLE);
+        progressInfo.setVisibility(View.VISIBLE);
+        progressInfo.setText("Retriving Friends List... Querying API...");
+        Toast.makeText(this.getApplicationContext(), "Retrieving Friend List of " + searchQuery, Toast.LENGTH_SHORT).show();
+        new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
     }
 
     @Override
@@ -122,6 +131,14 @@ public class FriendListActivity extends ActionBarActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        //Not triggered by anywhere else
+        if (this.getIntent().hasExtra("playeruuid")){
+            searchView.setIconifiedByDefault(true);
+        } else {
+            searchView.setIconifiedByDefault(false);
+            searchView.requestFocus();
+        }
         return true;
     }
 
@@ -134,6 +151,7 @@ public class FriendListActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(FriendListActivity.this, GeneralPrefActivity.class));
             return true;
         } else if (id == R.id.search){
             isSearchActive = true;
