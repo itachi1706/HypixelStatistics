@@ -32,6 +32,7 @@ import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @SuppressWarnings("ConstantConditions")
@@ -40,7 +41,8 @@ public class MainActivity extends ActionBarActivity {
     ListView mainMenu, boosterMenu;
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)"};
+    ArrayAdapter<String> adapter;
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)", "View your Friend's List"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
                 finish();
 
         mainMenu = (ListView) findViewById(R.id.lvMainMenu);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
         mainMenu.setAdapter(adapter);
         boostProg = (ProgressBar) findViewById(R.id.pbABoost);
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
@@ -123,9 +125,19 @@ public class MainActivity extends ActionBarActivity {
         //Log.d("DEBUG", playerName);
         if (playerName.equals("NOPE")){
             customWelcome.setVisibility(View.INVISIBLE);
+
+            //Remove the view your friend's list stuff
+            ArrayList<String> mainMenuWithoutFriends = new ArrayList<>(Arrays.asList(mainMenuItems));
+            mainMenuWithoutFriends.remove("View your Friend's List");
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuWithoutFriends);
+            mainMenu.setAdapter(adapter);
         } else {
             customWelcome.setVisibility(View.VISIBLE);
             customWelcome.setText(Html.fromHtml("Welcome " + playerName + "!"));
+
+            //Update main menu again
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
+            mainMenu.setAdapter(adapter);
         }
     }
 
@@ -177,6 +189,28 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(MainActivity.this, FriendListActivity.class));
+                        }
+                    }).setNegativeButton("Maybe Not", null).show();
+                } else {
+                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is only available for BETA Testers")
+                            .setTitle("BETA Testers Only").setNegativeButton("Aww", null).show();
+                }
+                break;
+            case "View your Friend's List":
+                //TODO Complete this and remove BETA Tag
+                if (MainStaticVars.isCreator){
+                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is extremely unstable. Do you want to continue?")
+                            .setTitle("App Instability Warning").setPositiveButton("Go Ahead!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
+                            String yourUUID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("own-uuid", "-");
+                            if (yourUUID.equals("-"))
+                                Toast.makeText(getApplicationContext(), "Cannot find your UUID", Toast.LENGTH_SHORT).show();
+                            else {
+                                intent.putExtra("playeruuid", yourUUID);
+                                startActivity(intent);
+                            }
                         }
                     }).setNegativeButton("Maybe Not", null).show();
                 } else {
