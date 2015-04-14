@@ -133,12 +133,8 @@ public class FriendListActivity extends ActionBarActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         //Not triggered by anywhere else
-        if (this.getIntent().hasExtra("playeruuid")){
-            searchView.setIconifiedByDefault(true);
-        } else {
-            searchView.setIconifiedByDefault(false);
-            searchView.requestFocus();
-        }
+        if (!this.getIntent().hasExtra("playeruuid"))
+            friendsCount.setText("To start, press the search icon!");
         return true;
     }
 
