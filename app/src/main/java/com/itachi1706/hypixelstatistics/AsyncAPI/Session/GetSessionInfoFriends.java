@@ -88,15 +88,15 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
         String resultString = "";
         if (except != null){
             if (except instanceof ConnectTimeoutException){
-                resultString += "§7Unknown [1]§r";
+                resultString += "§4Unknown [1]§r";
                 Log.e("SESSION-ERR", "Connection Timed Out. Try again later");
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             } else if (except instanceof SocketTimeoutException) {
-                resultString += "§7Unknown [2]§r";
+                resultString += "§4Unknown [2]§r";
                 Log.e("SESSION-ERR", "Socket Connection Timed Out. Try again later");
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             } else {
-                resultString += "§7Unknown [3]§r";
+                resultString += "§4Unknown [3]§r";
                 Log.e("SESSION-ERR", except.getMessage());
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             }
@@ -104,10 +104,10 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare")){
-                    resultString += "§7Unknown [4]§r";
+                    resultString += "§4Unknown [4]§r";
                     Log.e("SESSION-ERR", "CloudFlare timeout 524 occurred");
                 } else {
-                    resultString += "§7Unknown [5]§r";
+                    resultString += "§4Unknown [5]§r";
                     Log.e("SESSION-ERR", "An error occured (Invalid JSON String)");
                 }
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
@@ -115,11 +115,11 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
             }
             SessionReply reply = gson.fromJson(json, SessionReply.class);
             if (reply.isThrottle()){
-                resultString += "§7Throttled§r";
+                resultString += "§4Throttled§r";
                 Log.e("SESSION-ERR", "Unknown Status (Query limit reached)");
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             } else if (!reply.isSuccess()){
-                resultString += "§7Unknown UUID§r";
+                resultString += "§4Unknown UUID§r";
                 Log.e("SESSION-ERR", "Invalid UUID");
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             } else {
