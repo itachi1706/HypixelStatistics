@@ -87,4 +87,8 @@ public class FriendsListAdapter extends ArrayAdapter<FriendsObject> {
 
         return v;
     }
+
+    public void updateAdapter(ArrayList<FriendsObject> newArrayData){
+        this.items = newArrayData;
+    }
 }

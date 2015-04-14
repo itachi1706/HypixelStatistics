@@ -163,10 +163,13 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         }
         progressInfo.setText("Processing Completed. Retrieving Friends Data now...");
         MainStaticVars.friendsListSize = processedSize;
+        MainStaticVars.friendsList.clear();
         //Check history
         for (FriendsObject f : friendsListTemp) {
             String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mActivity.getApplicationContext()));
             boolean hasHist = false;
+            MainStaticVars.friendsListAdapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
+            playerListView.setAdapter(MainStaticVars.friendsListAdapter);
             if (hist != null) {
                 HistoryObject check = gson.fromJson(hist, HistoryObject.class);
                 JsonArray histCheck = check.getHistory();
@@ -194,7 +197,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
                     }
                 }
                 if (!hasHist)
-                    new GetFriendsName(mActivity, playerListView, progressCircle, progressInfo).execute(f);
+                    new GetFriendsName(mActivity, progressCircle, progressInfo).execute(f);
                 checkIfComplete();
             }
         }
@@ -210,8 +213,10 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         }
 
         if (done){
-            FriendsListAdapter adapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
-            playerListView.setAdapter(adapter);
+            //FriendsListAdapter adapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
+            //playerListView.setAdapter(adapter);
+            MainStaticVars.friendsListAdapter.updateAdapter(MainStaticVars.friendsList);
+            MainStaticVars.friendsListAdapter.notifyDataSetChanged();
         }
 
         if (MainStaticVars.friendsList.size() >= MainStaticVars.friendsListSize){

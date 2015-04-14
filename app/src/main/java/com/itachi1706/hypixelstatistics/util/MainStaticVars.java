@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
@@ -47,6 +48,7 @@ public class MainStaticVars {
 
     public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
     public static int friendsListSize = 0;
+    public static FriendsListAdapter friendsListAdapter;
 
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 12;

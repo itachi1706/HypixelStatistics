@@ -48,23 +48,20 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
     Exception except = null;
     Activity mActivity;
     FriendsObject playerName;
-    ListView playerFriendsList;
     int retry = 0;
 
     //Progress Info
     private ProgressBar progressCircle;
     private TextView progressInfo;
 
-    public GetFriendsName(Activity activity, ListView listView, ProgressBar progress, TextView progressInfo){
+    public GetFriendsName(Activity activity, ProgressBar progress, TextView progressInfo){
         mActivity = activity;
-        playerFriendsList = listView;
         this.progressInfo = progressInfo;
         this.progressCircle = progress;
     }
 
-    public GetFriendsName(Activity activity, ListView listView, ProgressBar progress, TextView progressInfo, int retry){
+    public GetFriendsName(Activity activity, ProgressBar progress, TextView progressInfo, int retry){
         mActivity = activity;
-        playerFriendsList = listView;
         this.retry = retry;
         this.progressInfo = progressInfo;
         this.progressCircle = progress;
@@ -112,14 +109,14 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
                     Toast.makeText(mActivity.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
                 else {
                     Log.d("RESOLVE", "Retrying");
-                    new GetFriendsName(mActivity, playerFriendsList, progressCircle, progressInfo, retry + 1).execute(playerName);
+                    new GetFriendsName(mActivity, progressCircle, progressInfo, retry + 1).execute(playerName);
                 }
             } else if (except instanceof SocketTimeoutException){
                 if (retry > 10)
                     Toast.makeText(mActivity.getApplicationContext(), "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
                 else {
                     Log.d("RESOLVE", "Retrying");
-                    new GetFriendsName(mActivity, playerFriendsList, progressCircle, progressInfo, retry + 1).execute(playerName);
+                    new GetFriendsName(mActivity, progressCircle, progressInfo, retry + 1).execute(playerName);
                 }
             } else
                 Toast.makeText(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
@@ -128,7 +125,7 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 Log.d("Invalid JSON", json + " is invalid");
                 Log.d("RESOLVE", "Retrying");
-                new GetFriendsName(mActivity, playerFriendsList, progressCircle, progressInfo).execute(playerName);
+                new GetFriendsName(mActivity, progressCircle, progressInfo).execute(playerName);
             } else {
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
@@ -136,13 +133,13 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
                     //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
                     Log.d("THROTTLED", "FRIENDS API NAME GET: " + playerName.getFriendUUID());
                     Log.d("RESOLVE", "Retrying");
-                    new GetFriendsName(mActivity, playerFriendsList, progressCircle, progressInfo).execute(playerName);
+                    new GetFriendsName(mActivity, progressCircle, progressInfo).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
                     Toast.makeText(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
                     Log.d("UNSUCCESSFUL", "FRIENDS API NAME GET: " + playerName.getFriendUUID());
                     Log.d("RESOLVE", "Retrying");
-                    new GetFriendsName(mActivity, playerFriendsList, progressCircle, progressInfo).execute(playerName);
+                    new GetFriendsName(mActivity, progressCircle, progressInfo).execute(playerName);
                 } else if (reply.getPlayer() == null) {
                     Toast.makeText(mActivity.getApplicationContext(), "Invalid Player " + playerName.getFriendUUID(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -194,8 +191,10 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
         }
 
         if (done){
-            FriendsListAdapter adapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
-            playerFriendsList.setAdapter(adapter);
+            //FriendsListAdapter adapter = new FriendsListAdapter(mActivity, R.layout.listview_guild_desc, MainStaticVars.friendsList);
+            //playerFriendsList.setAdapter(adapter);
+            MainStaticVars.friendsListAdapter.updateAdapter(MainStaticVars.friendsList);
+            MainStaticVars.friendsListAdapter.notifyDataSetChanged();
         }
 
         if (MainStaticVars.friendsList.size() >= MainStaticVars.friendsListSize){
