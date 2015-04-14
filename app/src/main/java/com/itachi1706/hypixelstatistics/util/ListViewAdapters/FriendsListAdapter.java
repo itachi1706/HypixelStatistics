@@ -64,13 +64,13 @@ public class FriendsListAdapter extends ArrayAdapter<FriendsObject> {
                 if (MainStaticVars.friends_session_data.containsKey(i.getFriendUUID())){
                     session.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.friends_session_data.get(i.getFriendUUID()))));
                 } else {
-                    session.setText("Getting Session...");
+                    session.setText("Getting Session Information...");
                     new GetSessionInfoFriends(session).execute(i.getFriendUUID());
                 }
             }
             if (joined != null) {
                 String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.getDate()));
-                joined.setText("Joined On: " + timeStamp);
+                joined.setText("Friends From: " + timeStamp);
             }
             if (head != null) {
                 prog.setVisibility(View.VISIBLE);
