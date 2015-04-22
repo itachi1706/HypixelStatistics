@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.itachi1706.hypixelstatistics"
         minSdkVersion 11
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
-        versionName "1.6.5"
+        versionName "1.6.6"
     }
     buildTypes {
         release {
@@ -36,7 +36,7 @@ dependencies {
     compile files('libs/commons-lang3-3.3.2.jar')
     compile files('libs/gson-2.3.jar')
     compile files('libs/guava-18.0.jar')
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.0'
     compile 'com.android.support:palette-v7:21.0.3'
-    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:support-v4:22.1.0'
 }
