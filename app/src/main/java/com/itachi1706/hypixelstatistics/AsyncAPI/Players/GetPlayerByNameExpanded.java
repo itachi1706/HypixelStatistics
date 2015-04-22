@@ -620,7 +620,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             String description = OngoingAchievements.getDescriptionByTier(achievement, i);
             int tierValue = OngoingAchievements.getTierByTier(achievement, i);
             String progression;
-            if (tierValue < achievedValue){
+            if (tierValue <= achievedValue){
                 //Completed alr (Show Completed)
                 progression = MinecraftColorCodes.GREEN.getHtmlCode() + "Completed" + MinecraftColorCodes.CLEAR.getHtmlCode();
             } else {
