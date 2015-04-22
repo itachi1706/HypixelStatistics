@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_view_debug">View JSON String</string>
     <string name="action_view_legacy">Use Legacy Version</string>
-    <string name="hypixel_api_key">0b57fcc2-2f5e-4d2f-b3ba-bce989561a2b</string>
+    <string name="hypixel_api_key">1b513445-e09c-4cd3-a89f-5f17a57d8f1b</string>
     <string name="key_btnkeycheck">Check Key!</string>
     <string name="title_activity_key_info">View API Key Info</string>
     <string name="keyinfo_api_label">API Key:</string>
