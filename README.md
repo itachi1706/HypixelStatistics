@@ -3,8 +3,6 @@ HypixelStatistics [![Build Status](https://travis-ci.org/itachi1706/HypixelStati
 
 This is the offical repository for the Hypixel Statistics Android Application. 
 
-Travis CI is currently disabled until I figure out how to fix the failing builds lol.  
-
 Releases are located here:       
 https://github.com/itachi1706/HypixelStatistics/releases
 
