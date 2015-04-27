@@ -27,6 +27,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -58,14 +60,12 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         String url = "http://www.itachi1706.com/android/hypstatistics.html";
         String tmp = "";
         try {
-            final HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpClient client = new DefaultHttpClient(httpParams);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
+            URL urlConn = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            InputStream in = conn.getInputStream();
 
-            InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
             String line;

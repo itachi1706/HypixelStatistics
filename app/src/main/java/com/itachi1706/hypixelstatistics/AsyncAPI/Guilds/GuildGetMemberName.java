@@ -34,7 +34,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM
@@ -66,14 +68,12 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
         String tmp = "";
         //Get Statistics
         try {
-            final HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpClient client = new DefaultHttpClient(httpParams);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
+            URL urlConn = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            InputStream in = conn.getInputStream();
 
-            InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
             String line;
@@ -95,14 +95,9 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
 
     protected void onPostExecute(String json) {
         if (except != null){
-            if (except instanceof ConnectTimeoutException){
+            if (except instanceof SocketTimeoutException) {
                 if (retry)
                     Toast.makeText(mContext.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
-                else
-                    new GuildGetMemberName(mContext, _memberInfo, true).execute(playerName);
-            } else if (except instanceof SocketTimeoutException) {
-                if (retry)
-                    Toast.makeText(mContext.getApplicationContext(), "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
                 else
                     new GuildGetMemberName(mContext, _memberInfo, true).execute(playerName);
             } else {

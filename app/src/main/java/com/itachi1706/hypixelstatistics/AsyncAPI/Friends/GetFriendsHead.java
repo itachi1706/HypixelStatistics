@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 
 import java.io.IOException;
@@ -73,8 +74,8 @@ public class GetFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
             //Get Player Head
             URL url = new URL(headUrl);
             URLConnection conn = url.openConnection();
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
             InputStream is = (InputStream) conn.getContent();
             d = Drawable.createFromStream(is, "src name");
         } catch (IOException e) {

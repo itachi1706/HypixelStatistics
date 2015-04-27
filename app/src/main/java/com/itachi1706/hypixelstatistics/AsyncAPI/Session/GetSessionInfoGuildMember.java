@@ -24,7 +24,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 
 /**
  * Created by Kenneth on 9/4/2015
@@ -49,14 +51,12 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
         Log.i("SESSION-GUILD", "Getting Session Data for " + uuidQuery[0]);
         //Get Statistics
         try {
-            final HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpClient client = new DefaultHttpClient(httpParams);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
+            URL urlConn = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            InputStream in = conn.getInputStream();
 
-            InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
             String line;
@@ -78,8 +78,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
 
     /**
      * Unknown Level Status (Refer to logcat for details)
-     * 1 - Connection Timed Out
-     * 2 - Socket Timed Out
+     * 2 - Socket Timed Out (Read/Connect)
      * 3 - Exception Occurred
      * 4 - Cloudflare Timeout
      * 5 - Invalid JSON
@@ -88,13 +87,9 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String json){
         String resultString = "§6" + rankName + "§r (";
         if (except != null){
-            if (except instanceof ConnectTimeoutException){
-                resultString += "§4Unknown [1]§r)";
-                Log.e("SESSION-ERR", "Connection Timed Out. Try again later");
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
-            } else if (except instanceof SocketTimeoutException) {
+            if (except instanceof SocketTimeoutException) {
                 resultString += "§4Unknown [2]§r)";
-                Log.e("SESSION-ERR", "Socket Connection Timed Out. Try again later");
+                Log.e("SESSION-ERR", "Connection Timed Out. Try again later");
                 result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
             } else {
                 resultString += "§4Unknown [3]§r)";

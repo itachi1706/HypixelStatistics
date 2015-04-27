@@ -12,20 +12,13 @@ import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.KeyReply;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -52,14 +45,12 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
         String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
         String tmp = "";
         try {
-            final HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpClient client = new DefaultHttpClient(httpParams);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
+            URL urlConn = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            InputStream in = conn.getInputStream();
 
-            InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
             String line;
@@ -78,11 +69,8 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
 
     protected void onPostExecute(String json) {
         if (except != null){
-            if (except instanceof ConnectTimeoutException){
+            if (except instanceof SocketTimeoutException) {
                 result.setText("Connection Timed Out. Try again later");
-                result.setTextColor(Color.RED);
-            } else if (except instanceof SocketTimeoutException) {
-                result.setText("Socket Connection Timed Out. Try again later");
                 result.setTextColor(Color.RED);
             } else {
                 debug.setText(except.getMessage());

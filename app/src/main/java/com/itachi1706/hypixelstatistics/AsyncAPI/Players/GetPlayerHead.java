@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,8 +85,8 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             //Get Player Head
             URL url = new URL(headUrl);
             URLConnection conn = url.openConnection();
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
             InputStream is = (InputStream) conn.getContent();
             d = Drawable.createFromStream(is, "src name");
         } catch (IOException e) {

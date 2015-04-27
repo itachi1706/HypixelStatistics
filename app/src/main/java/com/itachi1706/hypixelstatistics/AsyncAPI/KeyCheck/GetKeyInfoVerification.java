@@ -13,20 +13,13 @@ import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.KeyReply;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -55,14 +48,12 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
         String tmp = "";
         try {
-            final HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(httpParams, MainStaticVars.HTTP_QUERY_TIMEOUT);
-            HttpClient client = new DefaultHttpClient(httpParams);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
+            URL urlConn = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+            conn.setConnectTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            conn.setReadTimeout(MainStaticVars.HTTP_QUERY_TIMEOUT);
+            InputStream in = conn.getInputStream();
 
-            InputStream in = response.getEntity().getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder str = new StringBuilder();
             String line;
@@ -74,6 +65,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
             tmp = str.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            except = e;
         }
         return tmp;
 
@@ -82,10 +74,8 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
     protected void onPostExecute(String json) {
         GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
         if (except != null){
-            if (except instanceof ConnectTimeoutException)
+            if (except instanceof SocketTimeoutException)
                 Toast.makeText(mContext.getApplicationContext(), "Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
-            else if (except instanceof SocketTimeoutException)
-                Toast.makeText(mContext.getApplicationContext(), "Socket Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
             pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
