@@ -68,6 +68,7 @@ public class BoosterList extends AppCompatActivity {
             if (MainStaticVars.boosterList.size() != 0) {
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
                 boostList.setAdapter(adapter);
+                assert BoosterList.this.getSupportActionBar() != null;
                 this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
             } else {
                 String[] tmp = {"No Boosters Activated"};
@@ -97,6 +98,7 @@ public class BoosterList extends AppCompatActivity {
 
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
+                        assert BoosterList.this.getSupportActionBar() != null;
                         BoosterList.this.getSupportActionBar().setTitle(BoosterList.this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterMaxProcessCounter + ")");
                         for (JsonElement e : records) {
                             JsonObject obj = e.getAsJsonObject();
