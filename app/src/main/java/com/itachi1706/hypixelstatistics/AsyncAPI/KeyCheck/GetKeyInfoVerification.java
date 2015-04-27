@@ -99,6 +99,15 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                     Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (reply == null){
+                if (!mContext.isFinishing()){
+                    new AlertDialog.Builder(mContext).setTitle("An error occured")
+                            .setMessage("No Key Reply found. Please contact dev")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                } else
+                    Toast.makeText(mContext.getApplicationContext(), "An error occured", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 if (!mContext.isFinishing()) {
