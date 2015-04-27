@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
@@ -45,7 +46,7 @@ import net.hypixel.api.reply.PlayerReply;
 import java.util.ArrayList;
 
 
-public class ExpandedPlayerInfoActivity extends ActionBarActivity {
+public class ExpandedPlayerInfoActivity extends AppCompatActivity {
 
     AutoCompleteTextView playerName;
     TextView debug, result, session;

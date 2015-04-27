@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
@@ -43,7 +44,7 @@ import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 import java.util.ArrayList;
 
 
-public class GuildActivity extends ActionBarActivity {
+public class GuildActivity extends AppCompatActivity {
 
     AutoCompleteTextView guildSearch;
     ToggleButton searchFilter;

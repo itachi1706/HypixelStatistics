@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
-public class DebugSettings extends ActionBarActivity {
+public class DebugSettings extends AppCompatActivity {
 
 
     @Override

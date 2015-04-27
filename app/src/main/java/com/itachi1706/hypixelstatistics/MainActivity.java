@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -24,11 +25,11 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetBrief;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.Arrays;
 
 
 @SuppressWarnings("ConstantConditions")
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     ListView mainMenu, boosterMenu;
     TextView customWelcome, boosterTooltip, playerCount;

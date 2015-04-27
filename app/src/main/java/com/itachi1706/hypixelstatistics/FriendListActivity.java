@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.util.Log;
@@ -28,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class FriendListActivity extends ActionBarActivity {
+public class FriendListActivity extends AppCompatActivity {
 
     TextView friendsCount, progressInfo;
     ProgressBar loadingStatus;
