@@ -10,13 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,8 +19,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kenneth on 6/2/2015, 10:12 PM
@@ -78,9 +69,10 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
             replaceIndex(filename);
         }
 
+        /*
         if (url != null) {
             sendToServer(stacktrace, filename);
-        }
+        }*/
 
         defaultUEH.uncaughtException(t, e);
     }
@@ -216,6 +208,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
+    /*
     private void sendToServer(String stacktrace, String filename) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
@@ -229,5 +222,5 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
