@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainStaticVars.updateTheme(this);
         setContentView(R.layout.activity_main);
 
         //Init error handling
@@ -60,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
         crashHandler.checkCrash();
-
-        MainStaticVars.updateBriefBoosterPref(getApplicationContext());
 
         //Check for legacy strings
         CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
@@ -96,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        MainStaticVars.updateAPIKey(getApplicationContext());
-        if (!MainStaticVars.boosterUpdated) {
-            updateActiveBoosters();
-        }
 
         new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()), true).execute();
     }
@@ -138,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
             //Update main menu again
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mainMenuItems);
             mainMenu.setAdapter(adapter);
+        }
+
+        if (!MainStaticVars.boosterUpdated) {
+            updateActiveBoosters();
         }
     }
 
