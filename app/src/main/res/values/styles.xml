@@ -11,4 +11,12 @@
     </style>
         <!-- Customize your theme here. -->
 
+    <!-- New App Theme -->
+    <style name="NewTheme" parent="NewTheme.Base" />
+    <style name="NewTheme.Base" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/yellow_700</item>
+        <item name="colorPrimaryDark">@color/yellow_900</item>
+        <item name="colorAccent">@color/deep_orange_a200</item>
+    </style>
+
 </resources>

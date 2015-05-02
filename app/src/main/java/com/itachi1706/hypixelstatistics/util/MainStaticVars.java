@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -103,5 +104,27 @@ public class MainStaticVars {
 
     public static boolean checkIfYouGotJsonString(String jsonString){
         return !jsonString.startsWith("<!DOCTYPE html>");
+    }
+
+    public static int getTheme(Activity activity){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        String themeSel = prefs.getString("appThemePref", "Default");
+        switch (themeSel){
+            case "Default": return R.style.AppTheme;
+            case "AppTheme": return R.style.AppTheme;
+            case "NewTheme": return R.style.NewTheme;
+        }
+        return R.style.AppTheme;
+    }
+
+    public static int getStatusBarColor(Activity activity){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        String themeSel = prefs.getString("appThemePref", "Default");
+        switch (themeSel){
+            case "Default": return R.color.blue_700;
+            case "AppTheme": return R.color.blue_700;
+            case "NewTheme": return R.color.yellow_900;
+        }
+        return R.color.blue_700;
     }
 }

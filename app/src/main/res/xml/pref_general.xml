@@ -11,6 +11,13 @@
             android:title="@string/pref_detailed_active_boosters_title"
             android:summary="@string/pref_detailed_active_boosters_summary"
             android:defaultValue="false" />
+        <ListPreference
+            android:title="Application Theme"
+            android:summary="%s"
+            android:defaultValue="AppTheme"
+            android:key="appThemePref"
+            android:entries="@array/themeArray"
+            android:entryValues="@array/themeValues"/>
         <Preference android:title="API Key (Click to enter personal key)" android:key="api_key" android:summary="Obtaining Key..."/>
         <Preference android:title="View API Key Info" android:key="view_api_info" android:summary="View information regarding the API Key"/>
         <Preference android:title="History" android:key="view_hist_activity" android:summary="View History stored onto your Device"/>

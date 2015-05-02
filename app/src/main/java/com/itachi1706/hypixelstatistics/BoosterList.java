@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -40,6 +41,12 @@ public class BoosterList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set Theme
+        setTheme(MainStaticVars.getTheme(this));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusBarColor(this)));
+
         setContentView(R.layout.activity_booster_list);
 
         boostList = (ListView) findViewById(R.id.BoostlvBooster);

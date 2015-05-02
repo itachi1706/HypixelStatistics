@@ -39,6 +39,12 @@ public class FriendListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set Theme
+        setTheme(MainStaticVars.getTheme(this));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusBarColor(this)));
+
         setContentView(R.layout.activity_friend_list);
 
         friendsCount = (TextView) findViewById(R.id.friendCount);

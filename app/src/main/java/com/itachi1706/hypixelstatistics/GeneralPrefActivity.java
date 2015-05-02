@@ -79,7 +79,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
             Preference pNamePref = findPreference("view_app_name");
             pNamePref.setSummary(packName);
 
-            Preference updaterPref = findPreference("launch_updater");
+            final Preference updaterPref = findPreference("launch_updater");
             updaterPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -113,7 +113,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                     ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("Player UUID", player_UUID.getSummary());
                     clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getActivity(),"UUID copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "UUID copied to clipboard", Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });
@@ -129,42 +129,42 @@ public class GeneralPrefActivity extends AppCompatActivity {
                     newKey.setHint("Enter API Key (Including dashes)");
                     String dialogPrompt = getString(R.string.pref_set_api_key_dialog_init_prompt);
                     new AlertDialog.Builder(getActivity()).setTitle("Enter Personal API Key")
-                            .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(dialogPrompt.replace("\n","<br />"))))
-                                    .setView(newKey)
-                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String newKeyString = newKey.getText().toString();
-                                            if (newKeyString.equals("")) {
-                                                Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
-                                            //Check if its a UUID
-                                            UUID uid;
-                                            try {
-                                                uid = UUID.fromString(newKeyString);
-                                            } catch (IllegalArgumentException e) {
-                                                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
-                                            api_key.setSummary("Verifying Key...");
-                                            new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN, player_UUID).execute(uid);
-                                        }
-                                    })
-                                    .setNegativeButton(android.R.string.cancel, null)
-                                    .setNeutralButton("Reset Key", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            sp.edit().remove("api-key").apply();
-                                            sp.edit().remove("rank").apply();
-                                            sp.edit().remove("playerName").apply();
-                                            sp.edit().remove("own").apply();
-                                            sp.edit().remove("own-uuid").apply();
-                                            updateKeyString(sp, api_key, finalAPIInfo, getActivity());
-                                            updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
-                                            Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).show();
+                            .setMessage(Html.fromHtml(MinecraftColorCodes.parseColors(dialogPrompt.replace("\n", "<br />"))))
+                            .setView(newKey)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String newKeyString = newKey.getText().toString();
+                                    if (newKeyString.equals("")) {
+                                        Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    //Check if its a UUID
+                                    UUID uid;
+                                    try {
+                                        uid = UUID.fromString(newKeyString);
+                                    } catch (IllegalArgumentException e) {
+                                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    api_key.setSummary("Verifying Key...");
+                                    new GetKeyInfoVerification(getActivity(), sp, api_key, finalAPIInfo, staff_rank, player_IGN, player_UUID).execute(uid);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setNeutralButton("Reset Key", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sp.edit().remove("api-key").apply();
+                                    sp.edit().remove("rank").apply();
+                                    sp.edit().remove("playerName").apply();
+                                    sp.edit().remove("own").apply();
+                                    sp.edit().remove("own-uuid").apply();
+                                    updateKeyString(sp, api_key, finalAPIInfo, getActivity());
+                                    updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
+                                    Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
                     return true;
                 }
             });
@@ -193,7 +193,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     String changelog = sp.getString("version-changelog", "l");
-                    if (changelog.equals("l")){
+                    if (changelog.equals("l")) {
                         //Not available
                         new AlertDialog.Builder(getActivity()).setTitle("No Changelog")
                                 .setMessage("No changelog was found. Please check if you can connect to the server")
@@ -238,6 +238,15 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Toast.makeText(getActivity().getApplicationContext(), "Preference will take effect after a reboot " +
                             "or refresh of active boosters", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+
+            Preference appThemePref = findPreference("appThemePref");
+            appThemePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Selected theme will take full effect when the app is next launched", Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });

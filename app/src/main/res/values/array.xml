@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="themeArray">
+        <item>Blue with Red Tone (Default)</item>
+        <item>Yellow with Orange Tone</item>
+    </string-array>
+    <string-array name="themeValues">
+        <item>AppTheme</item>
+        <item>NewTheme</item>
+    </string-array>
+</resources>

@@ -5,4 +5,8 @@
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:statusBarColor">@color/blue_700</item>
     </style>
+
+    <style name="NewTheme" parent="NewTheme.Base">
+        <item name="android:statusBarColor">@color/yellow_900</item>
+    </style>
 </resources>
