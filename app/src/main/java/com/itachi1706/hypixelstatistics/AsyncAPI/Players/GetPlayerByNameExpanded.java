@@ -32,6 +32,7 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.util.Warlords.DetailedWeaponStatistics;
+import com.itachi1706.hypixelstatistics.util.Warlords.WarlordsMounts;
 
 import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.util.GameType;
@@ -1546,7 +1547,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription(formattedClass + " Spec Chosen", spec.substring(0,1).toUpperCase() + spec.substring(1)));
         }
         if (obj.has("selected_mount")){
-            descArray.add(new ResultDescription("Selected Mount", obj.get("selected_mount").getAsString()));
+            WarlordsMounts mountSelected = WarlordsMounts.fromDatabase(obj.get("selected_mount").getAsString());
+            if (mountSelected == WarlordsMounts.UNKNOWN)
+                descArray.add(new ResultDescription("Selected Mount", obj.get("selected_mount").getAsString()));
+            else
+                descArray.add(new ResultDescription("Selected Mount", MinecraftColorCodes.parseColors(mountSelected.getName())));
         }
 
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
