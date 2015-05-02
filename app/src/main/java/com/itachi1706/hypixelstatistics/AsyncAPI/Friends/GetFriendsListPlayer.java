@@ -39,9 +39,9 @@ import java.util.ArrayList;
  * Created by Kenneth on 11/4/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.AsyncAPI.Friends
  */
-public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
+public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
 
-    private String uuidValue;
+    private String playerName;
     private Exception except;
     private Activity mActivity;
     private ListView playerListView;
@@ -52,7 +52,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
     private ProgressBar progressCircle;
     private TextView progressInfo;
 
-    public GetFriendsListUUID(Activity mActivity, ListView playerListView, TextView tvResult, ProgressBar progress, TextView progressInfo){
+    public GetFriendsListPlayer(Activity mActivity, ListView playerListView, TextView tvResult, ProgressBar progress, TextView progressInfo){
         this.mActivity = mActivity;
         this.playerListView = playerListView;
         this.tvResult = tvResult;
@@ -60,7 +60,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
         this.progressInfo = progressInfo;
     }
 
-    public GetFriendsListUUID(Activity mActivity, ListView playerListView, TextView tvResult, ProgressBar progress, TextView progressInfo, boolean invalid){
+    public GetFriendsListPlayer(Activity mActivity, ListView playerListView, TextView tvResult, ProgressBar progress, TextView progressInfo, boolean invalid){
         this.mActivity = mActivity;
         this.playerListView = playerListView;
         this.tvResult = tvResult;
@@ -70,11 +70,11 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... uuid) {
-        String url = MainStaticVars.API_BASE_URL + "friends?key=" + MainStaticVars.apikey + "&uuid=" + uuid[0];
+    protected String doInBackground(String... player) {
+        String url = MainStaticVars.API_BASE_URL + "friends?key=" + MainStaticVars.apikey + "&player=" + player[0];
         String tmp = "";
-        uuidValue = uuid[0];
-        Log.i("FRIENDS-UUID", "Getting Friends List Data for " + uuid[0]);
+        playerName = player[0];
+        Log.i("FRIENDS-UUID", "Getting Friends List Data for " + player[0]);
         //Get Statistics
         try {
             URL urlConn = new URL(url);
@@ -127,8 +127,8 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             return;
         }
         if (reply.getRecords().size() == 0) {
-            if (!invalid && uuidValue.length() == 32)
-                new GetFriendsListPlayer(mActivity, playerListView, tvResult, progressCircle, progressInfo, true).execute(uuidValue);
+            if (playerName.length() == 32 && !invalid)
+                new GetFriendsListUUID(mActivity, playerListView, tvResult, progressCircle, progressInfo, true).execute(playerName);
             else {
                 tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b0§r")));
                 String[] noFriendsSadFace = {"No Friends Found :("};
@@ -142,6 +142,15 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             return;
         }
         MainStaticVars.friends_session_data.clear();
+
+        String uuidValue;
+        //Get Owner UUID
+        JsonElement check1 = reply.getRecords().get(1);
+        if (check1.getAsJsonObject().get("sender").getAsString().equals(playerName))
+            uuidValue = check1.getAsJsonObject().get("uuidSender").getAsString();
+        else
+            uuidValue = check1.getAsJsonObject().get("uuidReceiver").getAsString();
+
         //Process Friends Requests
         tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b" + reply.getRecords().size() + "§r")));
 

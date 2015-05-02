@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListPlayer;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
@@ -123,7 +125,10 @@ public class FriendListActivity extends AppCompatActivity {
         progressInfo.setVisibility(View.VISIBLE);
         progressInfo.setText("Retriving Friends List... Querying API...");
         Toast.makeText(this.getApplicationContext(), "Retrieving Friend List of " + searchQuery, Toast.LENGTH_SHORT).show();
-        new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
+        if (searchQuery.length() == 32)
+            new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
+        else
+            new GetFriendsListPlayer(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
     }
 
     @Override
