@@ -47,6 +47,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_friend_list);
 
+        MainStaticVars.updateTimeout(this);
         friendsCount = (TextView) findViewById(R.id.friendCount);
         friendListView = (ListView) findViewById(R.id.lvFriendList);
         loadingStatus = (ProgressBar) findViewById(R.id.pbFriendsList);

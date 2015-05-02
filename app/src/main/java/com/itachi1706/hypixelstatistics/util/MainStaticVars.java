@@ -55,7 +55,7 @@ public class MainStaticVars {
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 12;
 
-    public static final int HTTP_QUERY_TIMEOUT = 60000; //60 seconds timeout
+    public static int HTTP_QUERY_TIMEOUT = 60000; //60 seconds timeout
     //Basically how long to try and query
     //Will throw ConnectTimeoutException (setConnectionTimeout) and SocketTimeoutException (setSoTimeout)
 
@@ -126,5 +126,15 @@ public class MainStaticVars {
             case "NewTheme": return R.color.yellow_900;
         }
         return R.color.blue_700;
+    }
+
+    public static void updateTimeout(Activity activity){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        try {
+            HTTP_QUERY_TIMEOUT = Integer.parseInt(prefs.getString("httpTimeout", "60000"));
+        } catch (ClassCastException e){
+            HTTP_QUERY_TIMEOUT = 60000;
+        }
+
     }
 }

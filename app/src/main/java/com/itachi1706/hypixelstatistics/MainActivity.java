@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
+        MainStaticVars.updateTimeout(this);
+
         refreshServerCount();
 
         if (this.getIntent().hasExtra("EXIT"))

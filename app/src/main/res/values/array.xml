@@ -8,4 +8,16 @@
         <item>AppTheme</item>
         <item>NewTheme</item>
     </string-array>
+    <string-array name="timeoutArray">
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>45 seconds</item>
+        <item>60 seconds</item>
+    </string-array>
+    <string-array name="timeoutValue">
+        <item>15000</item>
+        <item>30000</item>
+        <item>45000</item>
+        <item>60000</item>
+    </string-array>
 </resources>

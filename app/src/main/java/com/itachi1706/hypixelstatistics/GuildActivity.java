@@ -63,6 +63,7 @@ public class GuildActivity extends AppCompatActivity {
             this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusBarColor(this)));
 
         setContentView(R.layout.activity_guild);
+        MainStaticVars.updateTimeout(this);
 
         guildSearch = (AutoCompleteTextView) findViewById(R.id.inputGuild);
         searchFilter = (ToggleButton) findViewById(R.id.tbGuild);

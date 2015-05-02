@@ -193,6 +193,7 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getHistory());
         MainStaticVars.resetKnownAliases();
+        MainStaticVars.updateTimeout(this);
         playerName.setAdapter(adapter);
         if (!(myPref.getBoolean("debugMode", true))){
             debug.setVisibility(View.INVISIBLE);

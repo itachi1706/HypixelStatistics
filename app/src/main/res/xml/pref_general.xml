@@ -12,6 +12,13 @@
             android:summary="@string/pref_detailed_active_boosters_summary"
             android:defaultValue="false" />
         <ListPreference
+            android:title="HTTP Request Timeout Value"
+            android:summary="%s"
+            android:defaultValue="60000"
+            android:key="httpTimeout"
+            android:entries="@array/timeoutArray"
+            android:entryValues="@array/timeoutValue"/>
+        <ListPreference
             android:title="Application Theme"
             android:summary="%s"
             android:defaultValue="AppTheme"

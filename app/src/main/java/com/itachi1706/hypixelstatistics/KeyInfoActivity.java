@@ -61,6 +61,7 @@ public class KeyInfoActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        MainStaticVars.updateTimeout(this);
         //Check if we should hide the debug window
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
         if (!(myPref.getBoolean("debugMode", true))){

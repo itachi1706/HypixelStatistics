@@ -49,6 +49,7 @@ public class BoosterList extends AppCompatActivity {
 
         setContentView(R.layout.activity_booster_list);
 
+        MainStaticVars.updateTimeout(this);
         boostList = (ListView) findViewById(R.id.BoostlvBooster);
         prog = (ProgressBar) findViewById(R.id.BoostpbProg);
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
