@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List (BETA)", "View your Friend's List (BETA)"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,41 +187,17 @@ public class MainActivity extends AppCompatActivity {
             case "Search Guild":
                 startActivity(new Intent(MainActivity.this, GuildActivity.class));
                 break;
-            case "View Player Friend List (BETA)":
-                //TODO Complete this and remove BETA Tag
-                if (MainStaticVars.isCreator){
-                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is extremely unstable. Do you want to continue?")
-                            .setTitle("App Instability Warning").setPositiveButton("Go Ahead!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(MainActivity.this, FriendListActivity.class));
-                        }
-                    }).setNegativeButton("Maybe Not", null).show();
-                } else {
-                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is only available for BETA Testers")
-                            .setTitle("BETA Testers Only").setNegativeButton("Aww", null).show();
-                }
+            case "View Player Friend List":
+                startActivity(new Intent(MainActivity.this, FriendListActivity.class));
                 break;
-            case "View your Friend's List (BETA)":
-                //TODO Complete this and remove BETA Tag
-                if (MainStaticVars.isCreator){
-                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is extremely unstable. Do you want to continue?")
-                            .setTitle("App Instability Warning").setPositiveButton("Go Ahead!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
-                            String yourUUID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("own-uuid", "-");
-                            if (yourUUID.equals("-"))
-                                Toast.makeText(getApplicationContext(), "Cannot find your UUID", Toast.LENGTH_SHORT).show();
-                            else {
-                                intent.putExtra("playeruuid", yourUUID);
-                                startActivity(intent);
-                            }
-                        }
-                    }).setNegativeButton("Maybe Not", null).show();
-                } else {
-                    new AlertDialog.Builder(this).setMessage("This option of the app is still in BETA and is only available for BETA Testers")
-                            .setTitle("BETA Testers Only").setNegativeButton("Aww", null).show();
+            case "View your Friend's List":
+                Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
+                String yourUUID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("own-uuid", "-");
+                if (yourUUID.equals("-"))
+                    Toast.makeText(getApplicationContext(), "Cannot find your UUID", Toast.LENGTH_SHORT).show();
+                else {
+                    intent.putExtra("playeruuid", yourUUID);
+                    startActivity(intent);
                 }
                 break;
         }
