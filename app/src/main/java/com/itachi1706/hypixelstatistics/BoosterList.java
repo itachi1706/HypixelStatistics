@@ -1,6 +1,7 @@
 package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,11 @@ public class BoosterList extends AppCompatActivity {
     ProgressBar prog;
     TextView boosterTooltip;
 
+    //TODO Used for filtering and dynamic update of boosters
+    BoosterDescListAdapter adapter;
+    //TODO Used for filtering
+    final ArrayList seletedFilterItems=new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +79,7 @@ public class BoosterList extends AppCompatActivity {
             }
         } else {
             if (MainStaticVars.boosterList.size() != 0) {
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
                 boostList.setAdapter(adapter);
                 assert BoosterList.this.getSupportActionBar() != null;
                 this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
@@ -150,7 +156,7 @@ public class BoosterList extends AppCompatActivity {
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
+        adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
         MainStaticVars.boosterUpdated = false;
@@ -303,5 +309,52 @@ public class BoosterList extends AppCompatActivity {
         }
         timeString.append(")");
         return timeString.toString();
+    }
+
+    //TODO Work on the filtering of boosters (Wait till Dynamic Display for Boosters are done)
+    private void displayFilterAlertDialog(){
+        //TODO Placeholder. Replace with list of boosters gametypes
+        final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
+        // arraylist to keep the selected items
+        AlertDialog filterDialog;
+        boolean[] isCheckedAlr = new boolean[items.length];
+        for (int i = 0; i < items.length; i++){
+            //TODO Check for what has been selected and add to isCheckedAlr
+            CharSequence seq = items[i];
+            if (seq.equals("yay"))
+                isCheckedAlr[i] = true;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //TODO Set the title of the filter
+        builder.setTitle("Select The Difficulty Level");
+        builder.setMultiChoiceItems(items, isCheckedAlr,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public void onClick(DialogInterface dialog, int indexSelected,
+                                        boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            seletedFilterItems.add(indexSelected);
+                        } else if (seletedFilterItems.contains(indexSelected)) {
+                            // Else, if the item is already in the array, remove it
+                            seletedFilterItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    }
+                })
+                // Set the action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Your code when user clicked on OK
+                        //  You can write the code  to save the selected item here
+                        // TODO Do the filtering here
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+        filterDialog = builder.create();//AlertDialog dialog; create like this outside onClick
+        filterDialog.show();
     }
 }
