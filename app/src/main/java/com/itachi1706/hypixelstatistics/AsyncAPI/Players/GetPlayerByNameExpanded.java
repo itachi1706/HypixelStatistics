@@ -993,6 +993,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
      * (The Blocking Dead) headshots_dayone, kills_dayone, wins_dayone
      * (Throw Out) wins_throw_out, kills_throw_out, deaths_throw_out
      * (Dragon Wars) kills_dragonwars2, wins_dragonwars2
+     * (Galaxy Wars) sw_kills, sw_shot_fired, sw_rebel_kills, sw_deaths, sw_empire_kills
+     * (Build Battle) wins_buildbattle, wins_buildbattle_teams
      * @param obj Statistics
      */
     private ArrayList<ResultDescription> parseArcade(JsonObject obj){
@@ -1116,6 +1118,21 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             }
             descArray.add(new ResultDescription("Galaxy Wars", "Click here to view statistics from Galaxy Wars", true, msg.toString()));
         }
+
+        //Build Battle
+        ArrayList<ResultDescription> bbArray = new ArrayList<>();
+        if (obj.has("wins_buildbattle"))
+            bbArray.add(new ResultDescription("Wins (Solo)", obj.get("wins_buildbattle").getAsString()));
+        if (obj.has("wins_buildbattle_teams"))
+            bbArray.add(new ResultDescription("Wins (Teams)", obj.get("wins_buildbattle_teams").getAsString()));
+        if (bbArray.size() > 0){
+            StringBuilder msg = new StringBuilder();
+            for (ResultDescription t : bbArray){
+                msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
+            }
+            descArray.add(new ResultDescription("Build Battle", "Click here to view statistics from Build Battle", true, msg.toString()));
+        }
+
         return descArray;
     }
 
