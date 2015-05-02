@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -140,6 +139,7 @@ public class FriendListActivity extends AppCompatActivity {
         //Associate searchable config with SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.searchable_friend_hint));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         //Not triggered by anywhere else
