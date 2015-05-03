@@ -115,4 +115,17 @@ public class BoosterDescription {
     public void set_purchaseruuid(String _purchaseruuid) {
         this._purchaseruuid = _purchaseruuid;
     }
+
+    @Override
+    public BoosterDescription clone(){
+        BoosterDescription d = new BoosterDescription(_boostRate, _date, _gameType.getId(), _timeRemaining, _originalTime, _purchaseruuid);
+        if (mcHead != null)
+            d.setMcHead(mcHead);
+        d.set_done(_done);
+        if (_mcName != null)
+            d.set_mcName(_mcName);
+        if (_mcNameWithRank != null)
+            d.set_mcNameWithRank(_mcNameWithRank);
+        return d;
+    }
 }
