@@ -256,28 +256,19 @@ public class BoosterList extends AppCompatActivity {
         StringBuilder timeString = new StringBuilder();
         timeString.append("(");
         if (days != 0) {
-            if (days == 1)
-                timeString.append(days).append(" day ");
-            else
-                timeString.append(days).append(" days ");
+            timeString.append(getResources().getQuantityString(R.plurals.days, (int) days, (int) days));
+            timeString.append(" ");
         }
         if (hours != 0) {
-            if (hours == 1)
-                timeString.append(hours).append(" hour ");
-            else
-                timeString.append(hours).append(" hours ");
+            timeString.append(getResources().getQuantityString(R.plurals.hours, (int) hours, (int) hours));
+            timeString.append(" ");
         }
         if (minutes != 0) {
-            if (minutes == 1)
-                timeString.append(minutes).append(" minute ");
-            else
-                timeString.append(minutes).append(" minutes ");
+            timeString.append(getResources().getQuantityString(R.plurals.minutes, (int) minutes, (int) minutes));
+            timeString.append(" ");
         }
         if (seconds != 0) {
-            if (seconds == 1)
-                timeString.append(seconds).append(" second ");
-            else
-                timeString.append(seconds).append(" seconds ");
+            timeString.append(getResources().getQuantityString(R.plurals.seconds, (int) seconds, (int) seconds));
         }
         timeString.append(")");
         return timeString.toString();
