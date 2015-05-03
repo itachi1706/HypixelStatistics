@@ -30,6 +30,8 @@ import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -206,70 +208,45 @@ public class BoosterList extends AppCompatActivity {
         } else {
              check = MainStaticVars.boosterList;
         }
-        int quake = 0,walls = 0,pb = 0,bsg = 0,tnt = 0,vz = 0,mw = 0,arcade = 0,arena = 0,cac = 0,unknown = 0, uhc = 0, war = 0;
-        int quakeSec = 0,wallsSec = 0,pbSec = 0,bsgSec = 0,tntSec = 0,
-                vzSec = 0,mwSec = 0,arcadeSec = 0,arenaSec = 0,cacSec = 0,unknownSec = 0, uhcSec = 0, warSec = 0;
+        HashMap<GameType, Integer> count = new HashMap<>();
+        HashMap<GameType, Integer> time = new HashMap<>();
+        int unknownGameCount = 0, unknownGameTime = 0;
+
         for (BoosterDescription desc : check){
-            switch (desc.get_gameType().getId()){
-                case 2: quake++; quakeSec += desc.get_timeRemaining(); break;
-                case 3: walls++; wallsSec += desc.get_timeRemaining(); break;
-                case 4: pb++; pbSec += desc.get_timeRemaining(); break;
-                case 5: bsg++; bsgSec += desc.get_timeRemaining(); break;
-                case 6: tnt++; tntSec += desc.get_timeRemaining(); break;
-                case 7: vz++; vzSec += desc.get_timeRemaining(); break;
-                case 13: mw++; mwSec += desc.get_timeRemaining(); break;
-                case 14: arcade++; arcadeSec += desc.get_timeRemaining(); break;
-                case 17: arena++; arenaSec += desc.get_timeRemaining(); break;
-                case 21: cac++; cacSec += desc.get_timeRemaining(); break;
-                case 20: uhc++; uhcSec += desc.get_timeRemaining(); break;
-                case 23: war++; warSec += desc.get_timeRemaining(); break;
-                default: unknown++; unknownSec += desc.get_timeRemaining(); break;
+            if (desc.get_gameType() != null) {
+                //Not Null
+                if (count.containsKey(desc.get_gameType()))
+                    count.put(desc.get_gameType(), count.get(desc.get_gameType()) + 1);
+                else
+                    count.put(desc.get_gameType(), 1);
+                if (time.containsKey(desc.get_gameType()))
+                    time.put(desc.get_gameType(), time.get(desc.get_gameType()) + desc.get_timeRemaining());
+                else
+                    time.put(desc.get_gameType(), desc.get_timeRemaining());
+            } else {
+                unknownGameCount ++;
+                unknownGameTime += desc.get_timeRemaining();
             }
         }
-        //Check if present then parse
-        StringBuilder bu = new StringBuilder();
-        bu.append("Based on last booster query: \n\n");
-        if (quake != 0){
-            bu.append(GameType.QUAKECRAFT.getName()).append(": ").append(quake).append("\n").append(createTimeLeftString(quakeSec)).append("\n");
+
+        StringBuilder boosterStatBuilder = new StringBuilder();
+        boosterStatBuilder.append("Based on last booster query: \n\n");
+        for (Map.Entry<GameType, Integer> cursor : count.entrySet()){
+            if (time.containsKey(cursor.getKey())){
+                //Can Continue
+                boosterStatBuilder.append(cursor.getKey().getName()).append(": ").append(cursor.getValue()).append("\n").append(createTimeLeftString(time.get(cursor.getKey()))).append("\n");
+            } else {
+                //Error (No time)
+                boosterStatBuilder.append(cursor.getKey().getName()).append(": ").append(cursor.getValue()).append("\n").append(createTimeLeftString(0)).append("\n");
+            }
         }
-        if (walls != 0){
-            bu.append(GameType.WALLS.getName()).append(": ").append(walls).append("\n").append(createTimeLeftString(wallsSec)).append("\n");
+        //Check for unknown games
+        if (unknownGameCount != 0){
+            boosterStatBuilder.append("Unknown Game: ").append(unknownGameCount).append("\n").append(createTimeLeftString(unknownGameTime)).append("\n");
+            boosterStatBuilder.append("(Please Contact Dev of this)");
         }
-        if (pb != 0){
-            bu.append(GameType.PAINTBALL.getName()).append(": ").append(pb).append("\n").append(createTimeLeftString(pbSec)).append("\n");
-        }
-        if (bsg != 0){
-            bu.append(GameType.SURVIVAL_GAMES.getName()).append(": ").append(bsg).append("\n").append(createTimeLeftString(bsgSec)).append("\n");
-        }
-        if (tnt != 0){
-            bu.append(GameType.TNTGAMES.getName()).append(": ").append(tnt).append("\n").append(createTimeLeftString(tntSec)).append("\n");
-        }
-        if (vz != 0){
-            bu.append(GameType.VAMPIREZ.getName()).append(": ").append(vz).append("\n").append(createTimeLeftString(vzSec)).append("\n");
-        }
-        if (mw != 0){
-            bu.append(GameType.WALLS3.getName()).append(": ").append(mw).append("\n").append(createTimeLeftString(mwSec)).append("\n");
-        }
-        if (arcade != 0){
-            bu.append(GameType.ARCADE.getName()).append(": ").append(arcade).append("\n").append(createTimeLeftString(arcadeSec)).append("\n");
-        }
-        if (arena != 0){
-            bu.append(GameType.ARENA.getName()).append(": ").append(arena).append("\n").append(createTimeLeftString(arenaSec)).append("\n");
-        }
-        if (cac != 0){
-            bu.append(GameType.MCGO.getName()).append(": ").append(cac).append("\n").append(createTimeLeftString(cacSec)).append("\n");
-        }
-        if (uhc != 0){
-            bu.append(GameType.UHC.getName()).append(": ").append(uhc).append("\n").append(createTimeLeftString(uhcSec)).append("\n");
-        }
-        if (war != 0){
-            bu.append(GameType.WARLORDS.getName()).append(": ").append(war).append("\n").append(createTimeLeftString(warSec)).append("\n");
-        }
-        if (unknown != 0){
-            bu.append("Unknown Game: ").append(unknown).append("\n").append(createTimeLeftString(unknownSec)).append("\n");
-            bu.append("(Please Contact Dev of this)");
-        }
-        return bu.toString();
+
+        return boosterStatBuilder.toString();
     }
 
     private String createTimeLeftString(int timeRemaining){
