@@ -16,13 +16,6 @@
         android:layout_above="@+id/tvBooster"
         android:layout_below="@+id/tvPlayerCount" />
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:id="@+id/lvBoostersActive"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,16 +26,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/pbABoost"
-        android:layout_alignTop="@+id/lvBoostersActive"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-        android:indeterminate="true"
-        android:visibility="gone"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,14 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvBoosterTooltip"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48dp"
-        android:visibility="invisible"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,5 +45,33 @@
         android:layout_below="@+id/tvCustWelcome"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/lvBoostersActive"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/pbABoost"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbABoost"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:indeterminate="true"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBoosterTooltip"
+        android:layout_alignBottom="@+id/pbABoost"
+        android:layout_toRightOf="@+id/pbABoost"
+        android:layout_alignRight="@+id/lvBoostersActive"
+        android:layout_alignEnd="@+id/lvBoostersActive"
+        android:visibility="invisible"/>
 
 </RelativeLayout>
