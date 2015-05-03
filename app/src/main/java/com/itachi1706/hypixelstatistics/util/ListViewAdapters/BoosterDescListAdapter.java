@@ -7,15 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,9 +28,10 @@ import java.util.concurrent.TimeUnit;
  * Created by Kenneth on 13/11/2014, 9:44 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
-public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
+public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> implements Filterable{
 
     private ArrayList<BoosterDescription> items;
+    private String filteredStringForBooster = "";
 
     public BoosterDescListAdapter(Context context, int textViewResourceId, ArrayList<BoosterDescription> objects){
         super(context, textViewResourceId, objects);
@@ -121,5 +124,67 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> {
 
     public void updateAdapter(ArrayList<BoosterDescription> newArrayData){
         this.items = newArrayData;
+    }
+
+    @Override
+    public Filter getFilter(){
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<BoosterDescription> filteredBoosters = new ArrayList<>();
+                if (filteredStringForBooster == null || filteredStringForBooster.length() == 0 || constraint == ""){
+                    filteredBoosters = items;
+                } else {
+                    Log.d("BOOSTER-FILTER", "Filter String used: " + constraint);
+                    ArrayList<BoosterDescription> tmp = items;
+                    Log.d("BOOSTER-FILTER", "Filter Size: " + tmp.size());
+                    String[] constraints;
+                    if (constraint.toString().contains("\\|"))
+                        constraints = constraint.toString().split("\\|");
+                    else {
+                        constraints = new String[1];
+                        constraints[0] = constraint.toString();
+                    }
+                    for (BoosterDescription d : tmp) {
+                        for (String con : constraints) {
+                            Log.d("BOOSTER-FILTER-F", "Filtering: " + d.get_gameType().getName() + " with " + con);
+                            if (d.get_gameType().getName().equalsIgnoreCase(con)) {
+                                Log.d("BOOSTER-FILTER-F", "Found match for " + d.get_gameType().getName());
+                                filteredBoosters.add(d);
+                                break;
+                            }
+                        }
+                    }
+                }
+                results.count = filteredBoosters.size();
+                results.values = filteredBoosters;
+                Log.e("BOOSTER-FILTER", "Size of filtered items: " + results.count);
+                return results;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results.count == 0){
+                    Log.e("BOOSTER-FILTER", "Results of filter is NULL!!! Display all anyway");
+                } else {
+                    ArrayList<BoosterDescription> itemss = (ArrayList<BoosterDescription>) results.values;
+                    items.clear();
+                    for (BoosterDescription d : itemss) {
+                        items.add(d);
+                    }
+                    notifyDataSetChanged();
+                }
+            }
+        };
+    }
+
+    public String getFilteredStringForBooster() {
+        return filteredStringForBooster;
+    }
+
+    public void setFilteredStringForBooster(String filteredStringForBooster) {
+        this.filteredStringForBooster = filteredStringForBooster;
     }
 }

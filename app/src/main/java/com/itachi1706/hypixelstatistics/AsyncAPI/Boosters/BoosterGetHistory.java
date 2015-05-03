@@ -23,6 +23,7 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Created by Kenneth on 16/2/2015, 5:31 PM
@@ -126,6 +127,12 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
                 }
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
+            } else {
+                //Filter based on filter
+                String filterString = MainStaticVars.boosterListAdapter.getFilteredStringForBooster();
+                MainStaticVars.backupBooster();
+                if (!filterString.equals(""))
+                    MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
             }
             MainStaticVars.parseRes = false;
         }

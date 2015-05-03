@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,10 +42,7 @@ public class BoosterList extends AppCompatActivity {
     ProgressBar prog;
     TextView boosterTooltip;
 
-    //TODO Used for filtering and dynamic update of boosters
-    BoosterDescListAdapter adapter;
-    //TODO Used for filtering
-    final ArrayList seletedFilterItems=new ArrayList();
+    final ArrayList<CharSequence> seletedFilterItems=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class BoosterList extends AppCompatActivity {
             }
         } else {
             if (MainStaticVars.boosterList.size() != 0) {
-                adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
                 boostList.setAdapter(adapter);
                 assert BoosterList.this.getSupportActionBar() != null;
                 this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
@@ -161,12 +159,13 @@ public class BoosterList extends AppCompatActivity {
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
+        BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
         MainStaticVars.boosterUpdated = false;
         MainStaticVars.inProg = false;
         MainStaticVars.parseRes = false;
+        MainStaticVars.unfilteredBoosterList.clear();
         new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
     }
 
@@ -200,9 +199,16 @@ public class BoosterList extends AppCompatActivity {
                     .show();
             return true;
         } else if (id == R.id.action_filter_boosters){
-            new AlertDialog.Builder(this)
-                    .setTitle("Coming Soon").setMessage("Filtering based on GameTypes is coming soon. Hang tight! :)")
-                    .setPositiveButton(android.R.string.ok, null).show();
+            //new AlertDialog.Builder(this)
+            //        .setTitle("Coming Soon").setMessage("Filtering based on GameTypes is coming soon. Hang tight! :)")
+            //        .setPositiveButton(android.R.string.ok, null).show();
+            if (!MainStaticVars.inProg)
+                displayFilterAlertDialog();
+            else
+                new AlertDialog.Builder(this)
+                        .setTitle("Filter Unavailable").setMessage("Boosters are still being processed. Filter will only be " +
+                        "available and applied after boosters are processed")
+                        .setPositiveButton(android.R.string.ok, null).show();
             return true;
         }
 
@@ -210,7 +216,12 @@ public class BoosterList extends AppCompatActivity {
     }
 
     private String parseStats(){
-        ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
+        ArrayList<BoosterDescription> check;
+        if (MainStaticVars.unfilteredBoosterList.size() != 0) {
+            check = MainStaticVars.unfilteredBoosterList;
+        } else {
+            check = MainStaticVars.boosterList;
+        }
         HashMap<GameType, Integer> count = new HashMap<>();
         HashMap<GameType, Integer> time = new HashMap<>();
         int unknownGameCount = 0, unknownGameTime = 0;
@@ -282,48 +293,108 @@ public class BoosterList extends AppCompatActivity {
         return timeString.toString();
     }
 
-    //TODO Work on the filtering of boosters (Wait till Dynamic Display for Boosters are done)
+    private HashMap<GameType, Integer> getBoosterCountsPerGameType(ArrayList<BoosterDescription> boosterList){
+        HashMap<GameType, Integer> count = new HashMap<>();
+        for (BoosterDescription desc : boosterList){
+            if (desc.get_gameType() != null){
+                if (count.containsKey(desc.get_gameType()))
+                    count.put(desc.get_gameType(), count.get(desc.get_gameType()) + 1);
+                else
+                    count.put(desc.get_gameType(), 1);
+            } else {
+                if (count.containsKey(GameType.UNKNOWN))
+                    count.put(GameType.UNKNOWN, count.get(GameType.UNKNOWN) + 1);
+                else
+                    count.put(GameType.UNKNOWN, 1);
+            }
+        }
+        return count;
+    }
+
     private void displayFilterAlertDialog(){
-        //TODO Placeholder. Replace with list of boosters gametypes
-        final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
-        // arraylist to keep the selected items
+        MainStaticVars.restoreBooster();
+        ArrayList<BoosterDescription> filterSel = MainStaticVars.boosterList;
+        HashMap<GameType, Integer> parsedBoosterList = getBoosterCountsPerGameType(filterSel);
+        ArrayList<CharSequence> tmpItems = new ArrayList<>();
+        for (Map.Entry<GameType, Integer> item : parsedBoosterList.entrySet())
+            tmpItems.add(item.getKey().getName() + " (" + item.getValue() + ")");
+
+        CharSequence[] tmp = new CharSequence[tmpItems.size()];
+        tmp = tmpItems.toArray(tmp);
+        final CharSequence[] items = tmp;
+
+        //Check for already filled
         AlertDialog filterDialog;
         boolean[] isCheckedAlr = new boolean[items.length];
         for (int i = 0; i < items.length; i++){
-            //TODO Check for what has been selected and add to isCheckedAlr
             CharSequence seq = items[i];
-            if (seq.equals("yay"))
-                isCheckedAlr[i] = true;
+            for (CharSequence s : seletedFilterItems){
+                if (seq.equals(s)) {
+                    isCheckedAlr[i] = true;
+                    break;
+                }
+            }
         }
+        seletedFilterItems.clear();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //TODO Set the title of the filter
-        builder.setTitle("Select The Difficulty Level");
-        builder.setMultiChoiceItems(items, isCheckedAlr,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @SuppressWarnings("unchecked")
-                    @Override
-                    public void onClick(DialogInterface dialog, int indexSelected,
-                                        boolean isChecked) {
-                        if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            seletedFilterItems.add(indexSelected);
-                        } else if (seletedFilterItems.contains(indexSelected)) {
-                            // Else, if the item is already in the array, remove it
-                            seletedFilterItems.remove(Integer.valueOf(indexSelected));
+        builder.setTitle("Select The GameTypes to filter");
+        builder.setMultiChoiceItems(items, isCheckedAlr, new DialogInterface.OnMultiChoiceClickListener() {
+                @SuppressWarnings("unchecked")
+                @Override
+                public void onClick(DialogInterface dialog, int indexSelected,
+                                    boolean isChecked) {
+                    String[] tmp = items[indexSelected].toString().split(" \\(");
+                    String gameType = tmp[0];
+                    if (isChecked) {
+                        // If the user checked the item, add it to the selected items
+                        seletedFilterItems.add(gameType);
+                        Log.d("BOOSTER-FILTER", gameType + " added to filter");
+                    } else if (seletedFilterItems.contains(gameType)) {
+                        // Else, if the item is already in the array, remove it
+                        seletedFilterItems.remove(gameType);
+                        Log.d("BOOSTER-FILTER", gameType + " removed from filter");
+                    }
+                }
+            })
+            // Set the action buttons
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    //  Your code when user clicked on OK
+                    //  You can write the code  to save the selected item here
+                    MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
+                    MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                    if (seletedFilterItems.size() != 0) {
+                        StringBuilder craftedFilterString = new StringBuilder();
+                        for (int i = 0; i < seletedFilterItems.size() - 1; i++) {
+                            craftedFilterString.append(seletedFilterItems.get(i));
+                            craftedFilterString.append("|");
+                        }
+                        craftedFilterString.append(seletedFilterItems.get(seletedFilterItems.size() - 1));
+                        String filterString = craftedFilterString.toString();
+                        if (MainStaticVars.boosterListAdapter != null) {
+                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster(filterString);
+                            MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
+                        }
+                    } else {
+                        String filterString = "";
+                        if (MainStaticVars.boosterListAdapter != null) {
+                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster(filterString);
+                            MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
                         }
                     }
-                })
-                // Set the action buttons
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        //  Your code when user clicked on OK
-                        //  You can write the code  to save the selected item here
-                        // TODO Do the filtering here
-                    }
-                })
-                .setNegativeButton("Cancel", null);
+                }
+            })
+            .setNegativeButton("Cancel", null).setNeutralButton("Reset", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
+                MainStaticVars.boosterListAdapter.setFilteredStringForBooster("");
+                MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                seletedFilterItems.clear();
+            }
+        });
 
         filterDialog = builder.create();//AlertDialog dialog; create like this outside onClick
         filterDialog.show();

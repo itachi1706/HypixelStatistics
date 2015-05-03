@@ -210,6 +210,12 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 }
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
+            } else {
+                //Filter based on filter
+                String filterString = MainStaticVars.boosterListAdapter.getFilteredStringForBooster();
+                MainStaticVars.backupBooster();
+                if (!filterString.equals(""))
+                    MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
             }
             MainStaticVars.parseRes = false;
         }
