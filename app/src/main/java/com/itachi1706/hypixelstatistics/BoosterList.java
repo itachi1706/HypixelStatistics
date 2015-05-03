@@ -192,7 +192,7 @@ public class BoosterList extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
-                    .setTitle("Activated Boosters per Game").setMessage(parseStats(null))
+                    .setTitle("Activated Boosters per Game").setMessage(parseStats())
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             return true;
@@ -201,13 +201,8 @@ public class BoosterList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String parseStats(ArrayList<BoosterDescription> incomplete){
-        ArrayList<BoosterDescription> check;
-        if (incomplete != null){
-            check = incomplete;
-        } else {
-             check = MainStaticVars.boosterList;
-        }
+    private String parseStats(){
+        ArrayList<BoosterDescription> check = MainStaticVars.boosterList;
         HashMap<GameType, Integer> count = new HashMap<>();
         HashMap<GameType, Integer> time = new HashMap<>();
         int unknownGameCount = 0, unknownGameTime = 0;
