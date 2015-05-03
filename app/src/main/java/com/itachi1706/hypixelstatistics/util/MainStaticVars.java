@@ -30,6 +30,7 @@ public class MainStaticVars {
     //isBriefBooster - Brief Booster
     //isUsingDetailedActiveBooster - Whether Detailed Active Boosters are being used or not
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
+    public static ArrayList<BoosterDescription> unfilteredBoosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static String boosterJsonString;
     public static boolean isBriefBooster = false, isUsingDetailedActiveBooster = false;
@@ -138,5 +139,19 @@ public class MainStaticVars {
             HTTP_QUERY_TIMEOUT = 60000;
         }
 
+    }
+
+    public static void backupBooster(){
+        unfilteredBoosterList = new ArrayList<>();
+        for (BoosterDescription desc : boosterList){
+            unfilteredBoosterList.add(desc.clone());
+        }
+    }
+
+    public static void restoreBooster(){
+        boosterList = new ArrayList<>();
+        for (BoosterDescription desc : unfilteredBoosterList){
+            boosterList.add(desc.clone());
+        }
     }
 }
