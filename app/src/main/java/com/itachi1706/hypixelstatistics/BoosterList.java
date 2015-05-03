@@ -199,6 +199,11 @@ public class BoosterList extends AppCompatActivity {
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             return true;
+        } else if (id == R.id.action_filter_boosters){
+            new AlertDialog.Builder(this)
+                    .setTitle("Coming Soon").setMessage("Filtering based on GameTypes is coming soon. Hang tight! :)")
+                    .setPositiveButton(android.R.string.ok, null).show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
