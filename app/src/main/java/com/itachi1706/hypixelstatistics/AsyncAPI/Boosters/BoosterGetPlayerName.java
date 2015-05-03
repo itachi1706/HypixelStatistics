@@ -208,8 +208,6 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                //MainStaticVars.boosterListAdapter.updateAdapter(tmp);
-                //MainStaticVars.boosterListAdapter.notifyDataSetChanged();
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
             }

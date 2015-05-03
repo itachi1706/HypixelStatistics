@@ -124,8 +124,6 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                //MainStaticVars.boosterListAdapter.updateAdapter(tmp);
-                //MainStaticVars.boosterListAdapter.notifyDataSetChanged();
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
             }

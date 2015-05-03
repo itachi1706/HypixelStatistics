@@ -16,7 +16,6 @@ import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
