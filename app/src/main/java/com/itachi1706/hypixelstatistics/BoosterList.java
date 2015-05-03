@@ -111,6 +111,9 @@ public class BoosterList extends AppCompatActivity {
                     MainStaticVars.boosterMaxProcessCounter = 0;
                     prog.setVisibility(View.VISIBLE);
 
+                    MainStaticVars.boosterListAdapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                    boostList.setAdapter(MainStaticVars.boosterListAdapter);
+
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
                         assert BoosterList.this.getSupportActionBar() != null;
@@ -147,7 +150,7 @@ public class BoosterList extends AppCompatActivity {
                                 String[] tmp = {"No Boosters Activated"};
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
                                 boostList.setAdapter(adapter);
-                                prog.setVisibility(View.GONE);
+                                prog.setVisibility(View.INVISIBLE);
                             }
                         });
                     }

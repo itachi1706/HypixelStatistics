@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
@@ -33,6 +34,7 @@ public class MainStaticVars {
     public static String boosterJsonString;
     public static boolean isBriefBooster = false, isUsingDetailedActiveBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
+    public static BoosterDescListAdapter boosterListAdapter;
 
     //Settings
     public static String apikey = null;

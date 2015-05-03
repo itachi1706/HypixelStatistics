@@ -91,7 +91,7 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                 Toast.makeText(mContext, "Socket Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
-            bar.setVisibility(View.GONE);
+            bar.setVisibility(View.INVISIBLE);
         } else {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);
@@ -100,18 +100,18 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                     Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again", Toast.LENGTH_SHORT).show();
-                bar.setVisibility(View.GONE);
+                bar.setVisibility(View.INVISIBLE);
             } else {
                 BoostersReply reply = gson.fromJson(json, BoostersReply.class);
                 Log.d("BOOSTER", reply.toString());
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
                     Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
-                    bar.setVisibility(View.GONE);
+                    bar.setVisibility(View.INVISIBLE);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
                     Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
-                    bar.setVisibility(View.GONE);
+                    bar.setVisibility(View.INVISIBLE);
                 } else {
                     //Succeeded
                     MainStaticVars.boosterList.clear();
@@ -181,7 +181,7 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                         }
                         BriefBoosterDescListAdapter adapter = new BriefBoosterDescListAdapter(mContext, R.layout.listview_booster_desc, descArray);
                         list.setAdapter(adapter);
-                        bar.setVisibility(View.GONE);
+                        bar.setVisibility(View.INVISIBLE);
                         tooltip.setVisibility(View.INVISIBLE);
                         MainStaticVars.inProg = false;
                         MainStaticVars.isBriefBooster = true;
@@ -189,7 +189,7 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                         String[] tmp = {"No Boosters Activated"};
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
                         list.setAdapter(adapter);
-                        bar.setVisibility(View.GONE);
+                        bar.setVisibility(View.INVISIBLE);
                     }
                 }
             }

@@ -88,33 +88,50 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
     }
 
     private void checkIfComplete(){
-        if (MainStaticVars.tmpBooster == MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+        boolean done = true;
+        for (BoosterDescription desc : MainStaticVars.boosterList){
+            if (!desc.is_done()) {
+                done = false;
+                break;
+            }
+        }
+
+        if (done){
+            if (!isActiveOnly) {
+                if (MainStaticVars.boosterList != null && MainStaticVars.boosterList.size() != 0) {
+                    MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
+                    MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+
+        if (MainStaticVars.boosterList.size() >= MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
             tooltip.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.INVISIBLE);
+            MainStaticVars.inProg = false;
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
-            MainStaticVars.inProg = false;
-            if (!isActiveOnly) {
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
-                list.setAdapter(adapter);
-                bar.setVisibility(View.GONE);
-            } else {
+
+            //Active Only
+            if (isActiveOnly){
                 ArrayList<BoosterDescription> tmp = new ArrayList<>();
-                for (BoosterDescription desc : MainStaticVars.boosterList){
+                for (BoosterDescription desc : MainStaticVars.boosterList) {
                     tmp.add(desc);
                 }
                 Iterator<BoosterDescription> iter = tmp.iterator();
-                while (iter.hasNext()){
+                while (iter.hasNext()) {
                     BoosterDescription desc = iter.next();
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
+                //MainStaticVars.boosterListAdapter.updateAdapter(tmp);
+                //MainStaticVars.boosterListAdapter.notifyDataSetChanged();
                 BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
                 list.setAdapter(adapter);
-                tooltip.setVisibility(View.INVISIBLE);
-                bar.setVisibility(View.GONE);
-                MainStaticVars.parseRes = false;
             }
+            MainStaticVars.parseRes = false;
         }
+
         if (MainStaticVars.inProg) {
             tooltip.setVisibility(View.VISIBLE);
             tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
