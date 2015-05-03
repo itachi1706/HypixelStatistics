@@ -101,9 +101,11 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
                     Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    bar.setVisibility(View.GONE);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
                     Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    bar.setVisibility(View.GONE);
                 } else {
                     //Succeeded
                     MainStaticVars.boosterList.clear();
