@@ -145,8 +145,8 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> imp
                     ArrayList<BoosterDescription> tmp = items;
                     Log.d("BOOSTER-FILTER", "Filter Size: " + tmp.size());
                     String[] constraints;
-                    if (constraint.toString().contains("\\|"))
-                        constraints = constraint.toString().split("\\|");
+                    if (constraint.toString().contains("%SPLIT%"))
+                        constraints = constraint.toString().split("%SPLIT%");
                     else {
                         constraints = new String[1];
                         constraints[0] = constraint.toString();

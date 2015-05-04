@@ -326,16 +326,23 @@ public class BoosterList extends AppCompatActivity {
         //Check for already filled
         AlertDialog filterDialog;
         boolean[] isCheckedAlr = new boolean[items.length];
-        for (int i = 0; i < items.length; i++){
-            CharSequence seq = items[i];
-            for (CharSequence s : seletedFilterItems){
-                if (seq.equals(s)) {
-                    isCheckedAlr[i] = true;
-                    break;
+        if (seletedFilterItems.size() == 0){
+            seletedFilterItems.clear();
+            for (int i = 0; i < isCheckedAlr.length; i++){
+                isCheckedAlr[i] = true;
+                seletedFilterItems.add(items[i].toString().split(" \\(")[0]);
+            }
+        } else {
+            for (int i = 0; i < isCheckedAlr.length; i++) {
+                CharSequence seq = items[i].toString().split(" \\(")[0];
+                for (CharSequence s : seletedFilterItems) {
+                    if (seq.equals(s)) {
+                        isCheckedAlr[i] = true;
+                        break;
+                    }
                 }
             }
         }
-        seletedFilterItems.clear();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select The GameTypes to filter");
@@ -369,7 +376,7 @@ public class BoosterList extends AppCompatActivity {
                         StringBuilder craftedFilterString = new StringBuilder();
                         for (int i = 0; i < seletedFilterItems.size() - 1; i++) {
                             craftedFilterString.append(seletedFilterItems.get(i));
-                            craftedFilterString.append("|");
+                            craftedFilterString.append("%SPLIT%");
                         }
                         craftedFilterString.append(seletedFilterItems.get(seletedFilterItems.size() - 1));
                         String filterString = craftedFilterString.toString();
@@ -381,7 +388,10 @@ public class BoosterList extends AppCompatActivity {
                         String filterString = "";
                         if (MainStaticVars.boosterListAdapter != null) {
                             MainStaticVars.boosterListAdapter.setFilteredStringForBooster(filterString);
-                            MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
+                            MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
+                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster("");
+                            MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                            seletedFilterItems.clear();
                         }
                     }
                 }
