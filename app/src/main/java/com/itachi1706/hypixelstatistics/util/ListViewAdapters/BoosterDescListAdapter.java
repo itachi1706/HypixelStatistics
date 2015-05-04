@@ -122,6 +122,11 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> imp
         return v;
     }
 
+    @Override
+    public int getCount(){
+        return items != null? items.size() : 0;
+    }
+
     public void updateAdapter(ArrayList<BoosterDescription> newArrayData){
         this.items = newArrayData;
     }
