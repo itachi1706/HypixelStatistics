@@ -311,12 +311,22 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             this.localPlayerName = reply.getPlayer().get("playername").getAsString();
         descArray.add(new ResultDescription("Name", this.localPlayerName));
         descArray.add(new ResultDescription("UUID",reply.getPlayer().get("uuid").getAsString()));
-        if (reply.getPlayer().has("packageRank"))
-            descArray.add(new ResultDescription("Donor Rank",reply.getPlayer().get("packageRank").getAsString()));
+        //Donor Rank (packageRank and newPackageRank)
+        if (reply.getPlayer().has("newPackageRank")){
+            //Post-EULA Donator
+            descArray.add(new ResultDescription("Donor Rank", reply.getPlayer().get("newPackageRank").getAsString()));
+            if (reply.getPlayer().has("packageRank"))
+                //Pre-EULA donator that upgraded rank post-EULA
+                descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Legacy Donor Rank §6(Pre-EULA)§r"), reply.getPlayer().get("packageRank").getAsString()));
+        } else {
+            //Pre-EULA Donator and Non-Donator
+            if (reply.getPlayer().has("packageRank"))
+                descArray.add(new ResultDescription("Donor Rank", reply.getPlayer().get("packageRank").getAsString()));
+        }
         if (reply.getPlayer().has("disguise"))
             descArray.add(new ResultDescription("Disguise",reply.getPlayer().get("disguise").getAsString()));
         if (reply.getPlayer().has("eulaCoins"))
-            descArray.add(new ResultDescription("Veteran Donor", "true"));
+            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Veteran Donor §6(Pre-EULA)§r"), "true"));
         if (reply.getPlayer().has("gadget"))
             descArray.add(new ResultDescription("Lobby Gadget",reply.getPlayer().get("gadget").getAsString()));
         if (reply.getPlayer().has("karma"))
@@ -327,7 +337,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Last Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
         if (reply.getPlayer().has("timePlaying"))
             descArray.add(new ResultDescription("Time Played (From 16 May 2014) ",MinecraftColorCodes.parseColors(parseTimeOnline(reply.getPlayer().get("timePlaying").getAsLong()))));
-        //descArray.add(new ResultDescription("Time Played",MinecraftColorCodes.parseColors("§cComing Soon™§r")));
         if (reply.getPlayer().has("networkExp"))
             descArray.add(new ResultDescription("Network XP",reply.getPlayer().get("networkExp").getAsString()));
         if (reply.getPlayer().has("networkLevel"))
@@ -432,7 +441,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (reply.getPlayer().has("auto_spawn_pet"))
             descArray.add(new ResultDescription("Auto-Spawn Pet", reply.getPlayer().get("auto_spawn_pet").getAsString()));
         if (reply.getPlayer().has("legacyGolem"))
-            descArray.add(new ResultDescription("Golem Supporter", reply.getPlayer().get("legacyGolem").getAsString()));
+            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Golem Supporter §6(Pre-EULA)§r"), reply.getPlayer().get("legacyGolem").getAsString()));
         return descArray;
     }
 
