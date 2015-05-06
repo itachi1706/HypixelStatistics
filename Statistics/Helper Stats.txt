@@ -96,7 +96,8 @@
       "general_creeperbook",
       "arcade_bounty_hunter_target_killer",
       "arcade_trampolinio_red_wool",
-      "arcade_pig_fishing_super_bacon"
+      "arcade_pig_fishing_super_bacon",
+      "general_buy_golem"
     ],
     "channel": "ALL",
     "chatTunnel": null,
@@ -119,26 +120,26 @@
       
     ],
     "gadget": "TRAMPOLINE",
-    "karma": 2535,
+    "karma": 8435,
     "knownAliases": [
       "itachi1706"
     ],
     "knownAliasesLower": [
       "itachi1706"
     ],
-    "lastLogin": 1426948585278,
+    "lastLogin": 1430911184135,
     "monthlyCreditRewards": {
-      "lastReceivedMonth": 2,
-      "none": false,
-      "vip": false,
-      "vipPlus": false,
-      "mvp": false,
+      "lastReceivedMonth": 4,
+      "none": true,
+      "vip": true,
+      "vipPlus": true,
+      "mvp": true,
       "mvpPlus": true,
-      "totalBonuses": 1
+      "totalBonuses": 7
     },
     "mostRecentMinecraftVersion": 5,
-    "networkExp": 26817,
-    "networkLevel": 11,
+    "networkExp": 23927,
+    "networkLevel": 19,
     "newClock": "LVL2",
     "notifications": true,
     "packageRank": "MVP_PLUS",
@@ -153,6 +154,12 @@
         {
           "timeStart": 1425130940581,
           "timeTook": 59154
+        }
+      ],
+      "Warlords": [
+        {
+          "timeStart": 1430914108704,
+          "timeTook": 140809
         }
       ]
     },
@@ -331,16 +338,102 @@
           },
           {
             "time": 1426844299240
+          },
+          {
+            "time": 1427197317727
+          },
+          {
+            "time": 1427378633741
+          },
+          {
+            "time": 1427722560009
+          },
+          {
+            "time": 1427812657455
+          },
+          {
+            "time": 1427899769688
+          },
+          {
+            "time": 1427977580644
+          },
+          {
+            "time": 1428068868896
+          },
+          {
+            "time": 1428325554355
+          },
+          {
+            "time": 1428415988413
+          },
+          {
+            "time": 1428500309516
+          },
+          {
+            "time": 1428586811596
+          },
+          {
+            "time": 1428673352207
+          },
+          {
+            "time": 1428848700098
+          },
+          {
+            "time": 1428932033272
+          },
+          {
+            "time": 1429187988597
+          },
+          {
+            "time": 1429353485597
+          },
+          {
+            "time": 1429531726596
+          },
+          {
+            "time": 1429614551337
+          },
+          {
+            "time": 1429703196356
+          },
+          {
+            "time": 1429791803733
+          },
+          {
+            "time": 1429866976599
+          },
+          {
+            "time": 1430136893114
+          },
+          {
+            "time": 1430310487982
+          },
+          {
+            "time": 1430551379503
+          },
+          {
+            "time": 1430739463288
+          },
+          {
+            "time": 1430827297910
+          },
+          {
+            "time": 1430912258518
           }
         ]
       },
       "warlords_dedication": {
-        "active": {
-          "objectives": {
-            "warlords_weekly_dedi": 28
+        "completions": [
+          {
+            "time": 1427196507486
           },
-          "started": 1425642503107
-        }
+          {
+            "time": 1429019747440
+          },
+          {
+            "time": 1430912258519
+          }
+        ]
       },
       "warlords_domination": {
         "completions": [
@@ -397,6 +490,87 @@
           },
           {
             "time": 1426843345315
+          },
+          {
+            "time": 1427196507486
+          },
+          {
+            "time": 1427379510335
+          },
+          {
+            "time": 1427453160876
+          },
+          {
+            "time": 1427723751614
+          },
+          {
+            "time": 1427811355042
+          },
+          {
+            "time": 1427898442362
+          },
+          {
+            "time": 1427979048818
+          },
+          {
+            "time": 1428068304155
+          },
+          {
+            "time": 1428326143203
+          },
+          {
+            "time": 1428416487256
+          },
+          {
+            "time": 1428498502244
+          },
+          {
+            "time": 1428585486973
+          },
+          {
+            "time": 1428847683628
+          },
+          {
+            "time": 1428932904894
+          },
+          {
+            "time": 1429019747439
+          },
+          {
+            "time": 1429188468487
+          },
+          {
+            "time": 1429357244473
+          },
+          {
+            "time": 1429529888589
+          },
+          {
+            "time": 1429612296400
+          },
+          {
+            "time": 1429702196600
+          },
+          {
+            "time": 1429792737696
+          },
+          {
+            "time": 1429866377710
+          },
+          {
+            "time": 1430137968522
+          },
+          {
+            "time": 1430311359488
+          },
+          {
+            "time": 1430740461286
+          },
+          {
+            "time": 1430826506102
+          },
+          {
+            "time": 1430913172714
           }
         ]
       },
@@ -452,6 +626,84 @@
           },
           {
             "time": 1426844299241
+          },
+          {
+            "time": 1427196507487
+          },
+          {
+            "time": 1427366660125
+          },
+          {
+            "time": 1427462371998
+          },
+          {
+            "time": 1427723751614
+          },
+          {
+            "time": 1427813527580
+          },
+          {
+            "time": 1427897373448
+          },
+          {
+            "time": 1428068868897
+          },
+          {
+            "time": 1428325554346
+          },
+          {
+            "time": 1428415988413
+          },
+          {
+            "time": 1428498502203
+          },
+          {
+            "time": 1428586811596
+          },
+          {
+            "time": 1428673352208
+          },
+          {
+            "time": 1428847683629
+          },
+          {
+            "time": 1428933648319
+          },
+          {
+            "time": 1429187988598
+          },
+          {
+            "time": 1429357244474
+          },
+          {
+            "time": 1429531726597
+          },
+          {
+            "time": 1429612296402
+          },
+          {
+            "time": 1429702196600
+          },
+          {
+            "time": 1429791803734
+          },
+          {
+            "time": 1429866377714
+          },
+          {
+            "time": 1430310487983
+          },
+          {
+            "time": 1430551379504
+          },
+          {
+            "time": 1430739463288
+          },
+          {
+            "time": 1430827297913
+          },
+          {
+            "time": 1430914008107
           }
         ]
       },
@@ -484,12 +736,13 @@
       "allowFriendRequests": false,
       "allowGuildRequests": false,
       "chatAlerts": true,
-      "playerVisibility": true
+      "playerVisibility": true,
+      "chatVisibility": true
     },
     "stats": {
       "Arcade": {
         "bounty_kills_oneinthequiver": 3,
-        "coins": 228826,
+        "coins": 247382,
         "deaths_oneinthequiver": 16,
         "deaths_throw_out": 6,
         "headshots_dayone": 23,
@@ -497,7 +750,13 @@
         "kills_oneinthequiver": 14,
         "kills_throw_out": 5,
         "max_wave": 18,
-        "wins_farm_hunt": 1
+        "wins_farm_hunt": 1,
+        "sw_kills": 6,
+        "sw_shots_fired": 232,
+        "sw_rebel_kills": 6,
+        "sw_weekly_kills_a": 6,
+        "sw_deaths": 10,
+        "sw_monthly_kills_a": 6
       },
       "Arena": {
         "active_rune": "slowing",
@@ -539,54 +798,96 @@
         "wins_4v4": 1
       },
       "Battleground": {
-        "assists": 690,
+        "assists": 1635,
         "broken_inventory": 0,
         "chosen_class": "mage",
-        "coins": 33273,
-        "current_weapon": 1425908047538,
-        "damage": 2226865,
-        "damage_mage": 2226865,
-        "damage_prevented": 340002,
-        "damage_prevented_mage": 340002,
-        "damage_prevented_pyromancer": 340002,
-        "damage_pyromancer": 2226865,
-        "damage_taken": 1989871,
-        "deaths": 294,
-        "flag_conquer_team": 26,
-        "heal": 82690,
-        "heal_mage": 82690,
-        "heal_pyromancer": 82690,
-        "kills": 283,
-        "losses": 23,
-        "losses_mage": 23,
-        "losses_pyromancer": 23,
+        "coins": 29945,
+        "current_weapon": 1427809991978,
+        "damage": 6419912,
+        "damage_mage": 6419912,
+        "damage_prevented": 934337,
+        "damage_prevented_mage": 934337,
+        "damage_prevented_pyromancer": 934337,
+        "damage_pyromancer": 6419912,
+        "damage_taken": 4971249,
+        "deaths": 683,
+        "flag_conquer_team": 57,
+        "heal": 363417,
+        "heal_mage": 363417,
+        "heal_pyromancer": 363417,
+        "kills": 829,
+        "losses": 60,
+        "losses_mage": 60,
+        "losses_pyromancer": 60,
         "mage_armor_selection": 2,
-        "mage_cooldown": 5,
-        "mage_critchance": 3,
-        "mage_critmultiplier": 3,
-        "mage_energy": 5,
-        "mage_health": 5,
-        "mage_plays": 55,
+        "mage_cooldown": 6,
+        "mage_critchance": 6,
+        "mage_critmultiplier": 5,
+        "mage_energy": 7,
+        "mage_health": 7,
+        "mage_plays": 130,
         "mage_skill1": 6,
-        "mage_skill2": 4,
-        "mage_skill4": 5,
-        "mage_skill5": 2,
+        "mage_skill2": 6,
+        "mage_skill4": 6,
+        "mage_skill5": 5,
         "mage_spec": "pyromancer",
-        "magic_dust": 102,
+        "magic_dust": 622,
         "paladin_spec": "avenger",
-        "pyromancer_plays": 55,
-        "repaired": 240,
-        "repaired_common": 181,
-        "repaired_epic": 2,
-        "repaired_rare": 57,
-        "salvaged_dust_reward": 272,
-        "salvaged_shards_reward": 1,
-        "salvaged_weapons": 131,
-        "salvaged_weapons_common": 101,
-        "selected_mount": "undying_mare",
-        "void_shards": 2,
+        "pyromancer_plays": 130,
+        "repaired": 638,
+        "repaired_common": 463,
+        "repaired_epic": 3,
+        "repaired_rare": 172,
+        "salvaged_dust_reward": 1021,
+        "salvaged_shards_reward": 13,
+        "salvaged_weapons": 460,
+        "salvaged_weapons_common": 331,
+        "selected_mount": "war_horse",
+        "void_shards": 61,
         "warrior_spec": "berserker",
         "weapon_inventory": [
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 0
+            },
+            "ability": 0,
+            "abilityBoost": 8,
+            "damage": 109,
+            "energy": 17,
+            "chance": 18,
+            "multiplier": 172,
+            "health": 190,
+            "cooldown": 4,
+            "movement": 0,
+            "material": "MELON",
+            "id": 1427809991978,
+            "category": "EPIC",
+            "crafted": true,
+            "upgradeMax": 2,
+            "upgradeTimes": 2
+          },
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 0
+            },
+            "ability": 1,
+            "abilityBoost": 9,
+            "damage": 110,
+            "energy": 15,
+            "chance": 17,
+            "multiplier": 167,
+            "health": 157,
+            "cooldown": 4,
+            "movement": 0,
+            "material": "WOOD_SPADE",
+            "id": 1425908047538,
+            "category": "EPIC",
+            "crafted": true,
+            "upgradeMax": 2,
+            "upgradeTimes": 2
+          },
           {
             "spec": {
               "spec": 1,
@@ -610,303 +911,60 @@
           },
           {
             "spec": {
-              "spec": 0,
-              "playerClass": 0
-            },
-            "ability": 1,
-            "abilityBoost": 9,
-            "damage": 110,
-            "energy": 15,
-            "chance": 17,
-            "multiplier": 167,
-            "health": 157,
-            "cooldown": 4,
-            "movement": 0,
-            "material": "WOOD_SPADE",
-            "id": 1425908047538,
-            "category": "EPIC",
-            "crafted": true,
-            "upgradeMax": 2,
-            "upgradeTimes": 1
-          },
-          {
-            "spec": {
               "spec": 1,
               "playerClass": 1
             },
-            "ability": 1,
-            "abilityBoost": 7,
-            "damage": 101,
-            "energy": 17,
-            "chance": 15,
-            "multiplier": 160,
-            "health": 187,
-            "cooldown": 4,
+            "ability": 0,
+            "abilityBoost": 9,
+            "damage": 107,
+            "energy": 18,
+            "chance": 20,
+            "multiplier": 187,
+            "health": 160,
+            "cooldown": 5,
             "movement": 0,
-            "material": "STRING",
-            "id": 1425296962186,
+            "material": "WOOD_HOE",
+            "id": 1429703231373,
             "category": "EPIC",
             "crafted": false,
             "upgradeMax": 1,
             "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 2,
-              "playerClass": 0
-            },
-            "ability": 1,
-            "abilityBoost": 5,
-            "damage": 99,
-            "energy": 5,
-            "chance": 14,
-            "multiplier": 168,
-            "health": 194,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "COOKED_COD",
-            "id": 1425131122475,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 0,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 1,
-              "playerClass": 2
-            },
-            "ability": 0,
-            "abilityBoost": 4,
-            "damage": 93,
-            "energy": 8,
-            "chance": 20,
-            "multiplier": 172,
-            "health": 188,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "COOKED_RABBIT",
-            "id": 1426773693201,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 0,
-              "playerClass": 1
-            },
-            "ability": 1,
-            "abilityBoost": 4,
-            "damage": 98,
-            "energy": 9,
-            "chance": 13,
-            "multiplier": 157,
-            "health": 197,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "GOLD_SPADE",
-            "id": 1425131121876,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 0,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 0,
-              "playerClass": 2
-            },
-            "ability": 1,
-            "abilityBoost": 5,
-            "damage": 98,
-            "energy": 9,
-            "chance": 10,
-            "multiplier": 158,
-            "health": 198,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "COOKED_RABBIT",
-            "id": 1425740524000,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 1,
-              "playerClass": 2
-            },
-            "ability": 1,
-            "abilityBoost": 5,
-            "damage": 97,
-            "energy": 10,
-            "chance": 17,
-            "multiplier": 156,
-            "health": 190,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "GOLD_AXE",
-            "id": 1426593482845,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 0,
-              "playerClass": 2
-            },
-            "ability": 1,
-            "abilityBoost": 6,
-            "damage": 99,
-            "energy": 13,
-            "chance": 11,
-            "multiplier": 176,
-            "health": 161,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "GOLD_AXE",
-            "id": 1426240062873,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 2,
-              "playerClass": 2
-            },
-            "ability": 3,
-            "abilityBoost": 4,
-            "damage": 99,
-            "energy": 11,
-            "chance": 12,
-            "multiplier": 172,
-            "health": 146,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "IRON_AXE",
-            "id": 1425478657925,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 0,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 1,
-              "playerClass": 2
-            },
-            "ability": 0,
-            "abilityBoost": 4,
-            "damage": 99,
-            "energy": 15,
-            "chance": 11,
-            "multiplier": 154,
-            "health": 147,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "IRON_PICKAXE",
-            "id": 1425823877293,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 0,
-              "playerClass": 2
-            },
-            "ability": 1,
-            "abilityBoost": 6,
-            "damage": 92,
-            "energy": 5,
-            "chance": 10,
-            "multiplier": 177,
-            "health": 134,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "POTATO",
-            "id": 1426499060778,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 2,
-              "playerClass": 2
-            },
-            "ability": 4,
-            "abilityBoost": 6,
-            "damage": 98,
-            "energy": 14,
-            "chance": 10,
-            "multiplier": 150,
-            "health": 130,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "PUFFERFISH",
-            "id": 1426498140656,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
-          },
-          {
-            "spec": {
-              "spec": 0,
-              "playerClass": 1
-            },
-            "ability": 2,
-            "abilityBoost": 4,
-            "damage": 97,
-            "energy": 9,
-            "chance": 13,
-            "multiplier": 152,
-            "health": 117,
-            "cooldown": 0,
-            "movement": 0,
-            "material": "POTATO",
-            "id": 1426844389274,
-            "category": "RARE",
-            "crafted": false,
-            "upgradeMax": 2,
-            "upgradeTimes": 0
           }
         ],
         "win_streak": 1,
-        "wins": 27,
-        "wins_blu": 19,
-        "wins_capturetheflag": 11,
-        "wins_capturetheflag_blu": 9,
-        "wins_domination": 16,
-        "wins_domination_a": 5,
-        "wins_domination_blu": 10,
-        "wins_domination_red": 6,
-        "wins_mage": 27,
-        "wins_pyromancer": 27,
-        "wins_red": 8,
-        "wins_capturetheflag_a": 5,
-        "salvaged_weapons_rare": 30,
-        "crafted": 1,
-        "crafted_epic": 1,
+        "wins": 60,
+        "wins_blu": 37,
+        "wins_capturetheflag": 26,
+        "wins_capturetheflag_blu": 16,
+        "wins_domination": 34,
+        "wins_domination_blu": 21,
+        "wins_domination_red": 13,
+        "wins_mage": 60,
+        "wins_pyromancer": 60,
+        "wins_red": 23,
+        "salvaged_weapons_rare": 127,
+        "crafted": 3,
+        "crafted_epic": 3,
         "packages": [
           "mage_spec_aquamancer",
-          "mount_undying_mare"
+          "mount_undying_mare",
+          "mage_spec_cryomancer",
+          "mount_raging_stallion",
+          "mount_corpse_mare",
+          "mount_war_horse"
         ],
-        "mage_skill3": 4,
-        "wins_capturetheflag_red": 2,
-        "upgrade_crafted_epic": 1,
-        "upgrade_crafted": 1,
-        "flag_conquer_self": 1
+        "mage_skill3": 6,
+        "wins_capturetheflag_red": 10,
+        "upgrade_crafted_epic": 4,
+        "upgrade_crafted": 4,
+        "flag_conquer_self": 1,
+        "mage_helmet_selection": 1,
+        "salvaged_weapons_epic": 2,
+        "wins_capturetheflag_a": 3,
+        "shaman_spec": "thunderlord",
+        "hotkeymode": true,
+        "play_streak": 0,
+        "wins_domination_a": 2
       },
       "HungerGames": {
         "blaze": 1,
@@ -920,7 +978,7 @@
         "wolftamer": 1
       },
       "MCGO": {
-        "coins": 2051,
+        "coins": 2076,
         "cop_kills": 1,
         "criminal_kills": 1,
         "deaths": 7,
@@ -957,7 +1015,7 @@
         "wins": 19
       },
       "Quake": {
-        "coins": 23822,
+        "coins": 23847,
         "deaths": 839,
         "hat": "cactus",
         "kills": 781,
@@ -1038,14 +1096,36 @@
     },
     "stoggle": true,
     "testPass": true,
-    "timePlaying": 5623,
+    "timePlaying": 6654,
     "tournamentTokens": 1,
     "uuid": "fee9070fbfaf49df801395320a7c5e68",
-    "vanityTokens": 30580,
+    "vanityTokens": 31530,
     "wardrobe": ",,DIAMOND_BOOTS,",
     "websiteSet": false,
-    "mostRecentlyTippedUuid": "85e67fab327f4f8fa5735dea7f4a8d75",
-    "tipsSent": 1
+    "mostRecentlyTippedUuid": "0c4373cbe62f4c16ac96accf7e795767",
+    "tipsSent": 8,
+    "mainlobbytutorial": true,
+    "particleQuality": "HIGH",
+    "lastEugeneMessage": 1430912278704,
+    "eugene": {
+      "dailyTwoKExp": 1430998732257
+    },
+    "last_survey": 1430550446236,
+    "voting": {
+      "total_mcsorg": 2,
+      "total": 4,
+      "secondary_mcsorg": 2,
+      "last_mcsorg": 1430738346266,
+      "last_vote": 1430911731968,
+      "secondary_mcsl": 1,
+      "total_mcsl": 1,
+      "last_mcsl": 1430825828267,
+      "total_mcmp": 1,
+      "secondary_mcmp": 1,
+      "last_mcmp": 1430911731968
+    },
+    "mostRecentGameType": "BATTLEGROUND",
+    "resourcePack": "warlordsmay4.zip"
   },
   "success": true
 }
