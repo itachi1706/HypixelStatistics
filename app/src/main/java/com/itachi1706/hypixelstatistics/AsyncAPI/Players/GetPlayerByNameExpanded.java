@@ -711,7 +711,10 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                         descArray.add(new ResultDescription(GameType.VAMPIREZ.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
                         newLobbyParkourCount++;
                         break;
-                    //case "Warlords": break;
+                    case "Warlords":
+                        descArray.add(new ResultDescription(GameType.WARLORDS.getName() + " Parkour", "Click here to view parkour statistics", true, msg.toString()));
+                        newLobbyParkourCount++;
+                        break;
                     default:
                         descArray.add(new ResultDescription(entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " (Legacy)", "Click here to view parkour statistics", true, msg.toString()));
                         legacyCount++;
