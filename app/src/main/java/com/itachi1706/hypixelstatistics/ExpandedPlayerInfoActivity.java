@@ -291,6 +291,24 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.ok, null).show();
             }
 
+        } else if (id == R.id.view_friends){
+            if (debug.getText().length() > 200) {
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(debug.getText().toString(), PlayerReply.class);
+                if (reply.getPlayer().has("uuid")) {
+                    Intent intent = new Intent(ExpandedPlayerInfoActivity.this, FriendListActivity.class);
+                    intent.putExtra("playeruuid", reply.getPlayer().get("uuid").getAsString());
+                    startActivity(intent);
+                } else {
+                    new AlertDialog.Builder(ExpandedPlayerInfoActivity.this).setTitle("Player not found")
+                            .setMessage("Please search a player to view his/her friend's list!")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                }
+            } else {
+                new AlertDialog.Builder(ExpandedPlayerInfoActivity.this).setTitle("Player not found")
+                        .setMessage("Please search a player to view his/her friend's list!")
+                        .setPositiveButton(android.R.string.ok, null).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);

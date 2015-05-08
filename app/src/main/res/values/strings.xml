@@ -52,4 +52,6 @@
     <string name="action_search_title">Search</string>
     <string name="searchable_friend_hint">Enter Player\'s Name or UUID</string>
     <string name="action_filter_by_gametypes">Filter Boosters by GameType</string>
+    <string name="action_view_player_guild">View Player Guild</string>
+    <string name="action_view_friend_list">View Friends List</string>
 </resources>

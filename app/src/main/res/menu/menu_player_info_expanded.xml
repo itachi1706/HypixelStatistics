@@ -10,6 +10,8 @@
         android:orderInCategory="95" app:showAsAction="never" />
     <item android:id="@+id/view_known_alias" android:title="@string/action_view_known_aliases"
         android:orderInCategory="96" app:showAsAction="never" />
-    <item android:id="@+id/view_guild" android:title="View Player Guild"
+    <item android:id="@+id/view_guild" android:title="@string/action_view_player_guild"
         android:orderInCategory="97" app:showAsAction="never" />
+    <item android:id="@+id/view_friends" android:title="@string/action_view_friend_list"
+        android:orderInCategory="97" app:showAsAction="never"/>
 </menu>
