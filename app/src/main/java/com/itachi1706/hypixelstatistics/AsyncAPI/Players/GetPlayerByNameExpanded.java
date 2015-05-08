@@ -1618,8 +1618,12 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         descArray = parseIndividualWarlordsStats(obj, "crusader", "Crusader", descArray);
         //Protector
         descArray = parseIndividualWarlordsStats(obj, "protector", "Protector", descArray);
-        //Shaman (Coming Soon)
-        descArray = parseIndividualWarlordsStats(obj, "shaman", "Shaman Class (Coming Soon)", descArray);
+        //Shaman
+        descArray = parseIndividualWarlordsStats(obj, "shaman", "Shaman Class", descArray);
+        //Thunderlord
+        descArray = parseIndividualWarlordsStats(obj, "thunderlord", "Thunderlord", descArray);
+        //Earthwarden
+        descArray = parseIndividualWarlordsStats(obj, "earthwarden", "Earthwarden", descArray);
 
         //Priviledged Info
         if (MainStaticVars.isStaff || MainStaticVars.isCreator){

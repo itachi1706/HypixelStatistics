@@ -46,6 +46,16 @@ public enum WeaponAbility {
     PROTECTORSKILLTHREE("Light Infusion"),
     PROTECTORSKILLFOUR("Holy Radiance"),
     PROTECTORSKILLULTIMATE("Hammer of Light"),
+    THUNDERLORDSKILLONE("Lightning Bolt"),
+    THUNDERLORDSKILLTWO("Chain Lightning"),
+    THUNDERLORDSKILLTHREE("Windfury Weapon"),
+    THUNDERLORDSKILLFOUR("Lightning Rod"),
+    THUNDERLORDSKILLULTIMATE("Capacitor Totem"),
+    EARTHWARDENSKILLONE("Earthen Spike"),
+    EARTHWARDENSKILLTWO("Boulder"),
+    EARTHWARDENSKILLTHREE("Earthliving Weapon"),
+    EARTHWARDENSKILLFOUR("Chain Heal"),
+    EARTHWARDENSKILLULTIMATE("Healing Totem"),
     UNKNOWNSKILL("Unknown Skill - Contact Dev"),
     UNKNOWNCLASS("Unknown Class - Contact Dev");
 
@@ -132,6 +142,24 @@ public enum WeaponAbility {
                     case 2: return PROTECTORSKILLTHREE;
                     case 3: return PROTECTORSKILLFOUR;
                     case 4: return PROTECTORSKILLULTIMATE;
+                    default: return UNKNOWNSKILL;
+                }
+            case THUNDERLORD:
+                switch (abilityID){
+                    case 0: return THUNDERLORDSKILLONE;
+                    case 1: return THUNDERLORDSKILLTWO;
+                    case 2: return THUNDERLORDSKILLTHREE;
+                    case 3: return THUNDERLORDSKILLFOUR;
+                    case 4: return THUNDERLORDSKILLULTIMATE;
+                    default: return UNKNOWNSKILL;
+                }
+            case EARTHWARDEN:
+                switch (abilityID){
+                    case 0: return EARTHWARDENSKILLONE;
+                    case 1: return EARTHWARDENSKILLTWO;
+                    case 2: return EARTHWARDENSKILLTHREE;
+                    case 3: return EARTHWARDENSKILLFOUR;
+                    case 4: return EARTHWARDENSKILLULTIMATE;
                     default: return UNKNOWNSKILL;
                 }
             default: return UNKNOWNCLASS;

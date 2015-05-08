@@ -9,6 +9,7 @@ public enum WarlordsSpecs {
     WARRIOR("Unknown Warrior Spec", "Warrior"),
     PALADIN("Unknown Paladin Spec", "Paladin"),
     MAGE("Unknown Mage Spec", "Mage"),
+    SHAMAN("Unknown Shaman Spec", "Shaman"),
     UNKNOWN("Unknown Class", "???"),
     PYROMANCER("Pyromancer", "Mage"),
     CRYOMANCER("Cryomancer", "Mage"),
@@ -17,7 +18,9 @@ public enum WarlordsSpecs {
     DEFENDER("Defender", "Warrior"),
     AVENGER("Avenger", "Paladin"),
     CRUSADER("Crusader", "Paladin"),
-    PROTECTOR("Protector", "Paladin");
+    PROTECTOR("Protector", "Paladin"),
+    THUNDERLORD("Thunderlord", "Shaman"),
+    EARTHWARDEN("Earthwarden", "Shaman");
 
     private final String specName, className;
 
@@ -47,6 +50,12 @@ public enum WarlordsSpecs {
                     case 1: return CRUSADER;
                     case 2: return PROTECTOR;
                     default: return PALADIN;
+                }
+            case 3: //Shaman
+                switch (specID){
+                    case 0: return THUNDERLORD;
+                    case 1: return EARTHWARDEN;
+                    default: return SHAMAN;
                 }
             default: return UNKNOWN;
         }
