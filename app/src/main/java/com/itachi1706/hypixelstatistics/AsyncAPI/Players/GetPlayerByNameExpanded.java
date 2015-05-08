@@ -1537,8 +1537,6 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
         if (obj.has("crafted"))
             descArray.add(new ResultDescription("Total Items Crafted", obj.get("crafted").getAsString()));
-        if (obj.has("crafted_common"))
-            descArray.add(new ResultDescription("Total Common Items Crafted", obj.get("crafted_common").getAsString()));
         if (obj.has("crafted_rare"))
             descArray.add(new ResultDescription("Total Rare Items Crafted", obj.get("crafted_rare").getAsString()));
         if (obj.has("crafted_epic"))
