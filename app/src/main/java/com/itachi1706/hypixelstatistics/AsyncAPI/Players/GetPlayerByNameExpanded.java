@@ -1575,7 +1575,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             switch (classChosen){
                 case "mage": if (obj.has("mage_spec")) {spec = obj.get("mage_spec").getAsString();} else { spec = "error"; } break;
                 case "paladin": if (obj.has("paladin_spec")) {spec = obj.get("paladin_spec").getAsString();} else { spec = "error"; } break;
-                case "pyromancer": if (obj.has("pyromancer_spec")) {spec = obj.get("pyromancer_spec").getAsString();} else { spec = "error"; } break;
+                case "warrior": if (obj.has("warrior_spec")) {spec = obj.get("warrior_spec").getAsString();} else { spec = "error"; } break;
+                case "shaman": if (obj.has("shaman_spec")) {spec = obj.get("shaman_spec").getAsString();} else { spec = "error"; } break;
             }
             descArray.add(new ResultDescription(formattedClass + " Spec Chosen", spec.substring(0,1).toUpperCase() + spec.substring(1)));
         }
