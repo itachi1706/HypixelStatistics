@@ -28,7 +28,15 @@
       "walls3_kills": 83,
       "walls3_wins": 4,
       "walls_kills": 1,
-      "walls_wins": 1
+      "walls_wins": 1,
+      "warlords_warrior_level": 0,
+      "warlords_mage_level": 60,
+      "warlords_kills": 877,
+      "warlords_paladin_level": 0,
+      "warlords_shaman_level": 28,
+      "warlords_assist": 1725,
+      "warlords_repair_weapons": 654,
+      "warlords_coins": 3624
     },
     "achievementsOneTime": [
       "general_first_join",
@@ -97,7 +105,11 @@
       "arcade_bounty_hunter_target_killer",
       "arcade_trampolinio_red_wool",
       "arcade_pig_fishing_super_bacon",
-      "general_buy_golem"
+      "general_buy_golem",
+      "warlords_giddy_up",
+      "warlords_first_of_many",
+      "warlords_medium_rare",
+      "warlords_makin_some_room"
     ],
     "channel": "ALL",
     "chatTunnel": null,
@@ -120,14 +132,14 @@
       
     ],
     "gadget": "TRAMPOLINE",
-    "karma": 8435,
+    "karma": 9085,
     "knownAliases": [
       "itachi1706"
     ],
     "knownAliasesLower": [
       "itachi1706"
     ],
-    "lastLogin": 1430911184135,
+    "lastLogin": 1431088794686,
     "monthlyCreditRewards": {
       "lastReceivedMonth": 4,
       "none": true,
@@ -138,8 +150,8 @@
       "totalBonuses": 7
     },
     "mostRecentMinecraftVersion": 5,
-    "networkExp": 23927,
-    "networkLevel": 19,
+    "networkExp": 427,
+    "networkLevel": 20,
     "newClock": "LVL2",
     "notifications": true,
     "packageRank": "MVP_PLUS",
@@ -419,6 +431,12 @@
           },
           {
             "time": 1430912258518
+          },
+          {
+            "time": 1431004659501
+          },
+          {
+            "time": 1431090625368
           }
         ]
       },
@@ -433,7 +451,13 @@
           {
             "time": 1430912258519
           }
-        ]
+        ],
+        "active": {
+          "started": 1431088918866,
+          "objectives": {
+            "warlords_weekly_dedi": 3
+          }
+        }
       },
       "warlords_domination": {
         "completions": [
@@ -571,6 +595,12 @@
           },
           {
             "time": 1430913172714
+          },
+          {
+            "time": 1431003586141
+          },
+          {
+            "time": 1431089666399
           }
         ]
       },
@@ -704,6 +734,12 @@
           },
           {
             "time": 1430914008107
+          },
+          {
+            "time": 1431004659501
+          },
+          {
+            "time": 1431091271698
           }
         ]
       },
@@ -742,7 +778,7 @@
     "stats": {
       "Arcade": {
         "bounty_kills_oneinthequiver": 3,
-        "coins": 247382,
+        "coins": 253382,
         "deaths_oneinthequiver": 16,
         "deaths_throw_out": 6,
         "headshots_dayone": 23,
@@ -798,25 +834,25 @@
         "wins_4v4": 1
       },
       "Battleground": {
-        "assists": 1635,
-        "broken_inventory": 0,
-        "chosen_class": "mage",
-        "coins": 29945,
-        "current_weapon": 1427809991978,
-        "damage": 6419912,
+        "assists": 1725,
+        "broken_inventory": 15,
+        "chosen_class": "shaman",
+        "coins": 7234,
+        "current_weapon": 1431005632956,
+        "damage": 6801600,
         "damage_mage": 6419912,
-        "damage_prevented": 934337,
+        "damage_prevented": 990235,
         "damage_prevented_mage": 934337,
         "damage_prevented_pyromancer": 934337,
         "damage_pyromancer": 6419912,
-        "damage_taken": 4971249,
-        "deaths": 683,
-        "flag_conquer_team": 57,
-        "heal": 363417,
+        "damage_taken": 5282989,
+        "deaths": 721,
+        "flag_conquer_team": 60,
+        "heal": 415509,
         "heal_mage": 363417,
         "heal_pyromancer": 363417,
-        "kills": 829,
-        "losses": 60,
+        "kills": 877,
+        "losses": 63,
         "losses_mage": 60,
         "losses_pyromancer": 60,
         "mage_armor_selection": 2,
@@ -831,13 +867,13 @@
         "mage_skill4": 6,
         "mage_skill5": 5,
         "mage_spec": "pyromancer",
-        "magic_dust": 622,
+        "magic_dust": 107,
         "paladin_spec": "avenger",
         "pyromancer_plays": 130,
-        "repaired": 638,
-        "repaired_common": 463,
+        "repaired": 654,
+        "repaired_common": 475,
         "repaired_epic": 3,
-        "repaired_rare": 172,
+        "repaired_rare": 176,
         "salvaged_dust_reward": 1021,
         "salvaged_shards_reward": 13,
         "salvaged_weapons": 460,
@@ -846,6 +882,27 @@
         "void_shards": 61,
         "warrior_spec": "berserker",
         "weapon_inventory": [
+          {
+            "spec": {
+              "spec": 0,
+              "playerClass": 3
+            },
+            "ability": 0,
+            "abilityBoost": 9,
+            "damage": 100,
+            "energy": 19,
+            "chance": 19,
+            "multiplier": 186,
+            "health": 194,
+            "cooldown": 3,
+            "movement": 0,
+            "material": "STRING",
+            "id": 1431005632956,
+            "category": "EPIC",
+            "crafted": true,
+            "upgradeMax": 2,
+            "upgradeTimes": 2
+          },
           {
             "spec": {
               "spec": 0,
@@ -932,39 +989,63 @@
           }
         ],
         "win_streak": 1,
-        "wins": 60,
-        "wins_blu": 37,
-        "wins_capturetheflag": 26,
-        "wins_capturetheflag_blu": 16,
-        "wins_domination": 34,
+        "wins": 63,
+        "wins_blu": 38,
+        "wins_capturetheflag": 28,
+        "wins_capturetheflag_blu": 17,
+        "wins_domination": 35,
         "wins_domination_blu": 21,
-        "wins_domination_red": 13,
+        "wins_domination_red": 14,
         "wins_mage": 60,
         "wins_pyromancer": 60,
-        "wins_red": 23,
+        "wins_red": 25,
         "salvaged_weapons_rare": 127,
-        "crafted": 3,
-        "crafted_epic": 3,
+        "crafted": 4,
+        "crafted_epic": 4,
         "packages": [
           "mage_spec_aquamancer",
           "mount_undying_mare",
           "mage_spec_cryomancer",
           "mount_raging_stallion",
           "mount_corpse_mare",
-          "mount_war_horse"
+          "mount_war_horse",
+          "legacyachievement"
         ],
         "mage_skill3": 6,
-        "wins_capturetheflag_red": 10,
-        "upgrade_crafted_epic": 4,
-        "upgrade_crafted": 4,
+        "wins_capturetheflag_red": 11,
+        "upgrade_crafted_epic": 6,
+        "upgrade_crafted": 6,
         "flag_conquer_self": 1,
         "mage_helmet_selection": 1,
         "salvaged_weapons_epic": 2,
-        "wins_capturetheflag_a": 3,
+        "wins_capturetheflag_a": 5,
         "shaman_spec": "thunderlord",
         "hotkeymode": true,
         "play_streak": 0,
-        "wins_domination_a": 2
+        "wins_domination_a": 3,
+        "shaman_skill1": 3,
+        "shaman_skill2": 3,
+        "shaman_skill3": 2,
+        "shaman_skill4": 2,
+        "shaman_skill5": 2,
+        "shaman_health": 3,
+        "shaman_energy": 3,
+        "shaman_cooldown": 3,
+        "shaman_critchance": 3,
+        "shaman_critmultiplier": 3,
+        "shaman_armor_selection": 2,
+        "heal_shaman": 52092,
+        "heal_thunderlord": 52092,
+        "damage_shaman": 381688,
+        "thunderlord_plays": 6,
+        "damage_thunderlord": 381688,
+        "losses_thunderlord": 3,
+        "losses_shaman": 3,
+        "shaman_plays": 6,
+        "damage_prevented_thunderlord": 55898,
+        "damage_prevented_shaman": 55898,
+        "wins_thunderlord": 3,
+        "wins_shaman": 3
       },
       "HungerGames": {
         "blaze": 1,
@@ -1096,36 +1177,35 @@
     },
     "stoggle": true,
     "testPass": true,
-    "timePlaying": 6654,
+    "timePlaying": 6765,
     "tournamentTokens": 1,
     "uuid": "fee9070fbfaf49df801395320a7c5e68",
-    "vanityTokens": 31530,
+    "vanityTokens": 31590,
     "wardrobe": ",,DIAMOND_BOOTS,",
     "websiteSet": false,
-    "mostRecentlyTippedUuid": "0c4373cbe62f4c16ac96accf7e795767",
-    "tipsSent": 8,
+    "mostRecentlyTippedUuid": "2ff4994b00c74d0da8ef2d52c368a0c7",
+    "tipsSent": 9,
     "mainlobbytutorial": true,
     "particleQuality": "HIGH",
-    "lastEugeneMessage": 1430912278704,
+    "lastEugeneMessage": 1431088920292,
     "eugene": {
-      "dailyTwoKExp": 1430998732257
+      "dailyTwoKExp": 1431175324994
     },
     "last_survey": 1430550446236,
     "voting": {
-      "total_mcsorg": 2,
-      "total": 4,
-      "secondary_mcsorg": 2,
-      "last_mcsorg": 1430738346266,
-      "last_vote": 1430911731968,
+      "total_mcsorg": 3,
+      "total": 6,
+      "secondary_mcsorg": 3,
+      "last_mcsorg": 1431088850080,
+      "last_vote": 1431088850080,
       "secondary_mcsl": 1,
       "total_mcsl": 1,
       "last_mcsl": 1430825828267,
-      "total_mcmp": 1,
-      "secondary_mcmp": 1,
-      "last_mcmp": 1430911731968
+      "total_mcmp": 2,
+      "secondary_mcmp": 2,
+      "last_mcmp": 1431002535669
     },
-    "mostRecentGameType": "BATTLEGROUND",
-    "resourcePack": "warlordsmay4.zip"
+    "mostRecentGameType": "BATTLEGROUND"
   },
   "success": true
 }
