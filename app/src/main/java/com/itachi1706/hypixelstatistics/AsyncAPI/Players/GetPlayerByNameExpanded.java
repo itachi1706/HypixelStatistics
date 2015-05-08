@@ -1509,9 +1509,13 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
-
         if (obj.has("assists"))
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
+
+        if (obj.has("play_streak"))
+            descArray.add(new ResultDescription("Current Play Streak", MinecraftColorCodes.parseColors("§a" + obj.get("play_streak").getAsString() + "§r/§b3§r")));
+        if (obj.has("hotkeymode"))
+            descArray.add(new ResultDescription("Hot Key Mode Enabled", obj.get("hotkeymode").getAsString()));
         if (obj.has("damage"))
             descArray.add(new ResultDescription("Total Damage Dealt", obj.get("damage").getAsString()));
         if (obj.has("damage_taken"))
@@ -1524,6 +1528,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Life Leached", obj.get("life_leeched").getAsString()));
         if (obj.has("broken_inventory"))
             descArray.add(new ResultDescription("Broken Items in Inventory", obj.get("broken_inventory").getAsString()));
+
+        //Repaired
         if (obj.has("repaired"))
             descArray.add(new ResultDescription("Total Items Repaired", obj.get("repaired").getAsString()));
         if (obj.has("repaired_common"))
@@ -1535,6 +1541,23 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         if (obj.has("repaired_legendary"))
             descArray.add(new ResultDescription("Total Legendary Items Repaired", obj.get("repaired_legendary").getAsString()));
 
+        //Salvaged
+        if (obj.has("salvaged_dust_reward"))
+            descArray.add(new ResultDescription("Total Magic Dust Salvaged", obj.get("salvaged_dust_reward").getAsString()));
+        if (obj.has("salvaged_shards_reward"))
+            descArray.add(new ResultDescription("Total Void Shards Salvaged", obj.get("salvaged_shards_reward").getAsString()));
+        if (obj.has("salvaged_weapons"))
+            descArray.add(new ResultDescription("Total Weapons Salvaged", obj.get("salvaged_weapons").getAsString()));
+        if (obj.has("salvaged_weapons_common"))
+            descArray.add(new ResultDescription("Total Common Weapons Salvaged", obj.get("salvaged_weapons_common").getAsString()));
+        if (obj.has("salvaged_weapons_rare"))
+            descArray.add(new ResultDescription("Total Rare Weapons Salvaged", obj.get("salvaged_weapons_rare").getAsString()));
+        if (obj.has("salvaged_weapons_epic"))
+            descArray.add(new ResultDescription("Total Epic Weapons Salvaged", obj.get("salvaged_weapons_epic").getAsString()));
+        if (obj.has("salvaged_weapons_legendary"))
+            descArray.add(new ResultDescription("Total Legendary Weapons Salvaged", obj.get("salvaged_weapons_legendary").getAsString()));
+
+        //Crafted
         if (obj.has("crafted"))
             descArray.add(new ResultDescription("Total Items Crafted", obj.get("crafted").getAsString()));
         if (obj.has("crafted_rare"))
