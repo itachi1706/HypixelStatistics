@@ -822,6 +822,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+        // Overall Kill Death Ratio (Kills/Deaths)
+        if (obj.has("kills") && obj.has("deaths")){
+            int waKills = obj.get("kills").getAsInt();
+            int waDeaths = obj.get("deaths").getAsInt();
+            if (waDeaths == 0)
+                waDeaths = 1;  //Done to prevent Divide by Zero Exception
+            int waKDA = waKills / waDeaths;
+            descArray.add(new ResultDescription("K/D Ratio", waKDA + ""));
+        }
         if (obj.has("packages")){
             StringBuilder packageBuilder = new StringBuilder();
             JsonArray packages = obj.get("packages").getAsJsonArray();
@@ -859,6 +868,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+        // Overall Kill Death Ratio (Kills/Deaths)
+        if (obj.has("kills") && obj.has("deaths")){
+            int w3Kills = obj.get("kills").getAsInt();
+            int w3Deaths = obj.get("deaths").getAsInt();
+            if (w3Deaths == 0)
+                w3Deaths = 1;  //Done to prevent Divide by Zero Exception
+            int w3KDA = w3Kills / w3Deaths;
+            descArray.add(new ResultDescription("K/D Ratio", w3KDA + ""));
+        }
         if (obj.has("finalDeaths"))
             descArray.add(new ResultDescription("Total Final Deaths", obj.get("finalDeaths").getAsString()));
         if (obj.has("finalKills"))
@@ -1370,6 +1388,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+        // Overall Kill Death Ratio (Kills/Deaths)
+        if (obj.has("kills") && obj.has("deaths")){
+            int pbKills = obj.get("kills").getAsInt();
+            int pbDeaths = obj.get("deaths").getAsInt();
+            if (pbDeaths == 0)
+                pbDeaths = 1;  //Done to prevent Divide by Zero Exception
+            int pbKDA = pbKills / pbDeaths;
+            descArray.add(new ResultDescription("K/D Ratio", pbKDA + ""));
+        }
         if (obj.has("killstreaks"))
             descArray.add(new ResultDescription("Longest Killstreak", obj.get("killstreaks").getAsString()));
         if (obj.has("packages")){
@@ -1407,14 +1434,23 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Round Wins", obj.get("round_wins").getAsString()));
         if (obj.has("deaths"))
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+        if (obj.has("kills"))
+            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+        // Overall Kill Death Ratio (Kills/Deaths)
+        if (obj.has("kills") && obj.has("deaths")){
+            int mcgoKills = obj.get("kills").getAsInt();
+            int mcgoDeaths = obj.get("deaths").getAsInt();
+            if (mcgoDeaths == 0)
+                mcgoDeaths = 1;  //Done to prevent Divide by Zero Exception
+            int mcgoKDA = mcgoKills / mcgoDeaths;
+            descArray.add(new ResultDescription("K/D Ratio", mcgoKDA + ""));
+        }
         if (obj.has("bombs_defused"))
             descArray.add(new ResultDescription("Bombs Defused", obj.get("bombs_defused").getAsString()));
         if (obj.has("bombs_planted"))
             descArray.add(new ResultDescription("Bombs Planted", obj.get("bombs_planted").getAsString()));
         if (obj.has("shots_fired"))
             descArray.add(new ResultDescription("Total Shots Fired", obj.get("shots_fired").getAsString()));
-        if (obj.has("kills"))
-            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
         if (obj.has("headshot_kills"))
             descArray.add(new ResultDescription("Total Headshot Kills", obj.get("headshot_kills").getAsString()));
         if (obj.has("cop_kills"))
@@ -1462,6 +1498,15 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+        // Overall Kill Death Ratio (Kills/Deaths)
+        if (obj.has("kills") && obj.has("deaths")){
+            int uhcKills = obj.get("kills").getAsInt();
+            int uhcDeaths = obj.get("deaths").getAsInt();
+            if (uhcDeaths == 0)
+                uhcDeaths = 1;  //Done to prevent Divide by Zero Exception
+            int uhcKDA = uhcKills / uhcDeaths;
+            descArray.add(new ResultDescription("K/D Ratio", uhcKDA + ""));
+        }
         if (obj.has("heads_eaten"))
             descArray.add(new ResultDescription("Heads Eaten", obj.get("heads_eaten").getAsString()));
         if (obj.has("equippedKit"))
@@ -1511,6 +1556,17 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
         if (obj.has("assists"))
             descArray.add(new ResultDescription("Assists", obj.get("assists").getAsString()));
+
+        // Overall Kill Death Ratio ((Kills+Assists)/Deaths)
+        if (obj.has("assists") && obj.has("kills") && obj.has("deaths")){
+            int warAssists = obj.get("assists").getAsInt();
+            int warKills = obj.get("kills").getAsInt();
+            int warDeaths = obj.get("deaths").getAsInt();
+            if (warDeaths == 0)
+                warDeaths = 1;  //Done to prevent Divide by Zero Exception
+            int warKDA = (warKills + warAssists) / warDeaths;
+            descArray.add(new ResultDescription("K/D/A Ratio", warKDA + ""));
+        }
 
         if (obj.has("play_streak"))
             descArray.add(new ResultDescription("Current Play Streak", MinecraftColorCodes.parseColors("§a" + obj.get("play_streak").getAsString() + "§r/§b3§r")));
