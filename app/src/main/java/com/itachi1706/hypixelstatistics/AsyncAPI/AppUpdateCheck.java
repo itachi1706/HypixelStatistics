@@ -2,6 +2,8 @@ package com.itachi1706.hypixelstatistics.AsyncAPI;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,10 +11,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import java.io.BufferedReader;
@@ -22,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Kenneth on 16/2/2015, 6:59 PM
@@ -117,7 +122,15 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                         /* Old Method
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVersionURL));
                         mActivity.startActivity(intent); */
-                        new DownloadAndInstallApp(mActivity).execute(newVersionURL);
+                        NotificationManager manager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mActivity);
+                        mBuilder.setContentTitle("Downloading new update").setContentText("Downloading new update...")
+                                .setProgress(0,0,true).setSmallIcon(R.drawable.ic_launcher).setAutoCancel(false)
+                        .setOngoing(true).setTicker("Downloading new update to the app");
+                        Random random = new Random();
+                        int notificationId = random.nextInt();
+                        manager.notify(notificationId, mBuilder.build());
+                        new DownloadAndInstallApp(mActivity, mBuilder, manager, notificationId).execute(newVersionURL);
                     }
                 }).show();
             }
