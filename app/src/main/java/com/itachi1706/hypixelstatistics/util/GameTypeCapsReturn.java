@@ -21,6 +21,7 @@ public class GameTypeCapsReturn {
             case "PAINTBALL":
                 return GameType.PAINTBALL;
             case "HUNGERGAMES":
+            case "SURVIVAL_GAMES":
                 return GameType.SURVIVAL_GAMES;
             case "TNTGAMES":
                 return GameType.TNTGAMES;
