@@ -44,6 +44,15 @@ public enum OngoingAchievements {
     WALLS_KILLS("Walls Slayer ", "Kill %s players", "walls_kills", 5, 10, 50, 250, 1000, 2500, LobbyList.WALLS),
     WALLS_WINS("Walls Warrior ", "Win %s games", "walls_wins", 5, 10, 50, 100, 250, 500, LobbyList.WALLS),
 
+    //TODO Verify in-game (Particularly kills and assists achievements)
+    WARLORDS_WARRIOR_LEVEL("Anger Management ", "Obtain Lv%s with the Warrior class", "warlords_warrior_level", 5, 20, 40, 60, 80, 90, LobbyList.WARLORDS),
+    WARLORDS_MAGE_LEVEL("Icy Hot ", "Obtain Lv%s with the Mage class", "warlords_mage_level", 5, 20, 40, 60, 80, 90, LobbyList.WALLS),
+    WARLORDS_KILLS("Kills Secured ", "Kill %s players in any game mode", "warlords_kills", 5, 50, 250, 1000, 5000, 25000, LobbyList.WALLS),
+    WARLORDS_PALADIN_LEVEL("Knight of Justice ", "Obtain Lv%s with the Paladin class", "warlords_paladin_level", 5, 20, 40, 60, 80, 90, LobbyList.WALLS),
+    WARLORDS_SHAMAN_LEVEL("Master of the Elements ", "Obtain Lv%s with the Shaman class", "warlords_shaman_level", 5, 20, 40, 60, 80, 90, LobbyList.WALLS),
+    WARLORDS_ASSIST("Kills Secured ", "Earn %s assists in any game mode", "warlords_assist", 5, 20, 100, 500, 2500, 12500, LobbyList.WALLS),
+    WARLORDS_REPAIR_WEAPONS("RNG God Offerings ", "Win %s games", "warlords_repair_weapons", 5, 10, 50, 100, 250, 500, LobbyList.WALLS),
+
     UNKNOWN("Unknown ", "%s", "unknown", 1, 0, -1, -1, -1, -1, LobbyList.UNKNOWN);
 
     private String achievementKey, title, description;

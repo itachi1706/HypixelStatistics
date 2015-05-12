@@ -16,6 +16,7 @@ public enum LobbyList {
     VAMPIREZ("VampireZ", "vampirez"),
     PAINTBALL("Paintball Warfare", "paintball"),
     WALLS("The Walls", "walls"),
+    WARLORDS("Warlords", "warlords"),
     UNKNOWN("Unknown", "unknown");
 
     private String name, key;
