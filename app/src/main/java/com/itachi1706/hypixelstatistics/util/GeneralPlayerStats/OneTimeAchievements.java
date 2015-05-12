@@ -81,6 +81,14 @@ public enum OneTimeAchievements {
     PAINTBALL_LAST_KILL("The Finished", "Be the last person to kill someone", "paintball_last_kill", LobbyList.PAINTBALL),
 
     WALLS_REVENGE("Avenged!", "Kill a player that has killed one of your teammates", "walls_revenge", LobbyList.WALLS),
+
+    WARLORDS_FIRST_OF_MANY("The First Of Many", "Get a Broken Weapon repaired by The Weaponsmith", "warlords_first_of_many", LobbyList.WARLORDS),
+    WARLORDS_MEDIUM_RARE("Medium Rare", "Receive a Rare weapon from The Weaponsmith", "warlords_medium_rare", LobbyList.WARLORDS),
+    WARLORDS_MAKIN_SOME_ROOM("Makin' Some Room", "Salvage a Weapon", "warlords_makin_some_room", LobbyList.WARLORDS),
+    WARLORDS_GIDDY_UP("Giddy Up!", "Unlock a mount variation", "warlords_giddy_up", LobbyList.WARLORDS),
+    warlords_beep_beep("Beep Beep!", "Capture a flag while under the effect of the speed powerup", "warlords_beep_beep", LobbyList.WARLORDS),
+    WARLORDS_I_MUST_RESIST("I...Must...Resist", "Completely fill up your Broken Weapons inventory", "warlords_i_must_resist", LobbyList.WARLORDS),
+    WARLORDS_JUICED_UP("Juiced Up!", "Get a killing blow on an enemy player while under the effect of the damage powerup", "warlords_juiced_up", LobbyList.WARLORDS),
     
     UNKNOWN("Unknown", "Unknown achievement", "unknown", LobbyList.UNKNOWN);
 
