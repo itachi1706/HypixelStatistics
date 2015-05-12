@@ -28,7 +28,8 @@ public enum WeaponDamage {
     NINETY_EIGHT("83 - 112", 83, 112, 98),
     NINETY_NINE("84 - 113", 84, 113, 99),
     ONE_HUNDERED("85 - 115", 85, 115, 100),
-    ONE_HUNDRED_ONE("85 - 116 ", 85, 116, 101),
+    ONE_HUNDRED_ONE("85 - 116", 85, 116, 101),
+    ONE_HUNDRED_SIX("90 - 121", 90, 121, 106),
     ONE_HUNDERED_SEVEN("90 - 123", 90, 123, 107),
     ONE_HUNDERED_NINE("92 - 125", 92, 125, 109),
     ONE_HUNDERED_TEN("93 - 126", 93, 126, 110),
@@ -49,34 +50,11 @@ public enum WeaponDamage {
     }
 
     public static WeaponDamage fromDatabase(int damageID){
-        switch (damageID){
-            case 80: return EIGHTY;
-            case 81: return EIGHTY_ONE;
-            case 82: return EIGHTY_TWO;
-            case 83: return EIGHTY_THREE;
-            case 84: return EIGHTY_FOUR;
-            case 85: return EIGHTY_FIVE;
-            case 86: return EIGHTY_SIX;
-            case 87: return EIGHTY_SEVEN;
-            case 88: return EIGHTY_EIGHT;
-            case 89: return EIGHTY_NINE;
-            case 90: return NINETY;
-            case 91: return NINETY_ONE;
-            case 92: return NINETY_TWO;
-            case 93: return NINETY_THREE;
-            case 94: return NINETY_FOUR;
-            case 95: return NINETY_FIVE;
-            case 96: return NINETY_SIX;
-            case 97: return NINETY_SEVEN;
-            case 98: return NINETY_EIGHT;
-            case 99: return NINETY_NINE;
-            case 100: return ONE_HUNDERED;
-            case 101: return ONE_HUNDRED_ONE;
-            case 107: return ONE_HUNDERED_SEVEN;
-            case 109: return ONE_HUNDERED_NINE;
-            case 110: return ONE_HUNDERED_TEN;
-            default: return WIP;
+        for (WeaponDamage d : WeaponDamage.values()){
+            if (d.getWeaponDamageID() == damageID)
+                return d;
         }
+        return WIP;
     }
 
     public int getMaxDamage() {
