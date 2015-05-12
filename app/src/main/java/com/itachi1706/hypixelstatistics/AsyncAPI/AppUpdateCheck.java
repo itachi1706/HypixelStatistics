@@ -114,8 +114,10 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                         .setNegativeButton("Don't Update", null).setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        /* Old Method
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVersionURL));
-                        mActivity.startActivity(intent);
+                        mActivity.startActivity(intent); */
+                        new DownloadAndInstallApp(mActivity).execute(newVersionURL);
                     }
                 }).show();
             }
