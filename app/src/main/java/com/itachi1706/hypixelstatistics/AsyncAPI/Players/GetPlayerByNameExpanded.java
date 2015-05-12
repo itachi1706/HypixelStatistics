@@ -828,7 +828,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int waDeaths = obj.get("deaths").getAsInt();
             if (waDeaths == 0)
                 waDeaths = 1;  //Done to prevent Divide by Zero Exception
-            int waKDA = waKills / waDeaths;
+            double waKDA = waKills / waDeaths;
+            waKDA = (double) Math.round(waKDA * 100) / 100;
             descArray.add(new ResultDescription("K/D Ratio", waKDA + ""));
         }
         if (obj.has("packages")){
@@ -874,7 +875,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int w3Deaths = obj.get("deaths").getAsInt();
             if (w3Deaths == 0)
                 w3Deaths = 1;  //Done to prevent Divide by Zero Exception
-            int w3KDA = w3Kills / w3Deaths;
+            double w3KDA = w3Kills / w3Deaths;
+            w3KDA = (double) Math.round(w3KDA * 100) / 100;
             descArray.add(new ResultDescription("K/D Ratio", w3KDA + ""));
         }
         if (obj.has("finalDeaths"))
@@ -1394,7 +1396,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int pbDeaths = obj.get("deaths").getAsInt();
             if (pbDeaths == 0)
                 pbDeaths = 1;  //Done to prevent Divide by Zero Exception
-            int pbKDA = pbKills / pbDeaths;
+            double pbKDA = pbKills / pbDeaths;
+            pbKDA = (double) Math.round(pbKDA * 100) / 100;
             descArray.add(new ResultDescription("K/D Ratio", pbKDA + ""));
         }
         if (obj.has("killstreaks"))
@@ -1442,7 +1445,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int mcgoDeaths = obj.get("deaths").getAsInt();
             if (mcgoDeaths == 0)
                 mcgoDeaths = 1;  //Done to prevent Divide by Zero Exception
-            int mcgoKDA = mcgoKills / mcgoDeaths;
+            double mcgoKDA = mcgoKills / mcgoDeaths;
+            mcgoKDA = (double) Math.round(mcgoKDA * 100) / 100;
             descArray.add(new ResultDescription("K/D Ratio", mcgoKDA + ""));
         }
         if (obj.has("bombs_defused"))
@@ -1504,7 +1508,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int uhcDeaths = obj.get("deaths").getAsInt();
             if (uhcDeaths == 0)
                 uhcDeaths = 1;  //Done to prevent Divide by Zero Exception
-            int uhcKDA = uhcKills / uhcDeaths;
+            double uhcKDA = uhcKills / uhcDeaths;
+            uhcKDA = (double) Math.round(uhcKDA * 100) / 100;
             descArray.add(new ResultDescription("K/D Ratio", uhcKDA + ""));
         }
         if (obj.has("heads_eaten"))
@@ -1564,7 +1569,8 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             int warDeaths = obj.get("deaths").getAsInt();
             if (warDeaths == 0)
                 warDeaths = 1;  //Done to prevent Divide by Zero Exception
-            int warKDA = (warKills + warAssists) / warDeaths;
+            double warKDA = (warKills + warAssists) / warDeaths;
+            warKDA = (double) Math.round(warKDA * 100) / 100;
             descArray.add(new ResultDescription("K/D/A Ratio", warKDA + ""));
         }
 
