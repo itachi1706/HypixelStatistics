@@ -54,4 +54,6 @@
     <string name="action_filter_by_gametypes">Filter Boosters by GameType</string>
     <string name="action_view_player_guild">View Player Guild</string>
     <string name="action_view_friend_list">View Friends List</string>
+    <string name="lv_guild_last_online_placeholder">Last Online</string>
+    <string name="lv_guild_joined_on_placeholder">Date Joined</string>
 </resources>

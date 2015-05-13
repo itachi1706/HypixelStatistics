@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GuildGetPlayerHead;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoGuild;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoGuildMember;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -47,8 +48,9 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
 
 
         TextView playerName = (TextView) v.findViewById(R.id.tvPlayerName);
-        TextView rank = (TextView) v.findViewById(R.id.tvPlayerStatus);
-        TextView joined = (TextView) v.findViewById(R.id.tvTimeStatus);
+        TextView session = (TextView) v.findViewById(R.id.tvPlayerStatus);
+        TextView joined = (TextView) v.findViewById(R.id.tvPlayerJoined);
+        TextView lastOnline = (TextView) v.findViewById(R.id.tvTimeStatus);
         ImageView head = (ImageView) v.findViewById(R.id.ivHead);
         ProgressBar prog = (ProgressBar) v.findViewById(R.id.pbPlayerHeadProg);
 
@@ -56,13 +58,13 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
             if (playerName != null) {
                 playerName.setText(Html.fromHtml(i.get_mcNameWithRank()));
             }
-            if (rank != null) {
+            if (session != null) {
                 //Check if its running
                 if (MainStaticVars.guild_member_session_data.containsKey(i.get_uuid())){
-                    rank.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.guild_member_session_data.get(i.get_uuid()))));
+                    session.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.guild_member_session_data.get(i.get_uuid()))));
                 } else {
-                    rank.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_rank() + "§r (Getting Session...)")));
-                    new GetSessionInfoGuildMember(rank, i.get_rank()).execute(i.get_uuid());
+                    session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + i.get_rank() + "§r (Getting Session...)")));
+                    new GetSessionInfoGuildMember(session, i.get_rank()).execute(i.get_uuid());
                 }
             }
             if (joined != null) {
@@ -78,6 +80,14 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
                     Log.d("HEAD RETRIEVAL", "Retrieved " + i.get_mcName() + "'s Head from device");
                 } else {
                     new GuildGetPlayerHead(getContext(), head, prog).execute(i);
+                }
+            }
+            if (lastOnline != null){
+                if (MainStaticVars.guild_last_online_data.containsKey(i.get_uuid())){
+                    lastOnline.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.guild_last_online_data.get(i.get_uuid()))));
+                } else {
+                    lastOnline.setText("Getting Last Online Information...");
+                    new GetLastOnlineInfoGuild(lastOnline).execute(i.get_uuid());
                 }
             }
         }

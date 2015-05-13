@@ -27,9 +27,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/lv_booster_placeholder_time"
-        android:id="@+id/tvTimeStatus"
+        android:text="@string/lv_guild_joined_on_placeholder"
+        android:id="@+id/tvPlayerJoined"
         android:layout_below="@+id/tvPlayerStatus"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/lv_guild_last_online_placeholder"
+        android:id="@+id/tvTimeStatus"
+        android:layout_below="@+id/tvPlayerJoined"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/ivHead"

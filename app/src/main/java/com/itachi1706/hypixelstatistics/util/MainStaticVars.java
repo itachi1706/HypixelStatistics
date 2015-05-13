@@ -66,6 +66,10 @@ public class MainStaticVars {
 
     public static HashMap<String, String> friends_session_data = new HashMap<>();
 
+    public static HashMap<String, String> friends_last_online_data = new HashMap<>();
+
+    public static HashMap<String, String> guild_last_online_data = new HashMap<>();
+
     public static void updateAPIKey(Context context){
         String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

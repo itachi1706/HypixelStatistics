@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsHead;
+import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoFriends;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoFriends;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
@@ -48,7 +49,8 @@ public class FriendsListAdapter extends ArrayAdapter<FriendsObject> {
 
         TextView playerName = (TextView) v.findViewById(R.id.tvPlayerName);
         TextView session = (TextView) v.findViewById(R.id.tvPlayerStatus);
-        TextView joined = (TextView) v.findViewById(R.id.tvTimeStatus);
+        TextView joined = (TextView) v.findViewById(R.id.tvPlayerJoined);
+        TextView lastOnline = (TextView) v.findViewById(R.id.tvTimeStatus);
         ImageView head = (ImageView) v.findViewById(R.id.ivHead);
         ProgressBar prog = (ProgressBar) v.findViewById(R.id.pbPlayerHeadProg);
 
@@ -78,6 +80,14 @@ public class FriendsListAdapter extends ArrayAdapter<FriendsObject> {
                     Log.d("HEAD RETRIEVAL", "Retrieved " + i.get_mcName() + "'s Head from device");
                 } else {
                     new GetFriendsHead(getContext(), head, prog).execute(i);
+                }
+            }
+            if (lastOnline != null){
+                if (MainStaticVars.friends_last_online_data.containsKey(i.getFriendUUID())){
+                    lastOnline.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.friends_last_online_data.get(i.getFriendUUID()))));
+                } else {
+                    lastOnline.setText("Getting Last Online Information...");
+                    new GetLastOnlineInfoFriends(lastOnline).execute(i.getFriendUUID());
                 }
             }
         }
