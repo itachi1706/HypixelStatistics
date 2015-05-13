@@ -32,7 +32,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     private Context mContext;
 
-    private String url;
+    //private String url;
 
     /*
      * if any of the parameters is null, the respective functionality
@@ -41,7 +41,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
     @SuppressWarnings("unused")
     public CustomExceptionHandler(String localPath, Context context, String url) {
         this.localPath = localPath;
-        this.url = url;
+        //this.url = url;
         this.mContext = context;
         this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
     }

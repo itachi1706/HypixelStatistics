@@ -5,4 +5,8 @@
         <Preference android:title="History (Detailed)" android:key="view_hist_detailed" android:summary="View Detailed JSON String for Character History"/>
         <Preference android:title="Clear History" android:key="view_hist_clr" android:summary="Clear History"/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="App Files" android:key="cat_app">
+        <Preference android:title="View Exceptions" android:key="view_except" android:summary="View Exception list of app crashes saved onto your device" />
+    </PreferenceCategory>
 </PreferenceScreen>

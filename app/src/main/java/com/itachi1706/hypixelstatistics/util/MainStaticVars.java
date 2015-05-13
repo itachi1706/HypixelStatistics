@@ -135,6 +135,17 @@ public class MainStaticVars {
         return R.color.blue_700;
     }
 
+    public static int getToneColor(Activity activity){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        String themeSel = prefs.getString("appThemePref", "Default");
+        switch (themeSel){
+            case "Default": return R.color.red_a200;
+            case "AppTheme": return R.color.red_a200;
+            case "NewTheme": return R.color.deep_orange_a200;
+        }
+        return R.color.red_a200;
+    }
+
     public static void updateTimeout(Activity activity){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
         try {
