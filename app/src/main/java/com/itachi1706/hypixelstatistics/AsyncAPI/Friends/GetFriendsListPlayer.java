@@ -142,6 +142,7 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
             return;
         }
         MainStaticVars.friends_session_data.clear();
+        MainStaticVars.friends_last_online_data.clear();
 
         String uuidValue;
         //Get Owner UUID

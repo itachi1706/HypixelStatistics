@@ -91,6 +91,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
     @SuppressLint("SimpleDateFormat")
     protected void onPostExecute(String json) {
         MainStaticVars.guild_member_session_data.clear();
+        MainStaticVars.guild_last_online_data.clear();
         if (except != null) {
             //Theres an exception
             if (except instanceof SocketTimeoutException)

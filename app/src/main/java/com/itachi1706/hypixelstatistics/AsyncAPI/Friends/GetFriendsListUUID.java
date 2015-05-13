@@ -142,6 +142,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
             return;
         }
         MainStaticVars.friends_session_data.clear();
+        MainStaticVars.friends_last_online_data.clear();
         //Process Friends Requests
         tvResult.setText(Html.fromHtml(MinecraftColorCodes.parseColors("Friends: §b" + reply.getRecords().size() + "§r")));
 
