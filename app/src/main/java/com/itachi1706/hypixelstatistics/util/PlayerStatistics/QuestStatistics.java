@@ -34,7 +34,7 @@ public class QuestStatistics {
             ArrayList<ResultDescription> qArray = new ArrayList<>();
             //descArray.add(new ResultDescription("<b>" + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + "</b>", null, false, true));
             if(entry.getValue().getAsJsonObject().has("active")){
-                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§aActive§r")));
+                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("Â§aActiveÂ§r")));
                 //Get Start Time
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
@@ -64,7 +64,7 @@ public class QuestStatistics {
                     }
                 }
             } else {
-                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
+                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("Â§cInactiveÂ§r")));
             }
 
 

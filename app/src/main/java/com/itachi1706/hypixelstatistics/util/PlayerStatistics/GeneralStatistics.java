@@ -44,7 +44,7 @@ public class GeneralStatistics {
             descArray.add(new ResultDescription("Donor Rank", reply.getPlayer().get("newPackageRank").getAsString()));
             if (reply.getPlayer().has("packageRank"))
                 //Pre-EULA donator that upgraded rank post-EULA
-                descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Legacy Donor Rank ง6(Pre-EULA)งr"), reply.getPlayer().get("packageRank").getAsString()));
+                descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Legacy Donor Rank ยง6(Pre-EULA)ยงr"), reply.getPlayer().get("packageRank").getAsString()));
         } else {
             //Pre-EULA Donator and Non-Donator
             if (reply.getPlayer().has("packageRank"))
@@ -53,7 +53,7 @@ public class GeneralStatistics {
         if (reply.getPlayer().has("disguise"))
             descArray.add(new ResultDescription("Disguise",reply.getPlayer().get("disguise").getAsString()));
         if (reply.getPlayer().has("eulaCoins"))
-            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Veteran Donor ง6(Pre-EULA)งr"), "true"));
+            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Veteran Donor ยง6(Pre-EULA)ยงr"), "true"));
         if (reply.getPlayer().has("gadget"))
             descArray.add(new ResultDescription("Lobby Gadget",reply.getPlayer().get("gadget").getAsString()));
         if (reply.getPlayer().has("karma"))

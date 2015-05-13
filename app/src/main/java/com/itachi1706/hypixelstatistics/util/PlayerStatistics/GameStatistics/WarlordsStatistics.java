@@ -49,7 +49,7 @@ public class WarlordsStatistics {
         }
 
         if (obj.has("play_streak"))
-            descArray.add(new ResultDescription("Current Play Streak", MinecraftColorCodes.parseColors("§a" + obj.get("play_streak").getAsString() + "§r/§b3§r")));
+            descArray.add(new ResultDescription("Current Play Streak", MinecraftColorCodes.parseColors("Â§a" + obj.get("play_streak").getAsString() + "Â§r/Â§b3Â§r")));
         if (obj.has("hotkeymode"))
             descArray.add(new ResultDescription("Hot Key Mode Enabled", obj.get("hotkeymode").getAsString()));
         if (obj.has("damage"))
@@ -127,7 +127,7 @@ public class WarlordsStatistics {
         if (obj.has("current_weapon") && obj.has("weapon_inventory")){
             descArray.add(new ResultDescription("Weapon Currently Equipped",
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponName(obj.get("current_weapon").getAsString(),
-                            obj.getAsJsonArray("weapon_inventory")) + "§r <br />Click for detailed statistics of the weapon"),true,
+                            obj.getAsJsonArray("weapon_inventory")) + "Â§r <br />Click for detailed statistics of the weapon"),true,
                     MinecraftColorCodes.parseColors(DetailedWeaponStatistics.getCurrentEquippedWeaponSpecification(obj.get("current_weapon").getAsString(),
                             obj.getAsJsonArray("weapon_inventory"), localPlayerName))));
         }

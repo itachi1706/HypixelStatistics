@@ -33,7 +33,7 @@ public class DonatorStatistics {
         if (reply.getPlayer().has("auto_spawn_pet"))
             descArray.add(new ResultDescription("Auto-Spawn Pet", reply.getPlayer().get("auto_spawn_pet").getAsString()));
         if (reply.getPlayer().has("legacyGolem"))
-            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Golem Supporter ง6(Pre-EULA)งr"), reply.getPlayer().get("legacyGolem").getAsString()));
+            descArray.add(new ResultDescription(MinecraftColorCodes.parseColors("Golem Supporter ยง6(Pre-EULA)ยงr"), reply.getPlayer().get("legacyGolem").getAsString()));
         return descArray;
     }
 }
