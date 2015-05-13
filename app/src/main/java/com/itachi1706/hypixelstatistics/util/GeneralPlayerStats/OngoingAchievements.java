@@ -51,7 +51,7 @@ public enum OngoingAchievements {
     WARLORDS_PALADIN_LEVEL("Knight of Justice ", "Obtain Lv%s with the Paladin class", "warlords_paladin_level", 5, 20, 40, 60, 80, 90, LobbyList.WARLORDS),
     WARLORDS_SHAMAN_LEVEL("Master of the Elements ", "Obtain Lv%s with the Shaman class", "warlords_shaman_level", 5, 20, 40, 60, 80, 90, LobbyList.WARLORDS),
     WARLORDS_ASSIST("Kills Secured ", "Earn %s assists in any game mode", "warlords_assist", 5, 20, 100, 500, 2500, 12500, LobbyList.WARLORDS),
-    WARLORDS_REPAIR_WEAPONS("RNG God Offerings ", "Win %s games", "warlords_repair_weapons", 5, 10, 50, 100, 250, 500, LobbyList.WARLORDS),
+    WARLORDS_REPAIR_WEAPONS("RNG God Offerings ", "Get %s Broken Weapons repaired by The Weaponsmith", "warlords_repair_weapons", 5, 10, 50, 100, 250, 500, LobbyList.WARLORDS),
     WARLORDS_COINS("Spoils of War ", "Earn %s coins in Warlords", "warlords_coins", 5, 10000, 50000, 250000, 1250000, 6250000, LobbyList.WARLORDS),
 
     UNKNOWN("Unknown ", "%s", "unknown", 1, 0, -1, -1, -1, -1, LobbyList.UNKNOWN);
