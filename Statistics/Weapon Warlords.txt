@@ -1,0 +1,47 @@
+WOODEN_AXE  -  Steel Sword
+STONE_AXE  -  Training Sword
+GOLDEN_HOE  -  Hatchet
+IRON_SHOVEL  -  Hammer
+STONE_PICKAXE  -  Walking Stick
+SALMON  -  Scimitar
+ROTTEN_FLESH  -  Pike
+MUTTON  -  Claws
+PUMPKIN_PIE  -  Orc Axe
+RABBIT_STEW  -  Bludgeon
+IRON_AXE  -  Demonblade
+GOLD_AXE  -  Venomstrike
+DIAMOND_HOE  -  Gem Axe
+GOLDEN_SHOVEL  -  Stone Mallet
+IRON_PICKAXE  -  World Tree Branch
+PUFFERFISH  -  Golden Gladius
+POTATO  -  Halberd
+PORKCHOP  -  Mandibles
+COOKED_COD  -  Doubleaxe
+COOKED_RABBIT  -  Cudgel
+DIAMOND_AXE  -  Diamondspark
+WOODEN_HOE  -  Zweireaper
+STONE_HOE  -  Runeblade
+IRON_HOE  -  Elven Greatsword
+WOODEN_SHOVEL  -  Nomegusta
+DIAMOND_SHOVEL  -  Gemcrusher
+GOLDEN_PICKAXE  -  Flameweaver
+CLOWNFISH  -  Magmasword
+MELON  -  Divine Reach
+STRING  -  Hammer of Light
+CHICKEN  -  Nethersteel Katana
+BEEF  -  Katar
+BREAD  -  Runic Axe
+MUSHROOM_STEW  -  Lunar Relic
+COOKED_CHICKEN  -  Tenderizer
+STONE_SHOVEL  -  Drakefang
+WOODEN_PICKAXE  -  Abbadon
+DIAMOND_PICKAXE  -  Void Twig
+COD  -  Frostbite
+POISONOUS_POTATO  -  Ruby Thorn
+APPLE  -  Enderfist
+BAKED_POTATO  -  Broccomace
+COOKED_SALMON  -  Felflame Blade
+COOKED_MUTTON  -  Amaranth
+COOKED_BEEF  -  Armblade
+COOKED_PORKCHOP  -  Gemini
+GOLDEN_CARROT  -  Void Edge
