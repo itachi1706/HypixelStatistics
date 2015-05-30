@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Menu;
@@ -20,8 +19,8 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.ExceptionHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExceptionListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
-import com.itachi1706.hypixelstatistics.util.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +72,7 @@ public class ViewAllExceptions extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (hist.deleteException(o.getFile())) {
                             //Create a snackbar
-                            SnackbarUtil.showDismissSnackbar(getWindow().getCurrentFocus(), "Exception File deleted", Snackbar.LENGTH_SHORT);
+                            NotifyUserUtil.showShortDismissSnackbar(getWindow().getCurrentFocus(), "Exception File deleted");
                             storage.remove(o);
                             adapter.updateAdapter(storage);
                             adapter.notifyDataSetChanged();

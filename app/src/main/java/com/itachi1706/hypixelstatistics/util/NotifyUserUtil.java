@@ -7,10 +7,10 @@ import android.view.View;
  * Created by Kenneth on 30/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.util
  */
-public class SnackbarUtil {
+public class NotifyUserUtil {
 
-    public static void showDismissSnackbar(View currentLayout, String message, int duration){
-        Snackbar.make(currentLayout, message, duration)
+    public static void showShortDismissSnackbar(View currentLayout, String message){
+        Snackbar.make(currentLayout, message, Snackbar.LENGTH_SHORT)
                 .setAction("DISMISS", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

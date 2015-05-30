@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,8 +25,8 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.SnackbarUtil;
 
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;
@@ -200,7 +199,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         } else if (id == R.id.action_refresh_active_boosters){
             swipeToRefresh.setRefreshing(true);
             updateActiveBoosters();
-            SnackbarUtil.showDismissSnackbar(getCurrentFocus(), "Updating Booster List", Snackbar.LENGTH_SHORT);
+            NotifyUserUtil.showShortDismissSnackbar(getCurrentFocus(), "Updating Booster List");
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
@@ -228,7 +227,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         updateActiveBoosters();
-        SnackbarUtil.showDismissSnackbar(getWindow().getCurrentFocus(), "Updating booster list", Snackbar.LENGTH_SHORT);
+        NotifyUserUtil.showShortDismissSnackbar(getWindow().getCurrentFocus(), "Updating booster list");
     }
 
     private String parseStats(){
