@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;

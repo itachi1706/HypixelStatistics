@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;

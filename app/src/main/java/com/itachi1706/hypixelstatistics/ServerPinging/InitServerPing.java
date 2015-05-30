@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics.ServerPinging;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 

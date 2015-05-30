@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListPlayer;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
