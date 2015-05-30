@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Menu;
@@ -71,9 +72,10 @@ public class ViewAllExceptions extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (hist.deleteException(o.getFile())) {
                             //Create a snackbar
-                            SnackbarManager.show(Snackbar.with(activity).text("Exception File deleted")
-                            .actionLabel("DISMISS")
-                            .actionColor(getResources().getColor(MainStaticVars.getToneColor(activity))));
+                            Snackbar.make(getWindow().getCurrentFocus(), "Exception File deleted", Snackbar.LENGTH_SHORT)
+                                    .setAction("DISMISS", new View.OnClickListener() {
+                                        @Override public void onClick(View v) {}
+                                    }).show();
                             storage.remove(o);
                             adapter.updateAdapter(storage);
                             adapter.notifyDataSetChanged();
