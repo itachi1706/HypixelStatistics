@@ -16,6 +16,7 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.GuildMemberAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
@@ -88,11 +89,11 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
         if (except != null){
             if (except instanceof SocketTimeoutException) {
                 if (retry)
-                    Toast.makeText(mContext.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Connection Timed Out. Try again later");
                 else
                     new GuildGetMemberName(mContext, _memberInfo, true).execute(playerName);
             } else {
-                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
             }
         } else {
             Gson gson = new Gson();
@@ -104,18 +105,18 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    //NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_uuid());
                     Log.d("RESOLVE", "Retrying");
                     new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_uuid());
                     Log.d("RESOLVE", "Retrying");
                     new GuildGetMemberName(mContext, _memberInfo).execute(playerName);
                 } else if (reply.getPlayer() == null) {
-                    Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_uuid(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Invalid Player " + playerName.get_uuid());
                 } else {
                     //Succeeded
                     if (!MinecraftColorCodes.checkDisplayName(reply)) {

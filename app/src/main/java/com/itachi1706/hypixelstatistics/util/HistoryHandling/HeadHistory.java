@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class HeadHistory {
         File image = new File(storageLocation, playerName + ".png");
         FileOutputStream out;
         if (!checkFolderExists(context)){
-            Toast.makeText(context, "An error occurred making folder to store head data", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(context, "An error occurred making folder to store head data");
             return false;
         }
         try {

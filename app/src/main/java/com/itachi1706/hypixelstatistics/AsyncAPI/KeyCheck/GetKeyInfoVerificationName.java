@@ -13,6 +13,7 @@ import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -75,27 +76,27 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
     protected void onPostExecute(String json) {
         if (except != null){
             if (except instanceof SocketTimeoutException)
-                Toast.makeText(mContext.getApplicationContext(), "Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Connection Timed out. Try again later");
             else {
                 if (!mContext.isFinishing()) {
                     new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
                             .setMessage(except.getMessage()).setPositiveButton(android.R.string.ok, null).show();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occurred (" + except.getMessage() + ")");
                 }
             }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again");
                 return;
             }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
             if (reply == null){
-                Toast.makeText(mContext.getApplicationContext(), "Unable to verify key. Are you connected to the internet?", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unable to verify key. Are you connected to the internet?");
                 return;
             }
             if (reply.isThrottle()) {
@@ -106,7 +107,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                                     "If you are a staff member, to get access to additional info, please relaunch the application")
                             .setPositiveButton(android.R.string.ok, null).show();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), "API Limit Reached!", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "API Limit Reached!");
                 }
             } else if (!reply.isSuccess()){
                 //Not Successful
@@ -114,7 +115,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                     new AlertDialog.Builder(mContext).setTitle("An Exception Occurred")
                             .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + reply.getCause() + ")", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An exception occurred (" + reply.getCause() + ")");
                 }
             } else {
                 //Succeeded
@@ -136,7 +137,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                                 .setMessage(Html.fromHtml(successMessage))
                                 .setPositiveButton(android.R.string.ok, null).show();
                     } else {
-                        Toast.makeText(mContext.getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                        NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Success!");
                     }
                     GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
                     pref.updateApiKeyOwnerInfo(sp, key_staff, key_name, key_uuid);

@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
+
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -39,7 +41,7 @@ public class InitServerPing extends AsyncTask<Void, Void, InetAddress> {
     public void onPostExecute(InetAddress address){
         PingServerObject server = new PingServerObject();
         if (except != null){
-            Toast.makeText(mContext, "An error occured parsing mc.hypixel.net", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mContext, "An error occured parsing mc.hypixel.net");
             this.playerCount.setText("Unknown number of players online");
         }
         InetSocketAddress actualAddr = new InetSocketAddress(address, 25565);

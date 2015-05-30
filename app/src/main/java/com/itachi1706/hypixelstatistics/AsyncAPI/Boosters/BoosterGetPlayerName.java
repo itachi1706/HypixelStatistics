@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
@@ -102,13 +103,13 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
         if (except != null) {
             if (except instanceof SocketTimeoutException){
                 if (retry > 10)
-                    Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "Connection Timed Out. Try again later");
                 else {
                     Log.d("RESOLVE", "Retrying");
                     new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip, retry + 1).execute(playerName);
                 }
             } else
-                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
@@ -119,18 +120,18 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    //NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
                     new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
                     new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
                 } else if (reply.getPlayer() == null) {
-                    Toast.makeText(mContext.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid());
                 } else {
                     //Succeeded
                     if (!MinecraftColorCodes.checkDisplayName(reply)) {

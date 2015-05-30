@@ -17,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
@@ -99,29 +100,29 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
         }
         if (except != null){
             if (except instanceof SocketTimeoutException)
-                Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "Connection Timed Out. Try again later");
             else
-                Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
             bar.setVisibility(View.INVISIBLE);
         } else {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    Toast.makeText(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again");
                 bar.setVisibility(View.INVISIBLE);
             } else {
                 BoostersReply reply = gson.fromJson(json, BoostersReply.class);
                 Log.d("BOOSTER", reply.toString());
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     bar.setVisibility(View.INVISIBLE);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    Toast.makeText(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     bar.setVisibility(View.INVISIBLE);
                 } else {
                     //Succeeded

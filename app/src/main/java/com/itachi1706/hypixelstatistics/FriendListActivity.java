@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListPlayer;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 
 import java.text.SimpleDateFormat;
@@ -123,7 +124,7 @@ public class FriendListActivity extends AppCompatActivity {
         loadingStatus.setVisibility(View.VISIBLE);
         progressInfo.setVisibility(View.VISIBLE);
         progressInfo.setText("Retriving Friends List... Querying API...");
-        Toast.makeText(this.getApplicationContext(), "Retrieving Friend List of " + searchQuery, Toast.LENGTH_SHORT).show();
+        NotifyUserUtil.createShortToast(this.getApplicationContext(), "Retriving Friend List of " + searchQuery);
         if (searchQuery.length() == 32)
             new GetFriendsListUUID(this, friendListView, friendsCount, loadingStatus, progressInfo).execute(searchQuery);
         else

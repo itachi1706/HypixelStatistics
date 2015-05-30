@@ -78,7 +78,7 @@ public class ViewAllExceptions extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             updateCount();
                         } else {
-                            Toast.makeText(activity, "Unable to delete exception file", Toast.LENGTH_SHORT).show();
+                            NotifyUserUtil.createShortToast(activity, "Unable to delete exception file");
                         }
                     }
                 }).setPositiveButton("Close", null).show();

@@ -38,6 +38,7 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
@@ -137,7 +138,7 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
                 playerName.clearFocus();
                 imm.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
                 if (playerName.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getApplicationContext(), "Please enter a name!");
                 } else {
                     String name = playerName.getText().toString();
                     checkProgress = new ProgressDialog(ExpandedPlayerInfoActivity.this);

@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
@@ -94,13 +95,13 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
         if (except != null) {
             if (except instanceof SocketTimeoutException){
                 if (retry > 10)
-                    Toast.makeText(mActivity.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Connection Timed Out. Try again later");
                 else {
                     Log.d("RESOLVE", "Retrying");
                     new GetFriendsName(mActivity, progressCircle, progressInfo, retry + 1).execute(playerName);
                 }
             } else
-                Toast.makeText(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
@@ -111,18 +112,18 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    //Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                    //NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     Log.d("THROTTLED", "FRIENDS API NAME GET: " + playerName.getFriendUUID());
                     Log.d("RESOLVE", "Retrying");
                     new GetFriendsName(mActivity, progressCircle, progressInfo).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    Toast.makeText(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     Log.d("UNSUCCESSFUL", "FRIENDS API NAME GET: " + playerName.getFriendUUID());
                     Log.d("RESOLVE", "Retrying");
                     new GetFriendsName(mActivity, progressCircle, progressInfo).execute(playerName);
                 } else if (reply.getPlayer() == null) {
-                    Toast.makeText(mActivity.getApplicationContext(), "Invalid Player " + playerName.getFriendUUID(), Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Invalid Player " + playerName.getFriendUUID());
                 } else {
                     //Succeeded
                     if (!MinecraftColorCodes.checkDisplayName(reply)) {

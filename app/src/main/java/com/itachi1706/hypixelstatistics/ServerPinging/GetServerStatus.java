@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.io.IOException;
 
@@ -42,7 +43,7 @@ public class GetServerStatus extends AsyncTask<PingServerObject, Void, PingServe
             MainStaticVars.maxPlayerCount = response.getPlayers().getMax();
             resultView.setText(MainStaticVars.playerCount + "/" + MainStaticVars.maxPlayerCount + " players online");
         } else {
-            Toast.makeText(mContex, "An error occured! (" + e.toString() + ")", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mContex, "An error occured! (" + e.toString() + ")");
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.KeyReply;
 
@@ -75,18 +76,18 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
         GeneralPrefActivity.GeneralPreferenceFragment pref = new GeneralPrefActivity.GeneralPreferenceFragment();
         if (except != null){
             if (except instanceof SocketTimeoutException)
-                Toast.makeText(mContext.getApplicationContext(), "Connection Timed out. Try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Connection Timed out. Try again later");
             else
-                Toast.makeText(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An exception occurred (" + except.getMessage() + ")");
             pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
         } else {
             Gson gson = new Gson();
             KeyReply reply = gson.fromJson(json, KeyReply.class);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    Toast.makeText(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An error occured. (Invalid JSON String) Please Try Again later");
                 return;
             }
             if (reply == null){
@@ -95,7 +96,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                             .setMessage("No Key Reply found. Please contact dev")
                             .setPositiveButton(android.R.string.ok, null).show();
                 } else
-                    Toast.makeText(mContext.getApplicationContext(), "An error occured", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An error occured");
                 return;
             }
             if (reply.isThrottle()) {
@@ -105,7 +106,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                             .setMessage("API Limit has been reached and we could not verify this key. Please try again later")
                             .setPositiveButton(android.R.string.ok, null).show();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), "API Limit Reached. Unable to verify key, try again later", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "API Limit Reached. Unable to verify key, try again later");
                 }
                 pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else if (!reply.isSuccess()){
@@ -116,7 +117,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
                     new AlertDialog.Builder(mContext).setTitle("Invalid Key")
                             .setMessage(reply.getCause()).setPositiveButton(android.R.string.ok, null).show();
                 } else {
-                    Toast.makeText(mContext.getApplicationContext(), "Invalid Key (" + reply.getCause() + ")", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Invalid Key (" + reply.getCause() + ")");
                 }
                 pref.updateKeyString(sp, key_string, key_info, mContext.getApplicationContext());
             } else {

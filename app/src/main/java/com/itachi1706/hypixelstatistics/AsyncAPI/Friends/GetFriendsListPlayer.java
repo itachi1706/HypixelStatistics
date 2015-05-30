@@ -21,6 +21,7 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 
@@ -104,26 +105,26 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String json) {
         if (except != null) {
             if (except instanceof SocketTimeoutException) {
-                Toast.makeText(mActivity.getApplicationContext(), "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Connection Timed Out. Try again later");
             } else {
-                Toast.makeText(mActivity.getApplicationContext(), except.getMessage(), Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), except.getMessage());
             }
             return;
         }
         Gson gson = new Gson();
         if (!MainStaticVars.checkIfYouGotJsonString(json)) {
             if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                Toast.makeText(mActivity.getApplicationContext(), "CloudFlare timeout 524 occurred", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "CloudFlare timeout 524 occurred");
             else
-                Toast.makeText(mActivity.getApplicationContext(), "An error occurred (Invalid JSON String)", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An error occurred (Invalid JSON String)");
             return;
         }
         FriendsReply reply = gson.fromJson(json, FriendsReply.class);
         if (reply.isThrottle()) {
-            Toast.makeText(mActivity.getApplicationContext(), "Query Throttled (Limit reached)", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Query Throttled (Limit reached)");
             return;
         } else if (!reply.isSuccess()) {
-            Toast.makeText(mActivity.getApplicationContext(), "Invalid UUID", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Invalid UUID");
             return;
         }
         if (reply.getRecords().size() == 0) {

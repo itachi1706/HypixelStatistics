@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.KeyReply;
 
@@ -79,9 +80,9 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "An error occured. (Invalid JSON String) Please Try Again");
                 return;
             }
             KeyReply reply = gson.fromJson(json, KeyReply.class);
@@ -90,7 +91,7 @@ public class GetKeyInfo extends AsyncTask<UUID,Void,String> {
                 //Throttled (API Exceeded Limit)
                 result.setText(reply.getCause());
                 resetTextFields();
-                Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                 result.setTextColor(Color.RED);
             } else if (!reply.isSuccess()){
                 //Not Successful

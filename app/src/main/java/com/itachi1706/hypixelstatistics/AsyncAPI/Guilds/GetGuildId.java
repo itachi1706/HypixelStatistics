@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.FindGuildReply;
 
@@ -81,36 +82,36 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
         if (except != null){
             //Theres an exception
             if (except instanceof SocketTimeoutException)
-                Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "Connection Timed Out. Try again later");
             else
-                Toast.makeText(mContext, "An error occured. (" + except.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "An error occured. (" + except.getLocalizedMessage() + ")");
             return;
         }
 
         Gson gson = new Gson();
         if (!MainStaticVars.checkIfYouGotJsonString(json)){
             if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
             else
-                Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "An error occured. (Invalid JSON String) Please Try Again");
             return;
         }
         FindGuildReply reply = gson.fromJson(json, FindGuildReply.class);
         if (reply.isThrottle()) {
             //Throttled (API Exceeded Limit)
-            Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
             return;
         }
         if (!reply.isSuccess()){
             //Not Successful
-            Toast.makeText(mContext, "Unsuccessful Query!\n Reason: " + reply.getCause(), Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mContext, "Unsuccessful Query!\n Reason: " + reply.getCause());
             return;
         }
         if (reply.getGuild() == null) {
             if (_isName)
-                Toast.makeText(mContext, "Unable to find a guild by that name. Please note that searching by Guild Name is case sensitive", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "Unable to find a guild by that name. Please note that searching by Guild Name is case sensitive");
             else
-                Toast.makeText(mContext, "This player does not have a guild", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "This player does not have a guild");
             return;
         }
         //If doesnt cover all, succeeded

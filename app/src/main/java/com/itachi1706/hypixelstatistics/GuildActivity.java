@@ -38,6 +38,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GetGuildId;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
@@ -74,7 +75,7 @@ public class GuildActivity extends AppCompatActivity {
         //Check if its from another class
         if (this.getIntent().hasExtra("playername")){
             String playername = this.getIntent().getStringExtra("playername");
-            Toast.makeText(getApplicationContext(), "Getting Guild Information for " + playername, Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(getApplicationContext(), "Getting Guild Information for " + playername);
             new GetGuildId(false, GuildActivity.this, generalInfo, memberInfo).execute(playername);
         }
 
@@ -163,11 +164,11 @@ public class GuildActivity extends AppCompatActivity {
                 guildSearch.clearFocus();
                 imm.hideSoftInputFromWindow(guildSearch.getWindowToken(), 0);
                 if (guildSearch.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Please enter a guild name or player!", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getApplicationContext(), "Please enter a guild name or player!");
                 } else {
                     boolean state = searchFilter.isChecked();
                     String searchText = guildSearch.getText().toString();
-                    Toast.makeText(getApplicationContext(), "Querying Guild Information", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getApplicationContext(), "Querying Guild Information");
                     new GetGuildId(state, GuildActivity.this, generalInfo, memberInfo).execute(searchText);
                 }
             }

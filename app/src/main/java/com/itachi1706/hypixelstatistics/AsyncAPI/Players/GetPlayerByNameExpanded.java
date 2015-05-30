@@ -23,6 +23,7 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.util.PlayerStatistics.DonatorStatistics;
@@ -127,9 +128,9 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    Toast.makeText(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    Toast.makeText(mContext, "An error occured. (Invalid JSON String) Please Try Again", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "An error occured. (Invalid JSON String) Please Try Again");
                 return;
             }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
@@ -138,7 +139,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 result.setText(reply.getCause());
-                Toast.makeText(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                 result.setTextColor(Color.RED);
                 details.setVisibility(View.INVISIBLE);
             } else if (!reply.isSuccess()){
@@ -155,11 +156,11 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
                 if (isUUID){
                     result.setText("Invalid UUID");
                     result.setTextColor(Color.RED);
-                    Toast.makeText(mContext, "Unable to find a player with this UUID. If you are searching with a name, select Search with Name option in the menu!", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "Unable to find a player with this UUID. If you are searching with a name, select Search with Name option in the menu!");
                 } else {
                     result.setText("Invalid Player");
                     result.setTextColor(Color.RED);
-                    Toast.makeText(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!");
                 }
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name/UUID (" + reply.getCause() + ")");
                 details.setVisibility(View.INVISIBLE);

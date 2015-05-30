@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
 
     protected void onPostExecute(String changelog){
         if (except != null){
-            Toast.makeText(mActivity.getApplicationContext(), "Unable to contact update server to check for updates", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unable to contact update server to check for updates");
             return;
         }
          /* Legend of Stuff
@@ -90,7 +91,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         * - Points
          */
         if (changelogStrings.size() <= 0){
-            Toast.makeText(mActivity.getApplicationContext(), "Unable to do app update check", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unable to do app update check");
             return;
         }
         sp.edit().putString("version-changelog", changelog).apply();
@@ -140,7 +141,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                 new AlertDialog.Builder(mActivity).setTitle("Check for New Update").setMessage("You are on the latest release! No update is required.")
                         .setNegativeButton("Close", null).show();
             } else {
-                Toast.makeText(mActivity.getApplicationContext(), "No update is required", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "No update is required");
             }
         }
     }

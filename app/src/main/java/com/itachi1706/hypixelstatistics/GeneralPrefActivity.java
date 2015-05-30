@@ -25,6 +25,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +114,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                     ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("Player UUID", player_UUID.getSummary());
                     clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getActivity(), "UUID copied to clipboard", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getActivity(), "UUID copied to clipboard");
                     return true;
                 }
             });
@@ -136,7 +137,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String newKeyString = newKey.getText().toString();
                                     if (newKeyString.equals("")) {
-                                        Toast.makeText(getActivity(), "INVALID API KEY", Toast.LENGTH_SHORT).show();
+                                        NotifyUserUtil.createShortToast(getActivity(), "INVALID API KEY");
                                         return;
                                     }
                                     //Check if its a UUID
@@ -144,7 +145,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                                     try {
                                         uid = UUID.fromString(newKeyString);
                                     } catch (IllegalArgumentException e) {
-                                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        NotifyUserUtil.createShortToast(getActivity(), e.getLocalizedMessage());
                                         return;
                                     }
                                     api_key.setSummary("Verifying Key...");
@@ -162,7 +163,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                                     sp.edit().remove("own-uuid").apply();
                                     updateKeyString(sp, api_key, finalAPIInfo, getActivity());
                                     updateApiKeyOwnerInfo(sp, staff_rank, player_IGN, player_UUID);
-                                    Toast.makeText(getActivity(), "API Key has been reset to default!", Toast.LENGTH_SHORT).show();
+                                    NotifyUserUtil.createShortToast(getActivity(), "API Key has been reset to default!");
                                 }
                             }).show();
                     return true;
@@ -236,8 +237,8 @@ public class GeneralPrefActivity extends AppCompatActivity {
             useDetailedPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Preference will take effect after a reboot " +
-                            "or refresh of active boosters", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getActivity().getApplicationContext(), "Preference will take effect " +
+                            "after a reboot or refresh of active boosters");
                     return true;
                 }
             });
@@ -246,7 +247,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
             appThemePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Selected theme will take full effect when the app is next launched", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getActivity().getApplicationContext(), "Selected theme will take full effect when the app is next launched");
                     return true;
                 }
             });

@@ -29,6 +29,7 @@ import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 
 import java.io.File;
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
                 String yourUUID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("own-uuid", "-");
                 if (yourUUID.equals("-"))
-                    Toast.makeText(getApplicationContext(), "Cannot find your UUID", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(getApplicationContext(), "Cannot find your UUID");
                 else {
                     intent.putExtra("playeruuid", yourUUID);
                     startActivity(intent);
@@ -229,10 +230,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
             updateActiveBoosters();
-            Toast.makeText(this.getApplicationContext(), "Updating Active Booster List", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(this.getApplicationContext(), "Updating Active Booster List");
         } else if (id == R.id.action_refresh_server_info){
             refreshServerCount();
-            Toast.makeText(this.getApplicationContext(), "Updating Server Info...", Toast.LENGTH_SHORT).show();
+            NotifyUserUtil.createShortToast(this.getApplicationContext(), "Updating Server Info...");
         } else if (id == R.id.action_view_server_motd){
             new AlertDialog.Builder(this).setTitle("Hypixel MOTD")
                     .setMessage(Html.fromHtml(MainStaticVars.serverMOTD)).setPositiveButton(android.R.string.ok, null)

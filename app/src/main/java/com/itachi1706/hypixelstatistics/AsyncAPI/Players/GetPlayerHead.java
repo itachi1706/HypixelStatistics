@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,21 +103,21 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             if (except.getCause() == null){
 
                 if (!retry){
-                    Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
                     new GetPlayerHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
                 else
-                    Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
                 return;
             }
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 if (!retry) {
-                    Toast.makeText(mContext, "Head Download Timed Out. Retrying from different site", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Retrying from different site");
                     new GetPlayerHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
-                Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Please try again later.");
             } else
-                Toast.makeText(mContext, "An Exception Occurred (" + except.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
         } else {
             imageViewhead.setImageDrawable(draw);
 
@@ -158,7 +159,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             if (HeadHistory.checkIfHeadExists(mContext, playerNamer)){
                 //Update image (Delete and Reinsert)
                 if (!HeadHistory.updateHead(mContext, playerNamer)){
-                    Toast.makeText(mContext, "An error occured updating of heads. Skipping...", Toast.LENGTH_SHORT).show();
+                    NotifyUserUtil.createShortToast(mContext, "An error occured updating of heads. Skipping...");
                     return;
                 }
             }
