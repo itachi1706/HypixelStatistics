@@ -49,7 +49,7 @@ public class GameStatisticsHandler {
                     case "holiday": //descArray.remove(descArray.size() - 1);
                         break;
                     default:
-                        descArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                        descArray.add(new ResultDescription(entry.getKey(), null, false, errorList()));
                         break;
                 }
             } else {
@@ -91,11 +91,17 @@ public class GameStatisticsHandler {
                         descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, WarlordsStatistics.parseWarlords(statistic, localPlayerName)));
                         break;
                     default:
-                        descArray.add(new ResultDescription(entry.getKey() + " (ERROR - INFORM DEV)", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+                        descArray.add(new ResultDescription(entry.getKey(), null, false, errorList()));
                         break;
                 }
             }
         }
         return descArray;
+    }
+
+    private static ArrayList<ResultDescription> errorList(){
+        ArrayList<ResultDescription> error = new ArrayList<>();
+        error.add(new ResultDescription("ERROR - IMFORM DEV", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+        return error;
     }
 }
