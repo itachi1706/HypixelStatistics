@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,8 +25,9 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.util.SnackbarUtil;
 
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;
@@ -36,7 +38,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
-public class BoosterList extends AppCompatActivity {
+public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     ListView boostList;
     ProgressBar prog;
@@ -190,7 +192,7 @@ public class BoosterList extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
             updateActiveBoosters();
-            Toast.makeText(this.getApplicationContext(), "Updating Booster List", Toast.LENGTH_SHORT).show();
+            SnackbarUtil.showDismissSnackbar(getCurrentFocus(), "Updating Booster List", Snackbar.LENGTH_SHORT);
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
@@ -213,6 +215,12 @@ public class BoosterList extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        updateActiveBoosters();
+        SnackbarUtil.showDismissSnackbar(getWindow().getCurrentFocus(), "Updating booster list", Snackbar.LENGTH_SHORT);
     }
 
     private String parseStats(){

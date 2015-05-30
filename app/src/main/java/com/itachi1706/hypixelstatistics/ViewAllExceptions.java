@@ -21,6 +21,7 @@ import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExceptionListAdapt
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
+import com.itachi1706.hypixelstatistics.util.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,10 +73,7 @@ public class ViewAllExceptions extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (hist.deleteException(o.getFile())) {
                             //Create a snackbar
-                            Snackbar.make(getWindow().getCurrentFocus(), "Exception File deleted", Snackbar.LENGTH_SHORT)
-                                    .setAction("DISMISS", new View.OnClickListener() {
-                                        @Override public void onClick(View v) {}
-                                    }).show();
+                            SnackbarUtil.showDismissSnackbar(getWindow().getCurrentFocus(), "Exception File deleted", Snackbar.LENGTH_SHORT);
                             storage.remove(o);
                             adapter.updateAdapter(storage);
                             adapter.notifyDataSetChanged();
