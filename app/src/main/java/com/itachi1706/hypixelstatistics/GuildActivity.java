@@ -163,7 +163,7 @@ public class GuildActivity extends AppCompatActivity {
                 guildSearch.clearFocus();
                 imm.hideSoftInputFromWindow(guildSearch.getWindowToken(), 0);
                 if (guildSearch.getText().toString().equals("")){
-                    NotifyUserUtil.createShortToast(getApplicationContext(), "Please enter a guild name or player!");
+                    guildSearch.setError("Please enter a guild name or player!");
                 } else {
                     boolean state = searchFilter.isChecked();
                     String searchText = guildSearch.getText().toString();

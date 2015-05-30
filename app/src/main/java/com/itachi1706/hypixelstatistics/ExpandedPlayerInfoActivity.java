@@ -137,7 +137,11 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
                 playerName.clearFocus();
                 imm.hideSoftInputFromWindow(playerName.getWindowToken(), 0);
                 if (playerName.getText().toString().equals("")){
-                    NotifyUserUtil.createShortToast(getApplicationContext(), "Please enter a name!");
+                    if (playerName.getHint().toString().contains("UUID")){
+                        playerName.setError("Please enter a UUID!");
+                    } else {
+                        playerName.setError("Please enter a name!");
+                    }
                 } else {
                     String name = playerName.getText().toString();
                     checkProgress = new ProgressDialog(ExpandedPlayerInfoActivity.this);
