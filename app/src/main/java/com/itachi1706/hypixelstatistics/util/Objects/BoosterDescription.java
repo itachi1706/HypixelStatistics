@@ -119,7 +119,11 @@ public class BoosterDescription {
     @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
     public BoosterDescription clone(){
-        BoosterDescription d = new BoosterDescription(_boostRate, _date, _gameType.getId(), _timeRemaining, _originalTime, _purchaseruuid);
+        BoosterDescription d;
+        if (_gameType == null)
+            d = new BoosterDescription(_mcName, _timeRemaining, _boostRate);
+        else
+            d = new BoosterDescription(_boostRate, _date, _gameType.getId(), _timeRemaining, _originalTime, _purchaseruuid);
         if (mcHead != null)
             d.setMcHead(mcHead);
         d.set_done(_done);
