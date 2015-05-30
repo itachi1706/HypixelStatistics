@@ -93,6 +93,10 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     }
 
     protected void onPostExecute(String json) {
+        if (swipeToRefresh != null) {
+            if (swipeToRefresh.isRefreshing())
+                swipeToRefresh.setRefreshing(false);
+        }
         if (except != null){
             if (except instanceof SocketTimeoutException)
                 Toast.makeText(mContext, "Connection Timed Out. Try again later", Toast.LENGTH_SHORT).show();
@@ -134,11 +138,6 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     if (!isActiveOnly) {
                         MainStaticVars.boosterListAdapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
                         list.setAdapter(MainStaticVars.boosterListAdapter);
-                    }
-
-                    if (swipeToRefresh != null) {
-                        if (swipeToRefresh.isRefreshing())
-                            swipeToRefresh.setRefreshing(false);
                     }
 
                     if (records.size() != 0) {
