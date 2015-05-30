@@ -122,7 +122,9 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
 
             //Palette API generate and update activity primary and primary dark colors
             Bitmap toUseForPalette = ((BitmapDrawable) draw).getBitmap();
-            Palette.generateAsync(toUseForPalette, 32, new Palette.PaletteAsyncListener() {
+            Palette.Builder build = new Palette.Builder(toUseForPalette);
+            build.maximumColorCount(32);
+            build.generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
                     int primaryColor = palette.getVibrantColor(R.color.blue_500);
