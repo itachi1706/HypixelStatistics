@@ -106,7 +106,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         }
         Log.d("VERSION-SERVER", "Version on Server: " + currentVersionNumber);
         Log.d("VERSION-LOCAL", "Current Version: " + currentAppVersion);
-        int comparisions = currentVersionNumber.compareTo(currentAppVersion);
+        int comparisions = compareVersions(currentAppVersion, currentVersionNumber);
         if (comparisions == 1){
             Log.d("UPDATE NEEDED", "An Update is needed");
             //Outdated Version. Prompt Update
@@ -143,5 +143,34 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                 NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "No update is required");
             }
         }
+    }
+
+    private int compareVersions(String oldVersion, String newVersion){
+        String[] oldVerArr = oldVersion.split(".");
+        String[] newVerArr = newVersion.split(".");
+        StringBuilder builder = new StringBuilder();
+        for (String s : oldVerArr){
+            builder.append(s);
+        }
+        String oldV = builder.toString();
+        builder = new StringBuilder();
+        for (String s : newVerArr){
+            builder.append(s);
+        }
+        String newV = builder.toString();
+        try {
+            int oldVersionNum = Integer.parseInt(oldV);
+            int newVersionNum = Integer.parseInt(newV);
+            if (oldVersionNum == newVersionNum)
+                return 0;
+            if (oldVersionNum < newVersionNum)
+                return 1;
+            if (oldVersionNum > newVersionNum)
+                return -1;
+        } catch (NumberFormatException e){
+            Log.e("UPDATE CHECK", "Version Number generated exception, fallbacking to old version");
+            return newVersion.compareTo(oldVersion);
+        }
+        return 0;
     }
 }
