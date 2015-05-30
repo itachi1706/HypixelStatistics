@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,6 +42,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     boolean isActiveOnly;
     ProgressBar bar;
     TextView tooltip;
+    SwipeRefreshLayout swipeToRefresh = null;
 
     public BoosterGet(Context context, ListView listView, boolean isActive, ProgressBar bars, TextView tooltips){
         mContext = context;
@@ -48,6 +50,15 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
         isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
+    }
+
+    public BoosterGet(Context context, ListView listView, boolean isActive, ProgressBar bars, TextView tooltips, SwipeRefreshLayout swipeRefresh){
+        mContext = context;
+        list = listView;
+        isActiveOnly = isActive;
+        bar = bars;
+        tooltip = tooltips;
+        swipeToRefresh = swipeRefresh;
     }
 
     @Override
@@ -123,6 +134,11 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
                     if (!isActiveOnly) {
                         MainStaticVars.boosterListAdapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, MainStaticVars.boosterList);
                         list.setAdapter(MainStaticVars.boosterListAdapter);
+                    }
+
+                    if (swipeToRefresh != null) {
+                        if (swipeToRefresh.isRefreshing())
+                            swipeToRefresh.setRefreshing(false);
                     }
 
                     if (records.size() != 0) {

@@ -43,6 +43,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
     ListView boostList;
     ProgressBar prog;
     TextView boosterTooltip;
+    SwipeRefreshLayout swipeToRefresh;
 
     final ArrayList<CharSequence> seletedFilterItems=new ArrayList<>();
 
@@ -61,6 +62,9 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         boostList = (ListView) findViewById(R.id.BoostlvBooster);
         prog = (ProgressBar) findViewById(R.id.BoostpbProg);
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
+        swipeToRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshBooster);
+
+        swipeToRefresh.setOnRefreshListener(this);
 
         boostList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -168,7 +172,10 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         MainStaticVars.inProg = false;
         MainStaticVars.parseRes = false;
         MainStaticVars.unfilteredBoosterList.clear();
-        new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
+        if (swipeToRefresh.isRefreshing()) //Manual invoke, remind async task of the case
+            new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip, swipeToRefresh).execute();
+        else //App invoked
+            new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
     }
 
 
@@ -191,6 +198,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
             startActivity(new Intent(BoosterList.this, GeneralPrefActivity.class));
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
+            swipeToRefresh.setRefreshing(true);
             updateActiveBoosters();
             SnackbarUtil.showDismissSnackbar(getCurrentFocus(), "Updating Booster List", Snackbar.LENGTH_SHORT);
             return true;
