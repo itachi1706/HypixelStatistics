@@ -116,6 +116,7 @@ public class BoosterDescription {
         this._purchaseruuid = _purchaseruuid;
     }
 
+    @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
     public BoosterDescription clone(){
         BoosterDescription d = new BoosterDescription(_boostRate, _date, _gameType.getId(), _timeRemaining, _originalTime, _purchaseruuid);

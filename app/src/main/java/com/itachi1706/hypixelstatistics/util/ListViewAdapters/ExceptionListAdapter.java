@@ -1,7 +1,6 @@
 package com.itachi1706.hypixelstatistics.util.ListViewAdapters;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.Objects.ExceptionComparator;
 import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
-import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

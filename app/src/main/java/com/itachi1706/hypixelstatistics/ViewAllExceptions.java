@@ -19,14 +19,9 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.ExceptionHistory;
 import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExceptionListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.Objects.ExceptionComparator;
 import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

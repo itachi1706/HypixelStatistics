@@ -23,7 +23,6 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * Created by Kenneth on 16/2/2015, 5:31 PM
