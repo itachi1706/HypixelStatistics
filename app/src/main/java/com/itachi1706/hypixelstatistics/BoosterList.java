@@ -199,7 +199,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         } else if (id == R.id.action_refresh_active_boosters){
             swipeToRefresh.setRefreshing(true);
             updateActiveBoosters();
-            NotifyUserUtil.showShortDismissSnackbar(getCurrentFocus(), "Updating Booster List");
+            NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Updating Booster List");
             return true;
         } else if (id == R.id.action_get_detailed_boosters){
             new AlertDialog.Builder(this)
@@ -208,9 +208,6 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                     .show();
             return true;
         } else if (id == R.id.action_filter_boosters){
-            //new AlertDialog.Builder(this)
-            //        .setTitle("Coming Soon").setMessage("Filtering based on GameTypes is coming soon. Hang tight! :)")
-            //        .setPositiveButton(android.R.string.ok, null).show();
             if (!MainStaticVars.inProg)
                 displayFilterAlertDialog();
             else
@@ -227,7 +224,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         updateActiveBoosters();
-        NotifyUserUtil.showShortDismissSnackbar(getWindow().getCurrentFocus(), "Updating booster list");
+        NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Updating booster list");
     }
 
     private String parseStats(){
