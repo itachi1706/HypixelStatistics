@@ -146,8 +146,8 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
     }
 
     private int compareVersions(String oldVersion, String newVersion){
-        String[] oldVerArr = oldVersion.split(".");
-        String[] newVerArr = newVersion.split(".");
+        String[] oldVerArr = oldVersion.split("\\.");
+        String[] newVerArr = newVersion.split("\\.");
         StringBuilder builder = new StringBuilder();
         for (String s : oldVerArr){
             builder.append(s);
