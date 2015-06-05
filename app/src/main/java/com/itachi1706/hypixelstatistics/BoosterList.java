@@ -63,7 +63,11 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
         swipeToRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshBooster);
 
-        swipeToRefresh
+        swipeToRefresh.setColorSchemeResources(
+                R.color.refresh_progress_1,
+                R.color.refresh_progress_2,
+                R.color.refresh_progress_3,
+                R.color.refresh_progress_4);
 
         swipeToRefresh.setOnRefreshListener(this);
 
