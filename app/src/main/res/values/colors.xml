@@ -9,7 +9,10 @@
     <color name="newPrimaryDark">@color/yellow_900</color>
     <color name="newAccent">@color/deep_orange_a200</color>
 
-
+    <color name="refresh_progress_1">@color/newAccent</color>
+    <color name="refresh_progress_2">@color/mainAccent</color>
+    <color name="refresh_progress_3">@color/mainPrimary</color>
+    <color name="refresh_progress_4">@color/newPrimary</color>
 
     <!-- Material Design Colors -->
     <!-- RED -->
