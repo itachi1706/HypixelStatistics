@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="mainPrimary">@color/blue_500</color>
+    <color name="mainPrimaryDark">@color/blue_700</color>
+    <color name="mainAccent">@color/red_a200</color>
+
+    <color name="newPrimary">@color/yellow_700</color>
+    <color name="newPrimaryDark">@color/yellow_900</color>
+    <color name="newAccent">@color/deep_orange_a200</color>
+
+
+
+    <!-- Material Design Colors -->
     <!-- RED -->
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>

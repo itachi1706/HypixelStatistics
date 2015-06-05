@@ -63,6 +63,8 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
         swipeToRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshBooster);
 
+        swipeToRefresh
+
         swipeToRefresh.setOnRefreshListener(this);
 
         boostList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
