@@ -42,3 +42,15 @@ before_install:
     - adb shell input keyevent 82 &
     
 script: ./gradlew connectedAndroidTest
+
+after_success:
+    - mv ./app/build/outputs/apk/app-debug.apk ./app/build/outputs/apk/DroidEggs-debug.apk
+    - ls ./app/build/outputs/apk/
+
+deploy:
+    provider: releases
+    api_key: $OAUTH_KEY
+    file: ./app/build/outputs/apk/DroidEggs-debug.apk
+    skip_cleanup: true
+    on:
+        tags: true
