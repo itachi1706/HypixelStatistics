@@ -43,8 +43,10 @@ public class FriendListActivity extends AppCompatActivity {
 
         //Set Theme
         setTheme(MainStaticVars.getTheme(this));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusBarColor(this)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
+            this.getWindow().setNavigationBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
+        }
 
         setContentView(R.layout.activity_friend_list);
 

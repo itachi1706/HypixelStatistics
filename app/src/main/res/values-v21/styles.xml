@@ -4,9 +4,11 @@
     <style name="AppTheme" parent="android:Theme.Material.Light">-->
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:statusBarColor">@color/mainPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/mainPrimaryDark</item>
     </style>
 
     <style name="NewTheme" parent="NewTheme.Base">
         <item name="android:statusBarColor">@color/newPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/newPrimaryDark</item>
     </style>
 </resources>

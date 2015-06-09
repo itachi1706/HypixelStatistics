@@ -37,7 +37,6 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
 
@@ -63,8 +62,10 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
 
         //Set Theme
         setTheme(MainStaticVars.getTheme(this));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusBarColor(this)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
+            this.getWindow().setNavigationBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
+        }
 
         setContentView(R.layout.activity_expanded_player_info);
 

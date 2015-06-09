@@ -124,7 +124,7 @@ public class MainStaticVars {
         return R.style.AppTheme;
     }
 
-    public static int getStatusBarColor(Activity activity){
+    public static int getStatusAndNavBarColor(Activity activity){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
         String themeSel = prefs.getString("appThemePref", "Default");
         switch (themeSel){
