@@ -9,16 +9,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
@@ -250,6 +254,47 @@ public class GeneralPrefActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            //Egg stuff
+            verPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if (!isActive) {
+                        if (count == 10) {
+                            count = 0;
+                            startEgg();
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), "~The cold never bothers you anyway~", Snackbar.LENGTH_LONG)
+                                    .setAction("IT DOES! D:", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Toast.makeText(getActivity(), "Aww fine. You can't stay in Arendelle then I guess... :(", Toast.LENGTH_SHORT).show();
+                                            endEgg();
+                                        }
+                                    }).show();
+                        } else {
+                            switch (count) {
+                                case 5:
+                                    prompt(5);
+                                    break;
+                                case 6:
+                                    prompt(4);
+                                    break;
+                                case 7:
+                                    prompt(3);
+                                    break;
+                                case 8:
+                                    prompt(2);
+                                    break;
+                                case 9:
+                                    prompt(1);
+                                    break;
+                            }
+                        }
+                        count++;
+                    }
+                    return false;
+                }
+            });
         }
 
         public void updateKeyString(SharedPreferences sp, Preference apikey, Preference apikeyinfo, Context mCon){
@@ -281,6 +326,60 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 staff.setEnabled(true);
                 name.setEnabled(true);
                 uuid.setEnabled(true);
+            }
+        }
+
+
+        /**
+         * Eggs are always nice :wink:
+         */
+
+        MediaPlayer mp;
+        int count = 0;
+        Toast toasty;
+        boolean isActive = false;
+
+        private void prompt(int left){
+            if (toasty != null){
+                toasty.cancel();
+            }
+            if (left > 1)
+                toasty = Toast.makeText(getActivity(), left + " more clicks to have fun!", Toast.LENGTH_SHORT);
+            else
+                toasty = Toast.makeText(getActivity(), left + " more click to have fun!", Toast.LENGTH_SHORT);
+            toasty.show();
+        }
+
+        @Override
+        public void onResume(){
+            super.onResume();
+            count = 0;
+        }
+
+        @Override
+        public void onPause(){
+            super.onPause();
+            endEgg();
+        }
+
+        private void startEgg(){
+            if (!isActive) {
+                mp = MediaPlayer.create(getActivity(), R.raw.let_it_go);
+                mp.start();
+                isActive = true;
+            }
+        }
+
+        private void endEgg(){
+            count = 0;
+            isActive = false;
+            if (mp != null){
+                if (mp.isPlaying()){
+                    mp.stop();
+                    mp.reset();
+                }
+                mp.release();
+                mp = null;
             }
         }
     }

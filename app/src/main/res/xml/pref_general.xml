@@ -28,9 +28,9 @@
         <Preference android:title="API Key (Click to enter personal key)" android:key="api_key" android:summary="Obtaining Key..."/>
         <Preference android:title="View API Key Info" android:key="view_api_info" android:summary="View information regarding the API Key"/>
         <Preference android:title="History &amp; Cached Files" android:key="view_hist_activity" android:summary="View history and files stored onto your Device"/>
-        <Preference android:title="Player" android:key="staff_p" android:summary="-"/>
+        <Preference android:title="Player" android:key="staff_p" android:selectable="false" android:summary="-"/>
         <Preference android:title="Player UUID" android:key="staff_uuid" android:summary="-"/>
-        <Preference android:title="Staff Rank (Staff Only)" android:key="staff_rnk" android:summary="-"/>
+        <Preference android:title="Staff Rank (Staff Only)" android:key="staff_rnk" android:selectable="false" android:summary="-"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="App Info" android:key="info_category">
@@ -39,8 +39,8 @@
         <Preference android:title="Get Legacy Versions of App" android:key="get_old_app" android:summary="Launch a webpage to get older releases of the application!"/>
         <Preference android:title="View Changelog" android:key="android_changelog" android:summary="View Changelog Information" />
         <Preference android:title="App Version" android:key="view_app_version" android:summary="NULL" />
-        <Preference android:title="Package Name" android:key="view_app_name"/>
-        <Preference android:summary="None" android:title="Android Version" android:key="view_sdk_version"/>
+        <Preference android:title="Package Name" android:key="view_app_name" android:selectable="false" />
+        <Preference android:summary="None" android:title="Android Version" android:key="view_sdk_version" android:selectable="false"/>
         <Preference android:title="View Device Info" android:key="vDevInfo" android:summary="View information of your device"/>
     </PreferenceCategory>
 
