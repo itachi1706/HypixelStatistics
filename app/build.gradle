@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.itachi1706.hypixelstatistics"
         minSdkVersion 11
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.10.3"
     }
@@ -36,8 +36,8 @@ dependencies {
     compile files('libs/commons-lang3-3.3.2.jar')
     compile files('libs/gson-2.3.jar')
     compile files('libs/guava-18.0.jar')
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:palette-v7:22.2.0'
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:palette-v7:23.0.0'
+    compile 'com.android.support:support-v4:23.0.0'
+    compile 'com.android.support:design:23.0.0'
 }
