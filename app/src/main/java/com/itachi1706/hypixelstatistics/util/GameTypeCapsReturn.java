@@ -38,7 +38,7 @@ public class GameTypeCapsReturn {
             case "UHC":
                 return GameType.UHC;
             case "BATTLEGROUND":
-                return GameType.WARLORDS;
+                return GameType.BATTLEGROUND;
         }
         return null;
     }
