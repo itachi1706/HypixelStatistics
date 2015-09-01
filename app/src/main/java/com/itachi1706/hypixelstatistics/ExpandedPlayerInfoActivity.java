@@ -61,11 +61,7 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Set Theme
-        setTheme(MainStaticVars.getTheme(this));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.getWindow().setStatusBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
-            this.getWindow().setNavigationBarColor(getResources().getColor(MainStaticVars.getStatusAndNavBarColor(this)));
-        }
+        MainStaticVars.setLayoutAccordingToPrefs(this);
 
         setContentView(R.layout.activity_expanded_player_info);
 

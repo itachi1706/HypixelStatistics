@@ -3,7 +3,9 @@ package com.itachi1706.hypixelstatistics.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
@@ -144,6 +146,14 @@ public class MainStaticVars {
             case "NewTheme": return R.color.deep_orange_a200;
         }
         return R.color.red_a200;
+    }
+
+    public static void setLayoutAccordingToPrefs(Activity activity){
+        activity.setTheme(getTheme(activity));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, getStatusAndNavBarColor(activity)));
+            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, getStatusAndNavBarColor(activity)));
+        }
     }
 
     public static void updateTimeout(Activity activity){
