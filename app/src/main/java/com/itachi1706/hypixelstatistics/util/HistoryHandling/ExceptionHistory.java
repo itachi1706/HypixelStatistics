@@ -3,7 +3,7 @@ package com.itachi1706.hypixelstatistics.util.HistoryHandling;
 import android.content.Context;
 import android.util.Log;
 
-import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
+import com.itachi1706.hypixelstatistics.Objects.ExceptionObject;
 
 import org.apache.commons.io.FilenameUtils;
 

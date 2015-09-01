@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
-import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
+import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 
 import java.util.ArrayList;
 import java.util.HashMap;

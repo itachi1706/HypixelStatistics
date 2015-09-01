@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
 

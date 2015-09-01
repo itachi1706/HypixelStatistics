@@ -15,11 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.ExceptionHistory;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ExceptionListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.ExceptionListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.ExceptionObject;
+import com.itachi1706.hypixelstatistics.Objects.ExceptionObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;

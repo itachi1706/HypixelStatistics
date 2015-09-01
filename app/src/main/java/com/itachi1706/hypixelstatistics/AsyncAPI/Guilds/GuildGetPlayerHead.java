@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 
 import java.io.IOException;

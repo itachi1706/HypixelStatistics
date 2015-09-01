@@ -2,7 +2,7 @@ language: android
 jdk: oraclejdk7
 env:
   global:
-    - ANDROID_TARGET=android-23
+    - ANDROID_TARGET=android-22
     - ANDROID_ABI=google_apis/armeabi-v7a
     - ANDROID_BUILD_TOOLS_VERSION=23.0.0
     - API_LEVEL=23

@@ -17,12 +17,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.FriendsListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 import net.hypixel.api.reply.FriendsReply;
 

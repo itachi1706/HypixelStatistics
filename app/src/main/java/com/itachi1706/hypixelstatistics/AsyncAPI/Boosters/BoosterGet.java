@@ -15,9 +15,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.BoostersReply;

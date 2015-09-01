@@ -14,10 +14,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BriefBoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.BriefBoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;

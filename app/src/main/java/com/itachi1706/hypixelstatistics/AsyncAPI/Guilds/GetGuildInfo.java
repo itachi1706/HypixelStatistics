@@ -13,14 +13,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.GuildMemberAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.GuildMemberAdapter;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.ResultDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.ResultDescListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 
 import net.hypixel.api.reply.GuildReply;
 

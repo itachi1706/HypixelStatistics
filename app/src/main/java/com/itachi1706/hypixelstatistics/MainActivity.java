@@ -26,10 +26,10 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.util.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 /**
  * A {@link android.preference.PreferenceActivity} that presents a set of application settings. On

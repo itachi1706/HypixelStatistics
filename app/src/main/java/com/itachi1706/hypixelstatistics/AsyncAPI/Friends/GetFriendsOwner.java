@@ -15,7 +15,7 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
 

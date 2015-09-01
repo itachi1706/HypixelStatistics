@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 
 import java.io.IOException;
 import java.io.InputStream;

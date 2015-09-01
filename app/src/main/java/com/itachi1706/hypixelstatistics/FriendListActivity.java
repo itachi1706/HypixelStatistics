@@ -23,7 +23,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListPlayer;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsListUUID;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.util.Objects.FriendsObject;
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
