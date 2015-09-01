@@ -71,15 +71,17 @@ public class GeneralPrefActivity extends AppCompatActivity {
 
             //Debug Info Get
             String version = "NULL", packName = "NULL";
+            int versionCode = 0;
             try {
                 PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 version = pInfo.versionName;
                 packName = pInfo.packageName;
+                versionCode = pInfo.versionCode;
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
             Preference verPref = findPreference("view_app_version");
-            verPref.setSummary(version);
+            verPref.setSummary(version + "-b" + versionCode);
             Preference pNamePref = findPreference("view_app_name");
             pNamePref.setSummary(packName);
 

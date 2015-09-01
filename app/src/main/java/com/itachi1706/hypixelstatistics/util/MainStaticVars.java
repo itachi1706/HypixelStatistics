@@ -92,14 +92,15 @@ public class MainStaticVars {
 
     public static String getChangelogStringFromArrayList(ArrayList<String> changelog){
          /* Legend of Stuff
-        1st Line - Current Version Number
-        2nd Line - Link to New Version
+        1st Line - Current Version Code check
+        2nd Line - Current Version Number
+        3rd Line - Link to New Version
         # - Changelog Version Number (Bold this)
         * - Points
         @ - Break Line
          */
         StringBuilder changelogBuilder = new StringBuilder();
-        changelogBuilder.append("New Version: ").append(changelog.get(0)).append("<br/><br/>");
+        changelogBuilder.append("Latest Version: ").append(changelog.get(1)).append("-b").append(changelog.get(0)).append("<br/><br/>");
         for (String line : changelog){
             if (line.startsWith("#"))
                 changelogBuilder.append("<b>").append(line.replace('#', ' ')).append("</b><br />");

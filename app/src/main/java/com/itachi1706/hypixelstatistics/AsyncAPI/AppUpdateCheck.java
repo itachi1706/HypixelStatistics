@@ -52,7 +52,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        String url = "http://www.itachi1706.com/android/hypstatistics.html";
+        String url = "http://itachi1706.com/android/updates/hypstatistics.html";
         String tmp = "";
         try {
             URL urlConn = new URL(url);
@@ -84,8 +84,9 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
             return;
         }
          /* Legend of Stuff
-        1st Line - Current Version Number
-        2nd Line - Link to New Version
+        1st Line - Current Version Code check
+        2nd Line - Current Version Number
+        3rd Line - Link to New Version
         # - Changelog Version Number (Bold this)
         * - Points
          */
@@ -94,20 +95,20 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
             return;
         }
         sp.edit().putString("version-changelog", changelog).apply();
-        String currentVersionNumber = changelogStrings.get(0);
-        String currentAppVersion = "";
-        final String newVersionURL = changelogStrings.get(1);
+        int serverVersionCode = Integer.parseInt(changelogStrings.get(0));
+        int localVersionCode = 0;
+        final String newVersionURL = changelogStrings.get(2);
         PackageInfo pInfo;
         try {
             pInfo = mActivity.getApplicationContext().getPackageManager().getPackageInfo(mActivity.getApplicationContext().getPackageName(), 0);
-            currentAppVersion = pInfo.versionName;
+            localVersionCode = pInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        Log.d("VERSION-SERVER", "Version on Server: " + currentVersionNumber);
-        Log.d("VERSION-LOCAL", "Current Version: " + currentAppVersion);
-        int comparisions = compareVersions(currentAppVersion, currentVersionNumber);
-        if (comparisions == 1){
+        Log.d("VERSION-SERVER", "Version on Server: " + serverVersionCode);
+        Log.d("VERSION-LOCAL", "Current Version: " + localVersionCode);
+        boolean hasUpdate = compareVersions(localVersionCode, serverVersionCode);
+        if (hasUpdate){
             Log.d("UPDATE NEEDED", "An Update is needed");
             //Outdated Version. Prompt Update
             String bodyMsg = MainStaticVars.getChangelogStringFromArrayList(changelogStrings);
@@ -117,9 +118,6 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                         .setNegativeButton("Don't Update", null).setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        /* Old Method
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVersionURL));
-                        mActivity.startActivity(intent); */
                         NotificationManager manager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mActivity);
                         mBuilder.setContentTitle("Downloading new update").setContentText("Downloading new update...")
@@ -145,32 +143,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
         }
     }
 
-    private int compareVersions(String oldVersion, String newVersion){
-        String[] oldVerArr = oldVersion.split("\\.");
-        String[] newVerArr = newVersion.split("\\.");
-        StringBuilder builder = new StringBuilder();
-        for (String s : oldVerArr){
-            builder.append(s);
-        }
-        String oldV = builder.toString();
-        builder = new StringBuilder();
-        for (String s : newVerArr){
-            builder.append(s);
-        }
-        String newV = builder.toString();
-        try {
-            int oldVersionNum = Integer.parseInt(oldV);
-            int newVersionNum = Integer.parseInt(newV);
-            if (oldVersionNum == newVersionNum)
-                return 0;
-            if (oldVersionNum < newVersionNum)
-                return 1;
-            if (oldVersionNum > newVersionNum)
-                return -1;
-        } catch (NumberFormatException e){
-            Log.e("UPDATE CHECK", "Version Number generated exception, fallbacking to old version");
-            return newVersion.compareTo(oldVersion);
-        }
-        return 0;
+    private boolean compareVersions(int local, int server){
+        return local < server;
     }
 }
