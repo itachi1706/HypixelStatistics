@@ -17,7 +17,9 @@ public enum GameType {
     ARENA("Arena Brawl", 17),
     MCGO("Cops and Crims", 21),
     UHC("UHC Champions", 20),
-    WARLORDS("Warlords (OPEN BETA)", 23),
+    BATTLEGROUND("Warlords", 23),
+    TURBO_KART_RACERS("Turbo Kart Racers", 25),
+    SKYWARS("SkyWars", 51),
     UNKNOWN("Unknown Game", 0);
 
     private static GameType[] v = values();
@@ -85,7 +87,11 @@ public enum GameType {
             case "UHC":
                 return UHC;
             case "Battleground":
-                return WARLORDS;
+                return BATTLEGROUND;
+            case "GingerBread":
+                return TURBO_KART_RACERS;
+            case "SkyWars":
+                return SKYWARS;
         }
         return null;
     }
