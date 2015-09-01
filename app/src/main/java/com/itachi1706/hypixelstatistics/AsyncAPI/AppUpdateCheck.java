@@ -52,7 +52,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        String url = "http://itachi1706.com/android/updates/hypstatistics.html";
+        String url = "http://android.itachi1706.com/android/updates/hypstatistics.html";
         String tmp = "";
         try {
             URL urlConn = new URL(url);

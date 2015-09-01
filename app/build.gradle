@@ -8,7 +8,7 @@ android {
         applicationId "com.itachi1706.hypixelstatistics"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 421
+        versionCode 422
         versionName "1.11"
     }
     packagingOptions {
