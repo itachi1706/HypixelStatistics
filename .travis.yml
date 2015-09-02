@@ -70,3 +70,8 @@ notifications:
       - "Build Status : %{message}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
+  email:
+    recipients:
+      - $PRIVATE_EMAIL
+    on_success: change # default: change
+    on_failure: always # default: always
