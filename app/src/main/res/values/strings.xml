@@ -56,5 +56,4 @@
     <string name="action_view_friend_list">View Friends List</string>
     <string name="lv_guild_last_online_placeholder">Last Online</string>
     <string name="lv_guild_joined_on_placeholder">Date Joined</string>
-    <string name="title_activity_view_all_exceptions">App Crash Exceptions</string>
 </resources>

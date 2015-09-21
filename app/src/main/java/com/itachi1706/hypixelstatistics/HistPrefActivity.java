@@ -2,7 +2,6 @@ package com.itachi1706.hypixelstatistics;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -113,16 +112,6 @@ public class HistPrefActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-            Preference exceptPref = findPreference("view_except");
-            exceptPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(getActivity(), ViewAllExceptions.class));
-                    return true;
-                }
-            });
-
         }
     }
 }

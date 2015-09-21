@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,19 +18,23 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetBrief;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
-import com.itachi1706.hypixelstatistics.util.CustomExceptionHandler;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
+import io.fabric.sdk.android.Fabric;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,23 +51,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
 
         //Set Theme
         MainStaticVars.setLayoutAccordingToPrefs(this);
 
         setContentView(R.layout.activity_main);
 
-        //Init error handling
+        //Old error handling (Deprecated) Removed. Uses Crashlytics now
         File crashReportFolder = new File(this.getExternalFilesDir(null) + File.separator + "crash-report");
-        if (!crashReportFolder.exists())
-            if (crashReportFolder.mkdir())
-                Log.d("CRASH-REPORT HANDLER", "Directory Created!");
-        CustomExceptionHandler crashHandler = new CustomExceptionHandler(this.getExternalFilesDir(null) + File.separator +
-                "crash-report", this);
-        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        if (crashReportFolder.exists()){
+            try {
+                FileUtils.deleteDirectory(crashReportFolder);
+            } catch (IOException e) {
+                Log.i("CRASH-HANDLER", "Unable to delete legacy crash report directory");
+                e.printStackTrace();
+            }
         }
-        crashHandler.checkCrash();
 
         //Check for legacy strings
         CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));

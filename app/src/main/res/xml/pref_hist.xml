@@ -7,6 +7,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="App Files" android:key="cat_app">
-        <Preference android:title="View Exceptions" android:key="view_except" android:summary="View Exception list of app crashes saved onto your device" />
+        <Preference android:title="View Exceptions (Not in Use anymore)" android:enabled="false" android:key="view_except" android:summary="View Exception list of app crashes saved onto your device" />
     </PreferenceCategory>
 </PreferenceScreen>
