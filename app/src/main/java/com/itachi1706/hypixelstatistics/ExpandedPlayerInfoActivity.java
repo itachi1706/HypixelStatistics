@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,16 +32,17 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
 import net.hypixel.api.reply.PlayerReply;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ExpandedPlayerInfoActivity extends AppCompatActivity {
@@ -173,10 +173,9 @@ public class ExpandedPlayerInfoActivity extends AppCompatActivity {
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                tmp.add(histCheckName.get("displayname").getAsString());
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                tmp.add(histCheckName.getDisplayname());
             }
         }
 

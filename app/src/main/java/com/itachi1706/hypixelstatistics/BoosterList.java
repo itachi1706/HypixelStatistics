@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +23,9 @@ import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetHistory;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;

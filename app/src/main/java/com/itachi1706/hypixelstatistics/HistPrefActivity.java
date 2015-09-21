@@ -10,10 +10,11 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+
+import java.util.List;
 
 /**
  * A {@link android.preference.PreferenceActivity} that presents a set of application settings. On
@@ -57,11 +58,10 @@ public class HistPrefActivity extends AppCompatActivity {
                         StringBuilder builder = new StringBuilder();
                         Gson gson = new Gson();
                         HistoryObject obj = gson.fromJson(jsonHist, HistoryObject.class);
-                        JsonArray arr = obj.getHistory();
-                        for (JsonElement e : arr){
-                            JsonObject o = e.getAsJsonObject();
-                            builder.append(o.get("displayname").getAsString());
-                            builder.append(" (").append(o.get("playername").getAsString()).append(")\n");
+                        List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(obj.getHistory());
+                        for (HistoryArrayObject o : histCheck) {
+                            builder.append(o.getDisplayname());
+                            builder.append(" (").append(o.getPlayername()).append(")\n");
                         }
                         new AlertDialog.Builder(getActivity()).setTitle("History").setMessage(builder.toString()).show();
                         return true;
