@@ -7,17 +7,15 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.GuildMemberAdapter;
+import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.GuildMemberAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -28,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:12 PM
@@ -143,10 +142,9 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                if (histCheckName.getPlayername().equals(reply.getPlayer().get("playername").getAsString())) {
                     return true;
                 }
             }
