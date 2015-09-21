@@ -10,19 +10,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Kenneth on 16/2/2015, 5:31 PM
@@ -53,10 +52,9 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
         //boolean hasHist = false;
         if (hist != null) {
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                if (histCheckName.get("uuid").getAsString().equals(desc.get_purchaseruuid())) {
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                if (histCheckName.getUuid().equals(desc.get_purchaseruuid())) {
                     //Check if history expired
                     if (CharHistory.checkHistoryExpired(histCheckName)){
                         //Expired, reobtain
@@ -66,8 +64,8 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
                         return false;
                     } else {
                         desc.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
-                        desc.set_mcName(histCheckName.get("displayname").getAsString());
-                        desc.set_purchaseruuid(histCheckName.get("uuid").getAsString());
+                        desc.set_mcName(histCheckName.getDisplayname());
+                        desc.set_purchaseruuid(histCheckName.getUuid());
                         desc.set_done(true);
                         MainStaticVars.boosterList.add(desc);
                         MainStaticVars.tmpBooster++;

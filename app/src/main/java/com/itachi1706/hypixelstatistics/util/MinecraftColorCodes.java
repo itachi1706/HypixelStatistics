@@ -1,6 +1,7 @@
 package com.itachi1706.hypixelstatistics.util;
 
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -121,30 +122,26 @@ public enum MinecraftColorCodes {
      * @param name Name and Rank of player on Hypixel
      * @return formatted Name/Rank
      */
-    public static String parseHistoryHypixelRanks(JsonObject name){
-        //Check for special rank
+    public static String parseHistoryHypixelRanks(HistoryArrayObject name){
         String special = null;
-        if (name.has("prefix")){
-            special = newSpecialRanks(name.get("displayname").getAsString(), name.get("prefix").getAsString());
+        if (name.hasPrefix()){
+            special = newSpecialRanks(name.getDisplayname(), name.getPrefix());
         }
-        if (special != null){
-            return special;
+        if (special != null) return special;
+
+        if (name.hasRank()){
+            String rank = rank(name.getDisplayname(), name.getRank());
+            if (rank != null) return rank;
         }
-        if (name.has("rank")){
-            String rank = rank(name.get("displayname").getAsString(), name.get("rank").getAsString());
-            if (rank != null){
-                return rank;
-            }
-        }
-        if (name.has("newPackageRank")){
-            return newPackageRank(name.get("displayname").getAsString(), name.get("newPackageRank").getAsString());
-        } else if (name.has("packageRank")){
-            return packageRank(name.get("displayname").getAsString(), name.get("packageRank").getAsString());
+
+        if (name.hasNewPackageRank()){
+            return newPackageRank(name.getDisplayname(), name.getNewPackageRank());
+        } else if (name.hasPackageRank()){
+            return packageRank(name.getDisplayname(), name.getPackageRank());
         } else {
             //Normal
-            return parseColors("§7" + name.get("displayname").getAsString() + "§r");
+            return parseColors("§7" + name.getDisplayname() + "§r");
         }
-        //return "Error parsing String";
     }
 
     /**

@@ -36,12 +36,20 @@ public class HistoryArrayObject {
         this.rank = rank;
     }
 
+    public boolean hasRank(){
+        return rank != null;
+    }
+
     public String getPackageRank() {
         return packageRank;
     }
 
     public void setPackageRank(String packageRank) {
         this.packageRank = packageRank;
+    }
+
+    public boolean hasPackageRank(){
+        return packageRank != null;
     }
 
     public String getUuid() {
@@ -92,6 +100,10 @@ public class HistoryArrayObject {
         this.newPackageRank = newPackageRank;
     }
 
+    public boolean hasNewPackageRank(){
+        return newPackageRank != null;
+    }
+
     public String getPrefix() {
         return prefix;
     }
@@ -99,6 +111,8 @@ public class HistoryArrayObject {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
+
+    public boolean hasPrefix(){ return prefix != null; }
 
     @Override
     public String toString() {
