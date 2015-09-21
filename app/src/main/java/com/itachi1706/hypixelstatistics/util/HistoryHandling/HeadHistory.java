@@ -6,11 +6,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Kenneth on 07/12/2014, 8:53 PM
@@ -84,5 +86,52 @@ public class HeadHistory {
         }
         String storageLocation = context.getExternalFilesDir(null) + File.separator + "heads" + File.separator + playerName + ".png";
         return new BitmapDrawable(context.getResources(), storageLocation);
+    }
+
+    public static void removeExpiredHeads(Context context, List<HistoryArrayObject> existingList){
+        if (!checkFolderExists(context)) return;
+        String folderLocation = context.getExternalFilesDir(null) + File.separator + "heads";
+        File folder = new File(folderLocation);
+        File[] heads = folder.listFiles();
+
+        if (existingList == null || existingList.size() == 0) {
+            //Delete all heads in folder
+            for (File head : heads){
+                String playerName = head.getName().split("\\.")[0];
+                if (deleteHead(context, playerName))
+                    Log.i("HEAD-EXPIRY", playerName + "'s head expired and has been deleted");
+                else
+                    Log.e("HEAD-EXPIRY", "Unable to delete head");
+            }
+            return;
+        }
+
+        for (File head : heads){
+            String playerName = head.getName().split("\\.")[0];
+
+            boolean toDelete = true;
+            for (HistoryArrayObject object : existingList){
+                if (object.getPlayername().equals(playerName)){
+                    toDelete = false;
+                    break;
+                }
+            }
+
+            if (toDelete) {
+                if (deleteHead(context, playerName))
+                    Log.i("HEAD-EXPIRY", playerName + "'s head expired and has been deleted");
+                else
+                    Log.e("HEAD-EXPIRY", "Unable to delete head");
+            }
+        }
+
+    }
+
+    public static boolean deleteHead(Context context, String playerName) {
+        if (!checkIfHeadExists(context, playerName)) return true;
+
+        String storageLocation = context.getExternalFilesDir(null) + File.separator + "heads" + File.separator;
+        File file = new File(storageLocation, playerName + ".png");
+        return !file.exists() || file.delete();
     }
 }

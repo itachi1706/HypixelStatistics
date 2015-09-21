@@ -19,13 +19,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetBrief;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
@@ -37,6 +41,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 
 @SuppressWarnings("ConstantConditions")
@@ -109,6 +115,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        // Clear expired history
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()));
+        if (hist != null){
+            Gson gson = new Gson();
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (Iterator<HistoryArrayObject> iterator = histCheck.iterator(); iterator.hasNext();){
+                HistoryArrayObject historyArrayObject = iterator.next();
+                if (CharHistory.checkHistoryExpired(historyArrayObject)){
+                    //Expired, remove
+                    iterator.remove();
+                    CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()), histCheck);
+                }
+            }
+
+            HeadHistory.removeExpiredHeads(this, histCheck);
+        } else
+            HeadHistory.removeExpiredHeads(this, null);
 
         MainStaticVars.updateTimeout(this);
 

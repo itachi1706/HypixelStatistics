@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,9 +126,15 @@ public class GuildGetPlayerHead extends AsyncTask<GuildMemberDesc, Void, Drawabl
             image.setImageDrawable(draw);
 
             //Save it into the device
-            if (!HeadHistory.saveHead(mContext, draw, data.get_mcName())){
-                Log.d("ERROR", "An error occured saving " + data.get_mcName() + "'s head onto device!");
-                //Toast.makeText(mContext, "An error occured saving " + data.get_mcName() + "'s head onto device!", Toast.LENGTH_SHORT).show();
+            if (HeadHistory.checkIfHeadExists(mContext, data.get_mcName())){
+                //Update image (Delete and Reinsert)
+                if (!HeadHistory.updateHead(mContext, data.get_mcName())){
+                    Log.d("ERROR", "An error occurred updating " + data.get_mcName() + "'s head. Skipping...");
+                }
+            } else {
+                if (!HeadHistory.saveHead(mContext, draw, data.get_mcName())) {
+                    Log.d("ERROR", "An error occurred saving " + data.get_mcName() + "'s head onto device!");
+                }
             }
             bar.setVisibility(View.GONE);
         }

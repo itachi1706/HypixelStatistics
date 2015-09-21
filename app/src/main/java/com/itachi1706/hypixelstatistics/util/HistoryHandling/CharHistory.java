@@ -64,10 +64,10 @@ public class CharHistory {
 
     public static boolean checkHistoryExpired(HistoryArrayObject obj){
         //Check if user is null
-        if (obj.hasUuid()) return true;
+        if (!obj.hasUuid()) return true;
         // 30 Days in millis 2592000000L
         final long expiryDay = 2592000000L;
-        if (obj.hasDateObtained()) return true; //Prev Gen Hist, reobtain
+        if (!obj.hasDateObtained()) return true; //Prev Gen Hist, reobtain
 
         long dateObt = obj.getDateObtained();
         long currentDate = System.currentTimeMillis();
