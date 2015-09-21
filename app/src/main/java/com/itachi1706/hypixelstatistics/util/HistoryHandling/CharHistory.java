@@ -11,6 +11,7 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import net.hypixel.api.reply.PlayerReply;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,9 +100,7 @@ public class CharHistory {
 
     public static List<HistoryArrayObject> convertHistoryArrayToList(HistoryArrayObject[] history){
         List<HistoryArrayObject> result = new ArrayList<>();
-        for (HistoryArrayObject j : history){
-            result.add(j);
-        }
+        Collections.addAll(result, history);
         return result;
     }
 }
