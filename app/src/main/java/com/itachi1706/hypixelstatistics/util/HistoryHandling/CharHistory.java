@@ -4,17 +4,14 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kenneth on 19/11/2014, 8:19 PM
@@ -23,103 +20,61 @@ import org.json.JSONObject;
 public class CharHistory {
 
     public static void addHistory(PlayerReply result, SharedPreferences pref) {
-        // NEW UUID
         String uid = result.getPlayer().get("uuid").getAsString();
-
         String playerName = result.getPlayer().get("playername").getAsString();
-        String playerMcName = playerName;
-        if (MinecraftColorCodes.checkDisplayName(result)) {
-             playerMcName = result.getPlayer().get("displayname").getAsString();
-        }
-        String prefix;
-        if (result.getPlayer().has("prefix")) {
-            prefix = result.getPlayer().get("prefix").getAsString();
-        } else {
-            prefix = null;
-        }
-        String rank;
-        if (result.getPlayer().has("rank"))
-            rank = result.getPlayer().get("rank").getAsString();
-        else
-            rank = null;
-        String Packagerank;
-        if (result.getPlayer().has("packageRank"))
-            Packagerank = result.getPlayer().get("packageRank").getAsString();
-        else
-            Packagerank = null;
-        String newPackageRank;
-        if (result.getPlayer().has("newPackageRank"))
-            newPackageRank = result.getPlayer().get("newPackageRank").getAsString();
-        else
-            newPackageRank = null;
+        String playerMcName = MinecraftColorCodes.checkDisplayName(result) ? result.getPlayer().get("displayname").getAsString() : playerName;
+        String prefix = result.getPlayer().has("prefix") ? result.getPlayer().get("prefix").getAsString() : null;
+        String rank = result.getPlayer().has("rank") ? result.getPlayer().get("rank").getAsString() : null;
+        String packagerank = result.getPlayer().has("packageRank") ? result.getPlayer().get("packageRank").getAsString() : null;
+        String newPackageRank = result.getPlayer().has("newPackageRank") ? result.getPlayer().get("newPackageRank").getAsString() : null;
         long date = System.currentTimeMillis();
 
-        JSONArray array = getExistingJSONString(pref);
-        JSONObject obj = new JSONObject();
-        JSONObject main = new JSONObject();
-        try {
-            if (prefix != null) {
-                obj.put("prefix", prefix);
-            }
-            if (rank != null) {
-                obj.put("rank", rank);
-            }
-            if (Packagerank != null) {
-                obj.put("packageRank", Packagerank);
-            }
-            if (newPackageRank != null) {
-                obj.put("newPackageRank", newPackageRank);
-            }
-            obj.put("uuid", uid);
-            obj.put("displayname", playerMcName);
-            obj.put("playername", playerName);
-            obj.put("dateObtained", date);
-            array.put(obj);
-            main.put("history", array);
-            pref.edit().putString("history", main.toString()).apply();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        HistoryArrayObject toAdd = new HistoryArrayObject(rank, packagerank, uid, playerMcName, playerName, newPackageRank, date, prefix);
+
+        HistoryObject existingHistoryObject = getExistingHistory(pref);
+        List<HistoryArrayObject> historyItem = existingHistoryObject.hasHistory() ? convertHistoryArrayToList(existingHistoryObject.getHistory()) : new ArrayList<HistoryArrayObject>();
+        
+        historyItem.add(toAdd);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(existingHistoryObject);
+        pref.edit().putString("history", jsonString).apply();
     }
 
-    private static JSONArray getExistingJSONString(SharedPreferences pref) {
+    private static HistoryObject getExistingHistory(SharedPreferences pref) {
         String json = pref.getString("history", null);
         if (json == null) {
-            return new JSONArray();
+            return new HistoryObject();
         }
-        try {
-            JSONObject obj = new JSONObject(json);
-            return obj.getJSONArray("history");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return new JSONArray();
+        Gson gson = new Gson();
+        return gson.fromJson(json, HistoryObject.class);
     }
 
-    public static void updateJSONString(SharedPreferences pref, JsonArray array){
-        String newJsonStr = "{\"history\":" + array.toString() + "}";
+    public static void updateJSONString(SharedPreferences pref, List<HistoryArrayObject> array){
+        HistoryObject obj = new HistoryObject();
+        obj.setHistory(array.toArray(new HistoryArrayObject[array.size()]));
+
+        Gson gson = new Gson();
+        String newJsonStr = gson.toJson(obj);
+
         pref.edit().putString("history", newJsonStr).apply();
         Log.d("HISTORY SAVED", pref.getString("history", "null"));
     }
 
-    public static boolean checkHistoryExpired(com.google.gson.JsonObject obj){
+    public static boolean checkHistoryExpired(HistoryArrayObject obj){
         //Check if user is null
-        if (!obj.has("uuid"))
-            return true;
+        if (obj.hasUuid()) return true;
         // 30 Days in millis 2592000000L
         final long expiryDay = 2592000000L;
-        if (!obj.has("dateObtained")){
-            //Prev Gen Hist, reobtain
-            return true;
-        }
-        long dateObt = obj.get("dateObtained").getAsLong();
+        if (obj.hasDateObtained()) return true; //Prev Gen Hist, reobtain
+
+        long dateObt = obj.getDateObtained();
         long currentDate = System.currentTimeMillis();
         //Check if Pass 10 days
         return currentDate - dateObt > expiryDay;
     }
 
-    public static boolean checkLegacyStrings(JsonObject obj){
-        return !obj.has("uuid");
+    public static boolean checkLegacyStrings(HistoryArrayObject obj){
+        return !obj.hasUuid();
     }
 
     public static void verifyNoLegacy(SharedPreferences pref){
@@ -128,11 +83,10 @@ public class CharHistory {
             return;
         Gson gson = new Gson();
         HistoryObject obj = gson.fromJson(tmp, HistoryObject.class);
-        JsonArray histCheck = obj.getHistory();
-        for (JsonElement el : histCheck){
-            JsonObject histCheckName = el.getAsJsonObject();
-            if (checkLegacyStrings(histCheckName)){
-                histCheck.remove(histCheckName);
+        List<HistoryArrayObject> histCheck = convertHistoryArrayToList(obj.getHistory());
+        for (HistoryArrayObject el : histCheck){
+            if (checkLegacyStrings(el)){
+                histCheck.remove(el);
                 updateJSONString(pref, histCheck);
                 Log.d("HISTORY", "History Expired");
             }
@@ -141,5 +95,13 @@ public class CharHistory {
 
     public static String getListOfHistory(SharedPreferences pref){
         return pref.getString("history", null);
+    }
+
+    public static List<HistoryArrayObject> convertHistoryArrayToList(HistoryArrayObject[] history){
+        List<HistoryArrayObject> result = new ArrayList<>();
+        for (HistoryArrayObject j : history){
+            result.add(j);
+        }
+        return result;
     }
 }

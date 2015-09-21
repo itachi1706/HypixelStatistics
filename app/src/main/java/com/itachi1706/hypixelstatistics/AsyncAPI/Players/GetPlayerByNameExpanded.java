@@ -267,7 +267,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     private boolean checkHistory(PlayerReply reply){
         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-        Log.d("HISTORY STRING", hist);
+        Log.d("HISTORY STRING", hist == null ? "No History" : hist);
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
