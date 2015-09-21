@@ -36,6 +36,7 @@ public class CharHistory {
         List<HistoryArrayObject> historyItem = existingHistoryObject.hasHistory() ? convertHistoryArrayToList(existingHistoryObject.getHistory()) : new ArrayList<HistoryArrayObject>();
         
         historyItem.add(toAdd);
+        existingHistoryObject.setHistory(convertHistoryListToArray(historyItem));
         Gson gson = new Gson();
         String jsonString = gson.toJson(existingHistoryObject);
         pref.edit().putString("history", jsonString).apply();
@@ -52,7 +53,7 @@ public class CharHistory {
 
     public static void updateJSONString(SharedPreferences pref, List<HistoryArrayObject> array){
         HistoryObject obj = new HistoryObject();
-        obj.setHistory(array.toArray(new HistoryArrayObject[array.size()]));
+        obj.setHistory(convertHistoryListToArray(array));
 
         Gson gson = new Gson();
         String newJsonStr = gson.toJson(obj);
@@ -102,5 +103,9 @@ public class CharHistory {
         List<HistoryArrayObject> result = new ArrayList<>();
         Collections.addAll(result, history);
         return result;
+    }
+
+    public static HistoryArrayObject[] convertHistoryListToArray(List<HistoryArrayObject> historyArrayObjects){
+        return historyArrayObjects.toArray(new HistoryArrayObject[historyArrayObjects.size()]);
     }
 }
