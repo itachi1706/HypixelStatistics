@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
@@ -127,12 +128,12 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
             build.generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-                    int primaryColor = palette.getVibrantColor(R.color.blue_500);
-                    int primaryDarkColor = palette.getDarkVibrantColor(R.color.blue_700);
+                    int primaryColor = palette.getVibrantColor(ContextCompat.getColor(mContext, R.color.blue_500));
+                    int primaryDarkColor = palette.getDarkVibrantColor(ContextCompat.getColor(mContext, R.color.blue_700));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         //Lollipop and after so yay status bar color changes :D
                         //Animate Status Bar
-                        Integer colorFromStatus = mContext.getResources().getColor(R.color.blue_700), colorToStatus = primaryDarkColor;
+                        Integer colorFromStatus = ContextCompat.getColor(mContext, R.color.blue_700), colorToStatus = primaryDarkColor;
                         ValueAnimator statusBarAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFromStatus, colorToStatus);
                         statusBarAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override @TargetApi(21)
@@ -144,7 +145,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
                     }
                     //This supports all version of android from SDK 11 so dont have the legendary color changes :(
                     //Animate action bar
-                    Integer colorFromAction = mContext.getResources().getColor(R.color.blue_500), colorToAction = primaryColor;
+                    Integer colorFromAction = ContextCompat.getColor(mContext, R.color.blue_500), colorToAction = primaryColor;
                     ValueAnimator actionBarAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFromAction, colorToAction);
                     actionBarAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override

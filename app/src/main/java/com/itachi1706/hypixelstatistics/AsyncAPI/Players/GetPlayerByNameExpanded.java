@@ -14,15 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoPlayerStats;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.ExpandedResultDescListAdapter;
-import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.PlayerStatistics.DonatorStatistics;
@@ -32,6 +26,10 @@ import com.itachi1706.hypixelstatistics.PlayerStatistics.OngoingAchievementStati
 import com.itachi1706.hypixelstatistics.PlayerStatistics.ParkourStatistics;
 import com.itachi1706.hypixelstatistics.PlayerStatistics.QuestStatistics;
 import com.itachi1706.hypixelstatistics.PlayerStatistics.StaffOrYtStatistics;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -43,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kenneth on 10/11/2014, 10:12 PM
@@ -267,15 +266,14 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     private boolean checkHistory(PlayerReply reply){
         String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
-        Log.d("HISTORY STRING", hist);
+        Log.d("HISTORY STRING", hist == null ? "No History" : hist);
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
             Log.d("HISTORY ORIGINAL", histCheck.toString());
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                if (histCheckName.get("playername").getAsString().equals(reply.getPlayer().get("playername").getAsString())) {
+            for (HistoryArrayObject histCheckName : histCheck) {
+                if (histCheckName.getPlayername().equals(reply.getPlayer().get("playername").getAsString())) {
                     //Remove and let it reupdate
                     histCheck.remove(histCheckName);
                     Log.d("HISTORY AFTER REMOVAL", histCheck.toString());

@@ -12,17 +12,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
-import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 
 import net.hypixel.api.reply.FriendsReply;
 
@@ -34,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kenneth on 11/4/2015
@@ -197,10 +198,9 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
             playerListView.setAdapter(MainStaticVars.friendsListAdapter);
             if (hist != null) {
                 HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-                JsonArray histCheck = check.getHistory();
-                for (JsonElement el : histCheck) {
-                    JsonObject histCheckName = el.getAsJsonObject();
-                    if (histCheckName.get("uuid").getAsString().equals(f.getFriendUUID())) {
+                List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+                for (HistoryArrayObject histCheckName : histCheck) {
+                    if (histCheckName.getUuid().equals(f.getFriendUUID())) {
                         //Check if history expired
                         if (CharHistory.checkHistoryExpired(histCheckName)) {
                             //Expired, reobtain
@@ -210,7 +210,7 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
                             break;
                         } else {
                             f.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
-                            f.set_mcName(histCheckName.get("displayname").getAsString());
+                            f.set_mcName(histCheckName.getDisplayname());
                             f.set_done(true);
                             MainStaticVars.friendsList.add(f);
                             hasHist = true;
@@ -256,10 +256,9 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
         Gson gson = new Gson();
         if (hist != null) {
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
-            JsonArray histCheck = check.getHistory();
-            for (JsonElement el : histCheck) {
-                JsonObject histCheckName = el.getAsJsonObject();
-                if (histCheckName.get("uuid").getAsString().equals(uuid)) {
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                if (histCheckName.getUuid().equals(uuid)) {
                     //Check if history expired
                     if (CharHistory.checkHistoryExpired(histCheckName)) {
                         //Expired, reobtain
