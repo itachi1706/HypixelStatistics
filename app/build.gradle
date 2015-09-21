@@ -23,8 +23,8 @@ android {
         applicationId "com.itachi1706.hypixelstatistics"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 438
-        versionName "2.0"
+        versionCode 439
+        versionName "2.0.1"
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
