@@ -139,6 +139,7 @@ public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
                             @Override @TargetApi(21)
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 mContext.getWindow().setStatusBarColor((Integer) animation.getAnimatedValue());
+                                mContext.getWindow().setNavigationBarColor((Integer) animation.getAnimatedValue());
                             }
                         });
                         statusBarAnimation.start();

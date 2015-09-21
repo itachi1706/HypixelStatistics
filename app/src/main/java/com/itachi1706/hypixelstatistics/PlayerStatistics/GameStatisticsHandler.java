@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.PlayerStatistics;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -23,6 +24,7 @@ import net.hypixel.api.util.GameType;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Kenneth on 13/5/2015
@@ -92,6 +94,7 @@ public class GameStatisticsHandler {
                         break;
                     default:
                         descArray.add(new ResultDescription(entry.getKey(), null, false, errorList()));
+                        Crashlytics.logException(new NoSuchElementException("Required to add " + entry.getKey() + " to statistics"));
                         break;
                 }
             }
