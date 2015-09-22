@@ -72,7 +72,7 @@ public class GetFriendsListUUID extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... uuid) {
-        String url = MainStaticVars.API_BASE_URL + "friends?key=" + MainStaticVars.apikey + "&uuid=" + uuid[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=friends&uuid=" + uuid[0];
         String tmp = "";
         uuidValue = uuid[0];
         Log.i("FRIENDS-UUID", "Getting Friends List Data for " + uuid[0]);

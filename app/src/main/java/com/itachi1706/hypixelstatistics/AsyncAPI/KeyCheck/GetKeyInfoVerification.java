@@ -45,7 +45,7 @@ public class GetKeyInfoVerification extends AsyncTask<UUID,Void,String> {
 
     @Override
     protected String doInBackground(UUID... key) {
-        String url = MainStaticVars.API_BASE_URL + "key?key=" + key[0].toString();
+        String url = MainStaticVars.API_BASE_URL + "?type=key&key=" + key[0].toString();
         String tmp = "";
         try {
             URL urlConn = new URL(url);

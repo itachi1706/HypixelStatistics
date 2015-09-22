@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 @SuppressWarnings("ConstantConditions")
 public class MainStaticVars {
-    public static final String API_BASE_URL = "https://api.hypixel.net/";
+    public static final String API_BASE_URL = "http://api.itachi1706.com/api/hypixel.php";
 
     //Booster
     //boosterUpdated - Finished Updating Booster

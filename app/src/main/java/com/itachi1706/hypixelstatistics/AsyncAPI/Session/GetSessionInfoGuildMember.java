@@ -36,7 +36,7 @@ public class GetSessionInfoGuildMember extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... uuidQuery) {
-        String url = MainStaticVars.API_BASE_URL + "session?key=" + MainStaticVars.apikey + "&uuid=" + uuidQuery[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=session&uuid=" + uuidQuery[0];
         String tmp = "";
         uuidValue = uuidQuery[0];
         Log.i("SESSION-GUILD", "Getting Session Data for " + uuidQuery[0]);
