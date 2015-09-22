@@ -73,11 +73,10 @@ public class MainStaticVars {
     public static HashMap<String, String> guild_last_online_data = new HashMap<>();
 
     public static void updateAPIKey(Context context){
-        String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        apikey = prefs.getString("api-key",defaultkey);
+        apikey = prefs.getString("api-key",null);
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
-        isCreator = prefs.getString("api-key", "topkek").equals(defaultkey);
+        //isCreator = prefs.getString("api-key", "topkek").equals(defaultkey); //TODO: Refer to GetKeyInfoVerificationName for the beta test thingy
         //Log.d("API KEY", "New API Key: " + apikey);
 }
 
