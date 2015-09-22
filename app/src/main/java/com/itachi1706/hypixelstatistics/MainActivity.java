@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
         Log.d("Button", "Back button pressed. killing app");
         MainStaticVars.boosterUpdated = false;
+        android.os.Process.killProcess(android.os.Process.myPid());
         finish();
     }
 
