@@ -9,7 +9,6 @@ import android.text.Html;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
-import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
@@ -47,7 +46,8 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... owner) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + mContext.getResources().getString(R.string.hypixel_api_key) + "&name=" + owner[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=player&name=" + owner[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         try {
             URL urlConn = new URL(url);
@@ -127,10 +127,8 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                     successMessage += " <br /><br />As a Staff Member (" + reply.getPlayer().get("rank").getAsString() + "), you now have access to additional information!";
                     sp.edit().putString("rank", reply.getPlayer().get("rank").getAsString()).apply();
                 }
-                if (mContext.getResources().getString(R.string.hypixel_api_key).equals(sp.getString("api-key", "lel"))){
-                    successMessage += " <br /><br />As the creator of the application, you get access to additional information too!";
-                }
                 if (isSettings) {
+                    new GetIfDeveloperInfo(true, mContext).execute(sp.getString("api-key", "lel"));
                     if (!mContext.isFinishing()) {
                         new AlertDialog.Builder(mContext).setTitle("Success!")
                                 .setMessage(Html.fromHtml(successMessage))

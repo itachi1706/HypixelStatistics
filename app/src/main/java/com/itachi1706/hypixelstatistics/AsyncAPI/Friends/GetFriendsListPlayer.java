@@ -72,7 +72,8 @@ public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... player) {
-        String url = MainStaticVars.API_BASE_URL + "friends?key=" + MainStaticVars.apikey + "&player=" + player[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=friends&player=" + player[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         playerName = player[0];
         Log.i("FRIENDS-UUID", "Getting Friends List Data for " + player[0]);

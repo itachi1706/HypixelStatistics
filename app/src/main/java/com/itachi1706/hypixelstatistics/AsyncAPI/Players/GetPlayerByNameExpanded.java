@@ -77,12 +77,13 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... playerName) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey;
+        String url = MainStaticVars.API_BASE_URL + "?type=player";
         if (!isUUID) {
             url += "&name=" + playerName[0];
         } else {
             url += "&uuid=" + playerName[0];
         }
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {

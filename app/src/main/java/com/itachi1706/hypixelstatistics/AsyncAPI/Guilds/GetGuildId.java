@@ -39,7 +39,7 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... nameOrPlayer){
-        String url = MainStaticVars.API_BASE_URL + "findGuild?key=" + MainStaticVars.apikey + "&";
+        String url = MainStaticVars.API_BASE_URL + "?type=findGuild&";
         String gName = nameOrPlayer[0];
         gName = gName.replace(" ", "%20");
         if (_isName) {//Is Guild Name
@@ -49,6 +49,7 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
             url += "byPlayer=" + gName;
             Log.d("Getting Guild Info", "by Member");
         }
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         Log.d("findGuild URL", url);
         String tmp = "";
         try {

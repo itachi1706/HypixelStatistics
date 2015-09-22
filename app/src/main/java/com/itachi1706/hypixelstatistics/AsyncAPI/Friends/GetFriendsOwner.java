@@ -55,7 +55,8 @@ public class GetFriendsOwner extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... ownerUUID) {
         uuid = ownerUUID[0];
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&uuid=" + uuid;
+        String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + uuid;
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         Log.i("FRIENDS-OWNER", "Getting Owner Name for " + uuid);
         //Get Statistics

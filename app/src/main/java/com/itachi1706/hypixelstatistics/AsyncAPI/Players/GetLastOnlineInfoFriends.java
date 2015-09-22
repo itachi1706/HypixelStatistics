@@ -37,7 +37,8 @@ public class GetLastOnlineInfoFriends extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... uuidQuery) {
-        String url = MainStaticVars.API_BASE_URL + "player?key=" + MainStaticVars.apikey + "&uuid=" + uuidQuery[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + uuidQuery[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         uuidValue = uuidQuery[0];
         Log.i("LASTONLINE-FRIEND", "Getting last online Data for " + uuidQuery[0]);

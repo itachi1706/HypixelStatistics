@@ -35,7 +35,8 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... uuidQuery) {
-        String url = MainStaticVars.API_BASE_URL + "session?key=" + MainStaticVars.apikey + "&uuid=" + uuidQuery[0];
+        String url = MainStaticVars.API_BASE_URL + "?type=session&uuid=" + uuidQuery[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         uuidValue = uuidQuery[0];
         Log.i("SESSION-FRIEND", "Getting Session Data for " + uuidQuery[0]);

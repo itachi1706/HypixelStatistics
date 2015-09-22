@@ -7,6 +7,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetIfDeveloperInfo;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
@@ -23,7 +24,7 @@ import java.util.HashMap;
  */
 @SuppressWarnings("ConstantConditions")
 public class MainStaticVars {
-    public static final String API_BASE_URL = "https://api.hypixel.net/";
+    public static final String API_BASE_URL = "http://api.itachi1706.com/api/hypixel.php";
 
     //Booster
     //boosterUpdated - Finished Updating Booster
@@ -73,13 +74,21 @@ public class MainStaticVars {
     public static HashMap<String, String> guild_last_online_data = new HashMap<>();
 
     public static void updateAPIKey(Context context){
-        String defaultkey = context.getResources().getString(R.string.hypixel_api_key);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        apikey = prefs.getString("api-key",defaultkey);
+        apikey = prefs.getString("api-key",null);
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
-        isCreator = prefs.getString("api-key", "topkek").equals(defaultkey);
+        new GetIfDeveloperInfo().execute(prefs.getString("api-key", "lel"));
         //Log.d("API KEY", "New API Key: " + apikey);
-}
+    }
+
+    public static String updateURLWithApiKeyIfExists(String url){
+        String newurl = url;
+        if (apikey != null){
+            newurl += "&key=" + apikey;
+        }
+
+        return newurl;
+    }
 
     public static void resetKnownAliases(){
         knownAliases = "";
