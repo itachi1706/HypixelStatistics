@@ -83,6 +83,7 @@ public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
         } else {
             url += "&uuid=" + playerName[0];
         }
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {

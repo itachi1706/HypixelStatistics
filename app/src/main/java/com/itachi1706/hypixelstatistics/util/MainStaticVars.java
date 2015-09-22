@@ -79,7 +79,16 @@ public class MainStaticVars {
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
         new GetIfDeveloperInfo().execute(prefs.getString("api-key", "lel"));
         //Log.d("API KEY", "New API Key: " + apikey);
-}
+    }
+
+    public static String updateURLWithApiKeyIfExists(String url){
+        String newurl = url;
+        if (apikey != null){
+            newurl += "&key=" + apikey;
+        }
+
+        return newurl;
+    }
 
     public static void resetKnownAliases(){
         knownAliases = "";

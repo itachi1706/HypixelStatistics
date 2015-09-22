@@ -47,6 +47,7 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... owner) {
         String url = MainStaticVars.API_BASE_URL + "?type=player&name=" + owner[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         try {
             URL urlConn = new URL(url);

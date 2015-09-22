@@ -38,6 +38,7 @@ public class GetLastOnlineInfoGuild extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... uuidQuery) {
         String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + uuidQuery[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         uuidValue = uuidQuery[0];
         Log.i("LASTONLINE-GUILD", "Getting last online Data for " + uuidQuery[0]);

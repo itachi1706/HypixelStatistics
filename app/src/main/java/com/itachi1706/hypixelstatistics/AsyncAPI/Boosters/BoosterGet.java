@@ -64,6 +64,7 @@ public class BoosterGet extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         String url = MainStaticVars.API_BASE_URL + "?type=boosters";
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {

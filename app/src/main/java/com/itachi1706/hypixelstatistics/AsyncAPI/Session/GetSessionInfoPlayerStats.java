@@ -35,6 +35,7 @@ public class GetSessionInfoPlayerStats extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... uuidQuery) {
         String url = MainStaticVars.API_BASE_URL + "?type=session&uuid=" + uuidQuery[0];
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {

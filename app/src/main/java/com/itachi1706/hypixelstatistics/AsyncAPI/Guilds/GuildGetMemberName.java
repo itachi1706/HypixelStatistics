@@ -55,6 +55,7 @@ public class GuildGetMemberName extends AsyncTask<GuildMemberDesc, Void, String>
     protected String doInBackground(GuildMemberDesc... playerData) {
         playerName = playerData[0];
         String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + playerName.get_uuid();
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {

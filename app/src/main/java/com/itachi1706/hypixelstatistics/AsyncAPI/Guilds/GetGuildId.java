@@ -49,6 +49,7 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
             url += "byPlayer=" + gName;
             Log.d("Getting Guild Info", "by Member");
         }
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         Log.d("findGuild URL", url);
         String tmp = "";
         try {

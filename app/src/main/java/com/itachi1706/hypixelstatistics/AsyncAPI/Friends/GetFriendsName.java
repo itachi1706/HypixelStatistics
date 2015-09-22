@@ -60,6 +60,7 @@ public class GetFriendsName extends AsyncTask<FriendsObject, Void, String> {
     protected String doInBackground(FriendsObject... playerData) {
         playerName = playerData[0];
         String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + playerName.getFriendUUID();
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         Log.i("FRIENDS-NAME", "Getting Friend Name for " + playerData[0].getFriendUUID());
         //Get Statistics

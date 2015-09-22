@@ -69,6 +69,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
     protected String doInBackground(BoosterDescription... playerData) {
         playerName = playerData[0];
         String url = MainStaticVars.API_BASE_URL + "?type=player&uuid=" + playerName.get_purchaseruuid();
+        url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
         //Get Statistics
         try {
