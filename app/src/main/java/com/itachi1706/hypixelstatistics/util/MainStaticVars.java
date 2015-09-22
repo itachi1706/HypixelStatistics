@@ -7,6 +7,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 
+import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetIfDeveloperInfo;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
@@ -76,7 +77,7 @@ public class MainStaticVars {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         apikey = prefs.getString("api-key",null);
         isStaff = !prefs.getString("rank", "LEL").equals("LEL");
-        //isCreator = prefs.getString("api-key", "topkek").equals(defaultkey); //TODO: Refer to GetKeyInfoVerificationName for the beta test thingy
+        new GetIfDeveloperInfo().execute(prefs.getString("api-key", "lel"));
         //Log.d("API KEY", "New API Key: " + apikey);
 }
 

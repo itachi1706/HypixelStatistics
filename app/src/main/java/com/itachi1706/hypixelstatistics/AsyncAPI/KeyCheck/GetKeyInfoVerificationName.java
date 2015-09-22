@@ -126,11 +126,8 @@ public class GetKeyInfoVerificationName extends AsyncTask<String,Void,String> {
                     successMessage += " <br /><br />As a Staff Member (" + reply.getPlayer().get("rank").getAsString() + "), you now have access to additional information!";
                     sp.edit().putString("rank", reply.getPlayer().get("rank").getAsString()).apply();
                 }
-                //TODO: Replace this with a proper check for api key matching (maybe setup a beta perm system to handle this
-                /*if (mContext.getResources().getString(R.string.hypixel_api_key).equals(sp.getString("api-key", "lel"))){
-                    successMessage += " <br /><br />As the creator of the application, you get access to additional information too!";
-                }*/
                 if (isSettings) {
+                    new GetIfDeveloperInfo(true, mContext).execute(sp.getString("api-key", "lel"));
                     if (!mContext.isFinishing()) {
                         new AlertDialog.Builder(mContext).setTitle("Success!")
                                 .setMessage(Html.fromHtml(successMessage))
