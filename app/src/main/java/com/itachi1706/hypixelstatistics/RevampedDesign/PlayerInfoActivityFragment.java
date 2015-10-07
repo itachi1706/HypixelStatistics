@@ -36,7 +36,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetPlayerByNameExpanded;
 import com.itachi1706.hypixelstatistics.FriendListActivity;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.GuildActivity;
@@ -44,6 +43,7 @@ import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.GetPlayerByNameExpandedNew;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
@@ -105,7 +105,7 @@ public class PlayerInfoActivityFragment extends Fragment {
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
             session.setVisibility(View.INVISIBLE);
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
+            new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
         } else if (getActivity().getIntent().hasExtra("playerUuid")){
             String intentPlayerUid = getActivity().getIntent().getStringExtra("playerUuid");
             playerName.setText(intentPlayerUid);
@@ -117,7 +117,7 @@ public class PlayerInfoActivityFragment extends Fragment {
             checkProgress.show();
             usingUUID = true;
             session.setVisibility(View.INVISIBLE);
-            new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
+            new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
         }
 
         //Check if we should hide the debug window
@@ -161,7 +161,7 @@ public class PlayerInfoActivityFragment extends Fragment {
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
                     session.setVisibility(View.INVISIBLE);
-                    new GetPlayerByNameExpanded(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
+                    new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
                 }
             }
         });
