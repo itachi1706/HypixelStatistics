@@ -1,11 +1,10 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/fragment"
     android:name="com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivityFragment"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:layout="@layout/fragment_player_info" />
+    tools:layout="@layout/fragment_player_info" />-->
 
-<!-- Soon -->
-<!--<android.support.design.widget.CoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,4 +37,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/activity_viewpager" />
 
-</android.support.design.widget.CoordinatorLayout>-->
+</android.support.design.widget.CoordinatorLayout>

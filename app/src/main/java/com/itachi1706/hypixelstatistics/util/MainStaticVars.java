@@ -125,13 +125,13 @@ public class MainStaticVars {
         return !jsonString.startsWith("<!DOCTYPE html>");
     }
 
-    public static int getTheme(Activity activity){
+    public static int getTheme(Activity activity, boolean hasActionBar){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
         String themeSel = prefs.getString("appThemePref", "Default");
         switch (themeSel){
-            case "Default": return R.style.AppTheme;
-            case "AppTheme": return R.style.AppTheme;
-            case "NewTheme": return R.style.NewTheme;
+            case "Default": return hasActionBar ? R.style.AppTheme : R.style.AppTheme_NoActionBar;
+            case "AppTheme": return hasActionBar ? R.style.AppTheme : R.style.AppTheme_NoActionBar;
+            case "NewTheme": return hasActionBar ? R.style.NewTheme : R.style.NewTheme_NoActionBar;
         }
         return R.style.AppTheme;
     }
@@ -147,6 +147,17 @@ public class MainStaticVars {
         return R.color.blue_700;
     }
 
+    public static int getActionBarColor(Activity activity){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        String themeSel = prefs.getString("appThemePref", "Default");
+        switch (themeSel){
+            case "Default": return R.color.blue_500;
+            case "AppTheme": return R.color.blue_500;
+            case "NewTheme": return R.color.yellow_700;
+        }
+        return R.color.blue_500;
+    }
+
     public static int getToneColor(Activity activity){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
         String themeSel = prefs.getString("appThemePref", "Default");
@@ -159,7 +170,11 @@ public class MainStaticVars {
     }
 
     public static void setLayoutAccordingToPrefs(Activity activity){
-        activity.setTheme(getTheme(activity));
+        setLayoutAccordingToPrefs(activity, true);
+    }
+
+    public static void setLayoutAccordingToPrefs(Activity activity, boolean hasActionBar){
+        activity.setTheme(getTheme(activity, hasActionBar));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, getStatusAndNavBarColor(activity)));
             activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, getStatusAndNavBarColor(activity)));

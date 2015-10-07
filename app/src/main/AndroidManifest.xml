@@ -71,6 +71,7 @@
 
         <activity
             android:name=".RevampedDesign.PlayerInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_player_info" >
         </activity>
     </application>
