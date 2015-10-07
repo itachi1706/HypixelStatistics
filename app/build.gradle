@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "com.itachi1706.hypixelstatistics"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 446
         versionName "2.0.2"
