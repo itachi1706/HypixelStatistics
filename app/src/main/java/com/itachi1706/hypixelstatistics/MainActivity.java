@@ -27,6 +27,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification
 import com.itachi1706.hypixelstatistics.AsyncAPI.LegacyHistoryRemoveCheck;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List", "(BETA) Player Info Fragment"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,15 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("playeruuid", yourUUID);
                     startActivity(intent);
                 }
+                break;
+            case "(BETA) Player Info Fragment":
+                if (!MainStaticVars.isCreator) {
+                    NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Only BETA Testers can access this option. Sorry!");
+                    break;
+                }
+
+                startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
+
                 break;
         }
     }

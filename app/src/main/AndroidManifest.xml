@@ -68,6 +68,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4a76e5bed29f3c6bc0d8e90c16212c07cb8efbc0" />
+
+        <activity
+            android:name=".RevampedDesign.PlayerInfoActivity"
+            android:label="@string/title_activity_player_info" >
+        </activity>
     </application>
 
 </manifest>
