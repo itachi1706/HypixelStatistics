@@ -71,8 +71,8 @@ public class PlayerInfoActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 ViewPagerAdapter adapter = (ViewPagerAdapter) viewPager.getAdapter();
                 Fragment currentFrag = adapter.getItem(viewPager.getCurrentItem());
-                if (currentFrag instanceof PlayerInfoActivityFragment) {
-                    PlayerInfoActivityFragment main = (PlayerInfoActivityFragment) currentFrag;
+                if (currentFrag instanceof BaseFragmentCompat) {
+                    BaseFragmentCompat main = (BaseFragmentCompat) currentFrag;
                 }
             }
 

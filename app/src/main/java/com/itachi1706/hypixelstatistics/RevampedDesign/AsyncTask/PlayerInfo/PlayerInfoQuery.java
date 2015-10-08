@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoPlayerStats;
 import com.itachi1706.hypixelstatistics.ListViewAdapters.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
@@ -47,7 +47,7 @@ import java.util.List;
  * Created by Kenneth on 10/11/2014, 10:12 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-public class GetPlayerByNameExpandedNew extends AsyncTask<String,Void,String> {
+public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
     TextView debug, result, sessionTV;
     ExpandableListView details;
@@ -62,7 +62,9 @@ public class GetPlayerByNameExpandedNew extends AsyncTask<String,Void,String> {
 
     ArrayList<ResultDescription> resultArray;
 
-    public GetPlayerByNameExpandedNew(TextView resultView, TextView debugView, ExpandableListView general, ImageView head, ProgressDialog prog, ProgressBar header, Activity context, boolean uuidState, android.support.v7.app.ActionBar acb, TextView sessionTV){
+    public PlayerInfoQuery(TextView resultView, TextView debugView, ExpandableListView general,
+                           ImageView head, ProgressDialog prog, ProgressBar header, Activity context,
+                           boolean uuidState, android.support.v7.app.ActionBar acb, TextView sessionTV){
         debug = debugView;
         result = resultView;
         mContext = context;
@@ -171,7 +173,7 @@ public class GetPlayerByNameExpandedNew extends AsyncTask<String,Void,String> {
                 pro.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
                 if (MinecraftColorCodes.checkDisplayName(reply)) {
-                    new GetPlayerHeadNew(pro, ivHead, mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
+                    new PlayerInfoQueryHead(pro, ivHead, mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
                 } else
                     pro.setVisibility(View.GONE);
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
@@ -181,7 +183,7 @@ public class GetPlayerByNameExpandedNew extends AsyncTask<String,Void,String> {
                 String uuidSession = reply.getPlayer().get("uuid").getAsString();
                 sessionTV.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
                 sessionTV.setVisibility(View.VISIBLE);
-                new GetSessionInfoPlayerStats(sessionTV).execute(uuidSession);
+                new PlayerInfoQuerySession(sessionTV).execute(uuidSession);
 
                 if (!checkHistory(reply)) {
                     CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));

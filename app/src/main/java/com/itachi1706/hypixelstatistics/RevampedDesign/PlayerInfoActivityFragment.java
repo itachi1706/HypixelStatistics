@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.InputType;
@@ -43,7 +42,7 @@ import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.GetPlayerByNameExpandedNew;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuery;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 
@@ -55,9 +54,14 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlayerInfoActivityFragment extends Fragment {
+public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     public PlayerInfoActivityFragment() {
+    }
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_player_info;
     }
 
     private View v;
@@ -76,7 +80,7 @@ public class PlayerInfoActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_player_info, container, false);
+        v = inflater.inflate(getFragmentLayout(), container, false);
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
         playerName = (AutoCompleteTextView) v.findViewById(R.id.PlayersetName);
@@ -105,7 +109,7 @@ public class PlayerInfoActivityFragment extends Fragment {
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
             session.setVisibility(View.INVISIBLE);
-            new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
+            new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
         } else if (getActivity().getIntent().hasExtra("playerUuid")){
             String intentPlayerUid = getActivity().getIntent().getStringExtra("playerUuid");
             playerName.setText(intentPlayerUid);
@@ -117,7 +121,7 @@ public class PlayerInfoActivityFragment extends Fragment {
             checkProgress.show();
             usingUUID = true;
             session.setVisibility(View.INVISIBLE);
-            new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
+            new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
         }
 
         //Check if we should hide the debug window
@@ -161,7 +165,7 @@ public class PlayerInfoActivityFragment extends Fragment {
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
                     session.setVisibility(View.INVISIBLE);
-                    new GetPlayerByNameExpandedNew(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
+                    new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
                 }
             }
         });

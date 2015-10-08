@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
@@ -30,7 +31,7 @@ import java.net.URLConnection;
  * Created by Kenneth on 11/11/2014, 9:19 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
+public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
 
     ProgressBar progress;
     ImageView imageViewhead;
@@ -40,14 +41,14 @@ public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
     boolean retry = false;
     android.support.v7.app.ActionBar actionBar;
 
-    public GetPlayerHeadNew(ProgressBar prog, ImageView head, Activity context, android.support.v7.app.ActionBar actBar){
+    public PlayerInfoQueryHead(ProgressBar prog, ImageView head, Activity context, android.support.v7.app.ActionBar actBar){
         progress = prog;
         imageViewhead = head;
         mContext = context;
         actionBar = actBar;
     }
 
-    public GetPlayerHeadNew(ProgressBar prog, ImageView head, Activity context, boolean retrying, android.support.v7.app.ActionBar actBar){
+    public PlayerInfoQueryHead(ProgressBar prog, ImageView head, Activity context, boolean retrying, android.support.v7.app.ActionBar actBar){
         progress = prog;
         imageViewhead = head;
         mContext = context;
@@ -104,7 +105,7 @@ public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
 
                 if (!retry){
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
-                    new GetPlayerHeadNew(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
                 else
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
@@ -113,7 +114,7 @@ public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 if (!retry) {
                     NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Retrying from different site");
-                    new GetPlayerHeadNew(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
                 }
                 NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Please try again later.");
             } else
@@ -140,7 +141,6 @@ public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 mContext.getWindow().setStatusBarColor((Integer) animation.getAnimatedValue());
                                 mContext.getWindow().setNavigationBarColor((Integer) animation.getAnimatedValue());
-                                //TODO: Add in tab layout to switch color as well
                             }
                         });
                         statusBarAnimation.start();
@@ -153,6 +153,15 @@ public class GetPlayerHeadNew extends AsyncTask<String, Void, Drawable> {
                         @Override
                         public void onAnimationUpdate(ValueAnimator animation) {
                             actionBar.setBackgroundDrawable(new ColorDrawable((Integer) animation.getAnimatedValue()));
+                            if (mContext instanceof PlayerInfoActivity){
+                                PlayerInfoActivity act = (PlayerInfoActivity) mContext;
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN){
+                                    //noinspection deprecation
+                                    act.findViewById(R.id.activity_tablayout).setBackgroundDrawable(new ColorDrawable((Integer) animation.getAnimatedValue()));
+                                } else {
+                                    act.findViewById(R.id.activity_tablayout).setBackground(new ColorDrawable((Integer) animation.getAnimatedValue()));
+                                }
+                            }
                         }
                     });
                     actionBarAnimation.start();
