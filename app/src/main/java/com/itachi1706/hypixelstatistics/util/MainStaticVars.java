@@ -46,6 +46,7 @@ public class MainStaticVars {
 
     //Player Stats
     public static String knownAliases = "";
+    public static String playerJsonString = "";
 
     //Server Info
     public static int playerCount = 0, maxPlayerCount = 0;

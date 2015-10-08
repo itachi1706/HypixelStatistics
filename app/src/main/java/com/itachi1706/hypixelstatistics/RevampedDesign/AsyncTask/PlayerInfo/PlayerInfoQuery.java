@@ -2,16 +2,12 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -49,28 +45,24 @@ import java.util.List;
  */
 public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
-    TextView debug, sessionTV;
+    TextView sessionTV;
     ExpandableListView details;
     Activity mContext;
     Exception except = null;
-    ImageView ivHead;
     ProgressDialog progress;
-    ProgressBar pro;
     boolean isUUID;
 
     android.support.v7.app.ActionBar ab;
 
     ArrayList<ResultDescription> resultArray;
 
-    public PlayerInfoQuery(TextView debugView, ExpandableListView general,
-                           ImageView head, ProgressDialog prog, ProgressBar header, Activity context,
+    private String queriedString;
+
+    public PlayerInfoQuery(ExpandableListView general, ProgressDialog prog, Activity context,
                            boolean uuidState, android.support.v7.app.ActionBar acb, TextView sessionTV){
-        debug = debugView;
         mContext = context;
         details = general;
-        ivHead = head;
         progress = prog;
-        pro = header;
         isUUID = uuidState;
         this.ab = acb;
         this.sessionTV = sessionTV;
@@ -79,10 +71,11 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... playerName) {
         String url = MainStaticVars.API_BASE_URL + "?type=player";
+        queriedString = playerName[0];
         if (!isUUID) {
-            url += "&name=" + playerName[0];
+            url += "&name=" + queriedString;
         } else {
-            url += "&uuid=" + playerName[0];
+            url += "&uuid=" + queriedString;
         }
         url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
@@ -120,8 +113,7 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                 progress.dismiss();
 
             //Update Status Bar
-            ab.setTitle(except instanceof SocketTimeoutException ? "Connection Timed Out" : except.getMessage());
-            ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+            updateActionBar(except instanceof SocketTimeoutException ? "Connection Timed Out" : except.getMessage(), "<b>ERROR</b>");
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
@@ -132,133 +124,137 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                 return;
             }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
-            debug.setText(json);
-            ivHead.setImageDrawable(null);
+            MainStaticVars.playerJsonString = json;
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
 
                 //Update Status Bar
-                ab.setTitle(reply.getCause());
-                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
-
+                updateActionBar(reply.getCause(), "<b>ERROR</b>");
                 details.setVisibility(View.INVISIBLE);
-            } else if (!reply.isSuccess()){
+                return;
+            }
+            if (!reply.isSuccess()){
                 //Not Successful
                 if (progress != null && progress.isShowing())
                     progress.dismiss();
 
                 //Update Status Bar
-                ab.setTitle(reply.getCause());
-                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+                updateActionBar(reply.getCause(), "<b>ERROR</b>");
 
-                debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 details.setVisibility(View.INVISIBLE);
-            } else if (reply.getPlayer() == null) {
+                return;
+            }
+            if (reply.getPlayer() == null) {
                 if (progress != null && progress.isShowing())
                     progress.dismiss();
                 String errorMsg;
                 if (isUUID){
-                    errorMsg = "Invalid UUID";
-                    NotifyUserUtil.createShortToast(mContext, "Unable to find a player with this UUID. If you are searching with a name, select Search with Name option in the menu!");
+                    //Could be a name, try again
+                    if (progress == null)
+                        progress = new ProgressDialog(mContext);
+                    progress.setCancelable(false);
+                    progress.setIndeterminate(true);
+                    progress.setTitle("Querying Server...");
+                    progress.setMessage("Getting Player Statistics from the Hypixel API");
+                    progress.show();
+                    sessionTV.setVisibility(View.INVISIBLE);
+                    new PlayerInfoQuery(details, progress, mContext, false, ab, sessionTV).execute(queriedString);
+                    return;
                 } else {
                     errorMsg = "Invalid Player";
-                    NotifyUserUtil.createShortToast(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!");
+                    NotifyUserUtil.createShortToast(mContext, "Unable to find a player with this name");
                 }
 
                 //Update Status Bar
-                ab.setTitle(errorMsg);
-                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+                updateActionBar(errorMsg, "<b>" + "ERROR" + "</b>");
 
-                debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name/UUID (" + reply.getCause() + ")");
                 details.setVisibility(View.INVISIBLE);
-            } else {
-                //Succeeded
-                resultArray = new ArrayList<>();
-                if (progress != null && progress.isShowing())
-                    progress.dismiss();
-                pro.setVisibility(View.VISIBLE);
-                details.setVisibility(View.VISIBLE);
-                if (MinecraftColorCodes.checkDisplayName(reply)) {
-                    new PlayerInfoQueryHead(pro, ivHead, mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
-                } else
-                    pro.setVisibility(View.GONE);
-
-                //Update Status bar
-                ab.setTitle(Html.fromHtml(MinecraftColorCodes.parseHypixelRanks(reply)));
-                ab.setSubtitle(Html.fromHtml("<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>"));
-
-                //Get Session Info
-                String uuidSession = reply.getPlayer().get("uuid").getAsString();
-                sessionTV.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
-                sessionTV.setVisibility(View.VISIBLE);
-                new PlayerInfoQuerySession(sessionTV).execute(uuidSession);
-
-                if (!checkHistory(reply)) {
-                    CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
-                    Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
-                }
-
-                //Get Local Player Name
-                String localPlayerName;
-                if (MinecraftColorCodes.checkDisplayName(reply))
-                    localPlayerName = reply.getPlayer().get("displayname").getAsString();
-                else
-                    localPlayerName = reply.getPlayer().get("playername").getAsString();
-
-                //Parse
-                resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, GeneralStatistics.parseGeneral(reply, localPlayerName), null));
-
-                if (reply.getPlayer().has("packageRank")) {
-                    resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, DonatorStatistics.parseDonor(reply), null));
-                }
-
-                if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
-                    if (reply.getPlayer().has("rank")) {
-                        if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
-                            if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
-                                resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
-                            } else {
-                                resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
-                            }
-                        }
-                    }
-                }
-
-                if (reply.getPlayer().has("achievements")){
-                    resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, OngoingAchievementStatistics.parseOngoingAchievements(reply), null));
-                }
-
-                if (reply.getPlayer().has("quests")){
-                    resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, QuestStatistics.parseQuests(reply), null));
-                }
-                if (reply.getPlayer().has("parkourCompletions")) {
-                    resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, ParkourStatistics.parseParkourCounts(reply), null));
-                }
-
-                if (reply.getPlayer().has("stats")){
-                    ArrayList<ResultDescription> tmp = GameStatisticsHandler.parseStats(reply, localPlayerName);
-                    for (ResultDescription t : tmp){
-                        resultArray.add(t);
-                    }
-                }
-
-                for (ResultDescription e : resultArray) {
-                    if (e.get_result() != null) {
-                        e.set_result(parseColorsInResults(e));
-                    }
-                    if (e.get_childItems() != null){
-                        for (ResultDescription ex : e.get_childItems()){
-                            if (ex.get_result() != null){
-                                ex.set_result(parseColorsInResults(ex));
-                            }
-                        }
-                    }
-                }
-
-                ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(this.mContext, resultArray);
-                details.setAdapter(adapter);
+                return;
             }
+
+            //Succeeded
+            resultArray = new ArrayList<>();
+            if (progress != null && progress.isShowing())
+                progress.dismiss();
+            details.setVisibility(View.VISIBLE);
+            if (MinecraftColorCodes.checkDisplayName(reply)) {
+                new PlayerInfoQueryHead(mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
+            }
+
+            //Update Status bar
+            updateActionBar("&nbsp;&nbsp;&nbsp;&nbsp;" + MinecraftColorCodes.parseHypixelRanks(reply), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>");
+
+            //Get Session Info
+            String uuidSession = reply.getPlayer().get("uuid").getAsString();
+            sessionTV.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
+            sessionTV.setVisibility(View.VISIBLE);
+            new PlayerInfoQuerySession(sessionTV).execute(uuidSession);
+
+            if (!checkHistory(reply)) {
+                CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
+                Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
+            }
+
+            //Get Local Player Name
+            String localPlayerName;
+            if (MinecraftColorCodes.checkDisplayName(reply))
+                localPlayerName = reply.getPlayer().get("displayname").getAsString();
+            else
+                localPlayerName = reply.getPlayer().get("playername").getAsString();
+
+            //Parse
+            resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, GeneralStatistics.parseGeneral(reply, localPlayerName), null));
+
+            if (reply.getPlayer().has("packageRank")) {
+                resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, DonatorStatistics.parseDonor(reply), null));
+            }
+
+            if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
+                if (reply.getPlayer().has("rank")) {
+                    if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
+                        if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
+                            resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                        } else {
+                            resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                        }
+                    }
+                }
+            }
+
+            if (reply.getPlayer().has("achievements")){
+                resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, OngoingAchievementStatistics.parseOngoingAchievements(reply), null));
+            }
+
+            if (reply.getPlayer().has("quests")){
+                resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, QuestStatistics.parseQuests(reply), null));
+            }
+            if (reply.getPlayer().has("parkourCompletions")) {
+                resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, ParkourStatistics.parseParkourCounts(reply), null));
+            }
+
+            if (reply.getPlayer().has("stats")){
+                ArrayList<ResultDescription> tmp = GameStatisticsHandler.parseStats(reply, localPlayerName);
+                for (ResultDescription t : tmp){
+                    resultArray.add(t);
+                }
+            }
+
+            for (ResultDescription e : resultArray) {
+                if (e.get_result() != null) {
+                    e.set_result(parseColorsInResults(e));
+                }
+                if (e.get_childItems() != null){
+                    for (ResultDescription ex : e.get_childItems()){
+                        if (ex.get_result() != null){
+                            ex.set_result(parseColorsInResults(ex));
+                        }
+                    }
+                }
+            }
+
+            ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(this.mContext, resultArray);
+            details.setAdapter(adapter);
         }
     }
 
@@ -296,5 +292,11 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
             return false;
         }
         return false;
+    }
+
+    private void updateActionBar(String title, String subtitle){
+        ab.setLogo(null);
+        ab.setTitle(Html.fromHtml(title));
+        ab.setSubtitle(Html.fromHtml(subtitle));
     }
 }

@@ -12,9 +12,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
@@ -34,24 +31,18 @@ import java.net.UnknownHostException;
  */
 public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
 
-    ProgressBar progress;
-    ImageView imageViewhead;
     Activity mContext;
     Exception except = null;
     String playerNamer;
     boolean retry = false;
     android.support.v7.app.ActionBar actionBar;
 
-    public PlayerInfoQueryHead(ProgressBar prog, ImageView head, Activity context, android.support.v7.app.ActionBar actBar){
-        progress = prog;
-        imageViewhead = head;
+    public PlayerInfoQueryHead(Activity context, android.support.v7.app.ActionBar actBar){
         mContext = context;
         actionBar = actBar;
     }
 
-    public PlayerInfoQueryHead(ProgressBar prog, ImageView head, Activity context, boolean retrying, android.support.v7.app.ActionBar actBar){
-        progress = prog;
-        imageViewhead = head;
+    public PlayerInfoQueryHead(Activity context, boolean retrying, android.support.v7.app.ActionBar actBar){
         mContext = context;
         retry = retrying;
         actionBar = actBar;
@@ -100,12 +91,11 @@ public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
     }
 
     protected void onPostExecute(Drawable draw) {
-        progress.setVisibility(View.GONE);
         if (except != null){
             if (except instanceof UnknownHostException) {
                 if (!retry) {
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
-                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                    new PlayerInfoQueryHead(mContext, true, actionBar).execute(playerNamer);
                 }
                 NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
                 return;
@@ -114,7 +104,7 @@ public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
 
                 if (!retry){
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
-                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                    new PlayerInfoQueryHead(mContext, true, actionBar).execute(playerNamer);
                 }
                 else
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
@@ -123,13 +113,13 @@ public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 if (!retry) {
                     NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Retrying from different site");
-                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                    new PlayerInfoQueryHead(mContext, true, actionBar).execute(playerNamer);
                 }
                 NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Please try again later.");
             } else
                 NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
         } else {
-            imageViewhead.setImageDrawable(draw);
+            actionBar.setLogo(draw);
 
             //Palette API generate and update activity primary and primary dark colors
             Bitmap toUseForPalette = ((BitmapDrawable) draw).getBitmap();
