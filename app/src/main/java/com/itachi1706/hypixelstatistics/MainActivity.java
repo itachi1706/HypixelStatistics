@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Check for legacy strings
         CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        new LegacyHistoryRemoveCheck(this.getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //TODO: Removed for now as it isn't working as intended (Heads are being removed even though they are just obtained)
+        //new LegacyHistoryRemoveCheck(this.getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         if (this.getIntent().hasExtra("EXIT"))
             if (getIntent().getBooleanExtra("EXIT", false))
