@@ -142,6 +142,11 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                 result.setText(reply.getCause());
                 NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                 result.setTextColor(Color.RED);
+
+                //Update Status Bar
+                ab.setTitle(reply.getCause());
+                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+
                 details.setVisibility(View.INVISIBLE);
             } else if (!reply.isSuccess()){
                 //Not Successful
@@ -149,6 +154,11 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                     progress.dismiss();
                 result.setText(reply.getCause());
                 result.setTextColor(Color.RED);
+
+                //Update Status Bar
+                ab.setTitle(reply.getCause());
+                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+
                 debug.setText("Unsuccessful Query!\n Reason: " + reply.getCause());
                 details.setVisibility(View.INVISIBLE);
             } else if (reply.getPlayer() == null) {
@@ -163,6 +173,11 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                     result.setTextColor(Color.RED);
                     NotifyUserUtil.createShortToast(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!");
                 }
+
+                //Update Status Bar
+                ab.setTitle(result.getText());
+                ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
+
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name/UUID (" + reply.getCause() + ")");
                 details.setVisibility(View.INVISIBLE);
             } else {
@@ -178,6 +193,10 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                     pro.setVisibility(View.GONE);
                 result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
                 result.setTextColor(Color.GREEN);
+
+                //Update Status bar
+                ab.setTitle(Html.fromHtml(MinecraftColorCodes.parseHypixelRanks(reply)));
+                ab.setSubtitle(Html.fromHtml("<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>"));
 
                 //Get Session Info
                 String uuidSession = reply.getPlayer().get("uuid").getAsString();

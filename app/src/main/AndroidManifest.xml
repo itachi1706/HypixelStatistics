@@ -72,7 +72,15 @@
         <activity
             android:name=".RevampedDesign.PlayerInfoActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_player_info" >
+            android:label="@string/title_activity_player_info"
+            android:launchMode="singleTop" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_player_info" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
     </application>
 

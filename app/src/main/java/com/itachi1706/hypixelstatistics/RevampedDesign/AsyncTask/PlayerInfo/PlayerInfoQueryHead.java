@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 /**
  * Created by Kenneth on 11/11/2014, 9:19 PM
@@ -101,6 +102,14 @@ public class PlayerInfoQueryHead extends AsyncTask<String, Void, Drawable> {
     protected void onPostExecute(Drawable draw) {
         progress.setVisibility(View.GONE);
         if (except != null){
+            if (except instanceof UnknownHostException) {
+                if (!retry) {
+                    NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
+                    new PlayerInfoQueryHead(progress, imageViewhead, mContext, true, actionBar).execute(playerNamer);
+                }
+                NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
+                return;
+            }
             if (except.getCause() == null){
 
                 if (!retry){

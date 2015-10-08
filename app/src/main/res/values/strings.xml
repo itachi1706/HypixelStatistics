@@ -13,7 +13,7 @@
     <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
     <string name="keyinfo_total_label">Total Number Of Queries:</string>
     <string name="keyinfo_fields">-</string>
-    <string name="title_activity_player_info">View Player Statistics (Old)</string>
+    <string name="title_activity_player_info">Player Info (BETA)</string>
     <string name="link_updates">https://github.com/itachi1706/HypixelStatistics/releases/latest</string>
     <string name="link_legacy">https://github.com/itachi1706/HypixelStatistics/releases</string>
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>

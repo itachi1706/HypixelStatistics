@@ -1,6 +1,5 @@
 package com.itachi1706.hypixelstatistics.util;
 
-import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -246,5 +245,31 @@ public enum MinecraftColorCodes {
      */
     public static boolean checkDisplayName(PlayerReply name){
         return name.getPlayer().has("displayname");
+    }
+
+    /**
+     * Gets a formmated version of the server rank
+     * @param name PlayerReply Object
+     * @return A String returning the formatted rank name in the format "{server_rank} ([donator_rank])"
+     */
+    public static String getPlayerServerRankFormatted(PlayerReply name){
+        String result = "";
+        boolean hasServerRank = false;
+        if (name.getPlayer().has("rank") && !name.getPlayer().get("rank").getAsString().equals("NORMAL")){
+            //Is Staff/YT
+            result += name.getPlayer().get("rank").getAsString();
+            result += " (";
+            hasServerRank = true;
+        }
+        if (name.getPlayer().has("newPackageRank") && !name.getPlayer().get("newPackageRank").getAsString().equals("NONE")){
+            result += name.getPlayer().get("newPackageRank").getAsString();
+        } else if (name.getPlayer().has("packageRank") && !name.getPlayer().get("packageRank").getAsString().equals("NONE")) {
+            result += name.getPlayer().get("packageRank").getAsString();
+        } else {
+            //Normal
+            result += "DEFAULT";
+        }
+
+        return hasServerRank ? result + ")" : result;
     }
 }
