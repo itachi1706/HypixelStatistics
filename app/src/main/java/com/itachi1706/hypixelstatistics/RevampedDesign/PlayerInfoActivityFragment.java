@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -69,7 +71,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     //Fragment Elements
     private AutoCompleteTextView playerName;
-    private TextView debug, result, session;
+    private TextView debug, session;
     private ExpandableListView generalDetails;
     private Button checkPlayer;
     private ImageView pHead;
@@ -85,7 +87,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
         playerName = (AutoCompleteTextView) v.findViewById(R.id.PlayersetName);
         debug = (TextView) v.findViewById(R.id.players_tvDebug);
-        result = (TextView) v.findViewById(R.id.players_lblResult);
         checkPlayer = (Button) v.findViewById(R.id.PlayersBtnChk);
         playerName.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         pHead = (ImageView) v.findViewById(R.id.playersIvPlayerHead);
@@ -109,7 +110,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
             checkProgress.show();
             session.setVisibility(View.INVISIBLE);
-            new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
+            new PlayerInfoQuery(debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(intentPlayer);
         } else if (getActivity().getIntent().hasExtra("playerUuid")){
             String intentPlayerUid = getActivity().getIntent().getStringExtra("playerUuid");
             playerName.setText(intentPlayerUid);
@@ -121,7 +122,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             checkProgress.show();
             usingUUID = true;
             session.setVisibility(View.INVISIBLE);
-            new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
+            new PlayerInfoQuery(debug, generalDetails, pHead, checkProgress, headBar, getActivity(), true, supportBar, session).execute(intentPlayerUid);
         }
 
         //Check if we should hide the debug window
@@ -165,7 +166,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
                     checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
                     checkProgress.show();
                     session.setVisibility(View.INVISIBLE);
-                    new PlayerInfoQuery(result, debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
+                    new PlayerInfoQuery(debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, supportBar, session).execute(name);
                 }
             }
         });
@@ -211,6 +212,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     public void onResume(){
         super.onResume();
         //Check if we should hide the debug window
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, getHistory());
         MainStaticVars.resetKnownAliases();
         MainStaticVars.updateTimeout(getActivity());
@@ -329,6 +331,19 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             }
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void queryPlayerInfo(String query) {
+        checkProgress = new ProgressDialog(getActivity());
+        checkProgress.setCancelable(false);
+        checkProgress.setIndeterminate(true);
+        checkProgress.setTitle("Querying Server...");
+        checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
+        checkProgress.show();
+        session.setVisibility(View.INVISIBLE);
+        new PlayerInfoQuery(debug, generalDetails, pHead, checkProgress, headBar, getActivity(), usingUUID, ((AppCompatActivity) getActivity()).getSupportActionBar(), session).execute(query);
     }
 }

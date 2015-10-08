@@ -3,23 +3,36 @@ package com.itachi1706.hypixelstatistics.RevampedDesign;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.widget.SimpleCursorAdapter;
 
+import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
+import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerInfoActivity extends AppCompatActivity {
 
@@ -28,8 +41,11 @@ public class PlayerInfoActivity extends AppCompatActivity {
     TabLayout tabLayout;
     CoordinatorLayout coordinatorLayout;
 
+    private SharedPreferences sp;
+
     private boolean isSearchActive = false;
     private Menu activityMenu;
+    private CursorAdapter searchCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +59,10 @@ public class PlayerInfoActivity extends AppCompatActivity {
         this.toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         setSupportActionBar(this.toolbar);
 
-        //Set Theme again i guess
+        //Set Theme for toolbar
         toolbar.setBackgroundResource(MainStaticVars.getActionBarColor(this));
 
+        this.sp = PreferenceManager.getDefaultSharedPreferences(this);
         this.coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_coordinator_layout);
 
         this.viewPager = (ViewPager) findViewById(R.id.activity_viewpager);
@@ -95,6 +112,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
         });
 
         handleIntent(getIntent());
+        initSearchableAdapter();
     }
 
     @Override
@@ -118,8 +136,35 @@ public class PlayerInfoActivity extends AppCompatActivity {
         activityMenu = menu;
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSuggestionsAdapter(searchCursor);
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                Cursor cursor = (Cursor) searchCursor.getItem(position);
+                String suggestion = cursor.getString(1);
+                searchView.setQuery(suggestion, true); // submit query now
+                return true;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                generateSuggestions(newText);
+                return true;
+            }
+        });
 
         return true;
     }
@@ -143,6 +188,43 @@ public class PlayerInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void generateSuggestions(String searchTerm){
+        final MatrixCursor c = new MatrixCursor(new String[]{ "_id", "name" });
+        String[] history = getHistory();
+        for (int i = 0; i < history.length; i++){
+            if (history[i].toLowerCase().startsWith(searchTerm.toLowerCase()))
+                c.addRow(new Object[] {i, history[i]});
+        }
+
+        searchCursor.changeCursor(c);
+    }
+
+    private void initSearchableAdapter(){
+        final String[] from = {"name"};
+        final int[] to = {android.R.id.text1};
+        //noinspection deprecation
+        searchCursor = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, null, from, to);
+    }
+
+    private String[] getHistory(){
+        String hist = CharHistory.getListOfHistory(sp);
+        ArrayList<String> tmp = new ArrayList<>();
+        if (hist != null) {
+            Gson gson = new Gson();
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                tmp.add(histCheckName.getDisplayname());
+            }
+        }
+
+        String[] results = new String[tmp.size()];
+        for (int i = 0; i < results.length; i++){
+            results[i] = tmp.get(i);
+        }
+        return results;
+    }
+
     //Searchable intent handling
     private void handleIntent(Intent intent){
         if (!Intent.ACTION_SEARCH.equals(intent.getAction())) return;
@@ -156,8 +238,17 @@ public class PlayerInfoActivity extends AppCompatActivity {
             }
         }
 
-        //TODO: Handle query
-        NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Search Coming Soon! Current Search Query is: " + searchQuery);
+        if (searchQuery.equals("")){
+            NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Please enter a search term!");
+            return;
+        }
+
+        ViewPagerAdapter adapter = (ViewPagerAdapter) viewPager.getAdapter();
+        Fragment currentFragment = adapter.getItem(viewPager.getCurrentItem());
+        if (currentFragment instanceof BaseFragmentCompat){
+            BaseFragmentCompat fragmentCompat = (BaseFragmentCompat) currentFragment;
+            fragmentCompat.queryPlayerInfo(searchQuery);
+        }
     }
 
 }

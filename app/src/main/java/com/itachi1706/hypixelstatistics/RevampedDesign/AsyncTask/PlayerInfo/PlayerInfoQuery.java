@@ -49,7 +49,7 @@ import java.util.List;
  */
 public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
-    TextView debug, result, sessionTV;
+    TextView debug, sessionTV;
     ExpandableListView details;
     Activity mContext;
     Exception except = null;
@@ -62,11 +62,10 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
     ArrayList<ResultDescription> resultArray;
 
-    public PlayerInfoQuery(TextView resultView, TextView debugView, ExpandableListView general,
+    public PlayerInfoQuery(TextView debugView, ExpandableListView general,
                            ImageView head, ProgressDialog prog, ProgressBar header, Activity context,
                            boolean uuidState, android.support.v7.app.ActionBar acb, TextView sessionTV){
         debug = debugView;
-        result = resultView;
         mContext = context;
         details = general;
         ivHead = head;
@@ -119,12 +118,10 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
         if (except != null){
             if (progress != null && progress.isShowing())
                 progress.dismiss();
-            if (except instanceof SocketTimeoutException) {
-                result.setText("Connection Timed Out. Try again later");
-                result.setTextColor(Color.RED);
-            } else {
-                debug.setText(except.getMessage());
-            }
+
+            //Update Status Bar
+            ab.setTitle(except instanceof SocketTimeoutException ? "Connection Timed Out" : except.getMessage());
+            ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
@@ -139,9 +136,7 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
             ivHead.setImageDrawable(null);
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
-                result.setText(reply.getCause());
                 NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
-                result.setTextColor(Color.RED);
 
                 //Update Status Bar
                 ab.setTitle(reply.getCause());
@@ -152,8 +147,6 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                 //Not Successful
                 if (progress != null && progress.isShowing())
                     progress.dismiss();
-                result.setText(reply.getCause());
-                result.setTextColor(Color.RED);
 
                 //Update Status Bar
                 ab.setTitle(reply.getCause());
@@ -164,18 +157,17 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
             } else if (reply.getPlayer() == null) {
                 if (progress != null && progress.isShowing())
                     progress.dismiss();
+                String errorMsg;
                 if (isUUID){
-                    result.setText("Invalid UUID");
-                    result.setTextColor(Color.RED);
+                    errorMsg = "Invalid UUID";
                     NotifyUserUtil.createShortToast(mContext, "Unable to find a player with this UUID. If you are searching with a name, select Search with Name option in the menu!");
                 } else {
-                    result.setText("Invalid Player");
-                    result.setTextColor(Color.RED);
+                    errorMsg = "Invalid Player";
                     NotifyUserUtil.createShortToast(mContext, "Unable to find this player. If you are searching with a UUID, select Search with UUID option in the menu!");
                 }
 
                 //Update Status Bar
-                ab.setTitle(result.getText());
+                ab.setTitle(errorMsg);
                 ab.setSubtitle(Html.fromHtml("<b>" + "ERROR" + "</b>"));
 
                 debug.setText("Unsuccessful Query!\n Reason: Invalid Player Name/UUID (" + reply.getCause() + ")");
@@ -191,8 +183,6 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                     new PlayerInfoQueryHead(pro, ivHead, mContext, ab).execute(reply.getPlayer().get("displayname").getAsString());
                 } else
                     pro.setVisibility(View.GONE);
-                result.setText(Html.fromHtml("Success! Statistics for <br />" + MinecraftColorCodes.parseHypixelRanks(reply)));
-                result.setTextColor(Color.GREEN);
 
                 //Update Status bar
                 ab.setTitle(Html.fromHtml(MinecraftColorCodes.parseHypixelRanks(reply)));
