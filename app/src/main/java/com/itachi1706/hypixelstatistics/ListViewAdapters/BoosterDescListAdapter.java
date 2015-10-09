@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
@@ -86,6 +87,8 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> imp
             }
             if (head != null) {
                 prog.setVisibility(View.VISIBLE);
+                //Set the placeholder drawable first
+                head.setImageDrawable(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(i.get_mcName()));
                 //Check if head exists
                 if (HeadHistory.checkIfHeadExists(getContext(), i.get_mcName())) {
                     head.setImageDrawable(HeadHistory.getHead(getContext(), i.get_mcName()));

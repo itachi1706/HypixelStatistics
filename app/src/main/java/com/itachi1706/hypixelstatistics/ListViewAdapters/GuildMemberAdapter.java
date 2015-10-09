@@ -15,6 +15,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Guilds.GuildGetPlayerHead;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoGuild;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoGuildMember;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
@@ -73,6 +74,8 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
             }
             if (head != null) {
                 prog.setVisibility(View.VISIBLE);
+                //Set the placeholder drawable first
+                head.setImageDrawable(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(i.get_mcName()));
                 //Check if head exists
                 if (HeadHistory.checkIfHeadExists(getContext(), i.get_mcName())) {
                     head.setImageDrawable(HeadHistory.getHead(getContext(), i.get_mcName()));
