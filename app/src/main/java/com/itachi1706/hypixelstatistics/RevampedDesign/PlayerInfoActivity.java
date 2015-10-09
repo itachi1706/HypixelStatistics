@@ -32,7 +32,7 @@ import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQueryFromActivity;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuery;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQueryHead;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
@@ -290,7 +290,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
         checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
         checkProgress.show();
 
-        new PlayerInfoQueryFromActivity(this, usingUUID, new PlayerInfoHandler(this)).execute(query);
+        new PlayerInfoQuery(this, usingUUID, new PlayerInfoHandler(this)).execute(query);
         usingUUID = false;
     }
 

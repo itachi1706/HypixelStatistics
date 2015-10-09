@@ -31,7 +31,7 @@ import java.util.List;
  * Created by Kenneth on 9/10/2015.
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo
  */
-public class PlayerInfoQueryFromActivity extends AsyncTask<String,Void,String> {
+public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
     Activity mContext;
     Exception except = null;
@@ -43,7 +43,7 @@ public class PlayerInfoQueryFromActivity extends AsyncTask<String,Void,String> {
     private static final int SUCCESS_QUERY = 1000;
     private static final int FAIL_QUERY = 1001;
 
-    public PlayerInfoQueryFromActivity(Activity context, boolean uuidState, Handler mHandler){
+    public PlayerInfoQuery(Activity context, boolean uuidState, Handler mHandler){
         mContext = context;
         isUUID = uuidState;
         this.mHandler = mHandler;
@@ -118,7 +118,7 @@ public class PlayerInfoQueryFromActivity extends AsyncTask<String,Void,String> {
                 String errorMsg;
                 if (isUUID){
                     //Could be a name, try again
-                    new PlayerInfoQueryFromActivity(mContext, false, mHandler).execute(queriedString);
+                    new PlayerInfoQuery(mContext, false, mHandler).execute(queriedString);
                     return;
                 } else {
                     errorMsg = "Invalid Player";
