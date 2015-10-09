@@ -22,6 +22,7 @@ import com.itachi1706.hypixelstatistics.PlayerStatistics.OngoingAchievementStati
 import com.itachi1706.hypixelstatistics.PlayerStatistics.ParkourStatistics;
 import com.itachi1706.hypixelstatistics.PlayerStatistics.QuestStatistics;
 import com.itachi1706.hypixelstatistics.PlayerStatistics.StaffOrYtStatistics;
+import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -184,6 +185,8 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
 
             //Update Status bar
             updateActionBar("&nbsp;&nbsp;&nbsp;&nbsp;" + MinecraftColorCodes.parseHypixelRanks(reply), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>");
+            ab.setLogo(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(MinecraftColorCodes.checkDisplayName(reply) ?
+                    reply.getPlayer().get("displayname").getAsString() : reply.getPlayer().get("playername").getAsString()));
 
             //Get Session Info
             String uuidSession = reply.getPlayer().get("uuid").getAsString();
