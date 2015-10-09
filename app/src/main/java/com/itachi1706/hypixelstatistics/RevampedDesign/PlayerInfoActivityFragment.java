@@ -188,7 +188,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     // PROCESS RESULT METHODS (GRABBLED FROM ASYNC TASK)
 
     private void process(PlayerReply reply){
-        ArrayList<ResultDescription> resultArray = new ArrayList<>();
         generalDetails.setVisibility(View.VISIBLE);
 
         //Get Session Info
@@ -203,7 +202,11 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
         else
             localPlayerName = reply.getPlayer().get("playername").getAsString();
 
-        //Parse
+        parse(reply, localPlayerName);
+    }
+
+    private void parse(PlayerReply reply, String localPlayerName){
+        ArrayList<ResultDescription> resultArray = new ArrayList<>();
         resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, GeneralStatistics.parseGeneral(reply, localPlayerName), null));
 
         if (reply.getPlayer().has("packageRank")) {
