@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,29 +9,40 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.widget.SimpleCursorAdapter;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQueryFromActivity;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQueryHead;
+import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
+import net.hypixel.api.reply.PlayerReply;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,32 +59,31 @@ public class PlayerInfoActivity extends AppCompatActivity {
     private Menu activityMenu;
     private CursorAdapter searchCursor;
 
+    private boolean usingUUID = false;
+
+    private ProgressDialog checkProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Set Theme
         MainStaticVars.setLayoutAccordingToPrefs(this, false);
-
         setContentView(R.layout.activity_player_info);
-
         this.toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         setSupportActionBar(this.toolbar);
-
         //Set Theme for toolbar
         toolbar.setBackgroundResource(MainStaticVars.getActionBarColor(this));
 
+        //Initialize
         this.sp = PreferenceManager.getDefaultSharedPreferences(this);
         this.coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_coordinator_layout);
-
         this.viewPager = (ViewPager) findViewById(R.id.activity_viewpager);
-        setupViewPager(this.viewPager);
-
+        setupViewPager(viewPager);
         this.tabLayout = (TabLayout) findViewById(R.id.activity_tablayout);
-        this.tabLayout.setupWithViewPager(this.viewPager);
+        this.tabLayout.setupWithViewPager(viewPager);
         this.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
         this.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -89,7 +100,6 @@ public class PlayerInfoActivity extends AppCompatActivity {
 
             }
         });
-
         this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -102,6 +112,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                 Fragment currentFrag = adapter.getItem(viewPager.getCurrentItem());
                 if (currentFrag instanceof BaseFragmentCompat) {
                     BaseFragmentCompat main = (BaseFragmentCompat) currentFrag;
+                    //TODO: Do something with main
                 }
             }
 
@@ -111,6 +122,18 @@ public class PlayerInfoActivity extends AppCompatActivity {
             }
         });
 
+        //Do the player info processing stuff that was in fragment originally
+        MainStaticVars.playerJsonString = "";
+
+        if (this.getIntent().hasExtra("player")){
+            String intentPlayer = this.getIntent().getStringExtra("player");
+            handleNewMethod(intentPlayer);
+        } else if (this.getIntent().hasExtra("playerUuid")){
+            String intentPlayerUid = this.getIntent().getStringExtra("playerUuid");
+            usingUUID = true;
+            handleNewMethod(intentPlayerUid);
+        }
+
         handleIntent(getIntent());
         initSearchableAdapter();
     }
@@ -118,6 +141,14 @@ public class PlayerInfoActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent){
         handleIntent(intent);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("Player Info", "Resuming App");
+        MainStaticVars.resetKnownAliases();
+        MainStaticVars.updateTimeout(this);
     }
 
     private void setupViewPager(ViewPager viewPager)
@@ -243,11 +274,78 @@ public class PlayerInfoActivity extends AppCompatActivity {
             return;
         }
 
-        ViewPagerAdapter adapter = (ViewPagerAdapter) viewPager.getAdapter();
-        Fragment currentFragment = adapter.getItem(viewPager.getCurrentItem());
-        if (currentFragment instanceof BaseFragmentCompat){
-            BaseFragmentCompat fragmentCompat = (BaseFragmentCompat) currentFragment;
-            fragmentCompat.queryPlayerInfo(searchQuery);
+        handleNewMethod(searchQuery);
+    }
+
+    private void handleNewMethod(final String query){
+        if (!usingUUID) { //Not confirmed UUID, go and check
+            if (query.length() == 32) usingUUID = true; //Might be UUID
+        }
+        if (checkProgress != null && checkProgress.isShowing()) checkProgress.dismiss();
+        checkProgress = null;
+        checkProgress = new ProgressDialog(this);
+        checkProgress.setCancelable(false);
+        checkProgress.setIndeterminate(true);
+        checkProgress.setTitle("Querying Server...");
+        checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
+        checkProgress.show();
+
+        new PlayerInfoQueryFromActivity(this, usingUUID, new PlayerInfoHandler(this)).execute(query);
+        usingUUID = false;
+    }
+
+    private void updateActionBar(String title, String subtitle){
+        ActionBar ab = getSupportActionBar();
+        if (ab == null) return;
+        ab.setLogo(null);
+        ab.setTitle(Html.fromHtml(title));
+        ab.setSubtitle(Html.fromHtml(subtitle));
+    }
+
+    static class PlayerInfoHandler extends Handler {
+        WeakReference<PlayerInfoActivity> mActivity;
+
+        PlayerInfoHandler(PlayerInfoActivity activity){
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg){
+            PlayerInfoActivity activity = mActivity.get();
+
+            super.handleMessage(msg);
+
+            super.handleMessage(msg);
+
+            switch (msg.what){
+                case 1000: //Success
+                    String json = (String) msg.getData().get("playerJson");
+                    Gson gson = new Gson();
+                    PlayerReply reply = gson.fromJson(json, PlayerReply.class);
+
+                    //Succeeded, Process Action Bar stuff
+                    if (MinecraftColorCodes.checkDisplayName(reply)) {
+                        new PlayerInfoQueryHead(activity, activity.getSupportActionBar()).execute(reply.getPlayer().get("displayname").getAsString());
+                    }
+                    activity.updateActionBar("&nbsp;&nbsp;&nbsp;&nbsp;" + MinecraftColorCodes.parseHypixelRanks(reply), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>");
+                    activity.toolbar.setLogo(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(MinecraftColorCodes.checkDisplayName(reply) ?
+                            reply.getPlayer().get("displayname").getAsString() : reply.getPlayer().get("playername").getAsString()));
+
+                    if (activity.checkProgress.isShowing()) activity.checkProgress.dismiss();
+                    ViewPagerAdapter adapter = (ViewPagerAdapter) activity.viewPager.getAdapter();
+                    Fragment currentFragment = adapter.getItem(activity.viewPager.getCurrentItem());
+                    if (currentFragment instanceof BaseFragmentCompat){
+                        BaseFragmentCompat fragmentCompat = (BaseFragmentCompat) currentFragment;
+                        fragmentCompat.processPlayerObject(reply);
+                    }
+                    break;
+                case 1001: //Fail Display Error Message
+                    if (activity.checkProgress.isShowing()) activity.checkProgress.dismiss();
+                    String errorMessage = (String) msg.getData().get("errorMsg");
+                    activity.updateActionBar(errorMessage, "<b>ERROR</b>");
+                    break;
+
+            }
         }
     }
 

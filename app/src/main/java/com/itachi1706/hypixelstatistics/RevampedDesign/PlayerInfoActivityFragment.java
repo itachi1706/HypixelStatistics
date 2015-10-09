@@ -1,13 +1,9 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,12 +20,23 @@ import com.google.gson.JsonElement;
 import com.itachi1706.hypixelstatistics.FriendListActivity;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.GuildActivity;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.ExpandedResultDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.DonatorStatistics;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatisticsHandler;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.GeneralStatistics;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.OngoingAchievementStatistics;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.ParkourStatistics;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.QuestStatistics;
+import com.itachi1706.hypixelstatistics.PlayerStatistics.StaffOrYtStatistics;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuery;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuerySession;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,8 +54,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     //Fragment Elements
     private TextView session;
     private ExpandableListView generalDetails;
-    private boolean usingUUID = false;
-    private ActionBar supportBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,17 +62,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
         generalDetails = (ExpandableListView) v.findViewById(R.id.players_lvGeneral);
         session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
-
-        supportBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        if (getActivity().getIntent().hasExtra("player")){
-            String intentPlayer = getActivity().getIntent().getStringExtra("player");
-            queryPlayerInfo(intentPlayer);
-        } else if (getActivity().getIntent().hasExtra("playerUuid")){
-            String intentPlayerUid = getActivity().getIntent().getStringExtra("playerUuid");
-            usingUUID = true;
-            queryPlayerInfo(intentPlayerUid);
-        }
 
         generalDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,20 +76,11 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             }
         });
 
-        MainStaticVars.playerJsonString = "";
+        session.setText("To start, press the Search icon!");
+        session.setVisibility(View.VISIBLE);
+
         setHasOptionsMenu(true);
-        
         return v;
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        //Check if we should hide the debug window
-        Log.d("Player Info", "Resuming App");
-
-        MainStaticVars.resetKnownAliases();
-        MainStaticVars.updateTimeout(getActivity());
     }
 
     @Override
@@ -189,18 +174,100 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     }
 
     @Override
-    public void queryPlayerInfo(String query) {
-        if (!usingUUID) { //Not confirmed UUID, go and check
-            if (query.length() == 32) usingUUID = true; //Might be UUID
+    public void processPlayerJson(String json){
+        Gson gson = new Gson();
+        PlayerReply reply = gson.fromJson(json, PlayerReply.class);
+        process(reply);
+    }
+
+    @Override
+    public void processPlayerObject(PlayerReply object){
+        process(object);
+    }
+
+    // PROCESS RESULT METHODS (GRABBLED FROM ASYNC TASK)
+
+    private void process(PlayerReply reply){
+        ArrayList<ResultDescription> resultArray = new ArrayList<>();
+        generalDetails.setVisibility(View.VISIBLE);
+
+        //Get Session Info
+        String uuidSession = reply.getPlayer().get("uuid").getAsString();
+        session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
+        new PlayerInfoQuerySession(session).execute(uuidSession);
+
+        //Get Local Player Name
+        String localPlayerName;
+        if (MinecraftColorCodes.checkDisplayName(reply))
+            localPlayerName = reply.getPlayer().get("displayname").getAsString();
+        else
+            localPlayerName = reply.getPlayer().get("playername").getAsString();
+
+        //Parse
+        resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, GeneralStatistics.parseGeneral(reply, localPlayerName), null));
+
+        if (reply.getPlayer().has("packageRank")) {
+            resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, DonatorStatistics.parseDonor(reply), null));
         }
-        ProgressDialog checkProgress = new ProgressDialog(getActivity());
-        checkProgress.setCancelable(false);
-        checkProgress.setIndeterminate(true);
-        checkProgress.setTitle("Querying Server...");
-        checkProgress.setMessage("Getting Player Statistics from the Hypixel API");
-        checkProgress.show();
-        session.setVisibility(View.INVISIBLE);
-        new PlayerInfoQuery(generalDetails, checkProgress, getActivity(), usingUUID, supportBar, session).execute(query);
-        usingUUID = false;
+
+        if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
+            if (reply.getPlayer().has("rank")) {
+                if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
+                    if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
+                        resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                    } else {
+                        resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                    }
+                }
+            }
+        }
+
+        if (reply.getPlayer().has("achievements")){
+            resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, OngoingAchievementStatistics.parseOngoingAchievements(reply), null));
+        }
+
+        if (reply.getPlayer().has("quests")){
+            resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, QuestStatistics.parseQuests(reply), null));
+        }
+        if (reply.getPlayer().has("parkourCompletions")) {
+            resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, ParkourStatistics.parseParkourCounts(reply), null));
+        }
+
+        if (reply.getPlayer().has("stats")){
+            ArrayList<ResultDescription> tmp = GameStatisticsHandler.parseStats(reply, localPlayerName);
+            for (ResultDescription t : tmp){
+                resultArray.add(t);
+            }
+        }
+
+        for (ResultDescription e : resultArray) {
+            if (e.get_result() != null) {
+                e.set_result(parseColorsInResults(e));
+            }
+            if (e.get_childItems() != null){
+                for (ResultDescription ex : e.get_childItems()){
+                    if (ex.get_result() != null){
+                        ex.set_result(parseColorsInResults(ex));
+                    }
+                }
+            }
+        }
+
+        ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(getActivity(), resultArray);
+        generalDetails.setAdapter(adapter);
+    }
+
+    private String parseColorsInResults(ResultDescription e){
+        String r = e.get_result();
+        if (e.get_result().equalsIgnoreCase("true") || e.get_result().equalsIgnoreCase("enabled")) {
+            return MinecraftColorCodes.parseColors("§a" + r + "§r");
+        }
+        if (e.get_result().equalsIgnoreCase("false") || e.get_result().equalsIgnoreCase("disabled")) {
+            return MinecraftColorCodes.parseColors("§c" + r + "§r");
+        }
+        if((e.get_result().equalsIgnoreCase("null") || e.get_result() == null) && e.is_hasDescription()){
+            return MinecraftColorCodes.parseColors("§c" + "NONE" + "§r");
+        }
+        return r;
     }
 }
