@@ -117,17 +117,17 @@ public class GetLastOnlineInfoGuild extends AsyncTask<String, Void, String> {
                     long dateLong = reply.getPlayer().get("lastLogin").getAsLong(); //In millis
                     long currentDate = System.currentTimeMillis();
                     long difference = currentDate - dateLong;
-                    String date;
                     if (difference < 3600000){
                         //Less than an hour, say it
                         long seconds = difference / 1000;
                         long minutes = seconds / 60;
-                        date = "Last Online: " + minutes + " mins ago";
+                        resultString = "Last Online: " + minutes + " mins ago";
                     } else
-                        date = "Last Online: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(dateLong));
-                    result.setText(date);
+                        resultString = "Last Online: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(dateLong));
+                    result.setText(resultString);
                 } else {
-                    result.setText("Last Online: §4Unknown§r");
+                    resultString = "Last Online: §4Unknown§r";
+                    result.setText(resultString);
                 }
                 MainStaticVars.guild_last_online_data.put(uuidValue, resultString);
             }
