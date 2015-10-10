@@ -32,6 +32,7 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.PlayerInfoExpandableRecyclerAdapter;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
@@ -57,6 +58,13 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     //private TextView session;
     private RecyclerView generalDetails;
 
+
+    static String[] noStatistics = {"To start, press the Search icon!"};
+    private StringRecyclerAdapter noStatAdapter;
+
+    private String playerJsonString = "";
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +76,8 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         generalDetails.setLayoutManager(linearLayoutManager);
         generalDetails.setItemAnimator(new DefaultItemAnimator());
+
+        noStatAdapter = new StringRecyclerAdapter(noStatistics);
         
         
         //session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
@@ -86,8 +96,7 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             }
         });*/
 
-        //session.setText("To start, press the Search icon!");
-        //session.setVisibility(View.VISIBLE);
+        generalDetails.setAdapter(noStatAdapter);
 
         setHasOptionsMenu(true);
         return v;
@@ -112,15 +121,15 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             return true;
         } else if (id == R.id.view_debug) {
             new AlertDialog.Builder(getActivity()).setTitle("JSON Information")
-                    .setMessage(MainStaticVars.playerJsonString)
+                    .setMessage(playerJsonString)
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             return true;
         } else if (id == R.id.view_known_alias){
             String message;
-            if (!MainStaticVars.playerJsonString.equals("")){
+            if (!playerJsonString.equals("")){
                 Gson gson = new Gson();
-                PlayerReply reply = gson.fromJson(MainStaticVars.playerJsonString, PlayerReply.class);
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
                 if (reply.getPlayer().has("knownAliases")){
                     JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
                     StringBuilder listOfAliases = new StringBuilder();
@@ -141,9 +150,9 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             debugAlert.show();
             return true;
         } else if (id == R.id.view_guild){
-            if (MainStaticVars.playerJsonString.length() > 200) {
+            if (playerJsonString.length() > 200) {
                 Gson gson = new Gson();
-                PlayerReply reply = gson.fromJson(MainStaticVars.playerJsonString, PlayerReply.class);
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
                 if (reply.getPlayer().has("displayname")) {
                     Intent intent = new Intent(getActivity(), GuildActivity.class);
                     intent.putExtra("playername", reply.getPlayer().get("displayname").getAsString());
@@ -160,9 +169,9 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
             }
 
         } else if (id == R.id.view_friends){
-            if (MainStaticVars.playerJsonString.length() > 200) {
+            if (playerJsonString.length() > 200) {
                 Gson gson = new Gson();
-                PlayerReply reply = gson.fromJson(MainStaticVars.playerJsonString, PlayerReply.class);
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
                 if (reply.getPlayer().has("uuid")) {
                     Intent intent = new Intent(getActivity(), FriendListActivity.class);
                     intent.putExtra("playeruuid", reply.getPlayer().get("uuid").getAsString());
@@ -185,13 +194,16 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     @Override
     public void processPlayerJson(String json){
+        if (json == null || json.equals("")) { generalDetails.setAdapter(noStatAdapter); return; }
+        playerJsonString = json;
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);
         process(reply);
     }
 
     @Override
-    public void processPlayerObject(PlayerReply object){
+    public void processPlayerObject(PlayerReply object, String json){
+        playerJsonString = json;
         process(object);
     }
 

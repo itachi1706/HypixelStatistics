@@ -63,6 +63,8 @@ public class PlayerInfoActivity extends AppCompatActivity {
 
     private ProgressDialog checkProgress;
 
+    private String playerJsonString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +114,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                 Fragment currentFrag = adapter.getItem(viewPager.getCurrentItem());
                 if (currentFrag instanceof BaseFragmentCompat) {
                     BaseFragmentCompat main = (BaseFragmentCompat) currentFrag;
-                    //TODO: Do something with main
+                    main.processPlayerJson(playerJsonString);
                 }
             }
 
@@ -123,7 +125,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
         });
 
         //Do the player info processing stuff that was in fragment originally
-        MainStaticVars.playerJsonString = "";
+        playerJsonString = "";
 
         if (this.getIntent().hasExtra("player")){
             String intentPlayer = this.getIntent().getStringExtra("player");
@@ -320,6 +322,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
             switch (msg.what){
                 case 1000: //Success
                     String json = (String) msg.getData().get("playerJson");
+                    activity.playerJsonString = json;
                     Gson gson = new Gson();
                     PlayerReply reply = gson.fromJson(json, PlayerReply.class);
 
@@ -336,7 +339,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                     Fragment currentFragment = adapter.getItem(activity.viewPager.getCurrentItem());
                     if (currentFragment instanceof BaseFragmentCompat){
                         BaseFragmentCompat fragmentCompat = (BaseFragmentCompat) currentFragment;
-                        fragmentCompat.processPlayerObject(reply);
+                        fragmentCompat.processPlayerObject(reply, json);
                     }
                     break;
                 case 1001: //Fail Display Error Message

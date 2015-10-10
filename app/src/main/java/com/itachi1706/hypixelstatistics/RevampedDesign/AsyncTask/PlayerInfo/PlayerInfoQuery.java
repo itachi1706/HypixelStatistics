@@ -102,7 +102,6 @@ public class PlayerInfoQuery extends AsyncTask<String,Void,String> {
                 return;
             }
             PlayerReply reply = gson.fromJson(json, PlayerReply.class);
-            MainStaticVars.playerJsonString = json;
             if (reply.isThrottle()) {
                 //Throttled (API Exceeded Limit)
                 NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");

@@ -14,6 +14,8 @@
     <color name="refresh_progress_3">@color/mainPrimary</color>
     <color name="refresh_progress_4">@color/newPrimary</color>
 
+    <color name="white">#ffffff</color>
+
     <!-- Material Design Colors -->
     <!-- RED -->
     <color name="red_50">#fde0dc</color>
