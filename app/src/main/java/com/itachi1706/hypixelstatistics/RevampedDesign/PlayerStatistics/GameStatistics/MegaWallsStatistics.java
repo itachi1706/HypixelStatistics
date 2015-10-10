@@ -1,7 +1,8 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics;
 
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,6 @@ import java.util.ArrayList;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics
  */
-@Deprecated
 public class MegaWallsStatistics {
 
     /**
@@ -18,19 +18,19 @@ public class MegaWallsStatistics {
      * individual/weekly statistics soon
      * @param obj Statistics
      */
-    public static ArrayList<ResultDescription> parseWalls3(JsonObject obj){
-        ArrayList<ResultDescription> descArray = new ArrayList<>();
-        //descArray.add(new ResultDescription("<b>Walls 3</b>", null, false, true));
+    public static ArrayList<PlayerInfoStatistics> parseWalls3(JsonObject obj){
+        ArrayList<PlayerInfoStatistics> descArray = new ArrayList<>();
+        //descArray.add(new PlayerInfoStatistics("<b>Walls 3</b>", null, false, true));
         if (obj.has("chosen_class"))
-            descArray.add(new ResultDescription("Class Selected", obj.get("chosen_class").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Class Selected", obj.get("chosen_class").getAsString()));
         if (obj.has("coins"))
-            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Coins", obj.get("coins").getAsString()));
 
         //Overall
         if (obj.has("deaths"))
-            descArray.add(new ResultDescription("Total Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            descArray.add(new ResultDescription("Total Kills", obj.get("kills").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Kills", obj.get("kills").getAsString()));
         // Overall Kill Death Ratio (Kills/Deaths)
         if (obj.has("kills") && obj.has("deaths")){
             int w3Kills = obj.get("kills").getAsInt();
@@ -39,16 +39,16 @@ public class MegaWallsStatistics {
                 w3Deaths = 1;  //Done to prevent Divide by Zero Exception
             double w3KDA = (double) w3Kills / w3Deaths;
             w3KDA = (double) Math.round(w3KDA * 100.00) / 100.00;
-            descArray.add(new ResultDescription("K/D Ratio", w3KDA + ""));
+            descArray.add(new PlayerInfoStatistics("K/D Ratio", w3KDA + ""));
         }
         if (obj.has("finalDeaths"))
-            descArray.add(new ResultDescription("Total Final Deaths", obj.get("finalDeaths").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Final Deaths", obj.get("finalDeaths").getAsString()));
         if (obj.has("finalKills"))
-            descArray.add(new ResultDescription("Total Final Kills", obj.get("finalKills").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Final Kills", obj.get("finalKills").getAsString()));
         if (obj.has("wins"))
-            descArray.add(new ResultDescription("Total Games Won", obj.get("wins").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Games Won", obj.get("wins").getAsString()));
         if (obj.has("losses"))
-            descArray.add(new ResultDescription("Total Games Lost", obj.get("losses").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Total Games Lost", obj.get("losses").getAsString()));
 
         //Herobrine
         descArray = parseIndividualMW(obj, "Herobrine", descArray);
@@ -77,28 +77,24 @@ public class MegaWallsStatistics {
         return descArray;
     }
 
-    private static ArrayList<ResultDescription> parseIndividualMW(JsonObject obj, String className, ArrayList<ResultDescription> descArray){
-        ArrayList<ResultDescription> classArray = new ArrayList<>();
+    private static ArrayList<PlayerInfoStatistics> parseIndividualMW(JsonObject obj, String className, ArrayList<PlayerInfoStatistics> descArray){
+        ArrayList<PlayerInfoStatistics> classArray = new ArrayList<>();
         if (obj.has("deaths_" + className))
-            classArray.add(new ResultDescription("Deaths", obj.get("deaths_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Deaths", obj.get("deaths_" + className).getAsString()));
         if (obj.has("kills_" + className))
-            classArray.add(new ResultDescription("Kills", obj.get("kills_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Kills", obj.get("kills_" + className).getAsString()));
         if (obj.has("finalDeaths_" + className))
-            classArray.add(new ResultDescription("Final Deaths", obj.get("finalDeaths_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Final Deaths", obj.get("finalDeaths_" + className).getAsString()));
         if (obj.has("finalKills_" + className))
-            classArray.add(new ResultDescription("Final Kills", obj.get("finalKills_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Final Kills", obj.get("finalKills_" + className).getAsString()));
         if (obj.has("wins_" + className))
-            classArray.add(new ResultDescription("Games Won", obj.get("wins_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Games Won", obj.get("wins_" + className).getAsString()));
         if (obj.has("losses_" + className))
-            classArray.add(new ResultDescription("Games Lost", obj.get("losses_" + className).getAsString()));
+            classArray.add(new PlayerInfoStatistics("Games Lost", obj.get("losses_" + className).getAsString()));
         if (classArray.size() > 0){
-            StringBuilder msg = new StringBuilder();
-            for (ResultDescription t : classArray){
-                msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
-            }
-            descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, msg.toString()));
+            descArray.add(new PlayerInfoStatistics(className + " Statistics", "Click here to view " + className + " Statistics", StatisticsHelper.generateDialogStatisticsString(classArray)));
             //} else {
-            //    descArray.add(new ResultDescription(className + " Statistics", "Click here to view " + className + " Statistics", true, "This player does not have any statistics for this class yet!"));
+            //    descArray.add(new PlayerInfoStatistics(className + " Statistics", "Click here to view " + className + " Statistics", "This player does not have any statistics for this class yet!"));
         }
         return descArray;
     }

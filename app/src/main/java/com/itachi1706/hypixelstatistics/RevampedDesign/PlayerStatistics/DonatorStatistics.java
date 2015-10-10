@@ -2,7 +2,6 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics;
 
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
 

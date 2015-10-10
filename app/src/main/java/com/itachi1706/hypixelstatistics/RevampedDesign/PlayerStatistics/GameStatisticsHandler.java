@@ -3,22 +3,22 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.ArcadeStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.ArenaStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.BlitzSGStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.CopsAndCrimsStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.MegaWallsStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.OldSpleefStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.PaintballStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.QuakecraftStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.TNTGamesStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.UHCChampionsStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.VampireZStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.WallsStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics.WarlordsStatistics;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.ArcadeStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.ArenaStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.BlitzSGStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.CopsAndCrimsStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.MegaWallsStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.OldSpleefStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.PaintballStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.QuakecraftStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.TNTGamesStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.UHCChampionsStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.VampireZStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.WallsStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics.WarlordsStatistics;
 
 import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.util.GameType;
@@ -31,15 +31,14 @@ import java.util.NoSuchElementException;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics
  */
-@Deprecated
 public class GameStatisticsHandler {
 
     /**
      * Parse statistics (Split based on GameType)
      * @param reply PlayerReply object
      */
-    public static ArrayList<ResultDescription> parseStats(PlayerReply reply, String localPlayerName){
-        ArrayList<ResultDescription> descArray = new ArrayList<>();
+    public static ArrayList<PlayerInfoHeader> parseStats(PlayerReply reply, String localPlayerName){
+        ArrayList<PlayerInfoHeader> descArray = new ArrayList<>();
         JsonObject mainStats = reply.getPlayer().getAsJsonObject("stats");
         for (Map.Entry<String, JsonElement> entry : mainStats.entrySet()){
             //Based on stat go parse it
@@ -48,54 +47,54 @@ public class GameStatisticsHandler {
             if (parseVariousGamemode == null) {
                 switch (entry.getKey().toLowerCase()) {
                     case "spleef":
-                        descArray.add(new ResultDescription("Legacy Spleef Statistics", null, false, OldSpleefStatistics.parseSpleef(statistic)));
+                        descArray.add(new PlayerInfoHeader("Legacy Spleef Statistics", OldSpleefStatistics.parseSpleef(statistic)))
                         break;
                     case "holiday": //descArray.remove(descArray.size() - 1);
                         break;
                     default:
-                        descArray.add(new ResultDescription(entry.getKey(), null, false, errorList()));
+                        descArray.add(new PlayerInfoHeader(entry.getKey(), errorList()));
                         break;
                 }
             } else {
                 switch (parseVariousGamemode) {
                     case ARENA:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, ArenaStatistics.parseArena(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", ArenaStatistics.parseArena(statistic)));
                         break;
                     case ARCADE:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, ArcadeStatistics.parseArcade(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", ArcadeStatistics.parseArcade(statistic)));
                         break;
                     case SURVIVAL_GAMES:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, BlitzSGStatistics.parseHG(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", BlitzSGStatistics.parseHG(statistic)));
                         break;
                     case MCGO:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, CopsAndCrimsStatistics.parseMcGo(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", CopsAndCrimsStatistics.parseMcGo(statistic)));
                         break;
                     case PAINTBALL:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, PaintballStatistics.parsePaintball(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", PaintballStatistics.parsePaintball(statistic)));
                         break;
                     case QUAKECRAFT:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, QuakecraftStatistics.parseQuake(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", QuakecraftStatistics.parseQuake(statistic)));
                         break;
                     case TNTGAMES:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, TNTGamesStatistics.parseTntGames(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", TNTGamesStatistics.parseTntGames(statistic)));
                         break;
                     case VAMPIREZ:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, VampireZStatistics.parseVampZ(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", VampireZStatistics.parseVampZ(statistic)));
                         break;
                     case WALLS:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, WallsStatistics.parseWalls(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", WallsStatistics.parseWalls(statistic)));
                         break;
                     case WALLS3:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, MegaWallsStatistics.parseWalls3(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", MegaWallsStatistics.parseWalls3(statistic)));
                         break;
                     case UHC:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, UHCChampionsStatistics.parseUHC(statistic)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", UHCChampionsStatistics.parseUHC(statistic)));
                         break;
                     case BATTLEGROUND:
-                        descArray.add(new ResultDescription(parseVariousGamemode.getName() + " Statistics", null, false, WarlordsStatistics.parseWarlords(statistic, localPlayerName)));
+                        descArray.add(new PlayerInfoHeader(parseVariousGamemode.getName() + " Statistics", WarlordsStatistics.parseWarlords(statistic, localPlayerName)));
                         break;
                     default:
-                        descArray.add(new ResultDescription(entry.getKey(), null, false, errorList()));
+                        descArray.add(new PlayerInfoHeader(entry.getKey(), errorList()));
                         Crashlytics.logException(new NoSuchElementException("Required to add " + entry.getKey() + " to statistics"));
                         break;
                 }
@@ -104,9 +103,9 @@ public class GameStatisticsHandler {
         return descArray;
     }
 
-    private static ArrayList<ResultDescription> errorList(){
-        ArrayList<ResultDescription> error = new ArrayList<>();
-        error.add(new ResultDescription("ERROR - IMFORM DEV", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
+    private static ArrayList<PlayerInfoStatistics> errorList(){
+        ArrayList<PlayerInfoStatistics> error = new ArrayList<>();
+        error.add(new PlayerInfoStatistics("ERROR - IMFORM DEV", MinecraftColorCodes.parseColors("§cPlease contact the dev to add this into the statistics§r")));
         return error;
     }
 }

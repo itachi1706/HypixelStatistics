@@ -6,8 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.GeneralPlayerStats.QuestName;
 import com.itachi1706.hypixelstatistics.GeneralPlayerStats.QuestObjectives;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -20,26 +20,25 @@ import java.util.Map;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics
  */
-@Deprecated
 public class QuestStatistics {
 
     /**
      * Parse the Quests statistics
      * @param reply PlayerReply object
      */
-    public static ArrayList<ResultDescription> parseQuests(PlayerReply reply){
-        ArrayList<ResultDescription> descArray = new ArrayList<>();
+    public static ArrayList<PlayerInfoStatistics> parseQuests(PlayerReply reply){
+        ArrayList<PlayerInfoStatistics> descArray = new ArrayList<>();
         JsonObject questMain = reply.getPlayer().getAsJsonObject("quests");
         for (Map.Entry<String, JsonElement> entry : questMain.entrySet()){
             //Get each quest name
-            ArrayList<ResultDescription> qArray = new ArrayList<>();
+            ArrayList<PlayerInfoStatistics> qArray = new ArrayList<>();
             //descArray.add(new ResultDescription("<b>" + entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + "</b>", null, false, true));
             if(entry.getValue().getAsJsonObject().has("active")){
-                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§aActive§r")));
+                qArray.add(new PlayerInfoStatistics("Status", MinecraftColorCodes.parseColors("§aActive§r")));
                 //Get Start Time
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
                 @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
-                qArray.add(new ResultDescription("Date Started", timeStamp + "<br />"));
+                qArray.add(new PlayerInfoStatistics("Date Started", timeStamp + "<br />"));
 
                 if (entry.getValue().getAsJsonObject().get("active").getAsJsonObject().has("objectives")){
                     JsonObject arr = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().getAsJsonObject("objectives");
@@ -61,34 +60,34 @@ public class QuestStatistics {
                             }
                             build.append("<br />");
                         }
-                        qArray.add(new ResultDescription("<b>Objectives</b>", build.toString()));
+                        qArray.add(new PlayerInfoStatistics("<b>Objectives</b>", build.toString()));
                     }
                 }
             } else {
-                qArray.add(new ResultDescription("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
+                qArray.add(new PlayerInfoStatistics("Status", MinecraftColorCodes.parseColors("§cInactive§r")));
             }
 
 
             //Get number of completion times
             if (entry.getValue().getAsJsonObject().has("completions")){
                 int numberOfTimes = entry.getValue().getAsJsonObject().get("completions").getAsJsonArray().size();
-                qArray.add(new ResultDescription("No of Times Completed", numberOfTimes + ""));
+                qArray.add(new PlayerInfoStatistics("No of Times Completed", numberOfTimes + ""));
             } else {
-                qArray.add(new ResultDescription("No of Times Completed", "0"));
+                qArray.add(new PlayerInfoStatistics("No of Times Completed", "0"));
             }
             if (qArray.size() > 0){
                 StringBuilder msg = new StringBuilder();
-                for (ResultDescription t : qArray){
-                    msg.append(t.get_title()).append(": ").append(t.get_result()).append("<br />");
+                for (PlayerInfoStatistics t : qArray){
+                    msg.append(t.getTitle()).append(": ").append(t.getMessage()).append("<br />");
                 }
                 //Add quest statistics to DB
                 QuestName questN = QuestName.fromDB(entry.getKey());
                 if (questN == QuestName.UNKNOWN){
                     //This is default unknown quests
                     String tryFormatQuestName = entry.getKey().substring(0,1).toUpperCase() + entry.getKey().substring(1).toLowerCase();
-                    descArray.add(new ResultDescription(tryFormatQuestName, "Click here to see " + tryFormatQuestName + " quest statistics", true, msg.toString()));
+                    descArray.add(new PlayerInfoStatistics(tryFormatQuestName, "Click here to see " + tryFormatQuestName + " quest statistics", msg.toString()));
                 } else {
-                    descArray.add(new ResultDescription(questN.getQuestTitle(), "Click here to see " + questN.getQuestTitle() + " quest statistics", true, msg.toString()));
+                    descArray.add(new PlayerInfoStatistics(questN.getQuestTitle(), "Click here to see " + questN.getQuestTitle() + " quest statistics", msg.toString()));
                 }
 
 

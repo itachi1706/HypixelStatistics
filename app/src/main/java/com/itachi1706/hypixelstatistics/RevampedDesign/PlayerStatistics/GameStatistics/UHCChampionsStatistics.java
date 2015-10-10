@@ -1,7 +1,7 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics;
 
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatistics
  */
-@Deprecated
 public class UHCChampionsStatistics {
 
     /**
@@ -18,23 +17,23 @@ public class UHCChampionsStatistics {
      * @param obj Statistics
      * @return parsed List
      */
-    public static ArrayList<ResultDescription> parseUHC(JsonObject obj){
-        ArrayList<ResultDescription> descArray = new ArrayList<>();
+    public static ArrayList<PlayerInfoStatistics> parseUHC(JsonObject obj){
+        ArrayList<PlayerInfoStatistics> descArray = new ArrayList<>();
         if (obj.has("coins"))
-            descArray.add(new ResultDescription("Coins", obj.get("coins").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Coins", obj.get("coins").getAsString()));
         if (obj.has("score")) {
-            descArray.add(new ResultDescription("Score", obj.get("score").getAsInt() + ""));
-            descArray.add(new ResultDescription("Ranking", getUHCRank(obj.get("score").getAsInt())));
+            descArray.add(new PlayerInfoStatistics("Score", obj.get("score").getAsInt() + ""));
+            descArray.add(new PlayerInfoStatistics("Ranking", getUHCRank(obj.get("score").getAsInt())));
         } else {
-            descArray.add(new ResultDescription("Score", "0"));
-            descArray.add(new ResultDescription("Ranking", getUHCRank(0)));
+            descArray.add(new PlayerInfoStatistics("Score", "0"));
+            descArray.add(new PlayerInfoStatistics("Ranking", getUHCRank(0)));
         }
         if (obj.has("wins"))
-            descArray.add(new ResultDescription("Wins", obj.get("wins").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Wins", obj.get("wins").getAsString()));
         if (obj.has("deaths"))
-            descArray.add(new ResultDescription("Deaths", obj.get("deaths").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Deaths", obj.get("deaths").getAsString()));
         if (obj.has("kills"))
-            descArray.add(new ResultDescription("Kills", obj.get("kills").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Kills", obj.get("kills").getAsString()));
         // Overall Kill Death Ratio (Kills/Deaths)
         if (obj.has("kills") && obj.has("deaths")){
             int uhcKills = obj.get("kills").getAsInt();
@@ -43,12 +42,12 @@ public class UHCChampionsStatistics {
                 uhcDeaths = 1;  //Done to prevent Divide by Zero Exception
             double uhcKDA = (double) uhcKills / uhcDeaths;
             uhcKDA = (double) Math.round(uhcKDA * 100) / 100;
-            descArray.add(new ResultDescription("K/D Ratio", uhcKDA + ""));
+            descArray.add(new PlayerInfoStatistics("K/D Ratio", uhcKDA + ""));
         }
         if (obj.has("heads_eaten"))
-            descArray.add(new ResultDescription("Heads Eaten", obj.get("heads_eaten").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Heads Eaten", obj.get("heads_eaten").getAsString()));
         if (obj.has("equippedKit"))
-            descArray.add(new ResultDescription("Equipped Kit", obj.get("equippedKit").getAsString()));
+            descArray.add(new PlayerInfoStatistics("Equipped Kit", obj.get("equippedKit").getAsString()));
         return descArray;
     }
 
