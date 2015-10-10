@@ -11,10 +11,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/player_tvSessionInfo"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/player_session_info_coming_soon"
+        android:text="@string/no_player_info_statistics"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="invisible"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

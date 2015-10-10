@@ -57,4 +57,5 @@
     <string name="lv_guild_joined_on_placeholder">Date Joined</string>
     <string name="recyclerview_textview_placeholder">Sample Text</string>
     <string name="activity_no_supposed_to_appear">Not Supposed To Be Here!</string>
+    <string name="no_player_info_statistics">To start, press the Search icon!</string>
 </resources>
