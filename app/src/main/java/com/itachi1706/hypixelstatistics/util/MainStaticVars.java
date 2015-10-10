@@ -26,12 +26,14 @@ import java.util.HashMap;
 public class MainStaticVars {
     public static final String API_BASE_URL = "http://api.itachi1706.com/api/hypixel.php";
 
-    //Booster
-    //boosterUpdated - Finished Updating Booster
-    //inProg - Still getting player booster names
-    //parseRes - Parsing Results
-    //isBriefBooster - Brief Booster
-    //isUsingDetailedActiveBooster - Whether Detailed Active Boosters are being used or not
+    /**
+     * Booster Variables
+     * boosterUpdated - Finished Updating Booster
+     * inProg - Still getting Player Booster Names
+     * parseRes - Parsing Booster Results
+     * isBriefBooster - Brief Booster
+     * isUsingDetailedActiveBooster - Whether Detailed Active Boosters are being used or not
+     */
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
     public static ArrayList<BoosterDescription> unfilteredBoosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
@@ -100,13 +102,14 @@ public class MainStaticVars {
     }
 
     public static String getChangelogStringFromArrayList(ArrayList<String> changelog){
-         /* Legend of Stuff
-        1st Line - Current Version Code check
-        2nd Line - Current Version Number
-        3rd Line - Link to New Version
-        # - Changelog Version Number (Bold this)
-        * - Points
-        @ - Break Line
+        /**
+         * Legend of Stuff
+         * 1st Line - Current Version Code Check
+         * 2nd Line - Current Version Number
+         * 3rd Line - Link to New Version
+         * # - Changelog Version Number (Bold)
+         * * - Points
+         * @ - Break Line
          */
         StringBuilder changelogBuilder = new StringBuilder();
         changelogBuilder.append("Latest Version: ").append(changelog.get(1)).append("-b").append(changelog.get(0)).append("<br/><br/>");

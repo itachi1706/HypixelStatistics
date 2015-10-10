@@ -1,5 +1,6 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -28,7 +29,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.itachi1706.hypixelstatistics.FriendListActivity;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
+import com.itachi1706.hypixelstatistics.GuildActivity;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
@@ -216,6 +221,73 @@ public class PlayerInfoActivity extends AppCompatActivity {
         } else if (id == R.id.search){
             isSearchActive = true;
             return true;
+        } else if (id == R.id.view_debug) {
+            new AlertDialog.Builder(this).setTitle("JSON Information")
+                    .setMessage(playerJsonString)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+            return true;
+        } else if (id == R.id.view_known_alias){
+            String message;
+            if (!playerJsonString.equals("")){
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
+                if (reply.getPlayer().has("knownAliases")){
+                    JsonArray arr = reply.getPlayer().getAsJsonArray("knownAliases");
+                    StringBuilder listOfAliases = new StringBuilder();
+                    for (JsonElement e : arr){
+                        listOfAliases.append(e.getAsString()).append("\n");
+                    }
+                    MainStaticVars.knownAliases = listOfAliases.toString();
+                    message = "\n" + MainStaticVars.knownAliases;
+                } else {
+                    message = "\nPlayer has no known aliases";
+                }
+            } else
+                message = "\nPlease query for a player to view his aliases";
+            AlertDialog.Builder debugAlert = new AlertDialog.Builder(this);
+            debugAlert.setTitle("Known Aliases");
+            debugAlert.setMessage(message);
+            debugAlert.setPositiveButton(android.R.string.ok, null);
+            debugAlert.show();
+            return true;
+        } else if (id == R.id.view_guild){
+            if (playerJsonString.length() > 200) {
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
+                if (reply.getPlayer().has("displayname")) {
+                    Intent intent = new Intent(this, GuildActivity.class);
+                    intent.putExtra("playername", reply.getPlayer().get("displayname").getAsString());
+                    startActivity(intent);
+                } else {
+                    new AlertDialog.Builder(this).setTitle("Player not found")
+                            .setMessage("Please search a player to view guild")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                }
+            } else {
+                new AlertDialog.Builder(this).setTitle("Player not found")
+                        .setMessage("Please search a player to view guild")
+                        .setPositiveButton(android.R.string.ok, null).show();
+            }
+
+        } else if (id == R.id.view_friends){
+            if (playerJsonString.length() > 200) {
+                Gson gson = new Gson();
+                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
+                if (reply.getPlayer().has("uuid")) {
+                    Intent intent = new Intent(this, FriendListActivity.class);
+                    intent.putExtra("playeruuid", reply.getPlayer().get("uuid").getAsString());
+                    startActivity(intent);
+                } else {
+                    new AlertDialog.Builder(this).setTitle("Player not found")
+                            .setMessage("Please search a player to view his/her friend's list!")
+                            .setPositiveButton(android.R.string.ok, null).show();
+                }
+            } else {
+                new AlertDialog.Builder(this).setTitle("Player not found")
+                        .setMessage("Please search a player to view his/her friend's list!")
+                        .setPositiveButton(android.R.string.ok, null).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
