@@ -46,8 +46,7 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
     }
 
     //Fragment Elements
-    //private TextView session;
-    private RecyclerView generalDetails;
+    private RecyclerView recyclerView;
 
 
     static String[] noStatistics = {"To start, press the Search icon!"};
@@ -59,23 +58,23 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
-        generalDetails = (RecyclerView) v.findViewById(R.id.player_info_recycler_view);
-        generalDetails.setHasFixedSize(true);
+        recyclerView = (RecyclerView) v.findViewById(R.id.player_info_recycler_view);
+        recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        generalDetails.setLayoutManager(linearLayoutManager);
-        generalDetails.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
 
-        generalDetails.setAdapter(noStatAdapter);
+        recyclerView.setAdapter(noStatAdapter);
         return v;
     }
 
     @Override
     public void processPlayerJson(String json){
         Log.i("HypixelStatistics", "Switched to GeneralStatisticsFragment");
-        if (json == null || json.equals("")) { generalDetails.setAdapter(noStatAdapter); return; }
+        if (json == null || json.equals("")) { recyclerView.setAdapter(noStatAdapter); return; }
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);
         process(reply);
@@ -89,7 +88,7 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
     // PROCESS RESULT METHODS (GRABBLED FROM ASYNC TASK)
 
     private void process(PlayerReply reply){
-        generalDetails.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         //Get Local Player Name
         String localPlayerName;
@@ -159,6 +158,6 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
         }
 
         PlayerInfoExpandableRecyclerAdapter adapter = new PlayerInfoExpandableRecyclerAdapter(resultArray, getActivity());
-        generalDetails.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 }

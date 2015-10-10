@@ -390,8 +390,6 @@ public class PlayerInfoActivity extends AppCompatActivity {
 
             super.handleMessage(msg);
 
-            super.handleMessage(msg);
-
             switch (msg.what){
                 case 1000: //Success
                     String json = (String) msg.getData().get("playerJson");

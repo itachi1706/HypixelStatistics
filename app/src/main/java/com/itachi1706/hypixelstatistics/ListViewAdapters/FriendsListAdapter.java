@@ -29,6 +29,7 @@ import java.util.Date;
  * Created by Kenneth on 20/12/2014, 6:42 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@Deprecated
 public class FriendsListAdapter extends ArrayAdapter<FriendsObject> {
 
     private ArrayList<FriendsObject> items;
