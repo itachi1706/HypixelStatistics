@@ -30,6 +30,7 @@ import java.net.URLConnection;
  * Created by Kenneth on 11/11/2014, 9:19 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
+@Deprecated
 public class GetPlayerHead extends AsyncTask<String, Void, Drawable> {
 
     ProgressBar progress;

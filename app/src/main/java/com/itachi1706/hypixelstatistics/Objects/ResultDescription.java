@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by Kenneth on 13/11/2014, 9:11 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@Deprecated
 public class ResultDescription {
 
     private String _title, _result;

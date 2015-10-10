@@ -25,6 +25,7 @@ import java.util.ArrayList;
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
 @SuppressLint("InflateParams")
+@Deprecated
 public class ExpandedResultDescListAdapter extends BaseExpandableListAdapter {
 
     private ArrayList<ResultDescription> items;

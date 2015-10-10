@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
  * Created by Kenneth on 8/3/2015, 4:28 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@Deprecated
 public class DetailedWeaponStatistics {
 
     //Warlords

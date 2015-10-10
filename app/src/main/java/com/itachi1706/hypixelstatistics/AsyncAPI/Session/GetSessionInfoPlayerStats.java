@@ -23,6 +23,7 @@ import java.net.URL;
  * Created by Kenneth on 9/4/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.AsyncAPI.Session
  */
+@Deprecated
 public class GetSessionInfoPlayerStats extends AsyncTask<String, Void, String> {
 
     Exception except = null;

@@ -5,6 +5,7 @@ package com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords;
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords
  */
 @SuppressWarnings("unused")
+@Deprecated
 public enum WarlordsSpecs {
     WARRIOR("Unknown Warrior Spec", "Warrior"),
     PALADIN("Unknown Paladin Spec", "Paladin"),

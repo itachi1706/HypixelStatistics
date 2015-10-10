@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics
  */
+@Deprecated
 public class GeneralStatistics {
 
     //Parsing General Information

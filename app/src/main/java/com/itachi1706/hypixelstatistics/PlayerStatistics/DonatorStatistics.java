@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Created by Kenneth on 13/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics
  */
+@Deprecated
 public class DonatorStatistics {
 
     /* Donor Only Information

@@ -44,7 +44,7 @@ import net.hypixel.api.reply.PlayerReply;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Deprecated
 public class ExpandedPlayerInfoActivity extends AppCompatActivity {
 
     AutoCompleteTextView playerName;

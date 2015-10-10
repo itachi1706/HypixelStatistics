@@ -47,6 +47,7 @@ import java.util.List;
  * Created by Kenneth on 10/11/2014, 10:12 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
+@Deprecated
 public class GetPlayerByNameExpanded extends AsyncTask<String,Void,String> {
 
     TextView debug, result, sessionTV;
