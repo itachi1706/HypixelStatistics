@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
+import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import java.util.ArrayList;
 
@@ -50,5 +51,23 @@ public class StatisticsHelper {
         }
 
         return packageBuilder.toString();
+    }
+
+    /**
+     * Parses and colors the items in each of the player statistics
+     * @param message The message to color
+     * @return Formatted Message
+     */
+    public static String parseColorInPlayerStats(String message){
+        if (message.equalsIgnoreCase("true") || message.equalsIgnoreCase("enabled")) {
+            return MinecraftColorCodes.parseColors("§a" + message + "§r");
+        }
+        if (message.equalsIgnoreCase("false") || message.equalsIgnoreCase("disabled")) {
+            return MinecraftColorCodes.parseColors("§c" + message + "§r");
+        }
+        if((message.equalsIgnoreCase("null"))){
+            return MinecraftColorCodes.parseColors("§c" + "NONE" + "§r");
+        }
+        return message;
     }
 }

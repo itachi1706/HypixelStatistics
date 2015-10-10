@@ -30,6 +30,7 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StaffOrY
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.PlayerInfoExpandableRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -256,38 +257,23 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
         for (PlayerInfoBase base : resultArray) {
             if (!(base instanceof PlayerInfoHeader)) {
                 PlayerInfoStatistics statistics = (PlayerInfoStatistics) base;
-                if (statistics.getMessage() != null) statistics.setMessage(parseColorInPlayerStats(statistics.getMessage()));
-                if (statistics.getTitle() != null) statistics.setTitle(parseColorInPlayerStats(statistics.getTitle()));
+                if (statistics.getMessage() != null) statistics.setMessage(StatisticsHelper.parseColorInPlayerStats(statistics.getMessage()));
+                if (statistics.getTitle() != null) statistics.setTitle(StatisticsHelper.parseColorInPlayerStats(statistics.getTitle()));
                 continue;
             }
 
             PlayerInfoHeader e = (PlayerInfoHeader) base;
-            e.setTitle(parseColorInPlayerStats(e.getTitle()));
+            e.setTitle(StatisticsHelper.parseColorInPlayerStats(e.getTitle()));
             if (!e.hasChild()) continue;
 
             List<PlayerInfoStatistics> array = e.getChild();
             for (PlayerInfoStatistics child : array){
-                if (child.getMessage() != null) child.setMessage(parseColorInPlayerStats(child.getMessage()));
-                if (child.getTitle() != null) child.setTitle(parseColorInPlayerStats(child.getTitle()));
+                if (child.getMessage() != null) child.setMessage(StatisticsHelper.parseColorInPlayerStats(child.getMessage()));
+                if (child.getTitle() != null) child.setTitle(StatisticsHelper.parseColorInPlayerStats(child.getTitle()));
             }
         }
 
         PlayerInfoExpandableRecyclerAdapter adapter = new PlayerInfoExpandableRecyclerAdapter(resultArray, getActivity());
         generalDetails.setAdapter(adapter);
-    }
-
-    private String parseColorInPlayerStats(String message){
-        if (message.equalsIgnoreCase("true") )
-
-        if (message.equalsIgnoreCase("true") || message.equalsIgnoreCase("enabled")) {
-            return MinecraftColorCodes.parseColors("§a" + message + "§r");
-        }
-        if (message.equalsIgnoreCase("false") || message.equalsIgnoreCase("disabled")) {
-            return MinecraftColorCodes.parseColors("§c" + message + "§r");
-        }
-        if((message.equalsIgnoreCase("null"))){
-            return MinecraftColorCodes.parseColors("§c" + "NONE" + "§r");
-        }
-        return message;
     }
 }

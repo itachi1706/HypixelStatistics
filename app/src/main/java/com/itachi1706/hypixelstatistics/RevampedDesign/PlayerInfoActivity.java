@@ -327,7 +327,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                     if (MinecraftColorCodes.checkDisplayName(reply)) {
                         new PlayerInfoQueryHead(activity, activity.getSupportActionBar()).execute(reply.getPlayer().get("displayname").getAsString());
                     }
-                    activity.updateActionBar("&nbsp;&nbsp;&nbsp;&nbsp;" + MinecraftColorCodes.parseHypixelRanks(reply), "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>");
+                    activity.updateActionBar("&nbsp;" + MinecraftColorCodes.parseHypixelRanks(reply), "&nbsp;&nbsp;<b>" + MinecraftColorCodes.getPlayerServerRankFormatted(reply) + "</b>");
                     activity.toolbar.setLogo(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(MinecraftColorCodes.checkDisplayName(reply) ?
                             reply.getPlayer().get("displayname").getAsString() : reply.getPlayer().get("playername").getAsString()));
 
