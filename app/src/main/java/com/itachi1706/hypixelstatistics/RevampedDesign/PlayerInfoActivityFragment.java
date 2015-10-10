@@ -3,16 +3,15 @@ package com.itachi1706.hypixelstatistics.RevampedDesign;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,23 +19,25 @@ import com.google.gson.JsonElement;
 import com.itachi1706.hypixelstatistics.FriendListActivity;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.GuildActivity;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.ExpandedResultDescListAdapter;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.DonatorStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GameStatisticsHandler;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.GeneralStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.OngoingAchievementStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.ParkourStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.QuestStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.StaffOrYtStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.DonatorStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatisticsHandler;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GeneralStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.OngoingAchievementStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.ParkourStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.QuestStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StaffOrYtStatistics;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuerySession;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.PlayerInfoExpandableRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -48,22 +49,30 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_player_info;
+        return R.layout.fragment_player_info_recycler;
     }
 
     //Fragment Elements
-    private TextView session;
-    private ExpandableListView generalDetails;
+    //private TextView session;
+    private RecyclerView generalDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
-        generalDetails = (ExpandableListView) v.findViewById(R.id.players_lvGeneral);
-        session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
+        generalDetails = (RecyclerView) v.findViewById(R.id.rvStatistics);
+        generalDetails.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        generalDetails.setLayoutManager(linearLayoutManager);
+        generalDetails.setItemAnimator(new DefaultItemAnimator());
+        
+        
+        //session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
 
-        generalDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        
+        /*generalDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (generalDetails.getItemAtPosition(position) instanceof ResultDescription) {
@@ -74,10 +83,10 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
                     }
                 }
             }
-        });
+        });*/
 
-        session.setText("To start, press the Search icon!");
-        session.setVisibility(View.VISIBLE);
+        //session.setText("To start, press the Search icon!");
+        //session.setVisibility(View.VISIBLE);
 
         setHasOptionsMenu(true);
         return v;
@@ -191,9 +200,10 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
         generalDetails.setVisibility(View.VISIBLE);
 
         //Get Session Info
-        String uuidSession = reply.getPlayer().get("uuid").getAsString();
-        session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
-        new PlayerInfoQuerySession(session).execute(uuidSession);
+        //TODO: Session Info elsewhere
+        //String uuidSession = reply.getPlayer().get("uuid").getAsString();
+        //session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
+        //new PlayerInfoQuerySession(session).execute(uuidSession);
 
         //Get Local Player Name
         String localPlayerName;
@@ -206,71 +216,78 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     }
 
     private void parse(PlayerReply reply, String localPlayerName){
-        ArrayList<ResultDescription> resultArray = new ArrayList<>();
-        resultArray.add(new ResultDescription("<b>General Statistics</b>", null, false, GeneralStatistics.parseGeneral(reply, localPlayerName), null));
+        ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
+        resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
 
         if (reply.getPlayer().has("packageRank")) {
-            resultArray.add(new ResultDescription("<b>Donator Information</b>", null, false, DonatorStatistics.parseDonor(reply), null));
+            resultArray.add(new PlayerInfoHeader("<b>Donator Information</b>", DonatorStatistics.parseDonor(reply)));
         }
 
         if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
             if (reply.getPlayer().has("rank")) {
                 if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
                     if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
-                        resultArray.add(new ResultDescription("<b>YouTuber Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                        resultArray.add(new PlayerInfoHeader("<b>YouTuber Information</b>", StaffOrYtStatistics.parsePriviledged(reply)));
                     } else {
-                        resultArray.add(new ResultDescription("<b>Staff Information</b>", null, false, StaffOrYtStatistics.parsePriviledged(reply), null));
+                        resultArray.add(new PlayerInfoHeader("<b>Staff Information</b>", StaffOrYtStatistics.parsePriviledged(reply)));
                     }
                 }
             }
         }
 
         if (reply.getPlayer().has("achievements")){
-            resultArray.add(new ResultDescription("<b>Ongoing Achievements</b>", null, false, OngoingAchievementStatistics.parseOngoingAchievements(reply), null));
+            resultArray.add(new PlayerInfoHeader("<b>Ongoing Achievements</b>", OngoingAchievementStatistics.parseOngoingAchievements(reply)));
         }
 
         if (reply.getPlayer().has("quests")){
-            resultArray.add(new ResultDescription("<b>Quest Stats</b>", null, false, QuestStatistics.parseQuests(reply), null));
+            resultArray.add(new PlayerInfoHeader("<b>Quest Stats</b>", QuestStatistics.parseQuests(reply)));
         }
         if (reply.getPlayer().has("parkourCompletions")) {
-            resultArray.add(new ResultDescription("<b>Parkour Stats</b>", null, false, ParkourStatistics.parseParkourCounts(reply), null));
+            resultArray.add(new PlayerInfoHeader("<b>Parkour Stats</b>", ParkourStatistics.parseParkourCounts(reply)));
         }
 
         if (reply.getPlayer().has("stats")){
-            ArrayList<ResultDescription> tmp = GameStatisticsHandler.parseStats(reply, localPlayerName);
-            for (ResultDescription t : tmp){
+            ArrayList<PlayerInfoHeader> tmp = GameStatisticsHandler.parseStats(reply, localPlayerName);
+            for (PlayerInfoHeader t : tmp){
                 resultArray.add(t);
             }
         }
 
-        for (ResultDescription e : resultArray) {
-            if (e.get_result() != null) {
-                e.set_result(parseColorsInResults(e));
+        for (PlayerInfoBase base : resultArray) {
+            if (!(base instanceof PlayerInfoHeader)) {
+                PlayerInfoStatistics statistics = (PlayerInfoStatistics) base;
+                if (statistics.getMessage() != null) statistics.setMessage(parseColorInPlayerStats(statistics.getMessage()));
+                if (statistics.getTitle() != null) statistics.setTitle(parseColorInPlayerStats(statistics.getTitle()));
+                continue;
             }
-            if (e.get_childItems() != null){
-                for (ResultDescription ex : e.get_childItems()){
-                    if (ex.get_result() != null){
-                        ex.set_result(parseColorsInResults(ex));
-                    }
-                }
+
+            PlayerInfoHeader e = (PlayerInfoHeader) base;
+            e.setTitle(parseColorInPlayerStats(e.getTitle()));
+            if (!e.hasChild()) continue;
+
+            List<PlayerInfoStatistics> array = e.getChild();
+            for (PlayerInfoStatistics child : array){
+                if (child.getMessage() != null) child.setMessage(parseColorInPlayerStats(child.getMessage()));
+                if (child.getTitle() != null) child.setTitle(parseColorInPlayerStats(child.getTitle()));
             }
         }
 
-        ExpandedResultDescListAdapter adapter = new ExpandedResultDescListAdapter(getActivity(), resultArray);
+        PlayerInfoExpandableRecyclerAdapter adapter = new PlayerInfoExpandableRecyclerAdapter(resultArray, getActivity());
         generalDetails.setAdapter(adapter);
     }
 
-    private String parseColorsInResults(ResultDescription e){
-        String r = e.get_result();
-        if (e.get_result().equalsIgnoreCase("true") || e.get_result().equalsIgnoreCase("enabled")) {
-            return MinecraftColorCodes.parseColors("§a" + r + "§r");
+    private String parseColorInPlayerStats(String message){
+        if (message.equalsIgnoreCase("true") )
+
+        if (message.equalsIgnoreCase("true") || message.equalsIgnoreCase("enabled")) {
+            return MinecraftColorCodes.parseColors("§a" + message + "§r");
         }
-        if (e.get_result().equalsIgnoreCase("false") || e.get_result().equalsIgnoreCase("disabled")) {
-            return MinecraftColorCodes.parseColors("§c" + r + "§r");
+        if (message.equalsIgnoreCase("false") || message.equalsIgnoreCase("disabled")) {
+            return MinecraftColorCodes.parseColors("§c" + message + "§r");
         }
-        if((e.get_result().equalsIgnoreCase("null") || e.get_result() == null) && e.is_hasDescription()){
+        if((message.equalsIgnoreCase("null"))){
             return MinecraftColorCodes.parseColors("§c" + "NONE" + "§r");
         }
-        return r;
+        return message;
     }
 }

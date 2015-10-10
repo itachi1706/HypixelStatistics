@@ -47,7 +47,7 @@ public class GameStatisticsHandler {
             if (parseVariousGamemode == null) {
                 switch (entry.getKey().toLowerCase()) {
                     case "spleef":
-                        descArray.add(new PlayerInfoHeader("Legacy Spleef Statistics", OldSpleefStatistics.parseSpleef(statistic)))
+                        descArray.add(new PlayerInfoHeader("Legacy Spleef Statistics", OldSpleefStatistics.parseSpleef(statistic)));
                         break;
                     case "holiday": //descArray.remove(descArray.size() - 1);
                         break;

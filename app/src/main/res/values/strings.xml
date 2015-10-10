@@ -55,4 +55,6 @@
     <string name="action_view_friend_list">View Friends List</string>
     <string name="lv_guild_last_online_placeholder">Last Online</string>
     <string name="lv_guild_joined_on_placeholder">Date Joined</string>
+    <string name="recyclerview_textview_placeholder">Sample Text</string>
+    <string name="activity_no_supposed_to_appear">Not Supposed To Be Here!</string>
 </resources>
