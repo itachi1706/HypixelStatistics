@@ -132,17 +132,20 @@ public class DownloadAndInstallApp extends AsyncTask<String, Float, Boolean> {
             return;
         }
 
-        notification.setContentTitle("Download Complete").setTicker("Download Complete!")
-                .setContentText("Update has been successfully downloaded")
-                .setSmallIcon(R.drawable.ic_launcher).setProgress(0,0,false);
-        manager.notify(notificationID, notification.build());
-
         Log.d("DL", "Invoking Package Manager");
         //Invoke the Package Manager
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(new File(filePATH + "app-update.apk")), "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
+
+        //Notify User and add intent to invoke update
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.setContentTitle("Download Complete").setTicker("Download Complete!")
+                .setContentText("Update has been successfully downloaded")
+                .setAutoCancel(true).setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_launcher).setProgress(0, 0, false);
+        manager.notify(notificationID, notification.build());
     }
 
     private boolean tryAndCreateFolder(File folder){
