@@ -35,9 +35,9 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlayerInfoActivityFragment extends BaseFragmentCompat {
+public class GeneralStatisticsFragment extends BaseFragmentCompat {
 
-    public PlayerInfoActivityFragment() {
+    public GeneralStatisticsFragment() {
     }
 
     @Override
@@ -53,15 +53,13 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
     static String[] noStatistics = {"To start, press the Search icon!"};
     private StringRecyclerAdapter noStatAdapter;
 
-    private String playerJsonString = "";
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
-        generalDetails = (RecyclerView) v.findViewById(R.id.rvStatistics);
+        generalDetails = (RecyclerView) v.findViewById(R.id.player_info_recycler_view);
         generalDetails.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -69,23 +67,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
         generalDetails.setItemAnimator(new DefaultItemAnimator());
 
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
-        
-        
-        //session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
-
-        
-        /*generalDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (generalDetails.getItemAtPosition(position) instanceof ResultDescription) {
-                    ResultDescription desc = (ResultDescription) generalDetails.getItemAtPosition(position);
-                    if (desc.get_alert() != null) {
-                        new AlertDialog.Builder(getActivity()).setTitle(desc.get_title())
-                                .setMessage(Html.fromHtml(desc.get_alert())).show();
-                    }
-                }
-            }
-        });*/
 
         generalDetails.setAdapter(noStatAdapter);
         return v;
@@ -93,17 +74,15 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     @Override
     public void processPlayerJson(String json){
-        Log.i("HypixelStatistics", "Switched to PlayerInfoActivityFragment");
+        Log.i("HypixelStatistics", "Switched to GeneralStatisticsFragment");
         if (json == null || json.equals("")) { generalDetails.setAdapter(noStatAdapter); return; }
-        playerJsonString = json;
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);
         process(reply);
     }
 
     @Override
-    public void processPlayerObject(PlayerReply object, String json){
-        playerJsonString = json;
+    public void processPlayerObject(PlayerReply object){
         process(object);
     }
 
@@ -111,12 +90,6 @@ public class PlayerInfoActivityFragment extends BaseFragmentCompat {
 
     private void process(PlayerReply reply){
         generalDetails.setVisibility(View.VISIBLE);
-
-        //Get Session Info
-        //TODO: Session Info elsewhere
-        //String uuidSession = reply.getPlayer().get("uuid").getAsString();
-        //session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
-        //new PlayerInfoQuerySession(session).execute(uuidSession);
 
         //Get Local Player Name
         String localPlayerName;

@@ -162,7 +162,8 @@ public class PlayerInfoActivity extends AppCompatActivity {
     {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFrag(new PlayerInfoActivityFragment(), "Player Stats");
+        adapter.addFrag(new GeneralInfoFragment(), "Session");  //TODO: WIP. Future General Information
+        adapter.addFrag(new GeneralStatisticsFragment(), "Player Stats");
 
         viewPager.setAdapter(adapter);
     }
@@ -411,7 +412,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                     Fragment currentFragment = adapter.getItem(activity.viewPager.getCurrentItem());
                     if (currentFragment instanceof BaseFragmentCompat){
                         BaseFragmentCompat fragmentCompat = (BaseFragmentCompat) currentFragment;
-                        fragmentCompat.processPlayerObject(reply, json);
+                        fragmentCompat.processPlayerObject(reply);
                     }
                     break;
                 case 1001: //Fail Display Error Message

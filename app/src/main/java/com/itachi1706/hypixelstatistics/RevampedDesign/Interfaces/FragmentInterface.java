@@ -8,5 +8,5 @@ import net.hypixel.api.reply.PlayerReply;
  */
 public interface FragmentInterface {
     void processPlayerJson(String json);
-    void processPlayerObject(PlayerReply obj, String json);
+    void processPlayerObject(PlayerReply obj);
 }
