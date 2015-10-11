@@ -125,8 +125,7 @@ public class GenerateFriendsList extends AsyncTask<String, Void, String> {
             playerRecyclerView.setAdapter(noFriendsAdapter);
             return;
         }
-        MainStaticVars.friends_session_data.clear();
-        MainStaticVars.friends_last_online_data.clear();
+
         //Process Friends Requests
         Message msg = Message.obtain();
         msg.what = FRIEND_LIST_GET;

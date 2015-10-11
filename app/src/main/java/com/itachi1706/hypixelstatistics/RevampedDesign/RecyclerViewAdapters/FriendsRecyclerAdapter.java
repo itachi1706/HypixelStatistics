@@ -19,6 +19,9 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoFriend
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoFriends;
 import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsHead;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsName;
+import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
@@ -38,15 +41,26 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
     private List<FriendsObject> items;
     private Activity activity;
 
+    private String friendOwner = "";
+
     public FriendsRecyclerAdapter(List<FriendsObject> friendsObjects, Activity activity){
         this.items = friendsObjects;
         this.activity = activity;
     }
 
+    public void updateFriendsOwner(String newFriendsOwner){
+        this.friendOwner = newFriendsOwner;
+    }
+
+    public void updateAdapter(List<FriendsObject> newItems){
+        this.items = newItems;
+        notifyDataSetChanged();
+    }
+
     @Override
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View friendView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listview_guild_desc, parent, false);
+                .inflate(R.layout.recyclerview_player_info_friends, parent, false);
         return new FriendsViewHolder(friendView);
     }
 
@@ -71,7 +85,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                 holder.prog.setVisibility(View.GONE);
                 Log.d("HEAD RETRIEVAL", "Retrieved " + object.get_mcName() + "'s Head from device");
             } else {
-                new GetFriendsHead(activity.getApplicationContext(), holder.head, holder.prog).execute(object);
+                new RetriveFriendsHead(activity.getApplicationContext(), holder.head, holder.prog).execute(object);
             }
             if (MainStaticVars.friends_last_online_data.containsKey(object.getFriendUUID())){
                 holder.lastOnline.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.friends_last_online_data.get(object.getFriendUUID()))));
@@ -101,6 +115,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
             lastOnline = (TextView) v.findViewById(R.id.tvTimeStatus);
             head = (ImageView) v.findViewById(R.id.ivHead);
             prog = (ProgressBar) v.findViewById(R.id.pbPlayerHeadProg);
+            v.setOnClickListener(this);
         }
 
         @Override
@@ -110,9 +125,9 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
 
             String message;
             if (item.isSendFromOwner()){
-                message = "Friend Request sent by " + MainStaticVars.friendOwner + "<br />";
+                message = "Friend Request sent by " + friendOwner + "<br />";
             } else {
-                message = "Sent Friend Request to " + MainStaticVars.friendOwner + "<br />";
+                message = "Sent Friend Request to " + friendOwner + "<br />";
             }
             String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(item.getDate()));
             message += "Friends From: " + timeStamp;
@@ -121,7 +136,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                     .setPositiveButton("View Player Info", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intentE = new Intent(activity, PlayerInfoActivity.class);
+                            Intent intentE = new Intent(activity, MiddleActivityBetweenSingleTopActivity.class);
                             intentE.putExtra("player", item.get_mcName());
                             activity.startActivity(intentE);
                         }

@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Friends;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,8 +21,7 @@ import java.net.URLConnection;
  * Created by Kenneth on 11/11/2014, 9:19 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-@Deprecated
-public class GetFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
+public class RetriveFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
 
     Context mContext;
     Exception except = null;
@@ -31,13 +30,13 @@ public class GetFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
     ImageView image;
     boolean retry = false;
 
-    public GetFriendsHead(Context context, ImageView view, ProgressBar progress){
+    public RetriveFriendsHead(Context context, ImageView view, ProgressBar progress){
         mContext = context;
         image = view;
         bar = progress;
     }
 
-    public GetFriendsHead(Context context, ImageView view, ProgressBar progress, boolean retrying){
+    public RetriveFriendsHead(Context context, ImageView view, ProgressBar progress, boolean retrying){
         mContext = context;
         image = view;
         bar = progress;
@@ -93,7 +92,7 @@ public class GetFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
                 Log.d("BOOSTER HEAD EXCEPTION", "An Exception Occurred (" + except.getMessage() + ")");
                 if (!retry) {
                     Log.d("BOOSTER HEAD EXCEPTION", "Retrying 1 more time from a different site");
-                    new GetFriendsHead(mContext, image, bar, true).execute(data);
+                    new RetriveFriendsHead(mContext, image, bar, true).execute(data);
                 } else {
                     bar.setVisibility(View.GONE);
                 }
@@ -103,7 +102,7 @@ public class GetFriendsHead extends AsyncTask<FriendsObject, Void, Drawable> {
                 //Toast.makeText(mContext, "Head Download Timed Out. Please try again later.", Toast.LENGTH_SHORT).show();
                 if (!retry) {
                     Log.d("TIMED OUT", "BOOSTER HEAD. Retrying 1 more time from a different site...");
-                    new GetFriendsHead(mContext, image, bar, true).execute(data);
+                    new RetriveFriendsHead(mContext, image, bar, true).execute(data);
                 } else {
                     Log.d("TIMED OUT", "BOOSTER HEAD. Unable to get head!");
                     bar.setVisibility(View.GONE);

@@ -40,6 +40,7 @@ import java.util.List;
  * Created by Kenneth on 11/4/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.AsyncAPI.Friends
  */
+@Deprecated
 public class GetFriendsListPlayer extends AsyncTask<String, Void, String> {
 
     private String playerName;

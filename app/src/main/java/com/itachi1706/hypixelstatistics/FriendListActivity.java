@@ -28,7 +28,7 @@ import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@Deprecated
 public class FriendListActivity extends AppCompatActivity {
 
     TextView friendsCount, progressInfo;

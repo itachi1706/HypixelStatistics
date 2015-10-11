@@ -47,7 +47,7 @@ public class MainStaticVars {
     public static boolean isStaff = false, isCreator = false;
 
     //Player Stats
-    public static String knownAliases = "";
+    @Deprecated public static String knownAliases = "";
 
     //Server Info
     public static int playerCount = 0, maxPlayerCount = 0;
@@ -55,10 +55,10 @@ public class MainStaticVars {
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
 
-    public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
-    public static int friendsListSize = 0;
-    public static String friendOwner = "";
-    public static FriendsListAdapter friendsListAdapter;
+    @Deprecated public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
+    @Deprecated public static int friendsListSize = 0;
+    @Deprecated public static String friendOwner = "";
+    @Deprecated public static FriendsListAdapter friendsListAdapter;
 
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 13;
@@ -92,6 +92,7 @@ public class MainStaticVars {
         return newurl;
     }
 
+    @Deprecated
     public static void resetKnownAliases(){
         knownAliases = "";
     }

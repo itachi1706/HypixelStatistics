@@ -154,7 +154,6 @@ public class PlayerInfoActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         Log.d("Player Info", "Resuming App");
-        MainStaticVars.resetKnownAliases();
         MainStaticVars.updateTimeout(this);
     }
 
@@ -164,6 +163,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
 
         adapter.addFrag(new GeneralInfoFragment(), "Session");  //TODO: WIP. Future General Information
         adapter.addFrag(new GeneralStatisticsFragment(), "Player Stats");
+        adapter.addFrag(new FriendsStatisticsFragment(), "Friends");
 
         viewPager.setAdapter(adapter);
     }
@@ -239,8 +239,7 @@ public class PlayerInfoActivity extends AppCompatActivity {
                     for (JsonElement e : arr){
                         listOfAliases.append(e.getAsString()).append("\n");
                     }
-                    MainStaticVars.knownAliases = listOfAliases.toString();
-                    message = "\n" + MainStaticVars.knownAliases;
+                    message = "\n" + listOfAliases.toString();
                 } else {
                     message = "\nPlayer has no known aliases";
                 }

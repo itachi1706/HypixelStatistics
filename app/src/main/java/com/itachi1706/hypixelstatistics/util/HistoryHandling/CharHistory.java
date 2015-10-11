@@ -1,6 +1,9 @@
 package com.itachi1706.hypixelstatistics.util.HistoryHandling;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -107,5 +110,21 @@ public class CharHistory {
 
     public static HistoryArrayObject[] convertHistoryListToArray(List<HistoryArrayObject> historyArrayObjects){
         return historyArrayObjects.toArray(new HistoryArrayObject[historyArrayObjects.size()]);
+    }
+
+    public static boolean checkHistory(PlayerReply reply, Context mContext){
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+        if (hist != null) {
+            Gson gson = new Gson();
+            HistoryObject check = gson.fromJson(hist, HistoryObject.class);
+            List<HistoryArrayObject> histCheck = CharHistory.convertHistoryArrayToList(check.getHistory());
+            for (HistoryArrayObject histCheckName : histCheck) {
+                if (histCheckName.getPlayername().equals(reply.getPlayer().get("playername").getAsString())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 }

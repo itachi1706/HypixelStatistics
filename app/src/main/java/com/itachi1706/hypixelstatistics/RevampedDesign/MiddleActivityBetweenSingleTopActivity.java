@@ -12,6 +12,7 @@ public class MiddleActivityBetweenSingleTopActivity extends Activity {
 
         Intent newIntent = new Intent(this, PlayerInfoActivity.class);
         if (getIntent().hasExtra("playerUuid")) newIntent.putExtra("playerUuid", getIntent().getStringExtra("playerUuid"));
+        if (getIntent().hasExtra("player")) newIntent.putExtra("player", getIntent().getStringExtra("player"));
 
         startActivity(newIntent);
         finish();
