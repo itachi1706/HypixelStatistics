@@ -6,7 +6,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
-import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -128,7 +127,6 @@ public class GeneralStatistics {
             for (JsonElement e : arr){
                 listOfAliases.append(e.getAsString()).append("\n");
             }
-            MainStaticVars.knownAliases = listOfAliases.toString();
             descArray.add(new PlayerInfoStatistics("Known Aliases", listOfAliases.toString().replace("\n", " ")));
         }
         return descArray;
@@ -136,6 +134,10 @@ public class GeneralStatistics {
 
     private static String parseTimeOnline(long time){
         //Get Days if there is
+        if (time > 44640){
+            //Theres Months (M, D, H, M)
+            return String.format("%d Months, %d Days, %d Hours, %d Minutes", TimeUnit.MINUTES.toDays(time) / 31, TimeUnit.MINUTES.toDays(time) % 31 , TimeUnit.MINUTES.toHours(time) - TimeUnit.DAYS.toHours(TimeUnit.MINUTES.toDays(time)), time - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(time)));
+        }
         if (time > 1440){
             //Theres Days (D, H, M)
             return String.format("%d Days, %d Hours, %d Minutes", TimeUnit.MINUTES.toDays(time), TimeUnit.MINUTES.toHours(time) - TimeUnit.DAYS.toHours(TimeUnit.MINUTES.toDays(time)), time - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(time)));
