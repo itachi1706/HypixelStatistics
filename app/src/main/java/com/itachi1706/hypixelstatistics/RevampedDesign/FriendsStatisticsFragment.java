@@ -1,7 +1,8 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,10 +55,11 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     private RecyclerView recyclerView;
     private ProgressDialog processDialog;
 
+    private Context context;
+
 
     static String[] noStatistics = {"To start, press the Search icon!"};
     private StringRecyclerAdapter noStatAdapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +74,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
+        context = getContext();
 
         recyclerView.setAdapter(noStatAdapter);
         return v;
@@ -80,7 +83,9 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     @Override
     public void processPlayerJson(String json){
         Log.i("HypixelStatistics", "Switched to FriendsStatisticsFragment");
-        if (json == null || json.equals("")) { recyclerView.setAdapter(noStatAdapter); return; }
+        if (json == null || json.equals("")) {
+            recyclerView.setAdapter(noStatAdapter); return;
+        }
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);
         process(reply);
@@ -115,7 +120,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         processDialog.setCancelable(false);
         processDialog.show();
 
-        new GenerateFriendsList(getActivity(), recyclerView, new FriendHandler(this)).execute(searchQuery);
+        new GenerateFriendsList(getActivity(), recyclerView, new FriendHandler(this)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, searchQuery);
         uuidValue = searchQuery;
     }
 
@@ -188,11 +193,12 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
             playerName.set_mcNameWithRank(MinecraftColorCodes.parseHypixelRanks(reply));
         }
         playerName.set_done(true);
-        if (!CharHistory.checkHistory(reply, getActivity().getApplicationContext())) {
-            CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()));
+        if (!CharHistory.checkHistory(reply, context)) {
+            CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(context));
             Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
         }
         friendsList.add(playerName);
+        checkIfComplete();
     }
 
     private void processFriendsReplyObject(FriendsReply reply){
@@ -214,7 +220,6 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         }
         friendsListSize = processedSize;
         friendsList.clear();
-
         friendsListAdapter = new FriendsRecyclerAdapter(friendsList, getActivity());
         friendsListAdapter.updateFriendsOwner(friendOwner);
         recyclerView.setAdapter(friendsListAdapter);
@@ -237,26 +242,15 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     }
 
     private void checkIfComplete(){
-        boolean done = true;
-        for (FriendsObject o : friendsList){
-            if (!o.is_done()){
-                done = false;
-                break;
-            }
-        }
+        friendsListAdapter.updateAdapter(friendsList);
 
-        if (done){
-            friendsListAdapter.updateAdapter(friendsList);
-        }
-
-        if (friendsList.size() >= friendsListSize){
+        //if (friendsList.size() >= friendsListSize){
             //Complete. Hide progress data
-            //TODO: Do something when completed
-        }
+        //}
     }
 
     private HistoryArrayObject checkHistory(String uuid){
-        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()));
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(context));
         Gson gson = new Gson();
         if (hist != null) {
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
@@ -267,7 +261,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
                     if (CharHistory.checkHistoryExpired(histCheckName)) {
                         //Expired, reobtain
                         histCheck.remove(histCheckName);
-                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()), histCheck);
+                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(context), histCheck);
                         Log.d("HISTORY", "History Expired");
                         break;
                     } else {
