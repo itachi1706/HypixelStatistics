@@ -31,7 +31,6 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.itachi1706.hypixelstatistics.FriendListActivity;
 import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.GuildActivity;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
@@ -270,24 +269,6 @@ public class PlayerInfoActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.ok, null).show();
             }
 
-        } else if (id == R.id.view_friends){
-            if (playerJsonString.length() > 200) {
-                Gson gson = new Gson();
-                PlayerReply reply = gson.fromJson(playerJsonString, PlayerReply.class);
-                if (reply.getPlayer().has("uuid")) {
-                    Intent intent = new Intent(this, FriendListActivity.class);
-                    intent.putExtra("playeruuid", reply.getPlayer().get("uuid").getAsString());
-                    startActivity(intent);
-                } else {
-                    new AlertDialog.Builder(this).setTitle("Player not found")
-                            .setMessage("Please search a player to view his/her friend's list!")
-                            .setPositiveButton(android.R.string.ok, null).show();
-                }
-            } else {
-                new AlertDialog.Builder(this).setTitle("Player not found")
-                        .setMessage("Please search a player to view his/her friend's list!")
-                        .setPositiveButton(android.R.string.ok, null).show();
-            }
         }
 
         return super.onOptionsItemSelected(item);

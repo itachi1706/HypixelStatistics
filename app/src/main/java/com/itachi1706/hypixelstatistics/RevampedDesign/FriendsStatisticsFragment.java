@@ -76,15 +76,20 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
         context = getContext();
 
-        recyclerView.setAdapter(noStatAdapter);
+        processPlayerJson(null);
         return v;
     }
 
     @Override
     public void processPlayerJson(String json){
         Log.i("HypixelStatistics", "Switched to FriendsStatisticsFragment");
+        if (!(friendsListAdapter == null || friendOwner == null || friendsList == null || friendsList.size() == 0)) {
+            recyclerView.setAdapter(friendsListAdapter);
+            return;
+        }
         if (json == null || json.equals("")) {
-            recyclerView.setAdapter(noStatAdapter); return;
+            recyclerView.setAdapter(noStatAdapter);
+            return;
         }
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);

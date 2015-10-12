@@ -11,8 +11,6 @@
         android:orderInCategory="96" app:showAsAction="never" />
     <item android:id="@+id/view_guild" android:title="@string/action_view_player_guild"
         android:orderInCategory="97" app:showAsAction="never" />
-    <item android:id="@+id/view_friends" android:title="@string/action_view_friend_list"
-        android:orderInCategory="97" app:showAsAction="never"/>
     <item android:id="@+id/view_debug" android:title="@string/action_view_debug"
         android:orderInCategory="98" app:showAsAction="never" />
 </menu>
