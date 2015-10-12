@@ -5,7 +5,6 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.Warlord
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords
  */
 @SuppressWarnings("unused")
-@Deprecated
 public enum WeaponDamage {
     ZERO("0 - 0", 0, 0, 0),
     EIGHTY("68 - 92", 68, 92, 80),

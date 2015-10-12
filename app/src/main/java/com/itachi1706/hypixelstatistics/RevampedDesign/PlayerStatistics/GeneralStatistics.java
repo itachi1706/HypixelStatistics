@@ -1,7 +1,5 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics;
 
-import android.annotation.SuppressLint;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
@@ -14,6 +12,7 @@ import net.hypixel.api.util.GameType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,7 +27,6 @@ public class GeneralStatistics {
     networkLevel, mostRecentlyThanked, mostRecentlyTipped, thanksSent, tipsSent, channel, chat, tournamentTokens,
     vanityTokens, mostRecentGameType, seeRequest, tipsReceived, thanksReceived, achievementsOneTime
      */
-    @SuppressLint("SimpleDateFormat")
     public static ArrayList<PlayerInfoStatistics> parseGeneral(PlayerReply reply, String localPlayerName){
         ArrayList<PlayerInfoStatistics> descArray = new ArrayList<>();
         if (reply.getPlayer().has("rank"))
@@ -58,9 +56,9 @@ public class GeneralStatistics {
         if (reply.getPlayer().has("karma"))
             descArray.add(new PlayerInfoStatistics("Karma",reply.getPlayer().get("karma").getAsString()));
         if (reply.getPlayer().has("firstLogin"))
-            descArray.add(new PlayerInfoStatistics("First Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
+            descArray.add(new PlayerInfoStatistics("First Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
         if (reply.getPlayer().has("lastLogin"))
-            descArray.add(new PlayerInfoStatistics("Last Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
+            descArray.add(new PlayerInfoStatistics("Last Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
         if (reply.getPlayer().has("timePlaying"))
             descArray.add(new PlayerInfoStatistics("Time Played (From 16 May 2014) ",MinecraftColorCodes.parseColors(parseTimeOnline(reply.getPlayer().get("timePlaying").getAsLong()))));
         if (reply.getPlayer().has("networkExp"))

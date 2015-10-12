@@ -32,8 +32,6 @@ public class GeneralInfoFragment extends BaseFragmentCompat {
     //Fragment Elements
     private TextView session;
 
-    private String noStats = "To start, press the Search icon!";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +47,7 @@ public class GeneralInfoFragment extends BaseFragmentCompat {
     public void processPlayerJson(String json){
         Log.i("HypixelStatistics", "Switched to GeneralInfoFragment");
         if (json == null || json.equals("")) {
+            String noStats = "To start, press the Search icon!";
             session.setText(noStats);
             return;
         }

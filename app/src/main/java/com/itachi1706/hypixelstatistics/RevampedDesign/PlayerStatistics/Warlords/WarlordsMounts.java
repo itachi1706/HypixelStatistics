@@ -4,7 +4,6 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.Warlord
  * Created by Kenneth on 2/5/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords
  */
-@Deprecated
 public enum WarlordsMounts {
     NOBLE_STEED("noble_steed", "§7Noble Steed§r"),
     UNDYING_MARE("undying_mare", "§aUndying Mare§r"),

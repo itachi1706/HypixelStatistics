@@ -5,7 +5,6 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.Warlord
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
 @SuppressWarnings("unused")
-@Deprecated
 public enum WeaponName {
     WOODEN_AXE("Steel Sword", WeaponCategory.COMMON),
     STONE_AXE("Training Sword", WeaponCategory.COMMON),

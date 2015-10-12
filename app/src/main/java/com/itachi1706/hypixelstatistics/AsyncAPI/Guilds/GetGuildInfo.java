@@ -1,6 +1,5 @@
 package com.itachi1706.hypixelstatistics.AsyncAPI.Guilds;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -11,17 +10,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.GuildMemberAdapter;
+import com.itachi1706.hypixelstatistics.ListViewAdapters.ResultDescListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
+import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
+import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.GuildMemberAdapter;
-import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
-import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.ResultDescListAdapter;
-import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.GuildReply;
 
@@ -36,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -91,7 +91,6 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         return tmp;
     }
 
-    @SuppressLint("SimpleDateFormat")
     protected void onPostExecute(String json) {
         MainStaticVars.guild_member_session_data.clear();
         MainStaticVars.guild_last_online_data.clear();
@@ -138,7 +137,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         guildInfo.add(new ResultDescription("Guild Name", reply.getGuild().get("name").getAsString()));
         guildInfo.add(new ResultDescription("Guild ID", guildID));
         if (reply.getGuild().has("created"))
-            guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(reply.getGuild().get("created").getAsLong()))));
+            guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getGuild().get("created").getAsLong()))));
         if (reply.getGuild().has("joinable")) {
             if (reply.getGuild().get("joinable").getAsBoolean())
                 guildInfo.add(new ResultDescription("Join Request", MinecraftColorCodes.parseColors("§aEnabled§r")));

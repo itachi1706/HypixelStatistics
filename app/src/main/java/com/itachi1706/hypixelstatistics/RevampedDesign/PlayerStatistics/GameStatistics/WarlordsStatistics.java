@@ -1,8 +1,8 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatistics;
 
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords.DetailedWeaponStatistics;
-import com.itachi1706.hypixelstatistics.PlayerStatistics.Warlords.WarlordsMounts;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.Warlords.DetailedWeaponStatistics;
+import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.Warlords.WarlordsMounts;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;

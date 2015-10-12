@@ -1,7 +1,5 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics;
 
-import android.annotation.SuppressLint;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.GeneralPlayerStats.QuestName;
@@ -14,6 +12,7 @@ import net.hypixel.api.reply.PlayerReply;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ public class QuestStatistics {
                 qArray.add(new PlayerInfoStatistics("Status", MinecraftColorCodes.parseColors("§aActive§r")));
                 //Get Start Time
                 long timings = entry.getValue().getAsJsonObject().get("active").getAsJsonObject().get("started").getAsLong();
-                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(timings));
+                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(timings));
                 qArray.add(new PlayerInfoStatistics("Date Started", timeStamp + "<br />"));
 
                 if (entry.getValue().getAsJsonObject().get("active").getAsJsonObject().has("objectives")){

@@ -211,7 +211,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     private void processFriendsReplyObject(FriendsReply reply){
         //Update info
         ArrayList<FriendsObject> friendsListTemp = new ArrayList<>();
-        int processedProgress = 1, processedSize = reply.getRecords().size();
+        int processedSize = reply.getRecords().size();
         for (JsonElement e : reply.getRecords()) {
             JsonObject obj = e.getAsJsonObject();
             long friendsFromDate = obj.get("started").getAsLong();
