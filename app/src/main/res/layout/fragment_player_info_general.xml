@@ -17,4 +17,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerSkin"
+        android:layout_below="@+id/player_tvSessionInfo"
+        android:src="@drawable/steve_skin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="300dp"
+        android:minWidth="150dp" />
+
 </RelativeLayout>
