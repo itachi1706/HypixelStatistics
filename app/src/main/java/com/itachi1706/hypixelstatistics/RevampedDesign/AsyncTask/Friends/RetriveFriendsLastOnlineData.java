@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Players;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends;
 
 import android.os.AsyncTask;
 import android.text.Html;
@@ -20,19 +20,19 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Kenneth on 9/4/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.AsyncAPI.Session
  */
-@Deprecated
-public class GetLastOnlineInfoFriends extends AsyncTask<String, Void, String> {
+public class RetriveFriendsLastOnlineData extends AsyncTask<String, Void, String> {
 
     Exception except = null;
     TextView result;
     String uuidValue;
 
-    public GetLastOnlineInfoFriends(TextView playerLastOnline){
+    public RetriveFriendsLastOnlineData(TextView playerLastOnline){
         this.result = playerLastOnline;
     }
 
@@ -124,7 +124,7 @@ public class GetLastOnlineInfoFriends extends AsyncTask<String, Void, String> {
                         long minutes = seconds / 60;
                         resultString = "Last Online: " + minutes + " mins ago";
                     } else
-                        resultString = "Last Online: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(dateLong));
+                        resultString = "Last Online: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(dateLong));
                     result.setText(resultString);
                 } else {
                     resultString = "Last Online: §4Unknown§r";

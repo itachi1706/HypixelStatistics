@@ -1,8 +1,8 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Session;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,14 +23,12 @@ import java.net.URL;
  * Created by Kenneth on 9/4/2015
  * for HypixelStatistics in package com.itachi1706.hypixelstatistics.AsyncAPI.Session
  */
-@Deprecated
-public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
+public class RetriveFriendsSessionData extends AsyncTask<String, Void, String> {
 
     Exception except = null;
     TextView result;
-    String uuidValue;
 
-    public GetSessionInfoFriends(TextView playerSession){
+    public RetriveFriendsSessionData(TextView playerSession){
         this.result = playerSession;
     }
 
@@ -39,8 +37,6 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
         String url = MainStaticVars.API_BASE_URL + "?type=session&uuid=" + uuidQuery[0];
         url = MainStaticVars.updateURLWithApiKeyIfExists(url);
         String tmp = "";
-        uuidValue = uuidQuery[0];
-        Log.i("SESSION-FRIEND", "Getting Session Data for " + uuidQuery[0]);
         //Get Statistics
         try {
             URL urlConn = new URL(url);
@@ -68,61 +64,44 @@ public class GetSessionInfoFriends extends AsyncTask<String, Void, String> {
         return tmp;
     }
 
-    /**
-     * Unknown Level Status (Refer to logcat for details)
-     * 2 - Socket Timed Out (Read/Connect)
-     * 3 - Exception Occurred
-     * 4 - Cloudflare Timeout
-     * 5 - Invalid JSON
-     */
-
     protected void onPostExecute(String json){
-        String resultString = "";
-        Log.i("SESSION-FRIEND", "Session Data received for " + uuidValue + ". Parsing...");
         if (except != null){
             if (except instanceof SocketTimeoutException) {
-                resultString += "§4Unknown [2]§r";
-                Log.e("SESSION-ERR", "Connection Timed Out. Try again later");
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                result.setText("Connection Timed Out. Try again later");
+                result.setTextColor(Color.RED);
             } else {
-                resultString += "§4Unknown [3]§r";
-                Log.e("SESSION-ERR", except.getMessage());
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                result.setText(except.getMessage());
+                result.setTextColor(Color.RED);
             }
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
-                if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare")){
-                    resultString += "§4Unknown [4]§r";
-                    Log.e("SESSION-ERR", "CloudFlare timeout 524 occurred");
-                } else {
-                    resultString += "§4Unknown [5]§r";
-                    Log.e("SESSION-ERR", "An error occured (Invalid JSON String)");
-                }
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
+                    result.setText("CloudFlare timeout 524 occurred");
+                else
+                    result.setText("An error occured (Invalid JSON String)");
+                result.setTextColor(Color.RED);
                 return;
             }
             SessionReply reply = gson.fromJson(json, SessionReply.class);
             if (reply.isThrottle()){
-                resultString += "§4Throttled§r";
-                Log.e("SESSION-ERR", "Unknown Status (Query limit reached)");
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                result.setText("Unknown Status (Query limit reached)");
+                result.setTextColor(Color.RED);
             } else if (!reply.isSuccess()){
-                resultString += "§4Unknown UUID§r";
-                Log.e("SESSION-ERR", "Invalid UUID");
-                result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                result.setText("Invalid UUID");
+                result.setTextColor(Color.RED);
             } else {
                 if (reply.getSession() == null){
                     //Not in game
-                    resultString += "§cNot In-Game§r";
-                    result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                    result.setText("Not In-Game");
+                    result.setTextColor(Color.RED);
                 } else {
+                    result.setTextColor(Color.WHITE);
                     String serverName = reply.getSession().get("server").getAsString();
                     int playerCount = reply.getSession().get("players").getAsJsonArray().size();
-                    resultString += "§aIn-Game §r[§b" + serverName + " §r-§d " + playerCount + "§r players§r]";
-                    result.setText(Html.fromHtml(MinecraftColorCodes.parseColors(resultString)));
+                    result.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§aIn-Game§r (§6" + serverName +
+                            "§r) <br />Player Count: §b" + playerCount + "§r")));
                 }
-                MainStaticVars.friends_session_data.put(uuidValue, resultString);
             }
         }
     }

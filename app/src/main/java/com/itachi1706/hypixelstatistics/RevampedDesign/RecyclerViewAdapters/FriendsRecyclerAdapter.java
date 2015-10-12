@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoFriends;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoFriends;
 import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsHead;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsLastOnlineData;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsSessionData;
 import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
@@ -94,7 +94,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                 holder.session.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.friends_session_data.get(object.getFriendUUID()))));
             } else {
                 holder.session.setText("Getting Session Information");
-                new GetSessionInfoFriends(holder.session).execute(object.getFriendUUID());
+                new RetriveFriendsSessionData(holder.session).execute(object.getFriendUUID());
             }
             String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(object.getDate()));
             holder.joined.setText("Friends From: " + timeStamp);
@@ -111,7 +111,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                 holder.lastOnline.setText(Html.fromHtml(MinecraftColorCodes.parseColors(MainStaticVars.friends_last_online_data.get(object.getFriendUUID()))));
             } else {
                 holder.lastOnline.setText("Getting Last Online Information...");
-                new GetLastOnlineInfoFriends(holder.lastOnline).execute(object.getFriendUUID());
+                new RetriveFriendsLastOnlineData(holder.lastOnline).execute(object.getFriendUUID());
             }
         }
     }
