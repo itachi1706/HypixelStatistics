@@ -157,6 +157,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intentE = new Intent(activity, MiddleActivityBetweenSingleTopActivity.class);
+                            intentE.putExtra("class", "PlayerInfo");
                             intentE.putExtra("player", item.get_mcName());
                             activity.startActivity(intentE);
                         }

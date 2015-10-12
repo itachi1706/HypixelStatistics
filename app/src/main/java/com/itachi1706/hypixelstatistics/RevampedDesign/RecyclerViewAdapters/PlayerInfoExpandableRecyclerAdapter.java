@@ -184,6 +184,7 @@ public class PlayerInfoExpandableRecyclerAdapter extends RecyclerView.Adapter<Re
                 String[] tmp = item.getAction().split(" ");
                 String uuid_to_go_to = tmp[1];
                 Intent uuidOfPlayer = new Intent(mActivity, MiddleActivityBetweenSingleTopActivity.class);
+                uuidOfPlayer.putExtra("class", "PlayerInfo");
                 uuidOfPlayer.putExtra("playerUuid", uuid_to_go_to);
                 Log.d("INTENT-ACTIVITY_LAUNCH", "Sending intent to launch activity to search with UUID: " + uuid_to_go_to);
                 mActivity.startActivity(uuidOfPlayer);
