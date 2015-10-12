@@ -20,6 +20,7 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatist
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by Kenneth on 10/10/2015.
@@ -100,7 +101,9 @@ public class PlayerInfoExpandableRecyclerAdapter extends RecyclerView.Adapter<Re
 
         items.get(add).setIsExpanded(true);
 
-        for (PlayerInfoStatistics statistics : child){
+        ListIterator iterator = child.listIterator(child.size());
+        while (iterator.hasPrevious()){
+            PlayerInfoStatistics statistics = (PlayerInfoStatistics) iterator.previous();
             items.add(add+1, statistics);
             notifyItemInserted(add + 1);
         }
