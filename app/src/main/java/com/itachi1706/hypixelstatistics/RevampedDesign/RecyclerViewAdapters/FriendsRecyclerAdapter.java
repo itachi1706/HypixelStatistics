@@ -14,15 +14,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.Friends.GetFriendsHead;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Players.GetLastOnlineInfoFriends;
 import com.itachi1706.hypixelstatistics.AsyncAPI.Session.GetSessionInfoFriends;
 import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsHead;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsName;
 import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -31,6 +28,7 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Kenneth on 10/10/2015.
@@ -44,6 +42,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
     private String friendOwner = "";
 
     public FriendsRecyclerAdapter(List<FriendsObject> friendsObjects, Activity activity){
+        Log.d("FriendsRecyclerAdapter", "Init Friends Object: " + friendsObjects.size());
         this.items = friendsObjects;
         this.activity = activity;
     }
@@ -52,9 +51,30 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
         this.friendOwner = newFriendsOwner;
     }
 
-    public void updateAdapter(List<FriendsObject> newItems){
-        this.items = newItems;
+    public void updateAdapterIfDifferent(List<FriendsObject> newItems){
+        if (newItems.size() != items.size()){
+            updateAdater(newItems);
+            return;
+        }
+
+        for (int i = 0; i < items.size(); i++){
+            if (!items.get(i).equals(newItems.get(i))){
+                updateAdater(newItems);
+                break;
+            }
+        }
+    }
+
+    private void updateAdater(List<FriendsObject> updatedItems){
+        this.items = updatedItems;
         notifyDataSetChanged();
+    }
+
+    public void addNewFriend(FriendsObject f){
+        Log.d("FriendsRecyclerAdapter", "Updating object for " + f.get_mcName());
+        int added = this.items.size();
+        //this.items.add(f);
+        notifyItemInserted(added);
     }
 
     @Override
@@ -76,7 +96,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                 holder.session.setText("Getting Session Information");
                 new GetSessionInfoFriends(holder.session).execute(object.getFriendUUID());
             }
-            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(object.getDate()));
+            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(object.getDate()));
             holder.joined.setText("Friends From: " + timeStamp);
             holder.prog.setVisibility(View.VISIBLE);
             holder.head.setImageDrawable(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(object.get_mcName()));

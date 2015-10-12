@@ -98,6 +98,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
 
     @Override
     public void processPlayerObject(PlayerReply object){
+        recyclerView.setAdapter(noStatAdapter);
         process(object);
     }
 
@@ -158,7 +159,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     }
 
     private String uuidValue;
-    private List<FriendsObject> friendsList = new ArrayList<>();
+    private List<FriendsObject> friendsList;
     private int friendsListSize;
     private String friendOwner;
     private FriendsRecyclerAdapter friendsListAdapter;
@@ -202,7 +203,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
             CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(context));
             Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
         }
-        friendsList.add(playerName);
+        addToAdapter(playerName);
         checkIfComplete();
     }
 
@@ -224,34 +225,42 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
             friendsListTemp.add(friends);
         }
         friendsListSize = processedSize;
+        friendsList = new ArrayList<>();
         friendsList.clear();
         friendsListAdapter = new FriendsRecyclerAdapter(friendsList, getActivity());
         friendsListAdapter.updateFriendsOwner(friendOwner);
         recyclerView.setAdapter(friendsListAdapter);
+        Log.d("FriendsStatistics", "List of items in tmp: " + friendsListTemp.size() + ", in actual: " + friendsList.size());
 
         //Check history
         for (FriendsObject f : friendsListTemp) {
             HistoryArrayObject histCheckName = checkHistory(f.getFriendUUID());
             if (histCheckName == null){
+                Log.d("Player", "Have to go and query playername for " + f.getFriendUUID());
                 new RetriveFriendsName(getActivity(), new FriendHandler(this)).execute(f);
             } else {
                 f.set_mcNameWithRank(MinecraftColorCodes.parseHistoryHypixelRanks(histCheckName));
                 f.set_mcName(histCheckName.getDisplayname());
                 f.set_done(true);
-                friendsList.add(f);
                 Log.d("Player", "Found player " + f.get_mcName());
                 //Update process
+                addToAdapter(f);
             }
             checkIfComplete();
         }
     }
 
-    private void checkIfComplete(){
-        friendsListAdapter.updateAdapter(friendsList);
+    private void addToAdapter(FriendsObject f){
+        friendsList.add(f);
+        friendsListAdapter.addNewFriend(f);
+    }
 
-        //if (friendsList.size() >= friendsListSize){
+    private void checkIfComplete(){
+        if (friendsList.size() >= friendsListSize){
             //Complete. Hide progress data
-        //}
+            Log.d("FriendsStatistics", "Friends List Processed. Checking and updating stuff");
+            friendsListAdapter.updateAdapterIfDifferent(friendsList);
+        }
     }
 
     private HistoryArrayObject checkHistory(String uuid){
