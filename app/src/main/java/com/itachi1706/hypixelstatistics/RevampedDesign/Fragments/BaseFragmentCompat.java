@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.RevampedDesign;
+package com.itachi1706.hypixelstatistics.RevampedDesign.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

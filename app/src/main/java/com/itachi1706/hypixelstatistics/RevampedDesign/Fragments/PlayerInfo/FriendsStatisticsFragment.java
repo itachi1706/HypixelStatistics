@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.RevampedDesign;
+package com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +25,7 @@ import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.GenerateFriendsList;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsName;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.BaseFragmentCompat;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.FriendsRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;

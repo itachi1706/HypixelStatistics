@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.RevampedDesign;
+package com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.BaseFragmentCompat;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;

@@ -1,4 +1,4 @@
-package com.itachi1706.hypixelstatistics.RevampedDesign;
+package com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuerySession;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.BaseFragmentCompat;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
