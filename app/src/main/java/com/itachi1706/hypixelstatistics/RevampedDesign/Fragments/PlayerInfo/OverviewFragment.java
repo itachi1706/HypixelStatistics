@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQuerySession;
@@ -32,8 +33,9 @@ public class OverviewFragment extends BaseFragmentCompat {
     }
 
     //Fragment Elements
-    private TextView session;
+    private TextView session, level;
     private ImageView skin;
+    private DonutProgress levelBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +43,11 @@ public class OverviewFragment extends BaseFragmentCompat {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
         session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
+        level = (TextView) v.findViewById(R.id.lbl_level);
         skin = (ImageView) v.findViewById(R.id.playerSkin);
+        levelBar = (DonutProgress) v.findViewById(R.id.pbLevel);
+        levelBar.setVisibility(View.INVISIBLE);
+        level.setVisibility(View.INVISIBLE);
         skin.setVisibility(View.INVISIBLE);
         processPlayerJson(null);
 
@@ -77,6 +83,21 @@ public class OverviewFragment extends BaseFragmentCompat {
             localPlayerName = reply.getPlayer().get("displayname").getAsString();
         else
             localPlayerName = reply.getPlayer().get("playername").getAsString();
+
+        int networkXp = reply.getPlayer().has("networkExp") ? reply.getPlayer().get("networkExp").getAsInt() : 0;
+        int level = reply.getPlayer().has("networkLevel") ? reply.getPlayer().get("networkLevel").getAsInt() : 0;
+
+        //Do the level calculation [Total XP is (((level - 1) * 2500) + 10000)]
+        if (level == 0) level++;
+        int totalXp = ((level - 1) * 2500) + 10000;
+        float progressValue = (float) networkXp / totalXp;
+        Log.d("Overview", "Progress: " + progressValue + ", Network: " + networkXp + ", Total: " + totalXp);
+
+        levelBar.setVisibility(View.VISIBLE);
+        this.level.setVisibility(View.VISIBLE);
+        levelBar.setMax(totalXp);
+        levelBar.setProgress(networkXp);
+        levelBar.setText(level + "");
 
         session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
         new PlayerInfoQuerySession(session).execute(uuidSession);

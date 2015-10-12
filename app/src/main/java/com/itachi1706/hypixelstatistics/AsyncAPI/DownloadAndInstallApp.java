@@ -114,7 +114,7 @@ public class DownloadAndInstallApp extends AsyncTask<String, Float, Boolean> {
                 notification.setContentTitle("Exception Occurred (Download)").setTicker("Download failed")
                         .setContentText("An exception occurred while downloading the update file. (" + except.getLocalizedMessage() + ")")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText("An exception occurred while downloading the update file. (" + except.getLocalizedMessage() + ")\n Click to manually download the file"))
-                        .setSmallIcon(R.drawable.ic_launcher).setProgress(0,0,false);
+                        .setSmallIcon(R.mipmap.ic_launcher).setProgress(0,0,false);
                 Intent intent = new Intent(Intent.ACTION_VIEW, link);
                 PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
                 notification.setContentIntent(pendingIntent);
@@ -123,7 +123,7 @@ public class DownloadAndInstallApp extends AsyncTask<String, Float, Boolean> {
                 notification.setContentTitle("Exception Occurred (Download)").setTicker("Download failed")
                         .setContentText("The update is unable to download automatically")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText("The update is unable to download automatically.\n Click to manually download the file"))
-                        .setSmallIcon(R.drawable.ic_launcher).setProgress(0,0,false);
+                        .setSmallIcon(R.mipmap.ic_launcher).setProgress(0,0,false);
                 Intent intent = new Intent(Intent.ACTION_VIEW, link);
                 PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
                 notification.setContentIntent(pendingIntent);
@@ -144,7 +144,7 @@ public class DownloadAndInstallApp extends AsyncTask<String, Float, Boolean> {
         notification.setContentTitle("Download Complete").setTicker("Download Complete!")
                 .setContentText("Update has been successfully downloaded")
                 .setAutoCancel(true).setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_launcher).setProgress(0, 0, false);
+                .setSmallIcon(R.mipmap.ic_launcher).setProgress(0, 0, false);
         manager.notify(notificationID, notification.build());
     }
 

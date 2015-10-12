@@ -121,7 +121,7 @@ public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
                         NotificationManager manager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mActivity);
                         mBuilder.setContentTitle("Downloading new update").setContentText("Downloading new update...")
-                                .setProgress(0,0,true).setSmallIcon(R.drawable.ic_launcher).setAutoCancel(false)
+                                .setProgress(0,0,true).setSmallIcon(R.mipmap.ic_launcher).setAutoCancel(false)
                         .setOngoing(true).setTicker("Downloading new update to the app");
                         Random random = new Random();
                         int notificationId = random.nextInt();
