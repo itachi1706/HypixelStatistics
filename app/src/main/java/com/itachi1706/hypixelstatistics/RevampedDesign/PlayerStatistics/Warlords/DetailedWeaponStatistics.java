@@ -117,7 +117,7 @@ public class DetailedWeaponStatistics {
             //builder.append("Max Upgrades: §d").append(maxUpgrades).append("§r<br />");
             //builder.append("Times Upgraded: §d").append(upgradeTimes).append("§r<br />");
 
-        String weaponString = "http://www.plancke.nl/hypixel/generators/warlords/weapon/";
+        String weaponString = "http://gen.plancke.nl/warlords/weapon/";
         weaponString += player + "/";
         weaponString += currentEquipped + ".png";
         builder.append("<br />");
