@@ -39,7 +39,7 @@ public class GeneralInfoFragment extends BaseFragmentCompat {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
         session = (TextView) v.findViewById(R.id.player_tvSessionInfo);
-        session.setText(noStats);
+        processPlayerJson(null);
 
         return v;
     }

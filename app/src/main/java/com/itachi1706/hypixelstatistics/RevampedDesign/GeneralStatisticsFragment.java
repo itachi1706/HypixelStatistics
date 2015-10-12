@@ -67,7 +67,7 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
 
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
 
-        recyclerView.setAdapter(noStatAdapter);
+        processPlayerJson(null);
         return v;
     }
 
