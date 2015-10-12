@@ -15,18 +15,10 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.BaseFragmentCom
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.DonatorStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatisticsHandler;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GeneralStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.OngoingAchievementStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.ParkourStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.QuestStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StaffOrYtStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.PlayerInfoExpandableRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
-import com.itachi1706.hypixelstatistics.util.MainStaticVars;
-import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
 
@@ -36,9 +28,9 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GeneralStatisticsFragment extends BaseFragmentCompat {
+public class QuestFragment extends BaseFragmentCompat {
 
-    public GeneralStatisticsFragment() {
+    public QuestFragment() {
     }
 
     @Override
@@ -74,7 +66,7 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
 
     @Override
     public void processPlayerJson(String json){
-        Log.i("HypixelStatistics", "Switched to GeneralStatisticsFragment");
+        Log.i("HypixelStatistics", "Switched to QuestFragment");
         if (json == null || json.equals("")) { recyclerView.setAdapter(noStatAdapter); return; }
         Gson gson = new Gson();
         PlayerReply reply = gson.fromJson(json, PlayerReply.class);
@@ -91,34 +83,14 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
     private void process(PlayerReply reply){
         recyclerView.setVisibility(View.VISIBLE);
 
-        //Get Local Player Name
-        String localPlayerName;
-        if (MinecraftColorCodes.checkDisplayName(reply))
-            localPlayerName = reply.getPlayer().get("displayname").getAsString();
-        else
-            localPlayerName = reply.getPlayer().get("playername").getAsString();
-
-        parse(reply, localPlayerName);
+        parse(reply);
     }
 
-    private void parse(PlayerReply reply, String localPlayerName){
+    private void parse(PlayerReply reply){
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
-        resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
 
-        if (reply.getPlayer().has("packageRank")) {
-            resultArray.add(new PlayerInfoHeader("<b>Donator Information</b>", DonatorStatistics.parseDonor(reply)));
-        }
-
-        if (MainStaticVars.isStaff || MainStaticVars.isCreator) {
-            if (reply.getPlayer().has("rank")) {
-                if (!reply.getPlayer().get("rank").getAsString().equals("NORMAL")) {
-                    if (reply.getPlayer().get("rank").getAsString().equals("YOUTUBER")) {
-                        resultArray.add(new PlayerInfoHeader("<b>YouTuber Information</b>", StaffOrYtStatistics.parsePriviledged(reply)));
-                    } else {
-                        resultArray.add(new PlayerInfoHeader("<b>Staff Information</b>", StaffOrYtStatistics.parsePriviledged(reply)));
-                    }
-                }
-            }
+        if (reply.getPlayer().has("quests")){
+            resultArray.add(new PlayerInfoHeader("<b>Quest Stats</b>", QuestStatistics.parseQuests(reply)));
         }
 
         for (PlayerInfoBase base : resultArray) {

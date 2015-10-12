@@ -81,9 +81,32 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         return v;
     }
 
+    public void resetFragment(){
+        friendsList = null;
+        friendOwner = "";
+        friendsListAdapter = null;
+        friendsListSize = 0;
+        uuidValue = "";
+        recyclerView.setAdapter(noStatAdapter);
+    }
+
+    private String resetUUIDCheck = "";
+
+    private void shouldResetFragment(String json){
+        if (json == null || json.equals("")) return;
+
+        Gson gson = new Gson();
+        PlayerReply reply = gson.fromJson(json, PlayerReply.class);
+        String uuid = reply.getPlayer().get("uuid").getAsString();
+        if (uuid.equals(resetUUIDCheck)) return;
+        resetFragment();
+        resetUUIDCheck = uuid;
+    }
+
     @Override
     public void processPlayerJson(String json){
         Log.i("HypixelStatistics", "Switched to FriendsStatisticsFragment");
+        shouldResetFragment(json);
         if (!(friendsListAdapter == null || friendOwner == null || friendsList == null || friendsList.size() == 0)) {
             recyclerView.setAdapter(friendsListAdapter);
             return;

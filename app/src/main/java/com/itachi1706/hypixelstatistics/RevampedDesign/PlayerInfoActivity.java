@@ -40,8 +40,12 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.Play
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.PlayerInfo.PlayerInfoQueryHead;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.BaseFragmentCompat;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.FriendsStatisticsFragment;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.GameStatisticsFragment;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.GeneralInfoFragment;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.GeneralStatisticsFragment;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.OngoingAchievementsFragment;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.ParkourFragment;
+import com.itachi1706.hypixelstatistics.RevampedDesign.Fragments.PlayerInfo.QuestFragment;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -166,6 +170,10 @@ public class PlayerInfoActivity extends AppCompatActivity {
 
         adapter.addFrag(new GeneralInfoFragment(), "Session");  //TODO: WIP. Future General Information
         adapter.addFrag(new GeneralStatisticsFragment(), "Player Stats");
+        adapter.addFrag(new GameStatisticsFragment(), "Game Stats");
+        adapter.addFrag(new OngoingAchievementsFragment(), "Ongoing Achievements");
+        adapter.addFrag(new ParkourFragment(), "Parkour");
+        adapter.addFrag(new QuestFragment(), "Quests");
         adapter.addFrag(new FriendsStatisticsFragment(), "Friends");
 
         viewPager.setAdapter(adapter);
