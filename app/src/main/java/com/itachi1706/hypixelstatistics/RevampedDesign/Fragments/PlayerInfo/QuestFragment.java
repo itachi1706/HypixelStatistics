@@ -90,7 +90,10 @@ public class QuestFragment extends BaseFragmentCompat {
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
 
         if (reply.getPlayer().has("quests")){
-            resultArray.add(new PlayerInfoHeader("<b>Quest Stats</b>", QuestStatistics.parseQuests(reply)));
+            ArrayList<PlayerInfoStatistics> tmp = QuestStatistics.parseQuests(reply);
+            for (PlayerInfoStatistics t : tmp){
+                resultArray.add(t);
+            }
         }
 
         for (PlayerInfoBase base : resultArray) {

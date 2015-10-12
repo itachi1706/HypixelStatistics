@@ -89,7 +89,10 @@ public class ParkourFragment extends BaseFragmentCompat {
     private void parse(PlayerReply reply){
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
         if (reply.getPlayer().has("parkourCompletions")) {
-            resultArray.add(new PlayerInfoHeader("<b>Parkour Stats</b>", ParkourStatistics.parseParkourCounts(reply)));
+            ArrayList<PlayerInfoStatistics> tmp = ParkourStatistics.parseParkourCounts(reply);
+            for (PlayerInfoStatistics t : tmp){
+                resultArray.add(t);
+            }
         }
 
         for (PlayerInfoBase base : resultArray) {

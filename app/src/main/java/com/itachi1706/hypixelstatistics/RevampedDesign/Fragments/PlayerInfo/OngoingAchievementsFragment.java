@@ -90,7 +90,10 @@ public class OngoingAchievementsFragment extends BaseFragmentCompat {
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
 
         if (reply.getPlayer().has("achievements")){
-            resultArray.add(new PlayerInfoHeader("<b>Ongoing Achievements</b>", OngoingAchievementStatistics.parseOngoingAchievements(reply)));
+            ArrayList<PlayerInfoStatistics> tmp = OngoingAchievementStatistics.parseOngoingAchievements(reply);
+            for (PlayerInfoStatistics t : tmp){
+                resultArray.add(t);
+            }
         }
 
         for (PlayerInfoBase base : resultArray) {

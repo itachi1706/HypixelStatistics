@@ -16,11 +16,7 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoBase;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoHeader;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.DonatorStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GameStatisticsHandler;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.GeneralStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.OngoingAchievementStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.ParkourStatistics;
-import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.QuestStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StaffOrYtStatistics;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerStatistics.StatisticsHelper;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.PlayerInfoExpandableRecyclerAdapter;
@@ -103,7 +99,16 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
 
     private void parse(PlayerReply reply, String localPlayerName){
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
-        resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
+
+        //General if no donator stats else tabbed
+        if (!(reply.getPlayer().has("packageRank") && reply.getPlayer().has("rank"))) {
+            ArrayList<PlayerInfoStatistics> tmp = GeneralStatistics.parseGeneral(reply, localPlayerName);
+            for (PlayerInfoStatistics t : tmp) {
+                resultArray.add(t);
+            }
+        } else {
+            resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
+        }
 
         if (reply.getPlayer().has("packageRank")) {
             resultArray.add(new PlayerInfoHeader("<b>Donator Information</b>", DonatorStatistics.parseDonor(reply)));
