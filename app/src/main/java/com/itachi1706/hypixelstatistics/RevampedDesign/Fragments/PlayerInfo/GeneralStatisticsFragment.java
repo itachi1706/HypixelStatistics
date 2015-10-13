@@ -100,15 +100,7 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
     private void parse(PlayerReply reply, String localPlayerName){
         ArrayList<PlayerInfoBase> resultArray = new ArrayList<>();
 
-        //General if no donator stats else tabbed
-        if (!(reply.getPlayer().has("packageRank") && reply.getPlayer().has("rank"))) {
-            ArrayList<PlayerInfoStatistics> tmp = GeneralStatistics.parseGeneral(reply, localPlayerName);
-            for (PlayerInfoStatistics t : tmp) {
-                resultArray.add(t);
-            }
-        } else {
-            resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
-        }
+        resultArray.add(new PlayerInfoHeader("<b>General Statistics</b>", GeneralStatistics.parseGeneral(reply, localPlayerName)));
 
         if (reply.getPlayer().has("packageRank")) {
             resultArray.add(new PlayerInfoHeader("<b>Donator Information</b>", DonatorStatistics.parseDonor(reply)));
@@ -123,6 +115,16 @@ public class GeneralStatisticsFragment extends BaseFragmentCompat {
                         resultArray.add(new PlayerInfoHeader("<b>Staff Information</b>", StaffOrYtStatistics.parsePriviledged(reply)));
                     }
                 }
+            }
+        }
+
+        //If there is only 1 item, expand it out
+        if (resultArray.size() == 1){
+            PlayerInfoHeader header = (PlayerInfoHeader) resultArray.get(0);
+            List<PlayerInfoStatistics> s = header.getChild();
+            resultArray.clear();
+            for (PlayerInfoStatistics p : s){
+                resultArray.add(p);
             }
         }
 

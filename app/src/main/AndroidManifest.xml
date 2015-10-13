@@ -73,6 +73,7 @@
             android:name=".RevampedDesign.PlayerInfoActivity"
             android:label="@string/title_activity_player_info"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.app.searchable"

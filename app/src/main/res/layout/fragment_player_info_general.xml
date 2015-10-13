@@ -51,4 +51,16 @@
         android:layout_toStartOf="@+id/pbLevel"
         android:layout_marginBottom="26dp" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbSkinLoader"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/pbLevel"
+        android:layout_alignRight="@+id/playerSkin"
+        android:layout_alignEnd="@+id/playerSkin"
+        android:layout_marginRight="33dp"
+        android:layout_marginEnd="33dp" />
+
 </RelativeLayout>

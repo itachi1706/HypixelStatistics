@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -36,6 +37,7 @@ public class OverviewFragment extends BaseFragmentCompat {
     private TextView session, level;
     private ImageView skin;
     private DonutProgress levelBar;
+    private ProgressBar mSkinLoader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +48,9 @@ public class OverviewFragment extends BaseFragmentCompat {
         level = (TextView) v.findViewById(R.id.lbl_level);
         skin = (ImageView) v.findViewById(R.id.playerSkin);
         levelBar = (DonutProgress) v.findViewById(R.id.pbLevel);
+        mSkinLoader = (ProgressBar) v.findViewById(R.id.pbSkinLoader);
+
+        mSkinLoader.setVisibility(View.INVISIBLE);
         levelBar.setVisibility(View.INVISIBLE);
         level.setVisibility(View.INVISIBLE);
         skin.setVisibility(View.INVISIBLE);
@@ -101,6 +106,7 @@ public class OverviewFragment extends BaseFragmentCompat {
 
         session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
         new PlayerInfoQuerySession(session).execute(uuidSession);
-        new PlayerInfoQuerySkin(getActivity(), skin).execute(localPlayerName);
+        mSkinLoader.setVisibility(View.VISIBLE);
+        new PlayerInfoQuerySkin(getActivity(), skin, mSkinLoader).execute(localPlayerName);
     }
 }

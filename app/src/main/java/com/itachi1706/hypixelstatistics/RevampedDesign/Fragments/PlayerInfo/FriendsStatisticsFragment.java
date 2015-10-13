@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -187,6 +188,8 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     private int friendsListSize;
     private String friendOwner;
     private FriendsRecyclerAdapter friendsListAdapter;
+    private Snackbar snackBar;
+    private int friendListCount;
 
     /**
      * This is the class that receives the json from the handler code 1112 and further processes it
@@ -280,10 +283,19 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     }
 
     private void checkIfComplete(){
+        if (snackBar == null && getView() != null) snackBar = Snackbar.make(getView(), "Update", Snackbar.LENGTH_LONG);
+
+        if (snackBar != null){
+            snackBar = snackBar.setText("Updating Friends: " + friendListCount + "/" + friendsListSize);
+            if (!snackBar.isShown()) snackBar.show();
+        }
+
+
         if (friendsList.size() >= friendsListSize){
             //Complete. Hide progress data
             Log.d("FriendsStatistics", "Friends List Processed. Checking and updating stuff");
             friendsListAdapter.updateAdapterIfDifferent(friendsList);
+            if (snackBar != null && snackBar.isShown()) snackBar.dismiss();
         }
     }
 

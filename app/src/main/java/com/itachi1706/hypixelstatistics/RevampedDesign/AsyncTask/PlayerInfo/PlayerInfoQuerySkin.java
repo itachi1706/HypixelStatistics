@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
@@ -26,16 +27,19 @@ public class PlayerInfoQuerySkin extends AsyncTask<String, Void, Drawable> {
     String playerNamer;
     boolean retry = false;
     ImageView skin;
+    ProgressBar bar;
 
-    public PlayerInfoQuerySkin(Activity context, ImageView skin){
+    public PlayerInfoQuerySkin(Activity context, ImageView skin, ProgressBar mSkinLoader){
         mContext = context;
         this.skin = skin;
+        this.bar = mSkinLoader;
     }
 
-    public PlayerInfoQuerySkin(Activity context, boolean retrying, ImageView skin){
+    public PlayerInfoQuerySkin(Activity context, boolean retrying, ImageView skin, ProgressBar mSkinLoader){
         mContext = context;
         retry = retrying;
         this.skin = skin;
+        this.bar = mSkinLoader;
     }
 
     @Override
@@ -65,8 +69,10 @@ public class PlayerInfoQuerySkin extends AsyncTask<String, Void, Drawable> {
             if (except instanceof UnknownHostException) {
                 if (!retry) {
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
-                    new PlayerInfoQuerySkin(mContext, true, skin).execute(playerNamer);
+                    new PlayerInfoQuerySkin(mContext, true, skin, bar).execute(playerNamer);
+                    return;
                 }
+                bar.setVisibility(View.INVISIBLE);
                 NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
                 return;
             }
@@ -74,21 +80,27 @@ public class PlayerInfoQuerySkin extends AsyncTask<String, Void, Drawable> {
 
                 if (!retry){
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ") Retrying from different site");
-                    new PlayerInfoQuerySkin(mContext, true, skin).execute(playerNamer);
+                    new PlayerInfoQuerySkin(mContext, true, skin, bar).execute(playerNamer);
+                    return;
                 }
                 else
+                    bar.setVisibility(View.INVISIBLE);
                     NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
                 return;
             }
             if (except.getCause().toString().contains("SSLProtocolException")) {
                 if (!retry) {
                     NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Retrying from different site");
-                    new PlayerInfoQuerySkin(mContext, true, skin).execute(playerNamer);
+                    new PlayerInfoQuerySkin(mContext, true, skin, bar).execute(playerNamer);
+                    return;
                 }
+                bar.setVisibility(View.INVISIBLE);
                 NotifyUserUtil.createShortToast(mContext, "Head Download Timed Out. Please try again later.");
             } else
+                bar.setVisibility(View.INVISIBLE);
                 NotifyUserUtil.createShortToast(mContext, "An Exception Occurred (" + except.getMessage() + ")");
         } else {
+            bar.setVisibility(View.INVISIBLE);
             skin.setImageDrawable(draw);
             skin.setVisibility(View.VISIBLE);
         }
