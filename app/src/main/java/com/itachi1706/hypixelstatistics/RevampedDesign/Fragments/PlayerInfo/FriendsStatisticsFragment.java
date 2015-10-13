@@ -169,7 +169,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
             super.handleMessage(msg);
 
             switch (msg.what){
-                case 1112: //Retrive Friends List
+                case 1112: //Retrieve Friends List
                     String friendJson = (String) msg.getData().get("friendJson");
                     if (fragment.processDialog != null && fragment.processDialog.isShowing()) fragment.processDialog.dismiss();
                     fragment.generateFriendObjectForFurtherProcessing(friendJson);
@@ -257,6 +257,7 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         friendsListAdapter = new FriendsRecyclerAdapter(friendsList, getActivity());
         friendsListAdapter.updateFriendsOwner(friendOwner);
         recyclerView.setAdapter(friendsListAdapter);
+        friendListCount = 0;
         Log.d("FriendsStatistics", "List of items in tmp: " + friendsListTemp.size() + ", in actual: " + friendsList.size());
 
         //Check history
@@ -278,16 +279,20 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     }
 
     private void addToAdapter(FriendsObject f){
+        if (friendsList == null) return;
+        friendListCount++;
         friendsList.add(f);
         friendsListAdapter.addNewFriend(f);
     }
 
     private void checkIfComplete(){
+        if (friendsList == null) return;
+        if (friendListCount > friendsListSize) friendListCount = friendsListSize;
         if (snackBar == null && getView() != null) snackBar = Snackbar.make(getView(), "Update", Snackbar.LENGTH_LONG);
 
         if (snackBar != null){
             snackBar = snackBar.setText("Updating Friends: " + friendListCount + "/" + friendsListSize);
-            if (!snackBar.isShown()) snackBar.show();
+            snackBar.show();
         }
 
 
