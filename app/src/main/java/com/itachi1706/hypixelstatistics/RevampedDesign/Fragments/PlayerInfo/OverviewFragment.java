@@ -72,6 +72,8 @@ public class OverviewFragment extends BaseFragmentCompat {
         process(reply);
     }
 
+    private String currentUUID = "";
+
     @Override
     public void processPlayerObject(PlayerReply object){
         process(object);
@@ -104,6 +106,7 @@ public class OverviewFragment extends BaseFragmentCompat {
         levelBar.setProgress(networkXp);
         levelBar.setText(level + "");
 
+        skin.setImageDrawable(null);
         session.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§fQuerying session info...§r")));
         new PlayerInfoQuerySession(session).execute(uuidSession);
         mSkinLoader.setVisibility(View.VISIBLE);
