@@ -124,7 +124,7 @@ public class RetriveFriendsLastOnlineData extends AsyncTask<String, Void, String
                         long minutes = seconds / 60;
                         resultString = "Last Online: " + minutes + " mins ago";
                     } else
-                        resultString = "Last Online: " + new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(dateLong));
+                        resultString = "Last Online: " + new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(dateLong));
                     result.setText(resultString);
                 } else {
                     resultString = "Last Online: §4Unknown§r";

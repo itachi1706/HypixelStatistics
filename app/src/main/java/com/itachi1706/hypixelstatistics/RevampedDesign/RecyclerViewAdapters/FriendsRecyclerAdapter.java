@@ -96,7 +96,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
                 holder.session.setText("Getting Session Information");
                 new RetriveFriendsSessionData(holder.session).execute(object.getFriendUUID());
             }
-            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(object.getDate()));
+            String timeStamp = new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(object.getDate()));
             holder.joined.setText("Friends From: " + timeStamp);
             holder.prog.setVisibility(View.VISIBLE);
             holder.head.setImageDrawable(GeneratePlaceholderDrawables.generateFromMcNameWithInitialsConversion(object.get_mcName()));
@@ -149,7 +149,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecycler
             } else {
                 message = "Sent Friend Request to " + friendOwner + "<br />";
             }
-            String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(item.getDate()));
+            String timeStamp = new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(item.getDate()));
             message += "Friends From: " + timeStamp;
             new AlertDialog.Builder(v.getContext()).setTitle(Html.fromHtml(item.get_mcNameWithRank()))
                     .setMessage(Html.fromHtml(message))

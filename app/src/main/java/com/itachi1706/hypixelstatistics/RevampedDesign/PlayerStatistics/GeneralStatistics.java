@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.itachi1706.hypixelstatistics.RevampedDesign.Objects.PlayerInfoStatistics;
 import com.itachi1706.hypixelstatistics.util.GameTypeCapsReturn;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
 import net.hypixel.api.reply.PlayerReply;
@@ -56,9 +57,9 @@ public class GeneralStatistics {
         if (reply.getPlayer().has("karma"))
             descArray.add(new PlayerInfoStatistics("Karma",reply.getPlayer().get("karma").getAsString()));
         if (reply.getPlayer().has("firstLogin"))
-            descArray.add(new PlayerInfoStatistics("First Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
+            descArray.add(new PlayerInfoStatistics("First Login",new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(reply.getPlayer().get("firstLogin").getAsLong()))));
         if (reply.getPlayer().has("lastLogin"))
-            descArray.add(new PlayerInfoStatistics("Last Login",new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
+            descArray.add(new PlayerInfoStatistics("Last Login",new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(reply.getPlayer().get("lastLogin").getAsLong()))));
         if (reply.getPlayer().has("timePlaying"))
             descArray.add(new PlayerInfoStatistics("Time Played (From 16 May 2014) ",MinecraftColorCodes.parseColors(parseTimeOnline(reply.getPlayer().get("timePlaying").getAsLong()))));
         if (reply.getPlayer().has("networkExp"))

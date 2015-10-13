@@ -45,6 +45,7 @@ public class MainStaticVars {
     //Settings
     public static String apikey = null;
     public static boolean isStaff = false, isCreator = false;
+    public static final String DATE_FORMAT = "dd-MMM-yyyy hh:mm a zz";
 
     //Player Stats
     @Deprecated public static String knownAliases = "";

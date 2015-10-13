@@ -38,7 +38,7 @@ public class ParkourStatistics {
             int i = 1;
             for (JsonElement e : completionArray){
                 JsonObject timings = e.getAsJsonObject();
-                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(timings.get("timeStart").getAsLong()));
+                String timeStamp = new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(timings.get("timeStart").getAsLong()));
                 int timeDurationWork = timings.get("timeTook").getAsInt();
                 String timeDuration = String.format("%d min, %d sec %d millis", TimeUnit.MILLISECONDS.toMinutes(timeDurationWork), TimeUnit.MILLISECONDS.toSeconds(timeDurationWork) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeDurationWork)), timeDurationWork - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(timeDurationWork)));
                 parkArray.add(new ResultDescription("Attempt #" + i + ": " + timeDuration + "", "On: " + timeStamp));

@@ -137,7 +137,7 @@ public class GetGuildInfo extends AsyncTask<String, Void, String> {
         guildInfo.add(new ResultDescription("Guild Name", reply.getGuild().get("name").getAsString()));
         guildInfo.add(new ResultDescription("Guild ID", guildID));
         if (reply.getGuild().has("created"))
-            guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz", Locale.US).format(new Date(reply.getGuild().get("created").getAsLong()))));
+            guildInfo.add(new ResultDescription("Created On", new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(reply.getGuild().get("created").getAsLong()))));
         if (reply.getGuild().has("joinable")) {
             if (reply.getGuild().get("joinable").getAsBoolean())
                 guildInfo.add(new ResultDescription("Join Request", MinecraftColorCodes.parseColors("§aEnabled§r")));
