@@ -24,6 +24,7 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Kenneth on 20/12/2014, 6:42 PM
@@ -69,7 +70,7 @@ public class GuildMemberAdapter extends ArrayAdapter<GuildMemberDesc> {
                 }
             }
             if (joined != null) {
-                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_joined()));
+                String timeStamp = new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(i.get_joined()));
                 joined.setText("Joined On: " + timeStamp);
             }
             if (head != null) {

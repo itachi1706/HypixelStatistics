@@ -17,12 +17,14 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
 import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
+import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -82,7 +84,7 @@ public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> imp
                 }
             }
             if (time != null) {
-                String timeStamp = new SimpleDateFormat("dd-MMM-yyyy hh:mm a zz").format(new Date(i.get_date()));
+                String timeStamp = new SimpleDateFormat(MainStaticVars.DATE_FORMAT, Locale.US).format(new Date(i.get_date()));
                 time.setText("Used On: " + timeStamp);
             }
             if (head != null) {
