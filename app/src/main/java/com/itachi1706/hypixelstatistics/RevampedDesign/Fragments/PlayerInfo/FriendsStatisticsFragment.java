@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -50,12 +51,16 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_player_info_recycler;
+        return R.layout.fragment_player_info_recycler_friends;
     }
 
     //Fragment Elements
     private RecyclerView recyclerView;
     private ProgressDialog processDialog;
+
+    //Internal activities
+    private ProgressBar loadingStatus;
+    private TextView progressInfo;
 
     private Context context;
 
@@ -68,6 +73,8 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(getFragmentLayout(), container, false);
 
+        loadingStatus = (ProgressBar) v.findViewById(R.id.pbFriendsList);
+        progressInfo = (TextView) v.findViewById(R.id.tvProgressInfo);
         recyclerView = (RecyclerView) v.findViewById(R.id.player_info_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -77,6 +84,9 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
 
         noStatAdapter = new StringRecyclerAdapter(noStatistics);
         context = getContext();
+
+        loadingStatus.setVisibility(View.INVISIBLE);
+        progressInfo.setVisibility(View.INVISIBLE);
 
         processPlayerJson(null);
         return v;
@@ -89,6 +99,8 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
         friendsListSize = 0;
         uuidValue = "";
         recyclerView.setAdapter(noStatAdapter);
+        loadingStatus.setVisibility(View.INVISIBLE);
+        progressInfo.setVisibility(View.INVISIBLE);
     }
 
     private String resetUUIDCheck = "";
@@ -131,6 +143,8 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
 
     private void process(PlayerReply reply){
         recyclerView.setVisibility(View.VISIBLE);
+        loadingStatus.setVisibility(View.VISIBLE);
+        progressInfo.setVisibility(View.VISIBLE);
         String uuid = reply.getPlayer().get("uuid").getAsString();
 
         String playername;
@@ -188,7 +202,6 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     private int friendsListSize;
     private String friendOwner;
     private FriendsRecyclerAdapter friendsListAdapter;
-    private Snackbar snackBar;
     private int friendListCount;
 
     /**
@@ -236,8 +249,9 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
 
     private void processFriendsReplyObject(FriendsReply reply){
         //Update info
+        progressInfo.setText("Found " + reply.getRecords().size() + " friends. Processing now...");
         ArrayList<FriendsObject> friendsListTemp = new ArrayList<>();
-        int processedSize = reply.getRecords().size();
+        int processedProgress = 1, processedSize = reply.getRecords().size();
         for (JsonElement e : reply.getRecords()) {
             JsonObject obj = e.getAsJsonObject();
             long friendsFromDate = obj.get("started").getAsLong();
@@ -250,7 +264,9 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
                 friends = new FriendsObject(friendsFromDate, senderUUID, false);
             }
             friendsListTemp.add(friends);
+            progressInfo.setText("Processed " + processedProgress + "/" + processedSize);
         }
+        progressInfo.setText("Processing Completed. Retrieving Friends Data now...");
         friendsListSize = processedSize;
         friendsList = new ArrayList<>();
         friendsList.clear();
@@ -286,21 +302,17 @@ public class FriendsStatisticsFragment extends BaseFragmentCompat {
     }
 
     private void checkIfComplete(){
+        progressInfo.setText("Retrieved " + friendListCount + "/" + friendsListSize + " friends");
         if (friendsList == null) return;
         if (friendListCount > friendsListSize) friendListCount = friendsListSize;
-        if (snackBar == null && getView() != null) snackBar = Snackbar.make(getView(), "Update", Snackbar.LENGTH_LONG);
-
-        if (snackBar != null){
-            snackBar = snackBar.setText("Updating Friends: " + friendListCount + "/" + friendsListSize);
-            snackBar.show();
-        }
 
 
         if (friendsList.size() >= friendsListSize){
             //Complete. Hide progress data
             Log.d("FriendsStatistics", "Friends List Processed. Checking and updating stuff");
             friendsListAdapter.updateAdapterIfDifferent(friendsList);
-            if (snackBar != null && snackBar.isShown()) snackBar.dismiss();
+            loadingStatus.setVisibility(View.INVISIBLE);
+            progressInfo.setVisibility(View.INVISIBLE);
         }
     }
 
