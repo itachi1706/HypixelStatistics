@@ -1,37 +1,20 @@
 package com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.itachi1706.hypixelstatistics.ExpandedPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsHead;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsLastOnlineData;
-import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Friends.RetriveFriendsSessionData;
-import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
-import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
-import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
-import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,12 +24,10 @@ import java.util.concurrent.TimeUnit;
 public class BriefBoosterRecyclerAdapter extends RecyclerView.Adapter<BriefBoosterRecyclerAdapter.BriefBoosterViewHolder> {
 
     private List<BoosterDescription> items;
-    private Activity activity;
 
-    public BriefBoosterRecyclerAdapter(List<BoosterDescription> boosterObjects, Activity activity){
+    public BriefBoosterRecyclerAdapter(List<BoosterDescription> boosterObjects){
         Log.d("B.BoosterR.Adapter", "Init Booster Object: " + boosterObjects.size());
         this.items = boosterObjects;
-        this.activity = activity;
     }
 
     private void updateAdater(List<BoosterDescription> updatedItems){

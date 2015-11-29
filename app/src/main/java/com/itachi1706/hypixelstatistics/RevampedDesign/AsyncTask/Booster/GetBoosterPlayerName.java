@@ -1,20 +1,19 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
-import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -37,29 +36,28 @@ import java.util.List;
  * Created by Kenneth on 18/11/2014, 9:12 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-@Deprecated
-public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, String> {
+public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, String> {
 
     Exception except = null;
-    Context mContext;
+    Activity mActivity;
     BoosterDescription playerName;
-    ListView list;
+    RecyclerView list;
     boolean isActive;
     ProgressBar bar;
     TextView tooltip;
     int retry = 0;
 
-    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars, TextView tooltips){
-        mContext = context;
-        list = listView;
+    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips){
+        mActivity = activity;
+        list = recyclerView;
         isActive = isActiveOnly;
         bar = bars;
         tooltip = tooltips;
     }
 
-    public BoosterGetPlayerName(Context context, ListView listView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, int retry){
-        mContext = context;
-        list = listView;
+    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, int retry){
+        mActivity = activity;
+        list = recyclerView;
         isActive = isActiveOnly;
         bar = bars;
         tooltip = tooltips;
@@ -103,35 +101,35 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
         if (except != null) {
             if (except instanceof SocketTimeoutException){
                 if (retry > 10)
-                    NotifyUserUtil.createShortToast(mContext, "Connection Timed Out. Try again later");
+                    NotifyUserUtil.createShortToast(mActivity, "Connection Timed Out. Try again later");
                 else {
                     Log.d("RESOLVE", "Retrying");
-                    new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip, retry + 1).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, retry + 1).execute(playerName);
                 }
             } else
-                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
         } else {
             Gson gson = new Gson();
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 Log.d("Invalid JSON", json + " is invalid");
                 Log.d("RESOLVE", "Retrying");
-                new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
+                new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
             } else {
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    //NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
+                    //NotifyUserUtil.createShortToast(mActivity, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
-                    new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
-                    new BoosterGetPlayerName(mContext, list, isActive, bar, tooltip).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
                 } else if (reply.getPlayer() == null) {
-                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid());
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid());
                 } else {
                     //Succeeded
                     if (!MinecraftColorCodes.checkDisplayName(reply)) {
@@ -143,21 +141,21 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                     }
                     playerName.set_done(true);
                     if (!checkHistory(reply)) {
-                        CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mContext));
+                        CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mActivity));
                         Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
                     }
                     MainStaticVars.boosterList.add(playerName);
                     MainStaticVars.tmpBooster++;
                     MainStaticVars.boosterProcessCounter++;
                     checkIfComplete();
-                    //new BoosterGetPlayerHead(mContext, list, isActive, bar).execute(playerName);
+                    //new BoosterGetPlayerHead(mActivity, list, isActive, bar).execute(playerName);
                 }
             }
         }
     }
 
     private boolean checkHistory(PlayerReply reply){
-        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mActivity));
         if (hist != null) {
             Gson gson = new Gson();
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
@@ -183,8 +181,7 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
         if (done){
             if (!isActive) {
                 if (MainStaticVars.boosterList != null && MainStaticVars.boosterList.size() != 0) {
-                    MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
-                    MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                    MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
                 }
             }
         }
@@ -207,14 +204,14 @@ public class BoosterGetPlayerName extends AsyncTask<BoosterDescription, Void, St
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity);
                 list.setAdapter(adapter);
             } else {
                 //Filter based on filter
-                String filterString = MainStaticVars.boosterListAdapter.getFilteredStringForBooster();
+                String filterString = MainStaticVars.boosterRecyclerAdapter.getFilteredStringForBooster();
                 MainStaticVars.backupBooster();
                 if (!filterString.equals(""))
-                    MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
+                    MainStaticVars.boosterRecyclerAdapter.getFilter().filter(filterString);
             }
             MainStaticVars.parseRes = false;
         }

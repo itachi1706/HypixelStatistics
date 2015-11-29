@@ -26,7 +26,6 @@ import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -45,21 +44,7 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
         this.activity = activity;
     }
 
-    public void updateAdapterIfDifferent(ArrayList<BoosterDescription> newItems){
-        if (newItems.size() != items.size()){
-            updateAdater(newItems);
-            return;
-        }
-
-        for (int i = 0; i < items.size(); i++){
-            if (!items.get(i).equals(newItems.get(i))){
-                updateAdater(newItems);
-                break;
-            }
-        }
-    }
-
-    private void updateAdater(ArrayList<BoosterDescription> updatedItems){
+    public void updateAdapter(ArrayList<BoosterDescription> updatedItems){
         this.items = updatedItems;
         notifyDataSetChanged();
     }
@@ -76,7 +61,7 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
         BoosterDescription object = items.get(position);
 
         if (object.is_done()) {
-            holder.playerName.setText(Html.fromHtml(MinecraftColorCodes.parseColors("§6" + object.get_mcName() + "§r")));
+            holder.playerName.setText(Html.fromHtml(object.get_mcNameWithRank()));
 
             //Check if its running
             if (object.checkIfBoosterActive()){
@@ -224,7 +209,7 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
         public void onClick(View v) {
             int position = this.getLayoutPosition();
             final BoosterDescription item = items.get(position);
-            
+
             Intent intentE = new Intent(activity, ExpandedPlayerInfoActivity.class);
             intentE.putExtra("player", item.get_mcName());
             activity.startActivity(intentE);

@@ -36,7 +36,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".BoosterList"
+            android:name=".RevampedDesign.BoosterActivity"
             android:label="@string/title_activity_booster_list" >
         </activity>
         <activity

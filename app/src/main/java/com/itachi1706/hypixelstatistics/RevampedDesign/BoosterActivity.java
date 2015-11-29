@@ -1,18 +1,19 @@
-package com.itachi1706.hypixelstatistics;
+package com.itachi1706.hypixelstatistics.RevampedDesign;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,10 +21,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetHistory;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.GeneralPrefActivity;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster.GetBoosterHistory;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster.GetBoosters;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
@@ -36,13 +40,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
-@Deprecated
-public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    ListView boostList;
+    RecyclerView boostList;
     ProgressBar prog;
     TextView boosterTooltip;
     SwipeRefreshLayout swipeToRefresh;
+
+    Activity mActivity;
 
     final ArrayList<CharSequence> seletedFilterItems=new ArrayList<>();
 
@@ -56,10 +61,17 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         setContentView(R.layout.activity_booster_list);
 
         MainStaticVars.updateTimeout(this);
-        boostList = (ListView) findViewById(R.id.BoostlvBooster);
+        boostList = (RecyclerView) findViewById(R.id.BoostlvBooster);
+        boostList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        boostList.setLayoutManager(linearLayoutManager);
+        boostList.setItemAnimator(new DefaultItemAnimator());
+
         prog = (ProgressBar) findViewById(R.id.BoostpbProg);
         boosterTooltip = (TextView) findViewById(R.id.tvBoosterTooltip);
         swipeToRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshBooster);
+        mActivity = this;
 
         swipeToRefresh.setColorSchemeResources(
                 R.color.refresh_progress_1,
@@ -68,16 +80,6 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                 R.color.refresh_progress_4);
 
         swipeToRefresh.setOnRefreshListener(this);
-
-        boostList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BoosterDescription sel = (BoosterDescription) boostList.getItemAtPosition(position);
-                Intent intentE = new Intent(BoosterList.this, ExpandedPlayerInfoActivity.class);
-                intentE.putExtra("player", sel.get_mcName());
-                startActivity(intentE);
-            }
-        });
 
         if (!MainStaticVars.boosterUpdated){
             if (!MainStaticVars.isBriefBooster) {
@@ -88,13 +90,13 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
             }
         } else {
             if (MainStaticVars.boosterList.size() != 0) {
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, this);
                 boostList.setAdapter(adapter);
-                assert BoosterList.this.getSupportActionBar() != null;
+                assert BoosterActivity.this.getSupportActionBar() != null;
                 this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
             } else {
                 String[] tmp = {"No Boosters Activated"};
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
+                StringRecyclerAdapter adapter = new StringRecyclerAdapter(tmp);
                 boostList.setAdapter(adapter);
             }
         }
@@ -118,21 +120,21 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                     MainStaticVars.boosterMaxProcessCounter = 0;
                     prog.setVisibility(View.VISIBLE);
 
-                    MainStaticVars.boosterListAdapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, MainStaticVars.boosterList);
-                    boostList.setAdapter(MainStaticVars.boosterListAdapter);
+                    MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity);
+                    boostList.setAdapter(MainStaticVars.boosterRecyclerAdapter);
 
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
-                        assert BoosterList.this.getSupportActionBar() != null;
-                        BoosterList.this.getSupportActionBar().setTitle(BoosterList.this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterMaxProcessCounter + ")");
+                        assert BoosterActivity.this.getSupportActionBar() != null;
+                        BoosterActivity.this.getSupportActionBar().setTitle(BoosterActivity.this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterMaxProcessCounter + ")");
                         for (JsonElement e : records) {
                             JsonObject obj = e.getAsJsonObject();
                             String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
                             final BoosterDescription desc;
                             if (obj.has("purchaser")) {
-                                //Old Method
+                                //Old Method (Back then everything 1hr, so 3600 default)
                                 desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
-                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), 3600,
                                         uid, obj.get("purchaser").getAsString());
                             } else {
                                 //New Method
@@ -146,7 +148,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                                 public void run() {
                                     boosterTooltip.setVisibility(View.VISIBLE);
                                     boosterTooltip.setText("Booster list obtained. Processing Players now...");
-                                    new BoosterGetHistory(getApplicationContext(), boostList, false, prog, boosterTooltip).execute(desc);
+                                    new GetBoosterHistory(mActivity, boostList, false, prog, boosterTooltip).execute(desc);
                                 }
                             });
                         }
@@ -155,7 +157,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                             @Override
                             public void run() {
                                 String[] tmp = {"No Boosters Activated"};
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tmp);
+                                StringRecyclerAdapter adapter = new StringRecyclerAdapter(tmp);
                                 boostList.setAdapter(adapter);
                                 prog.setVisibility(View.INVISIBLE);
                             }
@@ -168,7 +170,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
+        BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(repop, this);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
         MainStaticVars.boosterUpdated = false;
@@ -176,9 +178,9 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
         MainStaticVars.parseRes = false;
         MainStaticVars.unfilteredBoosterList.clear();
         if (swipeToRefresh.isRefreshing()) //Manual invoke, remind async task of the case
-            new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip, swipeToRefresh).execute();
+            new GetBoosters(this, boostList, false, prog, boosterTooltip, swipeToRefresh).execute();
         else //App invoked
-            new BoosterGet(this.getApplicationContext(), boostList, false, prog, boosterTooltip).execute();
+            new GetBoosters(this, boostList, false, prog, boosterTooltip).execute();
     }
 
 
@@ -198,7 +200,7 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(BoosterList.this, GeneralPrefActivity.class));
+            startActivity(new Intent(BoosterActivity.this, GeneralPrefActivity.class));
             return true;
         } else if (id == R.id.action_refresh_active_boosters){
             swipeToRefresh.setRefreshing(true);
@@ -386,8 +388,8 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                 public void onClick(DialogInterface dialog, int id) {
                     //  Your code when user clicked on OK
                     //  You can write the code  to save the selected item here
-                    MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
-                    MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                    MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
+                    MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                     if (seletedFilterItems.size() != 0) {
                         StringBuilder craftedFilterString = new StringBuilder();
                         for (int i = 0; i < seletedFilterItems.size() - 1; i++) {
@@ -396,17 +398,17 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
                         }
                         craftedFilterString.append(seletedFilterItems.get(seletedFilterItems.size() - 1));
                         String filterString = craftedFilterString.toString();
-                        if (MainStaticVars.boosterListAdapter != null) {
-                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster(filterString);
-                            MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
+                        if (MainStaticVars.boosterRecyclerAdapter != null) {
+                            MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster(filterString);
+                            MainStaticVars.boosterRecyclerAdapter.getFilter().filter(filterString);
                         }
                     } else {
                         String filterString = "";
-                        if (MainStaticVars.boosterListAdapter != null) {
-                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster(filterString);
-                            MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
-                            MainStaticVars.boosterListAdapter.setFilteredStringForBooster("");
-                            MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                        if (MainStaticVars.boosterRecyclerAdapter != null) {
+                            MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster(filterString);
+                            MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
+                            MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster("");
+                            MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                             seletedFilterItems.clear();
                         }
                     }
@@ -415,9 +417,9 @@ public class BoosterList extends AppCompatActivity implements SwipeRefreshLayout
             .setNegativeButton("Cancel", null).setNeutralButton("Reset", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
-                MainStaticVars.boosterListAdapter.setFilteredStringForBooster("");
-                MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
+                MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster("");
+                MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                 seletedFilterItems.clear();
             }
         });

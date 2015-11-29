@@ -1,20 +1,19 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
-import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -27,19 +26,18 @@ import java.util.List;
  * Created by Kenneth on 16/2/2015, 5:31 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-@Deprecated
-public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boolean> {
+public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boolean> {
     BoosterDescription desc;
-    Context mContext;
+    Activity mActivity;
     //Exception except = null;
-    ListView list;
+    RecyclerView list;
     boolean isActiveOnly;
     ProgressBar bar;
     TextView tooltip;
 
-    public BoosterGetHistory(Context context, ListView listView, boolean isActive, ProgressBar bars, TextView tooltips){
-        mContext = context;
-        list = listView;
+    public GetBoosterHistory(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips){
+        mActivity = activity;
+        list = recyclerView;
         isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
@@ -49,7 +47,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
     protected Boolean doInBackground(BoosterDescription... boosters) {
         Gson gson = new Gson();
         desc = boosters[0];
-        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mContext));
+        String hist = CharHistory.getListOfHistory(PreferenceManager.getDefaultSharedPreferences(mActivity));
         //boolean hasHist = false;
         if (hist != null) {
             HistoryObject check = gson.fromJson(hist, HistoryObject.class);
@@ -60,7 +58,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
                     if (CharHistory.checkHistoryExpired(histCheckName)){
                         //Expired, reobtain
                         histCheck.remove(histCheckName);
-                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mContext), histCheck);
+                        CharHistory.updateJSONString(PreferenceManager.getDefaultSharedPreferences(mActivity), histCheck);
                         Log.d("HISTORY", "History Expired");
                         return false;
                     } else {
@@ -82,7 +80,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
 
     protected void onPostExecute(Boolean hasHist){
         if (!hasHist)
-            new BoosterGetPlayerName(mContext, list, isActiveOnly, bar, tooltip).execute(desc);
+            new GetBoosterPlayerName(mActivity, list, isActiveOnly, bar, tooltip).execute(desc);
         checkIfComplete();
     }
 
@@ -98,8 +96,7 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
         if (done){
             if (!isActiveOnly) {
                 if (MainStaticVars.boosterList != null && MainStaticVars.boosterList.size() != 0) {
-                    MainStaticVars.boosterListAdapter.updateAdapter(MainStaticVars.boosterList);
-                    MainStaticVars.boosterListAdapter.notifyDataSetChanged();
+                    MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
                 }
             }
         }
@@ -123,14 +120,14 @@ public class BoosterGetHistory extends AsyncTask<BoosterDescription, Void, Boole
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                BoosterDescListAdapter adapter = new BoosterDescListAdapter(mContext, R.layout.listview_booster_desc, tmp);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity);
                 list.setAdapter(adapter);
             } else {
                 //Filter based on filter
-                String filterString = MainStaticVars.boosterListAdapter.getFilteredStringForBooster();
+                String filterString = MainStaticVars.boosterRecyclerAdapter.getFilteredStringForBooster();
                 MainStaticVars.backupBooster();
                 if (!filterString.equals(""))
-                    MainStaticVars.boosterListAdapter.getFilter().filter(filterString);
+                    MainStaticVars.boosterRecyclerAdapter.getFilter().filter(filterString);
             }
             MainStaticVars.parseRes = false;
         }

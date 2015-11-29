@@ -14,6 +14,7 @@ import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,8 @@ public class MainStaticVars {
     public static boolean isBriefBooster = false;
     @Deprecated public static boolean isUsingDetailedActiveBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
-    public static BoosterDescListAdapter boosterListAdapter;
+    @Deprecated public static BoosterDescListAdapter boosterListAdapter;
+    public static BoosterRecyclerAdapter boosterRecyclerAdapter;
 
     //Settings
     public static String apikey = null;

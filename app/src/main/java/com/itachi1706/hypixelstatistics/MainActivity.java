@@ -27,6 +27,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster.GetBriefBoosters;
+import com.itachi1706.hypixelstatistics.RevampedDesign.BoosterActivity;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BriefBoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        BriefBoosterRecyclerAdapter adapter = new BriefBoosterRecyclerAdapter(repop, this);
+        BriefBoosterRecyclerAdapter adapter = new BriefBoosterRecyclerAdapter(repop);
         boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
         new GetBriefBoosters(this, boosterMenu, boostProg, boosterTooltip).execute();
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                             }).show();
                     break;
                 }
-                startActivity(new Intent(MainActivity.this, BoosterList.class));
+                startActivity(new Intent(MainActivity.this, BoosterActivity.class));
                 break;
             case "Search Guild":
                 startActivity(new Intent(MainActivity.this, GuildActivity.class));

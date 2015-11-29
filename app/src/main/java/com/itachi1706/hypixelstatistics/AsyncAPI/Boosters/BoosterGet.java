@@ -34,6 +34,7 @@ import java.net.URL;
  * Created by Kenneth on 18/11/2014, 9:24 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
+@Deprecated
 public class BoosterGet extends AsyncTask<Void, Void, String> {
 
     Context mContext;

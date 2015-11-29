@@ -2,10 +2,10 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,13 +14,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BriefBoosterRecyclerAdapter;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
 import net.hypixel.api.reply.BoostersReply;
-import net.hypixel.api.util.GameType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,28 +28,36 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Kenneth on 18/11/2014, 9:24 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
-@SuppressWarnings("ConstantConditions")
-public class GetBriefBoosters extends AsyncTask<Void, Void, String> {
+public class GetBoosters extends AsyncTask<Void, Void, String> {
 
     Activity mActivity;
     Exception except = null;
     RecyclerView list;
+    boolean isActiveOnly;
     ProgressBar bar;
     TextView tooltip;
+    SwipeRefreshLayout swipeToRefresh = null;
 
-    public GetBriefBoosters(Activity activity, RecyclerView recyclerView, ProgressBar bars, TextView tooltips){
+    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips){
         mActivity = activity;
         list = recyclerView;
+        isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
+    }
+
+    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips, SwipeRefreshLayout swipeRefresh){
+        mActivity = activity;
+        list = recyclerView;
+        isActiveOnly = isActive;
+        bar = bars;
+        tooltip = tooltips;
+        swipeToRefresh = swipeRefresh;
     }
 
     @Override
@@ -85,11 +92,14 @@ public class GetBriefBoosters extends AsyncTask<Void, Void, String> {
         return tmp;
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     protected void onPostExecute(String json) {
+        if (swipeToRefresh != null) {
+            if (swipeToRefresh.isRefreshing())
+                swipeToRefresh.setRefreshing(false);
+        }
         if (except != null){
             if (except instanceof SocketTimeoutException)
-                NotifyUserUtil.createShortToast(mActivity, "Socket Connection Timed Out. Try again later");
+                NotifyUserUtil.createShortToast(mActivity, "Connection Timed Out. Try again later");
             else
                 NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
             bar.setVisibility(View.INVISIBLE);
@@ -118,74 +128,40 @@ public class GetBriefBoosters extends AsyncTask<Void, Void, String> {
                     MainStaticVars.boosterList.clear();
                     MainStaticVars.boosterUpdated = false;
                     MainStaticVars.inProg = true;
-                    MainStaticVars.isBriefBooster = true;
                     JsonArray records = reply.getRecords().getAsJsonArray();
+                    MainStaticVars.numOfBoosters = records.size();
+                    MainStaticVars.tmpBooster = 0;
+                    MainStaticVars.boosterProcessCounter = 0;
+                    MainStaticVars.boosterMaxProcessCounter = 0;
                     MainStaticVars.boosterJsonString = json;
 
-                    HashMap<String, Integer> countPerGame = new HashMap<>();
-                    HashMap<String, Integer> totalTimePerGame = new HashMap<>();
-                    ArrayList<BoosterDescription> descArray = new ArrayList<>();
+                    if (!isActiveOnly) {
+                        MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity);
+                        list.setAdapter(MainStaticVars.boosterRecyclerAdapter);
+                    }
 
                     if (records.size() != 0) {
-                        //Move to BoosterGetHistory
-                        tooltip.setVisibility(View.VISIBLE);
-                        tooltip.setText("Booster list obtained. Processing...");
+                        MainStaticVars.boosterMaxProcessCounter = records.size();
                         for (JsonElement e : records) {
                             JsonObject obj = e.getAsJsonObject();
-                            GameType gameType = GameType.fromId(obj.get("gameType").getAsInt());
-
-                            //Adding Count
-                            if (gameType == null){
-                                //Unknown game
-                                int tmpVal = 0;
-                                if (countPerGame.containsKey("unknown")) //Value already present so lets take it out
-                                    tmpVal = countPerGame.get("unknown");
-                                tmpVal++;
-                                countPerGame.put("unknown", tmpVal);
-                            } else {
-                                int tmpVal = 0;
-                                if (countPerGame.containsKey(gameType.getId() + "")) //Value already present so lets take it out
-                                    tmpVal = countPerGame.get(gameType.getId() + "");
-                                tmpVal++;
-                                countPerGame.put(gameType.getId() + "", tmpVal);
-                            }
-
-                            //Adding Time
-                            int timeToAdd = obj.get("length").getAsInt();
-                            if (gameType == null){
-                                //Unknown game
-                                int tmpVal = 0;
-                                if (totalTimePerGame.containsKey("unknown")) //Value already present so lets take it out
-                                    tmpVal = totalTimePerGame.get("unknown");
-                                tmpVal+=timeToAdd;
-                                totalTimePerGame.put("unknown", tmpVal);
-                            } else {
-                                int tmpVal = 0;
-                                if (totalTimePerGame.containsKey(gameType.getId() + "")) //Value already present so lets take it out
-                                    tmpVal = totalTimePerGame.get(gameType.getId() + "");
-                                tmpVal+=timeToAdd;
-                                totalTimePerGame.put(gameType.getId() + "", tmpVal);
-                            }
-                        }
-
-                        for (Object o : countPerGame.entrySet()) {
-                            Map.Entry pair = (Map.Entry) o;
+                            String uid = obj.get("purchaserUuid").getAsString(); //Get Player UUID
                             BoosterDescription desc;
-                            int totalTime = totalTimePerGame.get(pair.getKey());
-                            if (pair.getKey().toString().equals("unknown")){
-                                desc = new BoosterDescription("Unknown Game Mode", totalTime, (int) pair.getValue());
+                            if (obj.has("purchaser")) {
+                                //Old Method (Default original is 3600 = 1hr)
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), 3600,
+                                        uid, obj.get("purchaser").getAsString());
                             } else {
-                                desc = new BoosterDescription(GameType.fromId(Integer.parseInt(pair.getKey().toString())).getName(), totalTime, (int) pair.getValue());
+                                //New Method
+                                desc = new BoosterDescription(obj.get("amount").getAsInt(), obj.get("dateActivated").getAsLong(),
+                                        obj.get("gameType").getAsInt(), obj.get("length").getAsInt(), obj.get("originalLength").getAsInt(),
+                                        uid);
                             }
-                            desc.set_done(true);
-                            descArray.add(desc);
+                            //Move to BoosterGetHistory
+                            tooltip.setVisibility(View.VISIBLE);
+                            tooltip.setText("Booster list obtained. Processing Players now...");
+                            new GetBoosterHistory(mActivity, list, isActiveOnly, bar, tooltip).execute(desc);
                         }
-                        BriefBoosterRecyclerAdapter adapter = new BriefBoosterRecyclerAdapter(descArray);
-                        list.setAdapter(adapter);
-                        bar.setVisibility(View.INVISIBLE);
-                        tooltip.setVisibility(View.INVISIBLE);
-                        MainStaticVars.inProg = false;
-                        MainStaticVars.isBriefBooster = true;
                     } else {
                         String[] tmp = {"No Boosters Activated"};
                         StringRecyclerAdapter adapter = new StringRecyclerAdapter(tmp);
