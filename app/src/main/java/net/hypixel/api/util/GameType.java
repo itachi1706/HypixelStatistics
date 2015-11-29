@@ -20,6 +20,7 @@ public enum GameType {
     BATTLEGROUND("Warlords", 23),
     TURBO_KART_RACERS("Turbo Kart Racers", 25),
     SKYWARS("SkyWars", 51),
+    TRUECOMBAT("Crazy Walls", 52),
     UNKNOWN("Unknown Game", 0);
 
     private static GameType[] v = values();
@@ -92,6 +93,8 @@ public enum GameType {
                 return TURBO_KART_RACERS;
             case "SkyWars":
                 return SKYWARS;
+            case "TrueCombat":
+                return TRUECOMBAT;
         }
         return null;
     }
