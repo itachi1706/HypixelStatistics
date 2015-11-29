@@ -129,7 +129,7 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            prog.setVisibility(View.INVISIBLE);
+                            prog.setVisibility(View.VISIBLE);
                             boostList.setAdapter(MainStaticVars.boosterRecyclerAdapter);
                         }
                     });

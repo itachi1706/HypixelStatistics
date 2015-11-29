@@ -69,10 +69,12 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
                         desc.set_mcName(histCheckName.getDisplayname());
                         desc.set_purchaseruuid(histCheckName.getUuid());
                         desc.set_done(true);
-                        MainStaticVars.addBoosterObject(desc);
+                        boolean result = MainStaticVars.addBoosterObject(desc);
                         MainStaticVars.tmpBooster++;
                         MainStaticVars.boosterProcessCounter++;
-                        Log.d("Player", "Found player " + desc.get_mcName());
+                        if (result) {
+                            Log.d("Player", "Found player " + desc.get_mcName());
+                        }
                         return true;
                     }
                 }

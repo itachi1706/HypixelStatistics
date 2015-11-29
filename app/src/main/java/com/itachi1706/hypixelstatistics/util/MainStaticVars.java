@@ -214,11 +214,13 @@ public class MainStaticVars {
         }
     }
 
-    public static void addBoosterObject(BoosterDescription object){
+    public static boolean addBoosterObject(BoosterDescription object){
         if (!boosterHashMap.containsKey(object.get_purchaseruuid())) {
             boosterHashMap.put(object.get_purchaseruuid(), object);
             boosterRecyclerAdapter.addBooster(object);
+            return true;
         }
+        return false;
     }
 
     public static void updateBoosterList() {
