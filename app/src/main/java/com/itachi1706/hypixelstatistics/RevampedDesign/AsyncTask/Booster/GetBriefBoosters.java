@@ -1,11 +1,11 @@
-package com.itachi1706.hypixelstatistics.AsyncAPI.Boosters;
+package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,11 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BriefBoosterDescListAdapter;
+import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BriefBoosterRecyclerAdapter;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.StringRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
-import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.util.GameType;
@@ -38,18 +38,17 @@ import java.util.Map;
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
 @SuppressWarnings("ConstantConditions")
-@Deprecated
-public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
+public class GetBriefBoosters extends AsyncTask<Void, Void, String> {
 
-    Context mContext;
+    Activity mActivity;
     Exception except = null;
-    ListView list;
+    RecyclerView list;
     ProgressBar bar;
     TextView tooltip;
 
-    public BoosterGetBrief(Context context, ListView listView, ProgressBar bars, TextView tooltips){
-        mContext = context;
-        list = listView;
+    public GetBriefBoosters(Activity activity, RecyclerView recyclerView, ProgressBar bars, TextView tooltips){
+        mActivity = activity;
+        list = recyclerView;
         bar = bars;
         tooltip = tooltips;
     }
@@ -90,29 +89,29 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String json) {
         if (except != null){
             if (except instanceof SocketTimeoutException)
-                NotifyUserUtil.createShortToast(mContext, "Socket Connection Timed Out. Try again later");
+                NotifyUserUtil.createShortToast(mActivity, "Socket Connection Timed Out. Try again later");
             else
-                NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
+                NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
             bar.setVisibility(View.INVISIBLE);
         } else {
             Gson gson = new Gson();
             Log.d("JSON STRING", json);
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 if (json.contains("524") && json.contains("timeout") && json.contains("CloudFlare"))
-                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "A CloudFlare timeout has occurred. Please wait a while before trying again");
                 else
-                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again");
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (No JSON String Obtained). Refresh Boosters to try again");
                 bar.setVisibility(View.INVISIBLE);
             } else {
                 BoostersReply reply = gson.fromJson(json, BoostersReply.class);
                 Log.d("BOOSTER", reply.toString());
                 if (reply.isThrottle()) {
                     //Throttled (API Exceeded Limit)
-                    NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
+                    NotifyUserUtil.createShortToast(mActivity, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     bar.setVisibility(View.INVISIBLE);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
-                    NotifyUserUtil.createShortToast(mContext.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
+                    NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     bar.setVisibility(View.INVISIBLE);
                 } else {
                     //Succeeded
@@ -181,7 +180,7 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                             desc.set_done(true);
                             descArray.add(desc);
                         }
-                        BriefBoosterDescListAdapter adapter = new BriefBoosterDescListAdapter(mContext, R.layout.listview_booster_desc, descArray);
+                        BriefBoosterRecyclerAdapter adapter = new BriefBoosterRecyclerAdapter(descArray, mActivity);
                         list.setAdapter(adapter);
                         bar.setVisibility(View.INVISIBLE);
                         tooltip.setVisibility(View.INVISIBLE);
@@ -189,7 +188,7 @@ public class BoosterGetBrief extends AsyncTask<Void, Void, String> {
                         MainStaticVars.isBriefBooster = true;
                     } else {
                         String[] tmp = {"No Boosters Activated"};
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, tmp);
+                        StringRecyclerAdapter adapter = new StringRecyclerAdapter(tmp);
                         list.setAdapter(adapter);
                         bar.setVisibility(View.INVISIBLE);
                     }

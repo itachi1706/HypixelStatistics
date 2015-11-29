@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Kenneth on 13/11/2014, 9:44 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.util
  */
+@Deprecated
 public class BoosterDescListAdapter extends ArrayAdapter<BoosterDescription> implements Filterable{
 
     private ArrayList<BoosterDescription> items;

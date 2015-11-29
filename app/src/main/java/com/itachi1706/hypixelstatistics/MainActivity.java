@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -21,12 +24,11 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGet;
-import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetBrief;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster.GetBriefBoosters;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
+import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BriefBoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -45,7 +47,8 @@ import io.fabric.sdk.android.Fabric;
 @SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
 
-    ListView mainMenu, boosterMenu;
+    ListView mainMenu;
+    RecyclerView boosterMenu;
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
@@ -94,20 +97,15 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected = (String) mainMenu.getItemAtPosition(position);
                 checkMainMenuSelection(selected);
-            }});
-
-        boosterMenu = (ListView) findViewById(R.id.lvBoostersActive);
-        boosterMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BoosterDescription sel = (BoosterDescription) boosterMenu.getItemAtPosition(position);
-                if (MainStaticVars.isUsingDetailedActiveBooster) {
-                    Intent intentE = new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class);
-                    intentE.putExtra("player", sel.get_mcName());
-                    startActivity(intentE);
-                }
             }
         });
+
+        boosterMenu = (RecyclerView) findViewById(R.id.rvBoostersActive);
+        boosterMenu.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        boosterMenu.setLayoutManager(linearLayoutManager);
+        boosterMenu.setItemAnimator(new DefaultItemAnimator());
 
         new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()), true).execute();
     }
@@ -165,13 +163,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        BoosterDescListAdapter adapter = new BoosterDescListAdapter(getApplicationContext(), R.layout.listview_booster_desc, repop);
+        BriefBoosterRecyclerAdapter adapter = new BriefBoosterRecyclerAdapter(repop, this);
         boosterMenu.setAdapter(adapter);
         boostProg.setVisibility(View.VISIBLE);
-        if (MainStaticVars.isUsingDetailedActiveBooster)
-            new BoosterGet(this.getApplicationContext(), boosterMenu, true, boostProg, boosterTooltip).execute();
-        else
-            new BoosterGetBrief(this.getApplicationContext(), boosterMenu, boostProg, boosterTooltip).execute();
+        new GetBriefBoosters(this, boosterMenu, boostProg, boosterTooltip).execute();
     }
 
     private void checkMainMenuSelection(String selection){

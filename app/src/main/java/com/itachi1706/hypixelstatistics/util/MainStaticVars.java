@@ -38,7 +38,8 @@ public class MainStaticVars {
     public static ArrayList<BoosterDescription> unfilteredBoosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static String boosterJsonString;
-    public static boolean isBriefBooster = false, isUsingDetailedActiveBooster = false;
+    public static boolean isBriefBooster = false;
+    @Deprecated public static boolean isUsingDetailedActiveBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
     public static BoosterDescListAdapter boosterListAdapter;
 

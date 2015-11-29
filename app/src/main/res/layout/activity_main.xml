@@ -22,7 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/list_active_boost"
         android:id="@+id/tvBooster"
-        android:layout_above="@+id/lvBoostersActive"
+        android:layout_above="@+id/rvBoostersActive"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -46,10 +46,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:id="@+id/lvBoostersActive"
+        android:id="@+id/rvBoostersActive"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/pbABoost"/>
 
@@ -70,8 +70,8 @@
         android:id="@+id/tvBoosterTooltip"
         android:layout_alignBottom="@+id/pbABoost"
         android:layout_toRightOf="@+id/pbABoost"
-        android:layout_alignRight="@+id/lvBoostersActive"
-        android:layout_alignEnd="@+id/lvBoostersActive"
+        android:layout_alignRight="@+id/rvBoostersActive"
+        android:layout_alignEnd="@+id/rvBoostersActive"
         android:visibility="invisible"/>
 
 </RelativeLayout>
