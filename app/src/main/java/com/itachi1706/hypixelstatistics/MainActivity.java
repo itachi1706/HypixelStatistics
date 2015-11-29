@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List", "(BETA) Player Info Fragment"};
+    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List", "(OPEN BETA) Player Info Fragment"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,14 +204,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
-            case "(BETA) Player Info Fragment":
-                if (!MainStaticVars.isCreator) {
-                    NotifyUserUtil.showShortDismissSnackbar(findViewById(android.R.id.content), "Only BETA Testers can access this option. Sorry!");
-                    break;
-                }
-
+            case "(OPEN BETA) Player Info Fragment":
                 startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
-
                 break;
         }
     }

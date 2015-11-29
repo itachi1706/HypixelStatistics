@@ -87,6 +87,11 @@ public class FriendListActivity extends AppCompatActivity {
         });
 
         handleIntent(getIntent());
+
+        // Tell user that we are deprecating this soon
+        new AlertDialog.Builder(this).setTitle("Deprecation Notice")
+                .setMessage("This portion of the application will soon disappear from the application. It has since been replaced by a new and better way to view player statistics through a tab interface and stuff. To see it, you can scroll to the last option in the main menu and access the new interface!")
+                .setPositiveButton("Noted", null).show();
     }
 
     @Override
