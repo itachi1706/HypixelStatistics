@@ -2,6 +2,8 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -38,15 +40,31 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
     private ArrayList<BoosterDescription> items;
     private Activity activity;
 
-    public BoosterRecyclerAdapter(ArrayList<BoosterDescription> boosterObjects, Activity activity){
+    private Handler handler;
+
+    public BoosterRecyclerAdapter(ArrayList<BoosterDescription> boosterObjects, Activity activity, Handler handler){
         Log.d("BoosterRecyclerAdapter", "Init Booster Object: " + boosterObjects.size());
         this.items = boosterObjects;
         this.activity = activity;
+        this.handler = handler;
     }
 
+    @Deprecated
     public void updateAdapter(ArrayList<BoosterDescription> updatedItems){
         this.items = updatedItems;
         notifyDataSetChanged();
+    }
+
+    public void addBooster(BoosterDescription booster) {
+        items.add(booster);
+
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                notifyItemInserted(items.size() - 1);
+            }
+        };
+        handler.post(r);
     }
 
     @Override
@@ -168,6 +186,7 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
                 if (results.count == 0){
                     Log.e("BOOSTER-FILTER", "Results of filter is NULL!!! Display all anyway");
                 } else {
+                    Log.i("BOOSTER-FILTER", "Displaying filtered items");
                     ArrayList<BoosterDescription> itemss = (ArrayList<BoosterDescription>) results.values;
                     items.clear();
                     for (BoosterDescription d : itemss) {

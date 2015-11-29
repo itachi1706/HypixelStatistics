@@ -36,6 +36,7 @@ public class MainStaticVars {
      * isUsingDetailedActiveBooster - Whether Detailed Active Boosters are being used or not
      */
     public static ArrayList<BoosterDescription> boosterList = new ArrayList<>();
+    public static HashMap<String, BoosterDescription> boosterHashMap = new HashMap<>();
     public static ArrayList<BoosterDescription> unfilteredBoosterList = new ArrayList<>();
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static String boosterJsonString;
@@ -211,5 +212,16 @@ public class MainStaticVars {
         for (BoosterDescription desc : unfilteredBoosterList){
             boosterList.add(desc.clone());
         }
+    }
+
+    public static void addBoosterObject(BoosterDescription object){
+        if (!boosterHashMap.containsKey(object.get_purchaseruuid())) {
+            boosterHashMap.put(object.get_purchaseruuid(), object);
+            boosterRecyclerAdapter.addBooster(object);
+        }
+    }
+
+    public static void updateBoosterList() {
+        boosterList = new ArrayList<>(boosterHashMap.values());
     }
 }

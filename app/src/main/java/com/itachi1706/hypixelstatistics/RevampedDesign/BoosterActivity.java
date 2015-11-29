@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -46,6 +47,8 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
     ProgressBar prog;
     TextView boosterTooltip;
     SwipeRefreshLayout swipeToRefresh;
+
+    Handler handler;
 
     Activity mActivity;
 
@@ -90,7 +93,7 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
             }
         } else {
             if (MainStaticVars.boosterList.size() != 0) {
-                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, this);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, this, handler);
                 boostList.setAdapter(adapter);
                 assert BoosterActivity.this.getSupportActionBar() != null;
                 this.getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_booster_list) + " (" + MainStaticVars.boosterList.size() + ")");
@@ -100,6 +103,8 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                 boostList.setAdapter(adapter);
             }
         }
+
+        handler = new Handler();
     }
 
     private void parseBriefBoosters(){
@@ -111,6 +116,7 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                     Gson gson = new Gson();
                     BoostersReply reply = gson.fromJson(jsonString, BoostersReply.class);
                     MainStaticVars.boosterList.clear();
+                    MainStaticVars.boosterHashMap.clear();
                     MainStaticVars.boosterUpdated = false;
                     MainStaticVars.inProg = true;
                     JsonArray records = reply.getRecords().getAsJsonArray();
@@ -118,10 +124,15 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                     MainStaticVars.tmpBooster = 0;
                     MainStaticVars.boosterProcessCounter = 0;
                     MainStaticVars.boosterMaxProcessCounter = 0;
-                    prog.setVisibility(View.VISIBLE);
 
-                    MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity);
-                    boostList.setAdapter(MainStaticVars.boosterRecyclerAdapter);
+                    MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity, handler);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            prog.setVisibility(View.INVISIBLE);
+                            boostList.setAdapter(MainStaticVars.boosterRecyclerAdapter);
+                        }
+                    });
 
                     if (records.size() != 0) {
                         MainStaticVars.boosterMaxProcessCounter = records.size();
@@ -148,7 +159,7 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                                 public void run() {
                                     boosterTooltip.setVisibility(View.VISIBLE);
                                     boosterTooltip.setText("Booster list obtained. Processing Players now...");
-                                    new GetBoosterHistory(mActivity, boostList, false, prog, boosterTooltip).execute(desc);
+                                    new GetBoosterHistory(mActivity, boostList, false, prog, boosterTooltip, handler).execute(desc);
                                 }
                             });
                         }
@@ -170,7 +181,7 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
 
     private void updateActiveBoosters(){
         ArrayList<BoosterDescription> repop = new ArrayList<>();
-        BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(repop, this);
+        BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(repop, this, handler);
         boostList.setAdapter(adapter);
         prog.setVisibility(View.VISIBLE);
         MainStaticVars.boosterUpdated = false;
@@ -178,9 +189,9 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
         MainStaticVars.parseRes = false;
         MainStaticVars.unfilteredBoosterList.clear();
         if (swipeToRefresh.isRefreshing()) //Manual invoke, remind async task of the case
-            new GetBoosters(this, boostList, false, prog, boosterTooltip, swipeToRefresh).execute();
+            new GetBoosters(this, boostList, false, prog, boosterTooltip, swipeToRefresh, handler).execute();
         else //App invoked
-            new GetBoosters(this, boostList, false, prog, boosterTooltip).execute();
+            new GetBoosters(this, boostList, false, prog, boosterTooltip, handler).execute();
     }
 
 
@@ -389,7 +400,6 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                     //  Your code when user clicked on OK
                     //  You can write the code  to save the selected item here
                     MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
-                    MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                     if (seletedFilterItems.size() != 0) {
                         StringBuilder craftedFilterString = new StringBuilder();
                         for (int i = 0; i < seletedFilterItems.size() - 1; i++) {
@@ -408,7 +418,6 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
                             MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster(filterString);
                             MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
                             MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster("");
-                            MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                             seletedFilterItems.clear();
                         }
                     }
@@ -419,7 +428,6 @@ public class BoosterActivity extends AppCompatActivity implements SwipeRefreshLa
             public void onClick(DialogInterface dialog, int which) {
                 MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
                 MainStaticVars.boosterRecyclerAdapter.setFilteredStringForBooster("");
-                MainStaticVars.boosterRecyclerAdapter.notifyDataSetChanged();
                 seletedFilterItems.clear();
             }
         });

@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,23 +46,26 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
     boolean isActive;
     ProgressBar bar;
     TextView tooltip;
+    Handler handler;
     int retry = 0;
 
-    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips){
+    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, Handler handler){
         mActivity = activity;
         list = recyclerView;
         isActive = isActiveOnly;
         bar = bars;
         tooltip = tooltips;
+        this.handler = handler;
     }
 
-    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, int retry){
+    public GetBoosterPlayerName(Activity activity, RecyclerView recyclerView, boolean isActiveOnly, ProgressBar bars, TextView tooltips, int retry, Handler handler){
         mActivity = activity;
         list = recyclerView;
         isActive = isActiveOnly;
         bar = bars;
         tooltip = tooltips;
         this.retry = retry;
+        this.handler = handler;
     }
 
     @Override
@@ -104,7 +108,7 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
                     NotifyUserUtil.createShortToast(mActivity, "Connection Timed Out. Try again later");
                 else {
                     Log.d("RESOLVE", "Retrying");
-                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, retry + 1).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, retry + 1, handler).execute(playerName);
                 }
             } else
                 NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "An Exception Occured (" + except.getMessage() + ")");
@@ -113,7 +117,7 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
             if (!MainStaticVars.checkIfYouGotJsonString(json)){
                 Log.d("Invalid JSON", json + " is invalid");
                 Log.d("RESOLVE", "Retrying");
-                new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
+                new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, handler).execute(playerName);
             } else {
                 PlayerReply reply = gson.fromJson(json, PlayerReply.class);
                 if (reply.isThrottle()) {
@@ -121,13 +125,13 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
                     //NotifyUserUtil.createShortToast(mActivity, "The Hypixel Public API only allows 60 queries per minute. Please try again later");
                     Log.d("THROTTLED", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
-                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, handler).execute(playerName);
                 } else if (!reply.isSuccess()) {
                     //Not Successful
                     NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Unsuccessful Query!\n Reason: " + reply.getCause());
                     Log.d("UNSUCCESSFUL", "BOOSTER API NAME GET: " + playerName.get_purchaseruuid());
                     Log.d("RESOLVE", "Retrying");
-                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip).execute(playerName);
+                    new GetBoosterPlayerName(mActivity, list, isActive, bar, tooltip, handler).execute(playerName);
                 } else if (reply.getPlayer() == null) {
                     NotifyUserUtil.createShortToast(mActivity.getApplicationContext(), "Invalid Player " + playerName.get_purchaseruuid());
                 } else {
@@ -144,7 +148,7 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
                         CharHistory.addHistory(reply, PreferenceManager.getDefaultSharedPreferences(mActivity));
                         Log.d("Player", "Added history for player " + reply.getPlayer().get("playername").getAsString());
                     }
-                    MainStaticVars.boosterList.add(playerName);
+                    MainStaticVars.addBoosterObject(playerName);
                     MainStaticVars.tmpBooster++;
                     MainStaticVars.boosterProcessCounter++;
                     checkIfComplete();
@@ -170,23 +174,8 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
     }
 
     private void checkIfComplete(){
-        boolean done = true;
-        for (BoosterDescription desc : MainStaticVars.boosterList){
-            if (!desc.is_done()) {
-                done = false;
-                break;
-            }
-        }
-
-        if (done){
-            if (!isActive) {
-                if (MainStaticVars.boosterList != null && MainStaticVars.boosterList.size() != 0) {
-                    MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
-                }
-            }
-        }
-
-        if (MainStaticVars.boosterList.size() >= MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+        if (MainStaticVars.boosterHashMap.size() >= MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            MainStaticVars.updateBoosterList();
             tooltip.setVisibility(View.INVISIBLE);
             bar.setVisibility(View.INVISIBLE);
             MainStaticVars.inProg = false;
@@ -195,7 +184,7 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
 
             if (isActive){
                 ArrayList<BoosterDescription> tmp = new ArrayList<>();
-                for (BoosterDescription desc : MainStaticVars.boosterList) {
+                for (BoosterDescription desc : MainStaticVars.boosterHashMap.values()) {
                     tmp.add(desc);
                 }
                 Iterator<BoosterDescription> iter = tmp.iterator();
@@ -204,7 +193,7 @@ public class GetBoosterPlayerName extends AsyncTask<BoosterDescription, Void, St
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity, handler);
                 list.setAdapter(adapter);
             } else {
                 //Filter based on filter

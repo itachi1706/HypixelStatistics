@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,13 +35,15 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
     boolean isActiveOnly;
     ProgressBar bar;
     TextView tooltip;
+    Handler handler;
 
-    public GetBoosterHistory(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips){
+    public GetBoosterHistory(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips, Handler handler){
         mActivity = activity;
         list = recyclerView;
         isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
+        this.handler = handler;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
                         desc.set_mcName(histCheckName.getDisplayname());
                         desc.set_purchaseruuid(histCheckName.getUuid());
                         desc.set_done(true);
-                        MainStaticVars.boosterList.add(desc);
+                        MainStaticVars.addBoosterObject(desc);
                         MainStaticVars.tmpBooster++;
                         MainStaticVars.boosterProcessCounter++;
                         Log.d("Player", "Found player " + desc.get_mcName());
@@ -80,28 +83,13 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
 
     protected void onPostExecute(Boolean hasHist){
         if (!hasHist)
-            new GetBoosterPlayerName(mActivity, list, isActiveOnly, bar, tooltip).execute(desc);
+            new GetBoosterPlayerName(mActivity, list, isActiveOnly, bar, tooltip, handler).execute(desc);
         checkIfComplete();
     }
 
     private void checkIfComplete(){
-        boolean done = true;
-        for (BoosterDescription desc : MainStaticVars.boosterList){
-            if (!desc.is_done()) {
-                done = false;
-                break;
-            }
-        }
-
-        if (done){
-            if (!isActiveOnly) {
-                if (MainStaticVars.boosterList != null && MainStaticVars.boosterList.size() != 0) {
-                    MainStaticVars.boosterRecyclerAdapter.updateAdapter(MainStaticVars.boosterList);
-                }
-            }
-        }
-
-        if (MainStaticVars.boosterList.size() >= MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+        if (MainStaticVars.boosterHashMap.size() >= MainStaticVars.numOfBoosters && !MainStaticVars.parseRes){
+            MainStaticVars.updateBoosterList();
             tooltip.setVisibility(View.INVISIBLE);
             bar.setVisibility(View.INVISIBLE);
             MainStaticVars.inProg = false;
@@ -111,7 +99,7 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
             //Active Only
             if (isActiveOnly){
                 ArrayList<BoosterDescription> tmp = new ArrayList<>();
-                for (BoosterDescription desc : MainStaticVars.boosterList) {
+                for (BoosterDescription desc : MainStaticVars.boosterHashMap.values()) {
                     tmp.add(desc);
                 }
                 Iterator<BoosterDescription> iter = tmp.iterator();
@@ -120,7 +108,7 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
                     if (!desc.checkIfBoosterActive())
                         iter.remove();
                 }
-                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity);
+                BoosterRecyclerAdapter adapter = new BoosterRecyclerAdapter(tmp, mActivity, handler);
                 list.setAdapter(adapter);
             } else {
                 //Filter based on filter

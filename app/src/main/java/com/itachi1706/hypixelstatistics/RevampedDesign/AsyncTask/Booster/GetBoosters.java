@@ -2,6 +2,7 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,22 +43,25 @@ public class GetBoosters extends AsyncTask<Void, Void, String> {
     ProgressBar bar;
     TextView tooltip;
     SwipeRefreshLayout swipeToRefresh = null;
+    Handler handler;
 
-    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips){
+    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips, Handler handler){
         mActivity = activity;
         list = recyclerView;
         isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
+        this.handler = handler;
     }
 
-    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips, SwipeRefreshLayout swipeRefresh){
+    public GetBoosters(Activity activity, RecyclerView recyclerView, boolean isActive, ProgressBar bars, TextView tooltips, SwipeRefreshLayout swipeRefresh, Handler handler){
         mActivity = activity;
         list = recyclerView;
         isActiveOnly = isActive;
         bar = bars;
         tooltip = tooltips;
         swipeToRefresh = swipeRefresh;
+        this.handler = handler;
     }
 
     @Override
@@ -126,6 +130,7 @@ public class GetBoosters extends AsyncTask<Void, Void, String> {
                 } else {
                     //Succeeded
                     MainStaticVars.boosterList.clear();
+                    MainStaticVars.boosterHashMap.clear();
                     MainStaticVars.boosterUpdated = false;
                     MainStaticVars.inProg = true;
                     JsonArray records = reply.getRecords().getAsJsonArray();
@@ -136,7 +141,7 @@ public class GetBoosters extends AsyncTask<Void, Void, String> {
                     MainStaticVars.boosterJsonString = json;
 
                     if (!isActiveOnly) {
-                        MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity);
+                        MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity, handler);
                         list.setAdapter(MainStaticVars.boosterRecyclerAdapter);
                     }
 
@@ -160,7 +165,7 @@ public class GetBoosters extends AsyncTask<Void, Void, String> {
                             //Move to BoosterGetHistory
                             tooltip.setVisibility(View.VISIBLE);
                             tooltip.setText("Booster list obtained. Processing Players now...");
-                            new GetBoosterHistory(mActivity, list, isActiveOnly, bar, tooltip).execute(desc);
+                            new GetBoosterHistory(mActivity, list, isActiveOnly, bar, tooltip, handler).execute(desc);
                         }
                     } else {
                         String[] tmp = {"No Boosters Activated"};
