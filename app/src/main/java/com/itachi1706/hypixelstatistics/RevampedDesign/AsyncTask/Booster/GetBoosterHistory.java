@@ -98,6 +98,10 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
             MainStaticVars.parseRes = true;
             MainStaticVars.boosterUpdated = true;
 
+            // Switch to using boosterlist
+            MainStaticVars.boosterRecyclerAdapter = new BoosterRecyclerAdapter(MainStaticVars.boosterList, mActivity, handler);
+            list.setAdapter(MainStaticVars.boosterRecyclerAdapter);
+
             //Active Only
             if (isActiveOnly){
                 ArrayList<BoosterDescription> tmp = new ArrayList<>();
@@ -125,6 +129,9 @@ public class GetBoosterHistory extends AsyncTask<BoosterDescription, Void, Boole
         if (MainStaticVars.inProg) {
             tooltip.setVisibility(View.VISIBLE);
             tooltip.setText("Processed Player " + MainStaticVars.boosterProcessCounter + "/" + MainStaticVars.boosterMaxProcessCounter);
+        } else {
+            tooltip.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.INVISIBLE);
         }
     }
 }
