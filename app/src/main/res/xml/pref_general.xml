@@ -11,6 +11,11 @@
             android:title="@string/pref_detailed_active_boosters_title"
             android:summary="@string/pref_detailed_active_boosters_summary"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="updatewifi"
+            android:title="@string/perf_update_wifi_title"
+            android:summary="@string/perf_update_wifi_title_summary"
+            android:defaultValue="false" />
         <ListPreference
             android:title="HTTP Request Timeout Value"
             android:summary="%s"

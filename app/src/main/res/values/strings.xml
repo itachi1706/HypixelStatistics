@@ -19,7 +19,7 @@
     <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>
     <string name="player_btnchk">Search!</string>
     <string name="player_etHint">Player Name</string>
-    <string name="pref_debug_title">Verbose Mode</string>
+    <string name="pref_debug_title">Verbose Mode (Deprecated)</string>
     <string name="pref_debug_summary">Show more information as data is being queried</string>
     <string name="list_title">Title</string>
     <string name="list_result">Result</string>
@@ -58,4 +58,6 @@
     <string name="recyclerview_textview_placeholder">Sample Text</string>
     <string name="activity_no_supposed_to_appear">Not Supposed To Be Here!</string>
     <string name="no_player_info_statistics">To start, press the Search icon!</string>
+    <string name="perf_update_wifi_title">Wifi Only Update Checking</string>
+    <string name="perf_update_wifi_title_summary">Do update checking only on Wifi</string>
 </resources>
