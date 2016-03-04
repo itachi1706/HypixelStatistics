@@ -26,19 +26,9 @@ public class BoosterGetPlayerHead extends AsyncTask<BoosterDescription, Void, Dr
     Context mContext;
     Exception except = null;
     BoosterDescription data;
-    //ListView list;
-    //boolean isActiveOnly;
     ProgressBar bar;
     ImageView image;
     boolean retry = false;
-
-    /*
-    public BoosterGetPlayerHead(Context context, ListView listView, boolean isActive, ProgressBar bars){
-        mContext = context;
-        list = listView;
-        isActiveOnly = isActive;
-        bar = bars;
-    }*/
 
     public BoosterGetPlayerHead(Context context, ImageView view, ProgressBar progress){
         mContext = context;

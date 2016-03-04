@@ -32,11 +32,6 @@
             android:label="@string/title_activity_general_pref" >
         </activity>
         <activity
-            android:name=".ExpandedPlayerInfoActivity"
-            android:label="@string/title_activity_expanded_player_info"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".RevampedDesign.BoosterActivity"
             android:label="@string/title_activity_booster_list" >
         </activity>
@@ -52,18 +47,6 @@
         <activity
             android:name=".DebugSettings"
             android:label="@string/title_activity_debug_pref" >
-        </activity>
-        <activity
-            android:name=".FriendListActivity"
-            android:label="@string/title_activity_friend_list"
-            android:launchMode="singleTop" >
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable_friend" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
         </activity>
 
         <meta-data

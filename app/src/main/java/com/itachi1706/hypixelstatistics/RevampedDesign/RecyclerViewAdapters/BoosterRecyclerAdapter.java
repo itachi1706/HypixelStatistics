@@ -3,7 +3,6 @@ package com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -17,9 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.Boosters.BoosterGetPlayerHead;
-import com.itachi1706.hypixelstatistics.ExpandedPlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.R;
+import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
 import com.itachi1706.hypixelstatistics.util.GeneratePlaceholderDrawables;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.HeadHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
@@ -49,7 +48,6 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
         this.handler = handler;
     }
 
-    @Deprecated
     public void updateAdapter(ArrayList<BoosterDescription> updatedItems){
         this.items = updatedItems;
         notifyDataSetChanged();
@@ -229,7 +227,7 @@ public class BoosterRecyclerAdapter extends RecyclerView.Adapter<BoosterRecycler
             int position = this.getLayoutPosition();
             final BoosterDescription item = items.get(position);
 
-            Intent intentE = new Intent(activity, ExpandedPlayerInfoActivity.class);
+            Intent intentE = new Intent(activity, MiddleActivityBetweenSingleTopActivity.class);
             intentE.putExtra("player", item.get_mcName());
             activity.startActivity(intentE);
         }

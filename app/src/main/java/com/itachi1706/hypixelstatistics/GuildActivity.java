@@ -34,6 +34,7 @@ import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.Objects.HistoryArrayObject;
 import com.itachi1706.hypixelstatistics.Objects.HistoryObject;
 import com.itachi1706.hypixelstatistics.Objects.ResultDescription;
+import com.itachi1706.hypixelstatistics.RevampedDesign.MiddleActivityBetweenSingleTopActivity;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
@@ -130,7 +131,7 @@ public class GuildActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         GuildMemberDesc sel = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
-                                        Intent intentE = new Intent(GuildActivity.this, ExpandedPlayerInfoActivity.class);
+                                        Intent intentE = new Intent(GuildActivity.this, MiddleActivityBetweenSingleTopActivity.class);
                                         intentE.putExtra("player", sel.get_mcName());
                                         startActivity(intentE);
                                     }
@@ -142,7 +143,7 @@ public class GuildActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         GuildMemberDesc sel = (GuildMemberDesc) memberInfo.getItemAtPosition(position);
-                                        Intent intentE = new Intent(GuildActivity.this, ExpandedPlayerInfoActivity.class);
+                                        Intent intentE = new Intent(GuildActivity.this, MiddleActivityBetweenSingleTopActivity.class);
                                         intentE.putExtra("player", sel.get_mcName());
                                         startActivity(intentE);
                                     }

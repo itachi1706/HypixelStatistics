@@ -37,17 +37,11 @@ import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.fabric.sdk.android.Fabric;
 
-
-@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
 
     ListView mainMenu;
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     TextView customWelcome, boosterTooltip, playerCount;
     ProgressBar boostProg;
     ArrayAdapter<String> adapter;
-    String[] mainMenuItems = {"Search Player", "View Activated Boosters", "Search Guild", "View Player Friend List", "View your Friend's List", "(OPEN BETA) Player Info Fragment"};
+    String[] mainMenuItems = {"Player Info", "View Activated Boosters", "Search Guild"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +61,6 @@ public class MainActivity extends AppCompatActivity {
         MainStaticVars.setLayoutAccordingToPrefs(this);
 
         setContentView(R.layout.activity_main);
-
-        //Old error handling (Deprecated) Removed. Uses Crashlytics now
-        File crashReportFolder = new File(this.getExternalFilesDir(null) + File.separator + "crash-report");
-        if (crashReportFolder.exists()){
-            try {
-                FileUtils.deleteDirectory(crashReportFolder);
-            } catch (IOException e) {
-                Log.i("CRASH-HANDLER", "Unable to delete legacy crash report directory");
-                e.printStackTrace();
-            }
-        }
 
         //Check for legacy strings
         CharHistory.verifyNoLegacy(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
@@ -130,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
 
         MainStaticVars.updateAPIKey(getApplicationContext());
-        MainStaticVars.updateBriefBoosterPref(getApplicationContext());
         customWelcome = (TextView) findViewById(R.id.tvCustWelcome);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!prefs.getString("own", "n").equals("n"))
@@ -178,9 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkMainMenuSelection(String selection){
         switch (selection){
-            case "Search Player":
-                startActivity(new Intent(MainActivity.this, ExpandedPlayerInfoActivity.class));
-                break;
             case "View Activated Boosters":
                 if (MainStaticVars.inProg){
                     new AlertDialog.Builder(this).setMessage("The app is still processing the booster list. Please wait a while before selecting this option.")
@@ -197,20 +176,7 @@ public class MainActivity extends AppCompatActivity {
             case "Search Guild":
                 startActivity(new Intent(MainActivity.this, GuildActivity.class));
                 break;
-            case "View Player Friend List":
-                startActivity(new Intent(MainActivity.this, FriendListActivity.class));
-                break;
-            case "View your Friend's List":
-                Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
-                String yourUUID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("own-uuid", "-");
-                if (yourUUID.equals("-"))
-                    NotifyUserUtil.createShortToast(getApplicationContext(), "Cannot find your UUID");
-                else {
-                    intent.putExtra("playeruuid", yourUUID);
-                    startActivity(intent);
-                }
-                break;
-            case "(OPEN BETA) Player Info Fragment":
+            case "Player Info":
                 startActivity(new Intent(MainActivity.this, PlayerInfoActivity.class));
                 break;
         }
@@ -231,12 +197,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, GeneralPrefActivity.class));
             return true;

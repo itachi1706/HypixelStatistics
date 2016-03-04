@@ -97,6 +97,10 @@ public class GetGuildId extends AsyncTask<String, Void, String> {
             return;
         }
         FindGuildReply reply = gson.fromJson(json, FindGuildReply.class);
+        if (reply == null) {
+            NotifyUserUtil.createShortToast(mContext, "An error occurred! Try again later!");
+            return;
+        }
         if (reply.isThrottle()) {
             //Throttled (API Exceeded Limit)
             NotifyUserUtil.createShortToast(mContext, "The Hypixel Public API only allows 60 queries per minute. Please try again later");

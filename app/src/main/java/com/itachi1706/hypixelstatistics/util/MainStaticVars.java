@@ -8,12 +8,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetIfDeveloperInfo;
-import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.BoosterDescListAdapter;
-import com.itachi1706.hypixelstatistics.ListViewAdapters.FriendsListAdapter;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
-import com.itachi1706.hypixelstatistics.Objects.FriendsObject;
 import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
+import com.itachi1706.hypixelstatistics.R;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -41,9 +38,7 @@ public class MainStaticVars {
     public static boolean boosterUpdated = false, inProg = false, parseRes = false;
     public static String boosterJsonString;
     public static boolean isBriefBooster = false;
-    @Deprecated public static boolean isUsingDetailedActiveBooster = false;
     public static int numOfBoosters = 0, tmpBooster = 0, boosterProcessCounter = 0, boosterMaxProcessCounter = 0;
-    @Deprecated public static BoosterDescListAdapter boosterListAdapter;
     public static BoosterRecyclerAdapter boosterRecyclerAdapter;
 
     //Settings
@@ -51,19 +46,11 @@ public class MainStaticVars {
     public static boolean isStaff = false, isCreator = false;
     public static final String DATE_FORMAT = "dd-MMM-yyyy hh:mm a zz";
 
-    //Player Stats
-    @Deprecated public static String knownAliases = "";
-
     //Server Info
     public static int playerCount = 0, maxPlayerCount = 0;
     public static String serverMOTD = "Retrieving MOTD...";
 
     public static final ArrayList<GuildMemberDesc> guildList = new ArrayList<>();
-
-    @Deprecated public static final ArrayList<FriendsObject> friendsList = new ArrayList<>();
-    @Deprecated public static int friendsListSize = 0;
-    @Deprecated public static String friendOwner = "";
-    @Deprecated public static FriendsListAdapter friendsListAdapter;
 
     //Parkour Numbers
     public static final int SERVER_PARKOUR_COUNT = 13;
@@ -95,39 +82,6 @@ public class MainStaticVars {
         }
 
         return newurl;
-    }
-
-    @Deprecated
-    public static void resetKnownAliases(){
-        knownAliases = "";
-    }
-
-    public static void updateBriefBoosterPref(Context context){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        isUsingDetailedActiveBooster = prefs.getBoolean("detailed_active_boosters", false);
-    }
-
-    public static String getChangelogStringFromArrayList(ArrayList<String> changelog){
-        /**
-         * Legend of Stuff
-         * 1st Line - Current Version Code Check
-         * 2nd Line - Current Version Number
-         * 3rd Line - Link to New Version
-         * # - Changelog Version Number (Bold)
-         * * - Points
-         * @ - Break Line
-         */
-        StringBuilder changelogBuilder = new StringBuilder();
-        changelogBuilder.append("Latest Version: ").append(changelog.get(1)).append("-b").append(changelog.get(0)).append("<br/><br/>");
-        for (String line : changelog){
-            if (line.startsWith("#"))
-                changelogBuilder.append("<b>").append(line.replace('#', ' ')).append("</b><br />");
-            else if (line.startsWith("*"))
-                changelogBuilder.append(" - ").append(line.replace('*', ' ')).append("<br />");
-            else if (line.startsWith("@"))
-                changelogBuilder.append("<br />");
-        }
-        return changelogBuilder.toString();
     }
 
     public static boolean checkIfYouGotJsonString(String jsonString){
@@ -167,6 +121,7 @@ public class MainStaticVars {
         return R.color.blue_500;
     }
 
+    @SuppressWarnings("unused")
     public static int getToneColor(Activity activity){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
         String themeSel = prefs.getString("appThemePref", "Default");

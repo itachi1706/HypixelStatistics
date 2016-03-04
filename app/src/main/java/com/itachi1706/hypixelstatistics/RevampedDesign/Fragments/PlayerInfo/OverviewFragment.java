@@ -72,8 +72,6 @@ public class OverviewFragment extends BaseFragmentCompat {
         process(reply);
     }
 
-    private String currentUUID = "";
-
     @Override
     public void processPlayerObject(PlayerReply object){
         process(object);
