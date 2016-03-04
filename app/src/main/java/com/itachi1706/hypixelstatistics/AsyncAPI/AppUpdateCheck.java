@@ -30,6 +30,7 @@ import java.util.Random;
  * Created by Kenneth on 16/2/2015, 6:59 PM
  * for Hypixel Statistics in package com.itachi1706.hypixelstatistics.AsyncAPI
  */
+@Deprecated
 public class AppUpdateCheck extends AsyncTask<Void, Void, String> {
 
     Activity mActivity;

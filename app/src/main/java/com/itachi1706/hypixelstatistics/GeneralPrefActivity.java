@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -24,14 +25,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
+import com.google.gson.Gson;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
+import com.itachi1706.hypixelstatistics.Updater.AppUpdateChecker;
+import com.itachi1706.hypixelstatistics.Updater.Objects.AppUpdateObject;
+import com.itachi1706.hypixelstatistics.Updater.Util.UpdaterHelper;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -89,7 +91,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
             updaterPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new AppUpdateCheck(getActivity(), sp).execute();
+                    new AppUpdateChecker(getActivity(), sp).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     return false;
                 }
             });
@@ -194,8 +196,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 }
             });
 
-            Preference changelogPref = findPreference("android_changelog");
-            changelogPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("android_changelog").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     String changelog = sp.getString("version-changelog", "l");
@@ -205,12 +206,19 @@ public class GeneralPrefActivity extends AppCompatActivity {
                                 .setMessage("No changelog was found. Please check if you can connect to the server")
                                 .setPositiveButton(android.R.string.ok, null).show();
                     } else {
-                        String[] changelogArr = changelog.split("\n");
-                        ArrayList<String> changelogArrList = new ArrayList<>();
-                        Collections.addAll(changelogArrList, changelogArr);
-                        String body = MainStaticVars.getChangelogStringFromArrayList(changelogArrList);
-                        new AlertDialog.Builder(getActivity()).setTitle("Changelog")
-                                .setMessage(Html.fromHtml(body)).setPositiveButton("Close", null).show();
+                        Gson gson = new Gson();
+                        AppUpdateObject updater = gson.fromJson(changelog, AppUpdateObject.class);
+                        if (updater.getUpdateMessage().length == 0) {
+                            new AlertDialog.Builder(getActivity()).setTitle("No Changelog")
+                                    .setMessage("No changelog was found. Please check if you can connect to the server")
+                                    .setPositiveButton(android.R.string.ok, null).show();
+                        } else {
+                            String message = "Latest Version: " + updater.getLatestVersion() + "<br /><br />";
+                            message += UpdaterHelper.getChangelogStringFromArray(updater.getUpdateMessage());
+
+                            new AlertDialog.Builder(getActivity()).setTitle("Changelog")
+                                    .setMessage(Html.fromHtml(message)).setPositiveButton("Close", null).show();
+                        }
                     }
                     return true;
                 }

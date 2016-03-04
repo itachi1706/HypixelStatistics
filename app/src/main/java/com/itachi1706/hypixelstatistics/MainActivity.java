@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.itachi1706.hypixelstatistics.AsyncAPI.AppUpdateCheck;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerificationName;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.RevampedDesign.AsyncTask.Booster.GetBriefBoosters;
@@ -31,6 +31,8 @@ import com.itachi1706.hypixelstatistics.RevampedDesign.BoosterActivity;
 import com.itachi1706.hypixelstatistics.RevampedDesign.PlayerInfoActivity;
 import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BriefBoosterRecyclerAdapter;
 import com.itachi1706.hypixelstatistics.ServerPinging.InitServerPing;
+import com.itachi1706.hypixelstatistics.Updater.AppUpdateChecker;
+import com.itachi1706.hypixelstatistics.Updater.Util.UpdaterHelper;
 import com.itachi1706.hypixelstatistics.util.HistoryHandling.CharHistory;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
@@ -108,7 +110,11 @@ public class MainActivity extends AppCompatActivity {
         boosterMenu.setLayoutManager(linearLayoutManager);
         boosterMenu.setItemAnimator(new DefaultItemAnimator());
 
-        new AppUpdateCheck(this, PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()), true).execute();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if (UpdaterHelper.canCheckUpdate(sp, this)) {
+            Log.i("Updater", "Checking for new updates...");
+            new AppUpdateChecker(this, sp, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     @Override
