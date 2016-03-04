@@ -32,7 +32,7 @@
             android:label="@string/title_activity_general_pref" >
         </activity>
         <activity
-            android:name=".RevampedDesign.BoosterActivity"
+            android:name=".BoosterActivity"
             android:label="@string/title_activity_booster_list" >
         </activity>
         <activity
@@ -54,7 +54,7 @@
             android:value="4a76e5bed29f3c6bc0d8e90c16212c07cb8efbc0" />
 
         <activity
-            android:name=".RevampedDesign.PlayerInfoActivity"
+            android:name=".PlayerInfoActivity"
             android:label="@string/title_activity_player_info"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RevampedDesign.MiddleActivityBetweenSingleTopActivity"
+            android:name=".MiddleActivityBetweenSingleTopActivity"
             android:label="@string/activity_no_supposed_to_appear" >
         </activity>
     </application>

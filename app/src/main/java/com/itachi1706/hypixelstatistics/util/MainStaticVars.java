@@ -11,7 +11,7 @@ import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetIfDeveloperInfo;
 import com.itachi1706.hypixelstatistics.Objects.BoosterDescription;
 import com.itachi1706.hypixelstatistics.Objects.GuildMemberDesc;
 import com.itachi1706.hypixelstatistics.R;
-import com.itachi1706.hypixelstatistics.RevampedDesign.RecyclerViewAdapters.BoosterRecyclerAdapter;
+import com.itachi1706.hypixelstatistics.RecyclerViewAdapters.BoosterRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
