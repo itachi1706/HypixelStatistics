@@ -1,6 +1,6 @@
 package net.hypixel.api;
 
-import com.google.common.base.Preconditions;
+//import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 
 import net.hypixel.api.reply.BoostersReply;
@@ -65,7 +65,7 @@ public class HypixelAPI {
      *
      * @param apiKey The API key to set
      */
-    public void setApiKey(UUID apiKey) {
+    /*public void setApiKey(UUID apiKey) {
         Preconditions.checkNotNull(apiKey);
         lock.writeLock().lock();
         try {
@@ -73,7 +73,7 @@ public class HypixelAPI {
         } finally {
             lock.writeLock().unlock();
         }
-    }
+    }*/
 
     /**
      * Call this method to get information about this API's key
