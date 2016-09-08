@@ -9,5 +9,5 @@
     <item android:id="@+id/action_get_detailed_boosters" android:title="@string/action_get_detailed_boosters"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_filter_boosters" android:title="@string/action_filter_by_gametypes"
-        android:orderInCategory="1" app:showAsAction="ifRoom" android:icon="@drawable/ic_filter_variant_white_24dp"/>
+        android:orderInCategory="1" app:showAsAction="ifRoom" android:icon="@drawable/filter_variant"/>
 </menu>

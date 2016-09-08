@@ -5,7 +5,7 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/search" android:title="@string/action_search_title"
-        android:orderInCategory="1" android:icon="@drawable/ic_magnify_white_24dp"
+        android:orderInCategory="1" android:icon="@drawable/magnify"
         app:showAsAction="collapseActionView|ifRoom" app:actionViewClass="android.support.v7.widget.SearchView" />
     <item android:id="@+id/view_known_alias" android:title="@string/action_view_known_aliases"
         android:orderInCategory="96" app:showAsAction="never" />
