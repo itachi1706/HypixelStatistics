@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -25,11 +23,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.itachi1706.appupdater.SettingsInitializer;
 import com.itachi1706.hypixelstatistics.AsyncAPI.KeyCheck.GetKeyInfoVerification;
-import com.itachi1706.hypixelstatistics.Updater.AppUpdateChecker;
-import com.itachi1706.hypixelstatistics.Updater.Objects.AppUpdateObject;
-import com.itachi1706.hypixelstatistics.Updater.Util.UpdaterHelper;
 import com.itachi1706.hypixelstatistics.util.MainStaticVars;
 import com.itachi1706.hypixelstatistics.util.MinecraftColorCodes;
 import com.itachi1706.hypixelstatistics.util.NotifyUserUtil;
@@ -86,15 +81,6 @@ public class GeneralPrefActivity extends AppCompatActivity {
             verPref.setSummary(version + "-b" + versionCode);
             Preference pNamePref = findPreference("view_app_name");
             pNamePref.setSummary(packName);
-
-            final Preference updaterPref = findPreference("launch_updater");
-            updaterPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    new AppUpdateChecker(getActivity(), sp).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    return false;
-                }
-            });
 
             Preference prefs = findPreference("view_sdk_version");
             prefs.setSummary(android.os.Build.VERSION.RELEASE);
@@ -196,55 +182,9 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 }
             });
 
-            findPreference("android_changelog").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    String changelog = sp.getString("version-changelog", "l");
-                    if (changelog.equals("l")) {
-                        //Not available
-                        new AlertDialog.Builder(getActivity()).setTitle("No Changelog")
-                                .setMessage("No changelog was found. Please check if you can connect to the server")
-                                .setPositiveButton(android.R.string.ok, null).show();
-                    } else {
-                        Gson gson = new Gson();
-                        AppUpdateObject updater = gson.fromJson(changelog, AppUpdateObject.class);
-                        if (updater.getUpdateMessage().length == 0) {
-                            new AlertDialog.Builder(getActivity()).setTitle("No Changelog")
-                                    .setMessage("No changelog was found. Please check if you can connect to the server")
-                                    .setPositiveButton(android.R.string.ok, null).show();
-                        } else {
-                            String message = "Latest Version: " + updater.getLatestVersion() + "<br /><br />";
-                            message += UpdaterHelper.getChangelogStringFromArray(updater.getUpdateMessage());
-
-                            new AlertDialog.Builder(getActivity()).setTitle("Changelog")
-                                    .setMessage(Html.fromHtml(message)).setPositiveButton("Close", null).show();
-                        }
-                    }
-                    return true;
-                }
-            });
-
-            Preference oldVersionPref = findPreference("get_old_app");
-            oldVersionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(getResources().getString(R.string.link_legacy)));
-                    startActivity(i);
-                    return false;
-                }
-            });
-
-            Preference latestVersionPref = findPreference("get_latest_app");
-            latestVersionPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(getResources().getString(R.string.link_updates)));
-                    startActivity(i);
-                    return false;
-                }
-            });
+            new SettingsInitializer(getActivity(), R.mipmap.ic_launcher, MainStaticVars.BASE_SERVER_URL,
+                    getResources().getString(R.string.link_legacy), getResources().getString(R.string.link_updates))
+                    .explodeSettings(this);
 
             Preference useDetailedPref = findPreference("detailed_active_boosters");
             useDetailedPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

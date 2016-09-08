@@ -67,6 +67,8 @@ public class MainStaticVars {
 
     public static HashMap<String, String> guild_last_online_data = new HashMap<>();
 
+    public static final String BASE_SERVER_URL = "http://api.itachi1706.com/api/appupdatechecker.php?action=androidretrievedata&packagename=";
+
     public static void updateAPIKey(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         apikey = prefs.getString("api-key",null);
