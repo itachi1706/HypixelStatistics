@@ -2,5 +2,4 @@
     <string name="title_activity_general_pref">Settings</string>
     <string name="title_activity_history_pref">History Settings</string>
     <string name="title_activity_debug_pref">Device Information</string>
-    <string name="pref_header_general">General</string>
 </resources>

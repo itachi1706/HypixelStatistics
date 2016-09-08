@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Hypixel Statistics</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_view_debug">View JSON String</string>
-    <string name="action_view_legacy">Use Legacy Version</string>
     <string name="key_btnkeycheck">Check Key!</string>
     <string name="title_activity_key_info">View API Key Info</string>
     <string name="keyinfo_api_label">API Key:</string>
@@ -13,12 +10,9 @@
     <string name="keyinfo_query_label">Queries Last 60 Seconds:</string>
     <string name="keyinfo_total_label">Total Number Of Queries:</string>
     <string name="keyinfo_fields">-</string>
-    <string name="title_activity_player_info">Player Info (BETA)</string>
+    <string name="title_activity_player_info">Player Info</string>
     <string name="link_updates">https://github.com/itachi1706/HypixelStatistics/releases/latest</string>
     <string name="link_legacy">https://github.com/itachi1706/HypixelStatistics/releases</string>
-    <string name="title_activity_player_info_old">View Player Statistics (Legacy)</string>
-    <string name="player_btnchk">Search!</string>
-    <string name="player_etHint">Player Name</string>
     <string name="pref_debug_title">Verbose Mode (Deprecated)</string>
     <string name="pref_debug_summary">Show more information as data is being queried</string>
     <string name="list_title">Title</string>
@@ -32,9 +26,7 @@
     <string name="lv_booster_placeholder_location">Game Location</string>
     <string name="lv_booster_placeholder_boost_value">\?x Coins</string>
     <string name="title_activity_booster_list">Network Boosters List</string>
-    <string name="title_activity_expanded_player_info">Search Player Statistics</string>
     <string name="title_activity_guild">Search Guild Info</string>
-    <string name="use_uuid_instead_of_name_text">Search with UUID</string>
     <string name="action_view_known_aliases">View Known Aliases</string>
     <string name="action_refresh_server_info">Refresh Server Info</string>
     <string name="action_view_server_motd">View Server MOTD</string>
@@ -45,19 +37,14 @@
     <string name="activity_key_info_total_qry_unimplemented">Unimplemented by API (Soon)</string>
     <string name="pref_detailed_active_boosters_title">Detailed Active Boosters</string>
     <string name="pref_detailed_active_boosters_summary">Show detailed active boosters (Note: This will increase load times)</string>
-    <string name="player_session_info_coming_soon">Session Info Coming Soon</string>
     <string name="pref_set_api_key_dialog_init_prompt">This allows you to insert your own API Key to reduce the occurrence of API throttling. \nIf you are a staff member, inserting your personal key will grant you access to more information \n\nTo get your API Key, Launch Minecraft, join §6mc.hypixel.net§r and do §b/api§r in-game.\n\nEnter the entire API String given to you (including dashes) in the textbox below.</string>
-    <string name="title_activity_friend_list">View Friend\'s List</string>
     <string name="action_search_title">Search</string>
     <string name="searchable_friend_hint">Enter Player\'s Name or UUID</string>
     <string name="action_filter_by_gametypes">Filter Boosters by GameType</string>
     <string name="action_view_player_guild">View Player Guild</string>
-    <string name="action_view_friend_list">View Friends List</string>
     <string name="lv_guild_last_online_placeholder">Last Online</string>
     <string name="lv_guild_joined_on_placeholder">Date Joined</string>
     <string name="recyclerview_textview_placeholder">Sample Text</string>
     <string name="activity_no_supposed_to_appear">Not Supposed To Be Here!</string>
     <string name="no_player_info_statistics">To start, press the Search icon!</string>
-    <string name="perf_update_wifi_title">Wifi Only Update Checking</string>
-    <string name="perf_update_wifi_title_summary">Do update checking only on Wifi</string>
 </resources>
