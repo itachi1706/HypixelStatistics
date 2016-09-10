@@ -182,7 +182,7 @@ public class GeneralPrefActivity extends AppCompatActivity {
                 }
             });
 
-            new SettingsInitializer(getActivity(), R.mipmap.ic_launcher, MainStaticVars.BASE_SERVER_URL,
+            new SettingsInitializer(getActivity(), R.mipmap.ic_launcher_old, MainStaticVars.BASE_SERVER_URL,
                     getResources().getString(R.string.link_legacy), getResources().getString(R.string.link_updates))
                     .explodeSettings(this);
 

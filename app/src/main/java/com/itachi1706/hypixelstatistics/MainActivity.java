@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         boosterMenu.setItemAnimator(new DefaultItemAnimator());
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        new AppUpdateInitializer(this, sp, R.mipmap.ic_launcher, MainStaticVars.BASE_SERVER_URL).checkForUpdate(true);
+        new AppUpdateInitializer(this, sp, R.mipmap.ic_launcher_old, MainStaticVars.BASE_SERVER_URL).checkForUpdate(true);
     }
 
     @Override

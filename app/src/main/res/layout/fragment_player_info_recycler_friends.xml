@@ -9,7 +9,10 @@
         android:id="@+id/player_info_recycler_view"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvProgressInfo" />
+        android:layout_below="@+id/tvProgressInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
