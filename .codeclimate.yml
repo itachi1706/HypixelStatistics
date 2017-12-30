@@ -1,4 +1,16 @@
-engines:
+version: "2"
+checks:
+  argument-count:
+    enabled: false
+  file-lines:
+    enabled: false
+  method-complexity:
+    enabled: false
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+plugins:
   fixme:
     enabled: true
   pmd:
@@ -6,7 +18,9 @@ engines:
   sonar-java:
     enabled: true
     channel: beta
+    config:
+      sonar.java.source: 7
 ratings:
   paths:
   - "**.java"
-exclude_paths: []
+exclude_patterns: []
